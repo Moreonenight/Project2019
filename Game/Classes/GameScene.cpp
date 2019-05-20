@@ -22,7 +22,7 @@ bool Game::init()
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-	//��ͼ�ĳ�ʼ��
+	//地图的初始化
 	_tileMap = TMXTiledMap::create("map/map1.tmx");
 	addChild(_tileMap, 0, 100);
 	auto group = _tileMap->getObjectGroup("hero");
@@ -30,14 +30,15 @@ bool Game::init()
 	float x = spawnPoint["x"].asFloat();
 	float y = spawnPoint["y"].asFloat();
 	
-	//Ӣ�۳�ʼ��
+	//英雄初始化
 	auto _player = Hero::create();
 	this->addChild(_player, 0);
-	auto W=_player->initWithRole(Vec2(x,y));
+	auto Hero1=_player->initWithRole(Vec2(x,y));
+	//创建英雄并保存指针
 
 
 	auto Listener = MouseController::create();
-	Listener->initListener(W);
+	Listener->initListener(Hero1);
 
 
 
