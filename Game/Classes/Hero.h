@@ -1,3 +1,7 @@
+#ifndef __Hero_H__
+#define __Hero_H__
+
+
 #include "cocos2d.h"
 #include "GameScene.h"
 USING_NS_CC;
@@ -54,3 +58,4 @@ private:
 	int ATK;
 	int DEF;
 };
+#endif

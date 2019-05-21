@@ -147,21 +147,21 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\%27%27%27\Gamex\Classes\AppDelegate.cpp" />
-    <ClCompile Include="..\..\..\%27%27%27\Gamex\Classes\GameScene.cpp" />
-    <ClCompile Include="..\..\..\%27%27%27\Gamex\Classes\HelloWorldScene.cpp" />
-    <ClCompile Include="..\..\..\%27%27%27\Gamex\Classes\Hero.cpp" />
-    <ClCompile Include="..\..\..\%27%27%27\Gamex\Classes\MouseController.cpp" />
-    <ClCompile Include="..\..\..\%27%27%27\Gamex\Classes\SettingScene.cpp" />
+    <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\GameScene.cpp" />
+    <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="..\Classes\Hero.cpp" />
+    <ClCompile Include="..\Classes\MouseController.cpp" />
+    <ClCompile Include="..\Classes\SettingScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\%27%27%27\Gamex\Classes\AppDelegate.h" />
-    <ClInclude Include="..\..\..\%27%27%27\Gamex\Classes\GameScene.h" />
-    <ClInclude Include="..\..\..\%27%27%27\Gamex\Classes\HelloWorldScene.h" />
-    <ClInclude Include="..\..\..\%27%27%27\Gamex\Classes\Hero.h" />
-    <ClInclude Include="..\..\..\%27%27%27\Gamex\Classes\MouseController.h" />
-    <ClInclude Include="..\..\..\%27%27%27\Gamex\Classes\SettingScene.h" />
+    <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\GameScene.h" />
+    <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="..\Classes\Hero.h" />
+    <ClInclude Include="..\Classes\MouseController.h" />
+    <ClInclude Include="..\Classes\SettingScene.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

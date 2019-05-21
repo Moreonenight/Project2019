@@ -79,7 +79,7 @@ void Hero::moveDirectionByKey(Direction direction,float x,float y,Sprite* Hero)
 	double Distance = sqrt(Distancex*Distancex + Distancey * Distancey);//计算人物与目标点距离
 	double Speed = 300;//控制速度
 	Hero->stopAllActions();//一定在每次响应时停止所有动作，不然连续点击会有bug
-	Hero->runAction(MoveTo::create(Distance / Speed, Point(x,y)));
+	Hero->runAction(MoveTo::create(Distance / Speed, Vec2(x,y)));
 	//runAction第一个参数是移动所需要的时间，根据距离计算，第二个参数是移动目标点;
 
 	//动画
