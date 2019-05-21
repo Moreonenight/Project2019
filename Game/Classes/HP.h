@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cocos2d.h>
-#include "../proj.win32/unit.h"
+#include "unit.h"
 
 USING_NS_CC;
 
