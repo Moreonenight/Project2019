@@ -39,7 +39,7 @@ public:
 	bool ifAlive();//判断英雄是否存活
 
 	
-	void moveDirectionByKey(Direction direction,float x, float y, Sprite* Hero);//根据方向调整动画
+	void moveDirectionByKey(Hero::Direction direction,float x, float y, Sprite* Hero);//根据方向调整动画
 	Hero::Direction getDirection();
 
 
