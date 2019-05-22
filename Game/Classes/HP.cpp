@@ -1,3 +1,4 @@
+
 #include "HP.h"
 
 /////////////////////////////////////////////////////////
@@ -33,7 +34,7 @@ void HP::changeMax(int delta) {
 				bloodrect->getPositionY() + bloodrect->getContentSize().height - Hp1000->getContentSize().height);
 		}
 	}
-	else CCLog("MaxBloodError");
+	else CCLOG("MaxBloodError");
 	return;
 }
 
@@ -46,7 +47,7 @@ void HP::changeVel(int delta) {
 void HP::initial(unit *nunit)
 {
 	if (nunit != NULL) u = nunit;
-	else CCLog("血量未指定单位");
+	else CCLOG("血量未指定单位");
 	if (u == NULL) return;
 
 	//位置信息要重新修改，考虑实际图片像素问题

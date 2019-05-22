@@ -1,4 +1,3 @@
-
 #pragma once
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
@@ -7,8 +6,6 @@
 #include <stdlib.h>   
 #include <string.h>
 USING_NS_CC;
-
-
 Scene* Game::createScene()
 {
 	auto scene = Scene::create();

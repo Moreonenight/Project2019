@@ -2,7 +2,6 @@
 #define __Game_SCENE_H__
 #pragma once
 #include "cocos2d.h"
-#include "Money.h"
 #include "ui/CocosGUI.h"
 USING_NS_CC;
 class Game : public cocos2d::Layer

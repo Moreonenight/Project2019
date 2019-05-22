@@ -11,14 +11,7 @@ class Hero : public cocos2d::Sprite
 public:
 	Game* game;
 	Sprite* _player;
-	enum class Direction :int
-	{
-		LEFT,
-		RIGHT,
-		UP,
-		DOWN,
-		NONE
-	};
+	
 	static Hero * create(const std::string& id, int role);//返回调用此类的指针
 	bool init();
 	Sprite* initWithRole(Vec2 Postion);//对某个特定角色进行初始化？
@@ -39,7 +32,7 @@ public:
 	bool ifAlive();//判断英雄是否存活
 
 	
-	void moveDirectionByKey(Hero::Direction direction,float x, float y, Sprite* Hero);//根据方向调整动画
+	//根据方向调整动画
 	Hero::Direction getDirection();
 
 

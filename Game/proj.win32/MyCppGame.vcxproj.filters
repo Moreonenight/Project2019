@@ -24,13 +24,22 @@
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\Hero.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\MouseController.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\SettingScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ammo.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HP.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\unit.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\unitdata.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,13 +56,22 @@
     <ClInclude Include="..\Classes\HelloWorldScene.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\Hero.h">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\MouseController.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\SettingScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ammo.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HP.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\unit.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\unitdata.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

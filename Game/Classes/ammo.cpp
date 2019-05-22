@@ -16,7 +16,7 @@ ammo::ammo()
 void ammo::fresh() //ammo的“update”函数，一个Layer的update应该调用所有子结点的update函数
 {
 	if (getPosition() == target->getPosition()) {
-		target->getDamage(damage);
+		//target->getDamage(damage);
 	}
 	else {
 		this->setRotation(CC_RADIANS_TO_DEGREES((target->getPosition()-getPosition()).getAngle()));

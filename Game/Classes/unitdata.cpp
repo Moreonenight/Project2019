@@ -12,7 +12,7 @@ bool unitdata::initial(string &datapath)
 		currentPath = datapath + "/" + kind[order] + ".txt";
 		data = fopen(currentPath.c_str(), "r");
 		if (data == NULL) {
-			cocos2d::CCLog((kind[order] + ".txtFailed").c_str());
+			//cocos2d::CCLog((kind[order] + ".txtFailed").c_str());
 			continue;
 		}
 		fgets((char*)buf.c_str(), 100, data);

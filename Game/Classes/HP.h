@@ -1,8 +1,6 @@
 #pragma once
-
 #include <cocos2d.h>
-#include "unit.h"
-
+#include <unit.h>
 USING_NS_CC;
 
 class HP :public Sprite {

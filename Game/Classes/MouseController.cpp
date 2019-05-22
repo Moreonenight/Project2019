@@ -21,27 +21,24 @@ void MouseController::initListener(Sprite* Hero) {
 		Vec2 startPos=Hero->getPosition();
 		Vec2 endPos = Vec2(e->getCursorX(), e->getCursorY());
 		Vec2 dis = endPos - startPos;
-		int Angle=(Vec2(dis.y, dis.x).getAngle() / 3.14f * 180);
-
-
+		int Angle= CC_RADIANS_TO_DEGREES(Vec2(dis.y, dis.x).getAngle());
 		if (Angle>-45&&Angle<45)		{
-			hero->moveDirectionByKey(Hero::Direction::UP, e->getCursorX(), e->getCursorY(), Hero);
+			_unit->moveDirectionByKey(unit::Direction::UP, e->getCursorX(), e->getCursorY(), Hero);
 		}
 		else if (Angle > -135 && Angle < -45)
 		{ 
-			hero->moveDirectionByKey(Hero::Direction::LEFT, e->getCursorX(), e->getCursorY(), Hero);
+			_unit->moveDirectionByKey(unit::Direction::LEFT, e->getCursorX(), e->getCursorY(), Hero);
 		}
 			
 		else if ((Angle > -180 && Angle < -135) || (Angle >135&& Angle < 180))
 		{
-			hero->moveDirectionByKey(Hero::Direction::DOWN, e->getCursorX(), e->getCursorY(), Hero);
+			_unit->moveDirectionByKey(unit::Direction::DOWN, e->getCursorX(), e->getCursorY(), Hero);
 
 		}
-			
 		else
 		{
 
-			hero->moveDirectionByKey(Hero::Direction::RIGHT, e->getCursorX(), e->getCursorY(), Hero);
+			_unit->moveDirectionByKey(unit::Direction::RIGHT, e->getCursorX(), e->getCursorY(), Hero);
 		}
 			
 
