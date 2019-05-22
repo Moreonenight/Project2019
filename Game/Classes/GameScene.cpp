@@ -37,6 +37,11 @@ bool Game::init()
 	float x = spawnPoint["x"].asFloat();
 	float y = spawnPoint["y"].asFloat();
 
+	//初始化单位属性
+	//auto hero1data = new(unitdata);
+	//hero1data->initial(string("Player/Player2.png"));
+
+
 	//初始化英雄
 	auto _player = Sprite::create("Player/Player2.png");
 	_player->setPosition(Vec2(x,y));

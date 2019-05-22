@@ -23,22 +23,22 @@ void MouseController::initListener(Sprite* Hero) {
 		Vec2 dis = endPos - startPos;
 		int Angle= CC_RADIANS_TO_DEGREES(Vec2(dis.y, dis.x).getAngle());
 		if (Angle>-45&&Angle<45)		{
-			_unit->moveDirectionByKey(unit::Direction::UP, e->getCursorX(), e->getCursorY(), Hero);
+			_unit->moveDirectionByKey(unit::Direction::UP, Vec2(e->getCursorX(),e->getCursorY()), Hero);
 		}
 		else if (Angle > -135 && Angle < -45)
 		{ 
-			_unit->moveDirectionByKey(unit::Direction::LEFT, e->getCursorX(), e->getCursorY(), Hero);
+			_unit->moveDirectionByKey(unit::Direction::LEFT, Vec2(e->getCursorX(), e->getCursorY()), Hero);
 		}
 			
 		else if ((Angle > -180 && Angle < -135) || (Angle >135&& Angle < 180))
 		{
-			_unit->moveDirectionByKey(unit::Direction::DOWN, e->getCursorX(), e->getCursorY(), Hero);
+			_unit->moveDirectionByKey(unit::Direction::DOWN, Vec2(e->getCursorX(), e->getCursorY()), Hero);
 
 		}
 		else
 		{
 
-			_unit->moveDirectionByKey(unit::Direction::RIGHT, e->getCursorX(), e->getCursorY(), Hero);
+			_unit->moveDirectionByKey(unit::Direction::RIGHT, Vec2(e->getCursorX(), e->getCursorY()), Hero);
 		}
 			
 

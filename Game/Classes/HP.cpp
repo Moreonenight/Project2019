@@ -88,3 +88,26 @@ void HP::fresh() {
 	curBlood->setScaleX(((float)cur_Hp/max_HP)*(bloodrect->getContentSize().width / curBlood->getContentSize().width));
 	return;
 }
+
+unit::unit(unitdata &unitdata)
+{
+	data = &unitdata;
+	hp = new(HP);
+	hp->initial(this); addChild(hp, 0);
+	//Velocity = data->getVelocity();
+	level = 1; damage = data->getDamage();
+	gold = 0; ASPD = data->getASPD(); canAttack = true;
+	id = data->getUnitid(); //dpm = data->getDpm();
+	createWithSpriteFrameName(id + "front_stand");
+	//setPosition(data->getPosition());
+	//Scheduler::schedule(schedule_selector(unit::freshCanAttack), 1.0f/ASPD);
+}
+HP::~HP() {
+	delete(this);
+}
+inline int unit::getMaxHp() { return hp->getMax(); }inline void unit::changeMaxHp(int delta) { hp->changeMax(delta); }
+unit::~unit()
+{
+	hp->~HP();
+	delete(this);
+}

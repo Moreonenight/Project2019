@@ -2,34 +2,13 @@
 #include "ammo.h"
 
 
-
-unit::unit(unitdata &unitdata)
-{
-	data = &unitdata;
-	//hp->initial(this); addChild(hp, 0);
-	Velocity = data->getVelocity();
-	level = 1; damage = data->getDamage();
-	gold = 0; ASPD = data->getASPD(); canAttack = true;
-	id = data->getUnitid(); dpm = data->getDpm();
-	createWithSpriteFrameName(id + "front_stand");
-	setPosition(data->getPosition());
-	//Scheduler::schedule(schedule_selector(unit::freshCanAttack), 1.0f/ASPD);
-}
-
-
-unit::~unit()
-{
-
-}
-
-
-
 void unit::stop()
 {
+	this->stopAllActions();
 }
 
 
-void unit::moveDirectionByKey(unit::Direction direction, float x, float y, Sprite* Hero)
+void unit::moveDirectionByKey(unit::Direction direction, Vec2 e, Sprite* Hero)
 {
 	//Unitdata后续优化
 	Vector<SpriteFrame*> animFrames_up;
@@ -68,9 +47,12 @@ void unit::moveDirectionByKey(unit::Direction direction, float x, float y, Sprit
 	Animate* animate_left = Animate::create(animation_left);
 	Animate* animate_right = Animate::create(animation_right);
 	Animate* animate_up = Animate::create(animation_up);
-	double Distancex = abs(Hero->getPositionX() - x);//x获取光标当前x位置
-	double Distancey = abs(Hero->getPositionY() - y);//y获取光标当前y位置
-	double Distance = sqrt(Distancex*Distancex + Distancey * Distancey);//计算人物与目标点距离
+	//double Distancex = abs(Hero->getPositionX() - x);//x获取光标当前x位置
+	//double Distancey = abs(Hero->getPositionY() - y);//y获取光标当前y位置
+	//double Distance = sqrt(Distancex*Distancex + Distancey * Distancey);//计算人物与目标点距离
+	
+	Vec2 a = (Hero->getPosition() - e); 
+	float Distance = a.length();
 	double Speed = 100;//控制速度
 	switch (direction)
 	{
@@ -78,23 +60,23 @@ void unit::moveDirectionByKey(unit::Direction direction, float x, float y, Sprit
 
 		Hero->stopAllActions();
 		Hero->runAction(Repeat::create(animate_left, Distance / Speed / 0.4f));
-		Hero->runAction(MoveTo::create(Distance / Speed, Vec2(x, y)));
+		Hero->runAction(MoveTo::create(Distance / Speed, e));
 		break;
 	case unit::Direction::RIGHT:
 		Hero->stopAllActions();
 		Hero->runAction(Repeat::create(animate_right, Distance / Speed / 0.4f));
-		Hero->runAction(MoveTo::create(Distance / Speed, Vec2(x, y)));
+		Hero->runAction(MoveTo::create(Distance / Speed, e));
 		break;
 	case unit::Direction::UP:
 
 		Hero->stopAllActions();
 
 		Hero->runAction(Repeat::create(animate_up, Distance / Speed / 0.4f));
-		Hero->runAction(MoveTo::create(Distance / Speed, Vec2(x, y)));
+		Hero->runAction(MoveTo::create(Distance / Speed, e));
 		break;
 	case unit::Direction::DOWN:
 		Hero->stopAllActions();
-		Hero->runAction(MoveTo::create(Distance / Speed, Vec2(x, y)));
+		Hero->runAction(MoveTo::create(Distance / Speed, e));
 		Hero->runAction(Repeat::create(animate_down, Distance / Speed / 0.4f));
 
 		break;
@@ -117,7 +99,7 @@ Sprite *unit::attack(unit * target)//返回攻击产生的弹道对象指针，可以把它加到lay
 	if (canAttack == false) return NULL;
 	stop();
 	auto aniCache = AnimationCache::getInstance();
-	canAttack == false;
+	canAttack = false;
 	float angle = CC_RADIANS_TO_DEGREES((target->getPosition() - getPosition()).getAngle());
 	if (angle <= 45.0&&angle > -45.0) runAction(Animate::create(aniCache->getAnimation(id + "right_attack")));
 	else if (angle > 45.0&&angle <= 135.0) runAction(Animate::create(aniCache->getAnimation(id + "back_attack")));
@@ -125,7 +107,7 @@ Sprite *unit::attack(unit * target)//返回攻击产生的弹道对象指针，可以把它加到lay
 	else if (angle > -135.0&&angle <= -45.0)runAction(Animate::create(aniCache->getAnimation(id + "front_attack")));
 	
 	//runAction();
-	ammo *amo;
+	ammo *amo = new(ammo);
 	amo->createAnAmmo(this, target);
 	return amo;
 }

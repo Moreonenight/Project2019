@@ -24,4 +24,5 @@ public:
 	void changeMax(int delta);
 	void initial(unit *nunit);
 	void fresh();
+	~HP();
 };

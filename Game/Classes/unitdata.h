@@ -38,12 +38,18 @@ private:
 	//skill
 
 	cocos2d::Animation animations[NUM_OF_KINDS][4];
-	int maxMana/*m*/, maxHp/*H*/, initGold, initLvl, damage/*damage of single attack*/
-		, ASPD/*attack speed*/, attackRange/*R*/, /*epl/*experience per level*/ ammoSpeed;
-	cocos2d::Vec2 velocity;
-	cocos2d::Vec2 position;
-	cocos2d::Vec2 dpm;//defPhyicalMagic;
-	map<string, float> m1; map<string, int> m2;
+	int maxMana, maxHp, initGold, initLvl, damage/*damage of single attack*/
+		, ASPD/*attack speed*/,
+		attackRange,
+		ammoSpeed,
+		initMoveSpeed,
+		defenceOfPhysical,
+		defenceOfMagic;
+	//cocos2d::Vec2 velocity;
+	//cocos2d::Vec2 position;
+	//cocos2d::Vec2 dpm;//defPhyicalMagic;
+	//map<string, float> m1; 
+	map<string, int> m2;
 	
 public:
 	inline int getMaxHp() {
@@ -65,18 +71,6 @@ public:
 		return ammoSpeed;
 	}
 	inline int getAttackRange() { return attackRange; }
-	inline cocos2d::Vec2 unitdata::getVelocity()
-	{
-		return velocity;
-	}
-	inline cocos2d::Vec2 unitdata::getPosition()
-	{
-		return position;
-	}
-	inline cocos2d::Vec2 unitdata::getDpm()
-	{
-		return dpm;
-	}
 	bool initial(string &datapath);/*datapath下的文件
 								   *必须由几个kind内的txt文件
 								   *和float.txt/integer.txt构成，
@@ -88,5 +82,6 @@ public:
 	inline string getUnitid() {
 		return unitid;
 	}
+	~unitdata();
 };
 
