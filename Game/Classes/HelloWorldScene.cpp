@@ -2,7 +2,6 @@
 #include "SimpleAudioEngine.h"
 #include "SettingScene.h"
 #include "GameScene.h"
-#include "SimpleAudioEngine.h"
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()

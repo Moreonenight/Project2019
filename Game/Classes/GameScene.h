@@ -12,6 +12,7 @@ class Game : public cocos2d::Layer
 	cocos2d::Label* TimerLabel;
 	cocos2d::ui::Button* Moneybutton;
 	int Time;
+	Vec2 offset;
 public:
 	static cocos2d::Scene* createScene();
 

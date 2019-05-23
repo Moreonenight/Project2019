@@ -105,7 +105,9 @@ void Game::setViewpointCenter(Vec2 position)
 	//需要调整的方位
 	Vec2 offset = pointA - pointB;
 	this->setPosition(offset);
+	TimerLabel->setVisible(true);
 	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width -45- offset.x, Director::getInstance()->getVisibleSize().height - 15 - offset.y);
+
 }
 
 void Game::mapupdate(float dt)
@@ -141,5 +143,6 @@ void Game::TimeRecorder(float dt)
 		Minute_str = minute_str;
 	std::string str = Minute_str + ':' + Second_str;
 	TimerLabel = Label::createWithSystemFont(str, "Arial", 30);
+	TimerLabel->setVisible(false);
 	this->addChild(TimerLabel, 3);
 }
