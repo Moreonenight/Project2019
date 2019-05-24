@@ -20,4 +20,5 @@ public:
 	}
 	void fresh();
 	ammo* createAnAmmo(unit *attacker,unit * target);
+	CREATE_FUNC(ammo);
 };

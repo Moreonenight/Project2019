@@ -11,6 +11,7 @@ class Game : public cocos2d::Layer
 	cocos2d::TMXLayer* _collidable;
 	cocos2d::Label* TimerLabel;
 	cocos2d::ui::Button* Moneybutton;
+	cocos2d::Sprite* Tower;
 	int Time;
 	Vec2 offset;
 public:
