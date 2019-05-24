@@ -105,6 +105,7 @@ unit::unit(unitdata &unitdata)
 HP::~HP() {
 	delete(this);
 }
+inline int unit::getDamage(int delta) { hp->changeCur(delta); return hp->getCur(); }
 inline int unit::getMaxHp() { return hp->getMax(); }inline void unit::changeMaxHp(int delta) { hp->changeMax(delta); }
 unit::~unit()
 {

@@ -9,6 +9,7 @@ private:
 	SpriteFrame *Frame;
 public:
 	ammo();
+	CREATE_FUNC(ammo);
 	inline Vec2 getDes() {
 		return target->getPosition();
 	}
@@ -19,5 +20,5 @@ public:
 		return Frame;
 	}
 	void fresh();
-	ammo* createAnAmmo(unit *attacker,unit * target);
+	void initial(unit *attacker,unit * target);
 };

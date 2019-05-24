@@ -1,12 +1,12 @@
 #include "ammo.h"
 
-ammo * ammo::createAnAmmo(unit * attacker, unit * target)
+void ammo::initial(unit * attacker, unit * target)
 {
 	this->setPosition(attacker->getPosition());
 	damage = attacker->getDamage(); ammoSpeed = attacker->getAmmoSpeed();
 	Frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(attacker->getAmmoFrameName());
 	this->target = target;
-	return nullptr;
+	return ;
 }
 
 ammo::ammo()

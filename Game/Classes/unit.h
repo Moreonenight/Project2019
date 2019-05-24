@@ -27,7 +27,7 @@ public:
 		//string changeid(string& newid) { id = newid; return id; }
 	inline int getMaxHp();
 	inline void changeMaxHp(int delta);
-	
+	inline int getDamage(int delta);
 	inline int getDamage()/*when want to know how much the unit damage is*/ { return damage; }inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
 	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
 	
