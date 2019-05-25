@@ -108,7 +108,7 @@ void Game::setViewpointCenter(Vec2 position)
 	_tileMap->setPosition(offset);
 	listener->changeOffset(offset); 
 	TimerLabel->setVisible(true);
-	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width -45- offset.x, Director::getInstance()->getVisibleSize().height - 15 - offset.y);
+	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width -45, Director::getInstance()->getVisibleSize().height - 15);
 
 }
 

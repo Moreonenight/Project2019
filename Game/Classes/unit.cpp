@@ -1,5 +1,4 @@
 #include "unit.h"
-#include "ammo.h"
 
 
 void unit::stop()
@@ -7,6 +6,23 @@ void unit::stop()
 	this->stopAllActions();
 }
 
+unit::unit(unitdata &unitdata)
+{
+	data = &unitdata;
+	hp = HP::create();
+	hp->initial(getPosition(), getContentSize(), atoi((const char*)id[0])); addChild(hp, 0);//id未确定
+	//Velocity = data->getVelocity();
+	level = 1; 
+	damage = data->getDamage();
+	ammoSpeed = data->getAmmoSpeed();
+	gold = 0;
+	ASPD = data->getASPD(); 
+	canAttack = true;
+	id = data->getUnitid(); //dpm = data->getDpm();
+	createWithSpriteFrameName(id + "front_stand");
+	//setPosition(data->getPosition());
+	//Scheduler::schedule(schedule_selector(unit::freshCanAttack), 1.0f/ASPD);
+}
 
 void unit::moveDirectionByKey(unit::Direction direction, Vec2 e, Sprite* Hero)
 {
@@ -109,7 +125,7 @@ Sprite* unit::attack(unit * target)//返回攻击产生的弹道对象指针，可以把它加到lay
 
 	//runAction();
 	ammo *amo = ammo::create();
-	amo->initial(this, target);
+	amo->initial(this->getAmmoFrameName(), getPosition(),getDamage(),getAmmoSpeed());//velocity = getAmmoSpeed()*Vec2.length()
 	return amo;
 }
 
@@ -129,3 +145,11 @@ void unit::die()
 }
 
 
+
+inline int unit::getDamage(int delta) { hp->changeCur(delta); return hp->getCur(); }
+inline int unit::getMaxHp() { return hp->getMax(); }inline void unit::changeMaxHp(int delta) { hp->changeMax(delta); }
+unit::~unit()
+{
+	hp->~HP();
+	delete(this);
+}

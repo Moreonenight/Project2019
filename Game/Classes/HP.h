@@ -1,12 +1,14 @@
 #pragma once
 #include <cocos2d.h>
-#include <unit.h>
+
 USING_NS_CC;
 
 class HP :public Sprite {
 private:
+	Vec2 position;
+
 	int velocity;
-	unit *u;
+	//unit *u;
 	Sprite *bloodrect;
 	int max_HP;
 	Sprite *Hp1000;
@@ -16,13 +18,13 @@ private:
 
 	Sprite *emptyBlood;
 public:
-
+	CREATE_FUNC(HP);
 	void changeVel(int delta);
 	int getCur();
 	int getMax();
 	void changeCur(int delta);
 	void changeMax(int delta);
-	void initial(unit *nunit);
+	void initial(Vec2 position, Size size, bool enemyOrAlly);
 	void fresh();
 	~HP();
 };
