@@ -6,8 +6,10 @@
 class MouseController : public cocos2d::Node
 {
 private:
+	cocos2d::EventListenerMouse* listener;
 	unit* _unit;
 	Vec2 offset;
+	short isPaused;
 	//Money* m_Money;
 public:
 	MouseController();
@@ -15,5 +17,8 @@ public:
 	void initListener(Sprite* A);
 	void changeOffset(const Vec2 a) { 
 		offset = a; }
+	void setPause(short x) {
+		isPaused = x;
+	}
 	CREATE_FUNC(MouseController);
 };

@@ -53,7 +53,7 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e, Sprite* Hero)
 	
 	Vec2 a = (Hero->getPosition() - e); 
 	float Distance = a.length();
-	double Speed = 100;//控制速度
+	double Speed = 200;//控制速度
 	switch (direction)
 	{
 	case unit::Direction::LEFT:
