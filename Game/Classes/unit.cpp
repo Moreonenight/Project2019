@@ -94,7 +94,7 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e, Sprite* Hero)
 	runAction(MoveTo::create((((destination - getPosition()).length()) / Velocity.length()), destination));*/
 
 }
-Sprite *unit::attack(unit * target)//返回攻击产生的弹道对象指针，可以把它加到layer中去。
+Sprite* unit::attack(unit * target)//返回攻击产生的弹道对象指针，可以把它加到layer中去。
 {
 	if (canAttack == false) return NULL;
 	stop();
@@ -105,10 +105,11 @@ Sprite *unit::attack(unit * target)//返回攻击产生的弹道对象指针，可以把它加到lay
 	else if (angle > 45.0&&angle <= 135.0) runAction(Animate::create(aniCache->getAnimation(id + "back_attack")));
 	else if (angle > 135.0 || angle <= -135.0) runAction(Animate::create(aniCache->getAnimation(id + "left_attack")));
 	else if (angle > -135.0&&angle <= -45.0)runAction(Animate::create(aniCache->getAnimation(id + "front_attack")));
-	
+	//delay
+
 	//runAction();
-	ammo *amo = new(ammo);
-	amo->createAnAmmo(this, target);
+	ammo *amo = ammo::create();
+	amo->initial(this, target);
 	return amo;
 }
 

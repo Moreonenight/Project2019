@@ -2,10 +2,12 @@
 #define __Game_SCENE_H__
 #pragma once
 #include "cocos2d.h"
+#include "MouseController.h"
 #include "ui/CocosGUI.h"
 USING_NS_CC;
 class Game : public cocos2d::Layer
-{
+{	
+	MouseController *listener;
 	cocos2d::TMXTiledMap* _tileMap;
 	cocos2d::Sprite* _player;
 	cocos2d::TMXLayer* _collidable;
@@ -13,7 +15,8 @@ class Game : public cocos2d::Layer
 	cocos2d::ui::Button* Moneybutton;
 	cocos2d::Sprite* Tower;
 	int Time;
-	Vec2 offset;
+
+
 public:
 	static cocos2d::Scene* createScene();
 

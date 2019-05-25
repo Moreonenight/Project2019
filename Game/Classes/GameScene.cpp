@@ -45,7 +45,8 @@ bool Game::init()
 	//初始化英雄
 	_player = Sprite::create("Player/Player2.png");
 	_player->setPosition(Vec2(x,y));
-	this->addChild(_player, 2, 200);
+	//this->addChild(_player, 2, 200);
+	_tileMap->addChild(_player, 2, 200);
 
 
 	auto Tower = Sprite::create("000073.png");
@@ -58,9 +59,9 @@ bool Game::init()
 
 
 	//初始化监听器
-	auto Listener = MouseController::create();
-	Listener->initListener(_player);
-
+	listener = MouseController::create();
+	listener->initListener(_player);
+	listener->changeOffset(Vec2::ZERO);
 	//初始化时间标签
 	TimerLabel = Label::createWithSystemFont("00:00", "Arial", 30);
 	this->addChild(TimerLabel, 3);
@@ -105,7 +106,7 @@ void Game::setViewpointCenter(Vec2 position)
 	//获得地图大小
 	auto MapWidth = _tileMap->getMapSize().width*_tileMap->getTileSize().width;
 	auto MapHeight = _tileMap->getMapSize().height*_tileMap->getTileSize().height;
-
+	//_tileMap->
 	//当前中心点
 	Vec2 pointA = Vec2(visibleSize.width / 2, visibleSize.height / 2);
 	//得到精灵走后地图移动的目标位置
@@ -115,8 +116,7 @@ void Game::setViewpointCenter(Vec2 position)
 	//需要调整的方位
 	Vec2 offset = pointA - pointB;
 	_tileMap->setPosition(offset);
-	if(offset.x!=0)
-	_player->setPosition(_player->getPosition()+offset);
+	listener->changeOffset(offset); 
 	TimerLabel->setVisible(true);
 	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width-50, Director::getInstance()->getVisibleSize().height - 15);
 
@@ -124,7 +124,8 @@ void Game::setViewpointCenter(Vec2 position)
 
 void Game::mapupdate(float dt)
 {
-	auto sprite = this->getChildByTag(200);
+	//auto sprite = this->getChildByTag(200);
+	auto sprite = _tileMap->getChildByTag(200);
 	auto pos = sprite->getPosition();
 	setViewpointCenter(pos);
 	
