@@ -17,10 +17,10 @@ private:
 public:
 	enum class Direction :int
 	{
-		LEFT,
-		RIGHT,
 		UP,
 		DOWN,
+		LEFT,
+		RIGHT,
 		NONE
 	};
 	unit(unitdata& unitdata);

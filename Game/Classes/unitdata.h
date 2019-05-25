@@ -13,11 +13,11 @@ private:
 
 
 	string dir[NUM_OF_KINDS] = {
-	"front_",
-	"back_",
-	"left_",
-	"right_",
-	""
+		"up_",
+		"down_",
+		"left_",
+		"right_",
+		""
 	};
 	string kind[NUM_OF_KINDS] = {
 		"attack",
@@ -30,7 +30,7 @@ private:
 		8,
 		8,
 		3,
-		2,
+		8,
 		1
 	};
 	string unitid;
