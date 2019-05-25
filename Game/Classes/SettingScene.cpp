@@ -25,7 +25,7 @@ bool Setting::init()
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	//background
-	auto bg = Sprite::create("/bg/setting.png");
+	auto bg = Sprite::create("/bg/SettingScene.jpg");
 	bg->setPosition(Vec2(
 		origin.x + visibleSize.width / 2,
 		origin.y + visibleSize.height / 2
@@ -61,7 +61,6 @@ bool Setting::init()
 	));
 	this->addChild(SoundLabel);
 
-
 	//return button
 	auto closeItem = MenuItemImage::create(
 		"/button/closetoupper.png",
@@ -86,7 +85,6 @@ void Setting::menuItem1Callback(cocos2d::Ref* pSender)
 {
 	Director::getInstance()->popScene();
 }
-
 void Setting::menuSoundToggleCallback(cocos2d::Ref* pSender)
 {
 	auto audio=CocosDenshion::SimpleAudioEngine::getInstance();

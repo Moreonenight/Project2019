@@ -13,11 +13,11 @@ MouseController::MouseController()
 MouseController::~MouseController()
 {
 }
-//³õÊ¼»¯
+//åˆå§‹åŒ–
 void MouseController::initListener(Sprite* Hero) {
-	auto listener = EventListenerMouse::create();//½¨Á¢Êó±ê¼àÌýÆ÷
-	listener->onMouseDown = [this,Hero](EventMouse *e) {//ÓÃlamda±í´ïÊ½¸ü¼Ó¼ò½à£¬ÖÐÀ¨ºÅÄÚ¿ÉÒÔ²¶»ñÍâ²¿±äÁ¿
-		//ÈçºÎÅÐ¶ÏÕýÔÚÔË¶¯µÄ·½Ïò£¿
+	auto listener = EventListenerMouse::create();//å»ºç«‹é¼ æ ‡ç›‘å¬å™¨
+	listener->onMouseDown = [this,Hero](EventMouse *e) {//ç”¨lamdaè¡¨è¾¾å¼æ›´åŠ ç®€æ´ï¼Œä¸­æ‹¬å·å†…å¯ä»¥æ•èŽ·å¤–éƒ¨å˜é‡
+		//å¦‚ä½•åˆ¤æ–­æ­£åœ¨è¿åŠ¨çš„æ–¹å‘ï¼Ÿ
 		Vec2 startPos=Hero->getPosition();
 		Vec2 endPos = e->getLocationInView()-offset; //Vec2(e->getCursorX(), e->getCursorY());
 
@@ -28,12 +28,13 @@ void MouseController::initListener(Sprite* Hero) {
 		else if (Angle > -135 && Angle < -45)
 		{ 
 			_unit->moveDirectionByKey(unit::Direction::DOWN,endPos, Hero);//LE
+
 		}
 			
 		else if ((Angle > -180 && Angle < -135) || (Angle >135&& Angle < 180))
 		{
-			_unit->moveDirectionByKey(unit::Direction::LEFT, endPos, Hero);//DO
 
+			_unit->moveDirectionByKey(unit::Direction::LEFT, endPos, Hero);//DO
 		}
 		else
 		{

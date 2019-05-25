@@ -43,10 +43,20 @@ bool Game::init()
 
 
 	//初始化英雄
-	auto _player = Sprite::create("Player/Player2.png");
+	_player = Sprite::create("Player/Player2.png");
 	_player->setPosition(Vec2(x,y));
 	//this->addChild(_player, 2, 200);
 	_tileMap->addChild(_player, 2, 200);
+
+
+	auto Tower = Sprite::create("000073.png");
+	Tower->setPosition(Vec2(x, y));
+	//Tower->setScale(0.5, 0.5);
+	this->addChild(Tower, 2, 400);
+	auto A=Tower->getContentSize();
+
+	Tower->getPosition();
+
 
 	//初始化监听器
 	listener = MouseController::create();
@@ -108,7 +118,7 @@ void Game::setViewpointCenter(Vec2 position)
 	_tileMap->setPosition(offset);
 	listener->changeOffset(offset); 
 	TimerLabel->setVisible(true);
-	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width -45- offset.x, Director::getInstance()->getVisibleSize().height - 15 - offset.y);
+	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width-50, Director::getInstance()->getVisibleSize().height - 15);
 
 }
 
@@ -123,6 +133,7 @@ void Game::mapupdate(float dt)
 
 void Game::TimeRecorder(float dt)
 {
+	
 	this->removeChild(TimerLabel);
 	Time++;
 	int Minute = Time / 60;
@@ -148,4 +159,5 @@ void Game::TimeRecorder(float dt)
 	TimerLabel = Label::createWithSystemFont(str, "Arial", 30);
 	TimerLabel->setVisible(false);
 	this->addChild(TimerLabel, 3);
+	
 }
