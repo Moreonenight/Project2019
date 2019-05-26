@@ -17,11 +17,18 @@ MouseController::~MouseController()
 
 //初始化
 void MouseController::initListener(Sprite* Hero) {
-	auto listener = EventListenerMouse::create();//建立鼠标监听器
+	isPaused = 0;
+	listener = EventListenerMouse::create();//建立鼠标监听器
 	listener->onMouseDown = [this,Hero](EventMouse *e) {//用lamda表达式更加简洁，中括号内可以捕获外部变量
 		//如何判断正在运动的方向？
 		Vec2 startPos=Hero->getPosition();
 		Vec2 endPos = e->getLocationInView()-offset; //Vec2(e->getCursorX(), e->getCursorY());
+<<<<<<< HEAD
+=======
+		if (isPaused) { 
+			return true; 
+		}
+>>>>>>> Amonkey
 		int Angle= CC_RADIANS_TO_DEGREES((endPos - startPos).getAngle());
 		if (Angle>-45&&Angle<45)		{
 			_unit->moveDirectionByKey(unit::Direction::RIGHT, endPos, Hero);//UP
@@ -52,6 +59,7 @@ void MouseController::initListener(Sprite* Hero) {
 		return true;
 	};
 };
+
 	
 
 
