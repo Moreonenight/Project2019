@@ -27,7 +27,7 @@ void HP::changeMax(int delta) {
 	int cdmax = max_HP + delta;
 	if (cdmax > 0) {
 		max_HP = cdmax;	for (int i = max_HP / 1000; i; i--) {
-			Hp1000 = Sprite::create("../../res/HP/1000hp.png");
+			Hp1000 = Sprite::create("HP/1000hp.png");
 			if (Hp1000 == NULL) return;
 			Hp1000->setPosition(bloodrect->getPositionX() + i * (1000.0 / max_HP)*bloodrect->getContentSize().width,
 				bloodrect->getPositionY() + bloodrect->getContentSize().height - Hp1000->getContentSize().height);
@@ -46,16 +46,16 @@ void HP::changeVel(int delta) {
 void HP::initial(Vec2 position,Size size,bool enemyOrAlly)
 {
 	//位置信息要重新修改，考虑实际图片像素问题
-	bloodrect = Sprite::create("../../res/HP/bloodrect.png");
+	bloodrect = Sprite::create("HP/bloodrect.png");
 	bloodrect->setPosition(position.x, position.y + 10);
 	setScaleX(((float)(size.width)) / (size.width));
 	setScaleY(10.0 / bloodrect->getContentSize().height);
 	this->addChild(bloodrect, 0);
 	
-	if (enemyOrAlly)
-		curBlood = Sprite::create("../../res/HP/RedBlood.png");
-	else
-		curBlood = Sprite::create("../../res/HP/GreenBlood.png");
+	/*if (enemyOrAlly)
+		curBlood = Sprite::create("HP/RedBlood.png");
+	else*/
+		curBlood = Sprite::create("HP/GreenBlood.png");
 
 	curBlood->setPosition(bloodrect->getPositionX(), bloodrect->getPositionY());
 	curBlood->setScaleY((float)bloodrect->getContentSize().height / curBlood->getContentSize().height);
@@ -63,14 +63,14 @@ void HP::initial(Vec2 position,Size size,bool enemyOrAlly)
 	this->addChild(curBlood, 1);
 
 	for (int i = max_HP / 1000; i; i--) {
-		Hp1000 = Sprite::create("../../res/HP/1000hp.png");
+		Hp1000 = Sprite::create("HP/1000hp.png");
 		if (Hp1000 == NULL) return;
-		Hp1000->setPosition(bloodrect->getPositionX() + (i * (1000.0 / max_HP)-0.5) * bloodrect->getContentSize().width,
+		Hp1000->setPosition(bloodrect->getPositionX() + (i * (1000.0 / max_HP) - 0.5) * bloodrect->getContentSize().width,
 			bloodrect->getPositionY() + bloodrect->getContentSize().height - Hp1000->getContentSize().height);
-	}
-	this->addChild(Hp1000, 2);
 
-	emptyBlood = Sprite::create("../../res/HP/emptyrect.png");
+		this->addChild(Hp1000, 2);
+	}
+	emptyBlood = Sprite::create("HP/emptyrect.png");
 	emptyBlood->setPosition(bloodrect->getPositionX() + bloodrect->getContentSize().width - emptyBlood->getContentSize().width
 		, bloodrect->getPositionY());
 	emptyBlood->setScaleX(bloodrect->getContentSize().width/emptyBlood->getContentSize().width);
@@ -84,6 +84,6 @@ void HP::fresh() {
 	return;
 }
 HP::~HP() {
-	delete(this);
+	//delete(this);
 }
 

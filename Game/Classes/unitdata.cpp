@@ -2,39 +2,49 @@
 #include <cstdio>
 #include <string.h>
 
+
+
 bool unitdata::initial(string &datapath)
 {
 	//unitdata* _data = new(unitdata);
 	int index = 0, curDir = 0, order = 0;
 	string currentPath,buf;
+	char b[50] = { '\0' };
 	FILE *data;
 	unitid = datapath;
 	for (order = 0; order < NUM_OF_KINDS; order++) {
-		currentPath = datapath + "/" + kind[order] + ".txt";
+		currentPath = "../Resources/" + datapath + "/" + kind[order] + ".txt";
 		data = fopen(currentPath.c_str(), "r");
 		if (data == NULL) {
 			//cocos2d::CCLog((kind[order] + ".txtFailed").c_str());
 			continue;
 		}
-		fgets((char*)buf.c_str(), 100, data);
+		fgets(b, 100, data);
+		buf = b;
+		buf[buf.size()-1] = '\0';
 		auto SFC = cocos2d::SpriteFrameCache::getInstance();
 		SFC->addSpriteFramesWithFile((const string)buf);
-		buf.erase();
-		for (curDir = 0; curDir < 4; curDir++) {
+		buf.erase(); memset(b, '\0', 50);
+		for (curDir = 0; curDir < 4; curDir++) {				
+			auto curani = cocos2d::Animation::create();
 			for (index = 0; index < numOfFrames[order]; index++) {
-				fgets((char*)buf.c_str(), 100, data);
-				if (numOfFrames[order] == 1) continue;
-				else (&animations[order][curDir])->addSpriteFrame(SFC->getSpriteFrameByName(buf.c_str()));
-				buf.erase();
-				}
-			cocos2d::AnimationCache::getInstance()->addAnimation(&animations[order][curDir], unitid + dir[curDir] + kind[order]);
+				fgets(b, 100, data);
+				buf = b;
+				buf[buf.size() - 1] = '\0';
+				curani->addSpriteFrame(SFC->getSpriteFrameByName(buf.c_str()));
+				buf.erase(); memset(b, '\0', 50);
 			}
+			curani->setLoops(-1); curani->setDelayPerUnit(0.1f); 
+			cocos2d::AnimationCache::getInstance()->addAnimation(curani, unitid + dir[curDir] + kind[order]);
+		}
 		fclose(data);
 	}
 	currentPath = datapath + "/integer.txt";
 	data = fopen(currentPath.c_str(), "r");
-	while (fgets((char *)buf.c_str(), 100, data) != NULL) {
-		m2[buf] = atoi(fgets((char *)buf.c_str(), 100, data));
+	if (data == NULL) return false;
+	while (fgets(b, 100, data) != NULL) {
+		b[strlen(b) - 1] = '\0';
+		m2[buf] = atoi(b);
 	}
 	maxHp = m2["maxHp"];
 	maxMana = m2["maxMana"]; 

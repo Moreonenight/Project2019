@@ -29,15 +29,15 @@ private:
 	int numOfFrames[NUM_OF_KINDS] = {
 		8,
 		8,
-		3,
 		8,
-		1
+		8,
+		0
 	};
 	string unitid;
 
 	//skill
 
-	cocos2d::Animation animations[NUM_OF_KINDS][4];
+	//cocos2d::Animation animations[NUM_OF_KINDS][4];
 	int maxMana, maxHp, initGold, initLvl, damage/*damage of single attack*/
 		, ASPD/*attack speed*/,
 		attackRange,

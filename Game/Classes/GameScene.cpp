@@ -5,6 +5,8 @@
 #include "MouseController.h"
 #include <stdlib.h>   
 #include <string.h>
+#include "unit.h"
+
 USING_NS_CC;
 Scene* Game::createScene()
 {
@@ -37,20 +39,29 @@ bool Game::init()
 	float x = spawnPoint["x"].asFloat();
 	float y = spawnPoint["y"].asFloat();
 
+
+	//CCSpriteFrameCache::getInstance()->addSpriteFramesWithFile("HouYi/attack.plist");
 	//初始化单位属性
-	//auto hero1data = new(unitdata);
-	//hero1data->initial(string("Player/Player2.png"));
+	auto hero1data = new(unitdata);
+	hero1data->initial(string("HouYi"));
 
-
+	unit* hero1 = unit::create();
+	hero1->initial(hero1data);
+	//hero1->setSpriteFrame(CCSpriteFrameCache::getInstance()->getSpriteFrameByName("000020.png"));
+//初始站姿设定过后会引起bug，不论是播放动画还是放一帧图片都会导致后边animation的bug
+	//似乎可以通过
+	//setSpriteFrame（AnimationCache-》getInstance（）-》getAnimation（“”）-》getSpriteFrames【0】））；
+	//解决
+	hero1->setPosition(Vec2(x, y));
+	_tileMap->addChild(hero1, 2, 100);
 	//初始化英雄
 	auto _player = Sprite::create("Player/Player2.png");
 	_player->setPosition(Vec2(x,y));
-	//this->addChild(_player, 2, 200);
 	_tileMap->addChild(_player, 2, 200);
 
 	//初始化监听器
 	listener = MouseController::create();
-	listener->initListener(_player);
+	listener->initListener(hero1);
 	listener->changeOffset(Vec2::ZERO);
 	//初始化时间标签
 	TimerLabel = Label::createWithSystemFont("00:00", "Arial", 30);

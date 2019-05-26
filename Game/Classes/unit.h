@@ -23,7 +23,8 @@ public:
 		RIGHT,
 		NONE
 	};
-	unit(unitdata& unitdata);
+	void initial(unitdata *unitdata);
+	CREATE_FUNC(unit);
 	~unit();
 	inline string getid() { return id; }
 	void getAttacked(ammo* amo) {
@@ -41,7 +42,7 @@ public:
 	int getAmmoSpeed() { return ammoSpeed; }
 
 	void stop();
-	void moveDirectionByKey(unit::Direction direction, Vec2 e, Sprite* Hero);
+	void moveDirectionByKey(unit::Direction direction, Vec2 e, unit* Hero);
 
 
 	Sprite *attack(unit *target);

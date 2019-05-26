@@ -1,4 +1,4 @@
-HouYi\stand.plist
+HouYi/stand.plist
 000000.png
 000001.png
 000002.png
