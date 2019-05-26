@@ -48,16 +48,26 @@ bool Game::init()
 	unit* hero1 = unit::create();
 	hero1->initial(hero1data);
 	//hero1->setSpriteFrame(CCSpriteFrameCache::getInstance()->getSpriteFrameByName("000020.png"));
-//初始站姿设定过后会引起bug，不论是播放动画还是放一帧图片都会导致后边animation的bug
+  //初始站姿设定过后会引起bug，不论是播放动画还是放一帧图片都会导致后边animation的bug
 	//似乎可以通过
 	//setSpriteFrame（AnimationCache-》getInstance（）-》getAnimation（“”）-》getSpriteFrames【0】））；
 	//解决
 	hero1->setPosition(Vec2(x, y));
 	_tileMap->addChild(hero1, 2, 100);
 	//初始化英雄
-	auto _player = Sprite::create("Player/Player2.png");
+	_player = Sprite::create("Player/Player2.png");
 	_player->setPosition(Vec2(x,y));
 	_tileMap->addChild(_player, 2, 200);
+
+
+	auto Tower = Sprite::create("000073.png");
+	Tower->setPosition(Vec2(x, y));
+	//Tower->setScale(0.5, 0.5);
+	this->addChild(Tower, 2, 400);
+	auto A=Tower->getContentSize();
+
+	Tower->getPosition();
+
 
 	//初始化监听器
 	listener = MouseController::create();
@@ -119,7 +129,7 @@ void Game::setViewpointCenter(Vec2 position)
 	_tileMap->setPosition(offset);
 	listener->changeOffset(offset); 
 	TimerLabel->setVisible(true);
-	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width -45, Director::getInstance()->getVisibleSize().height - 15);
+	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width-50, Director::getInstance()->getVisibleSize().height - 15);
 
 }
 
@@ -134,6 +144,7 @@ void Game::mapupdate(float dt)
 
 void Game::TimeRecorder(float dt)
 {
+	
 	this->removeChild(TimerLabel);
 	Time++;
 	int Minute = Time / 60;
@@ -159,4 +170,5 @@ void Game::TimeRecorder(float dt)
 	TimerLabel = Label::createWithSystemFont(str, "Arial", 30);
 	TimerLabel->setVisible(false);
 	this->addChild(TimerLabel, 3);
+	
 }
