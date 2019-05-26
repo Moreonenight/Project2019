@@ -1,5 +1,4 @@
 #include "unit.h"
-#include "ammo.h"
 
 
 void unit::stop()
@@ -7,11 +6,32 @@ void unit::stop()
 	this->stopAllActions();
 }
 
+void unit::initial(unitdata *unitdata)
+{
+	data = unitdata;
+	hp = HP::create();
+	hp->initial(getPosition(), getContentSize(), 0/*atoi((const char*)id[0])*/); 
+	addChild(hp, 0);
+	id = data->getUnitid();
+	//id未确定
+	//Velocity = data->getVelocity();
+	level = 1; 
+	/*damage = data->getDamage();
+	ammoSpeed = data->getAmmoSpeed();
+	gold = 0;
+	ASPD = data->getASPD(); 
+	canAttack = true;
+ 
+	*/
+	//dpm = data->getDpm();
+	//setPosition(data->getPosition());
+	//Scheduler::schedule(schedule_selector(unit::freshCanAttack), 1.0f/ASPD);
+}
 
-void unit::moveDirectionByKey(unit::Direction direction, Vec2 e, Sprite* Hero)
+void unit::moveDirectionByKey(unit::Direction direction, Vec2 e, unit* Hero)
 {
 	//Unitdata后续优化
-	Vector<SpriteFrame*> animFrames_up;
+	/*Vector<SpriteFrame*> animFrames_up;
 	Vector<SpriteFrame*> animFrames_down;
 	Vector<SpriteFrame*> animFrames_left;
 	Vector<SpriteFrame*> animFrames_right;
@@ -43,42 +63,50 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e, Sprite* Hero)
 	Animation* animation_left = Animation::createWithSpriteFrames(animFrames_left, 0.1f);
 	Animation* animation_right = Animation::createWithSpriteFrames(animFrames_right, 0.1f);
 	Animation* animation_up = Animation::createWithSpriteFrames(animFrames_up, 0.1f);
-	Animate* animate_down = Animate::create(animation_down);
+
+
+	pAC->addAnimation(animation_down, "animation_down");
+	Animate* animate_down = Animate::create(pAC->getAnimation("animation_down"));
 	Animate* animate_left = Animate::create(animation_left);
 	Animate* animate_right = Animate::create(animation_right);
 	Animate* animate_up = Animate::create(animation_up);
+	*/
+
 	//double Distancex = abs(Hero->getPositionX() - x);//x获取光标当前x位置
 	//double Distancey = abs(Hero->getPositionY() - y);//y获取光标当前y位置
 	//double Distance = sqrt(Distancex*Distancex + Distancey * Distancey);//计算人物与目标点距离
-	
-	Vec2 a = (Hero->getPosition() - e); 
+	auto pAC = AnimationCache::getInstance();
+	Vec2 a = Hero->getPosition() - e; 
 	float Distance = a.length();
 	double Speed = 100;//控制速度
+	//auto pAC = AnimationCache::getInstance();
+	//auto animationleftwalk = pAC->getAnimation(Hero->getid() + "left_walk");
+//	auto animateleftwalk = Animate::create(animationleftwalk);
+	//auto repeatleftwawlk = Repeat::create(animateleftwalk, Distance / Speed / 0.4f);
 	switch (direction)
 	{
 	case unit::Direction::LEFT:
 
 		Hero->stopAllActions();
-		Hero->runAction(Repeat::create(animate_left, Distance / Speed / 0.4f));
+		Hero->runAction(Animate::create(pAC->getAnimation(Hero->getid() + "left_walk")));
 		Hero->runAction(MoveTo::create(Distance / Speed, e));
 		break;
 	case unit::Direction::RIGHT:
 		Hero->stopAllActions();
-		Hero->runAction(Repeat::create(animate_right, Distance / Speed / 0.4f));
+		Hero->runAction(Animate::create(pAC->getAnimation(Hero->getid() + "right_walk")));
 		Hero->runAction(MoveTo::create(Distance / Speed, e));
 		break;
 	case unit::Direction::UP:
 
 		Hero->stopAllActions();
 
-		Hero->runAction(Repeat::create(animate_up, Distance / Speed / 0.4f));
+		Hero->runAction(Animate::create(pAC->getAnimation(Hero->getid() + "up_walk")));
 		Hero->runAction(MoveTo::create(Distance / Speed, e));
 		break;
 	case unit::Direction::DOWN:
 		Hero->stopAllActions();
+		Hero->runAction(Animate::create(pAC->getAnimation(Hero->getid() + "down_walk")));
 		Hero->runAction(MoveTo::create(Distance / Speed, e));
-		Hero->runAction(Repeat::create(animate_down, Distance / Speed / 0.4f));
-
 		break;
 	case unit::Direction::NONE:
 		break;
@@ -109,7 +137,7 @@ Sprite* unit::attack(unit * target)//返回攻击产生的弹道对象指针，可以把它加到lay
 
 	//runAction();
 	ammo *amo = ammo::create();
-	amo->initial(this, target);
+	amo->initial(this->getAmmoFrameName(), getPosition(),getDamage(),getAmmoSpeed());//velocity = getAmmoSpeed()*Vec2.length()
 	return amo;
 }
 
@@ -129,3 +157,11 @@ void unit::die()
 }
 
 
+
+inline int unit::getDamage(int delta) { hp->changeCur(delta); return hp->getCur(); }
+inline int unit::getMaxHp() { return hp->getMax(); }inline void unit::changeMaxHp(int delta) { hp->changeMax(delta); }
+unit::~unit()
+{
+//	hp->~HP();
+//	delete(this);
+}

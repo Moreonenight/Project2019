@@ -13,11 +13,11 @@ private:
 
 
 	string dir[NUM_OF_KINDS] = {
-	"front_",
-	"back_",
-	"left_",
-	"right_",
-	""
+		"up_",
+		"down_",
+		"left_",
+		"right_",
+		""
 	};
 	string kind[NUM_OF_KINDS] = {
 		"attack",
@@ -29,15 +29,15 @@ private:
 	int numOfFrames[NUM_OF_KINDS] = {
 		8,
 		8,
-		3,
-		2,
-		1
+		8,
+		8,
+		0
 	};
 	string unitid;
 
 	//skill
 
-	cocos2d::Animation animations[NUM_OF_KINDS][4];
+	//cocos2d::Animation animations[NUM_OF_KINDS][4];
 	int maxMana, maxHp, initGold, initLvl, damage/*damage of single attack*/
 		, ASPD/*attack speed*/,
 		attackRange,

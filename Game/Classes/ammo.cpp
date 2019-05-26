@@ -1,11 +1,10 @@
 #include "ammo.h"
 
-void ammo::initial(unit * attacker, unit * target)
+void ammo::initial(std::string fileName,Vec2 currentPosition,int damge,int ammSpeed)
 {
-	this->setPosition(attacker->getPosition());
-	damage = attacker->getDamage(); ammoSpeed = attacker->getAmmoSpeed();
-	Frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(attacker->getAmmoFrameName());
-	this->target = target;
+	this->setPosition(currentPosition);
+	damage = damge; ammoSpeed = ammSpeed;
+	Frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(fileName);
 	return ;
 }
 
@@ -13,15 +12,18 @@ ammo::ammo()
 {
 }
 
-void ammo::fresh() //ammo的“update”函数，一个Layer的update应该调用所有子结点的update函数
+void ammo::changeTargetPosition(Vec2 targetPosition)
 {
-	if (getPosition() == target->getPosition()) {
-		//target->getDamage(damage);
-	}
-	else {
-		this->setRotation(CC_RADIANS_TO_DEGREES((target->getPosition()-getPosition()).getAngle()));
-		velocity = getPosition() - target->getPosition(); velocity.normalize(); velocity *= (float)ammoSpeed;
-		this->runAction(MoveTo::create(1 / velocity.length(), velocity + getPosition()));
+	destination = targetPosition;
+	return;
+}
+
+void ammo::fresh() //ammo的“update”函数，一个Layer的update应该调用所有子结点的update函数
+{	
+	velocity = destination-getPosition();
+	this->setRotation(CC_RADIANS_TO_DEGREES(velocity.getAngle()));
+	velocity.normalize(); velocity *= ammoSpeed;
+	this->runAction(MoveTo::create(1 / velocity.length(), velocity + getPosition()));
 		/*
 		*需要统一的时间表示方式
 		*不明确的浮点数的意义
@@ -30,4 +32,4 @@ void ammo::fresh() //ammo的“update”函数，一个Layer的update应该调用所有子结点的
 		*或者是全局统一弹道速度？
 		*/
 	}
-}
+

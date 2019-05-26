@@ -1,5 +1,7 @@
 #pragma once
 #include "unitdata.h"
+#include "ammo.h"
+#include "HP.h"
 USING_NS_CC;
 class HP;
 class unit:public Sprite
@@ -9,48 +11,69 @@ private:
 	Vec2 Velocity,dpm;
 	HP *hp;//MP maxMana;
 	std::string id;
-	int level, gold, damage,ASPD;
+	int level, gold, damage,ASPD,moveSpeed,ammoSpeed;
 	bool canAttack;
+	vector<ammo*> ammosOnWay;
 public:
 	enum class Direction :int
 	{
-		LEFT,
-		RIGHT,
 		UP,
 		DOWN,
+		LEFT,
+		RIGHT,
 		NONE
 	};
-	unit(unitdata& unitdata);
+	void initial(unitdata *unitdata);
+	CREATE_FUNC(unit);
 	~unit();
 	inline string getid() { return id; }
-
+	void getAttacked(ammo* amo) {
+		ammosOnWay.push_back(amo);
+		amo->changeTargetPosition(getPosition());
+		return;
+	}
 		//string changeid(string& newid) { id = newid; return id; }
 	inline int getMaxHp();
 	inline void changeMaxHp(int delta);
 	inline int getDamage(int delta);
-	inline int getDamage()/*when want to know how much the unit damage is*/ { return damage; }inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
+	inline int getDamage() { return damage; }/*when want to know how much the unit damage is*/ 
+	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
 	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
-	
+	int getAmmoSpeed() { return ammoSpeed; }
+
 	void stop();
-	void moveDirectionByKey(unit::Direction direction, Vec2 e, Sprite* Hero);
+	void moveDirectionByKey(unit::Direction direction, Vec2 e, unit* Hero);
 
 
 	Sprite *attack(unit *target);
 	void attackTo(unit *target);
 	void attackTo(Vec2 destination);
-	int getAmmoSpeed() {
+	/*int getAmmoSpeed() {
 		return data->getAmmoSpeed();
-	}
-	void freshCanAttack() { if (canAttack == 1) return; else { canAttack = 1; return; } }
+	}*/
+
 	/*int getDamage(int damage) {
 		float i = damage * dpm.x;
 		hp->changeCur((int)i);
 	}//when get damaged*/
 	void die();
 
-	
-	
-
-
+	void fresh() {
+		hp->fresh();
+		if (hp->getCur() <= 1) die();
+		hp->setPosition(this->getPosition());
+		if (canAttack == 1) return;
+		else { canAttack = 1; return; }
+		auto it = ammosOnWay.begin(); {
+			for (; it < ammosOnWay.end(); it++)
+				if (getPosition() == (*it)->getPosition()) {
+					getDamage((*it)->getDamage());
+				}
+				else {
+					(*it)->changeTargetPosition(getPosition());
+					(*it)->fresh();
+				}
+		}
+	}
 };
 

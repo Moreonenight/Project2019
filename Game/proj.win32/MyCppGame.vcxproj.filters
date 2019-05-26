@@ -30,9 +30,6 @@
     <ClCompile Include="..\Classes\SettingScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\ammo.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\HP.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -40,6 +37,9 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\unitdata.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ammo.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

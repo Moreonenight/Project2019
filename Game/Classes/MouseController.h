@@ -12,7 +12,7 @@ private:
 public:
 	MouseController();
 	~MouseController();
-	void initListener(Sprite* A);
+	void initListener(unit* A);
 	void changeOffset(const Vec2 a) { 
 		offset = a; }
 	CREATE_FUNC(MouseController);
