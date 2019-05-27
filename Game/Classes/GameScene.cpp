@@ -53,22 +53,9 @@ bool Game::init()
 	//似乎可以通过
 	//setSpriteFrame（AnimationCache-》getInstance（）-》getAnimation（“”）-》getSpriteFrames【0】））；
 	//解决
+	//初始化英雄
 	hero1->setPosition(Vec2(x, y));
 	_tileMap->addChild(hero1, 2, 100);
-	//初始化英雄
-	_player = Sprite::create("Player/Player2.png");
-	_player->setPosition(Vec2(x,y));
-	_tileMap->addChild(_player, 2, 200);
-
-
-	auto Tower = Sprite::create("000073.png");
-	Tower->setPosition(Vec2(x, y));
-	//Tower->setScale(0.5, 0.5);
-	this->addChild(Tower, 2, 400);
-	auto A=Tower->getContentSize();
-
-	Tower->getPosition();
-
 
 	//初始化监听器
 	listener = MouseController::create();
@@ -148,7 +135,7 @@ void Game::setViewpointCenter(Vec2 position)
 void Game::mapupdate(float dt)
 {
 	//auto sprite = this->getChildByTag(200);
-	auto sprite = _tileMap->getChildByTag(200);
+	auto sprite = _tileMap->getChildByTag(100);
 	auto pos = sprite->getPosition();
 	setViewpointCenter(pos);
 	if (IS_SHOP_OPEN) { listener->setPause(1); }

@@ -14,7 +14,7 @@ private:
 public:
 	MouseController();
 	~MouseController();
-	void initListener(unit* A);
+	void initListener(unit* Hero);
 	void changeOffset(const Vec2 a) { 
 		offset = a; }
 	void setPause(short x) {

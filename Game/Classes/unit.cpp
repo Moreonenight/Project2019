@@ -78,15 +78,12 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e, unit* Hero)
 	auto pAC = AnimationCache::getInstance();
 	Vec2 a = Hero->getPosition() - e; 
 	float Distance = a.length();
-<<<<<<< HEAD
-	double Speed = 100;//控制速度
+	double Speed = 200;//控制速度
 	//auto pAC = AnimationCache::getInstance();
 	//auto animationleftwalk = pAC->getAnimation(Hero->getid() + "left_walk");
 //	auto animateleftwalk = Animate::create(animationleftwalk);
 	//auto repeatleftwawlk = Repeat::create(animateleftwalk, Distance / Speed / 0.4f);
-=======
-	double Speed = 200;//控制速度
->>>>>>> Amonkey
+
 	switch (direction)
 	{
 	case unit::Direction::LEFT:
