@@ -46,7 +46,7 @@ bool Game::init()
 	auto hero1data = new(unitdata);
 	hero1data->initial(string("HouYi"));
 
-	unit* hero1 = unit::create();
+	hero1 = unit::create();
 	hero1->initial(hero1data);
 	//hero1->setSpriteFrame(CCSpriteFrameCache::getInstance()->getSpriteFrameByName("000020.png"));
   //初始站姿设定过后会引起bug，不论是播放动画还是放一帧图片都会导致后边animation的bug
@@ -174,7 +174,7 @@ void Game::TimeRecorder(float dt)
 }
 
 void Game::createShopCallBack(cocos2d::Ref* pSender) {
-	_player->stopAllActions();
+	hero1->stopAllActions();
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	if (IS_SHOP_OPEN) { return; }
 	_shopLayer = Layer::create();

@@ -15,6 +15,7 @@ class Game : public cocos2d::Layer
 	cocos2d::ui::Button* Moneybutton;
 	cocos2d::Sprite* Tower;
 	cocos2d::Layer* _shopLayer=nullptr;
+	unit* hero1;
 	int Time;
 
 
