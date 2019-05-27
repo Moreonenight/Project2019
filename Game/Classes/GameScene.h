@@ -4,6 +4,11 @@
 #include "cocos2d.h"
 #include "MouseController.h"
 #include "ui/CocosGUI.h"
+#include "HelloWorldScene.h"
+#include "SimpleAudioEngine.h"
+#include <stdlib.h>   
+#include <string.h>
+#include "unit.h"
 USING_NS_CC;
 class Game : public cocos2d::Layer
 {	
@@ -17,7 +22,6 @@ class Game : public cocos2d::Layer
 	cocos2d::Layer* _shopLayer=nullptr;
 	unit* hero1;
 	int Time;
-
 
 public:
 	static cocos2d::Scene* createScene();

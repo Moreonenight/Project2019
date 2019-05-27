@@ -59,17 +59,11 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e, unit* Hero)
 	animFrames_up.pushBack(SpriteFrame::create("Player/Player2_18.png", Rect(0, 0, 32, 32)));
 	animFrames_up.pushBack(SpriteFrame::create("Player/Player2_19.png", Rect(0, 0, 32, 32)));
 	animFrames_up.pushBack(SpriteFrame::create("Player/Player2_20.png", Rect(0, 0, 32, 32)));
-	Animation* animation_down = Animation::createWithSpriteFrames(animFrames_down, 0.1f);
-	Animation* animation_left = Animation::createWithSpriteFrames(animFrames_left, 0.1f);
-	Animation* animation_right = Animation::createWithSpriteFrames(animFrames_right, 0.1f);
-	Animation* animation_up = Animation::createWithSpriteFrames(animFrames_up, 0.1f);
+	
 
 
 	pAC->addAnimation(animation_down, "animation_down");
-	Animate* animate_down = Animate::create(pAC->getAnimation("animation_down"));
-	Animate* animate_left = Animate::create(animation_left);
-	Animate* animate_right = Animate::create(animation_right);
-	Animate* animate_up = Animate::create(animation_up);
+
 	*/
 
 	//double Distancex = abs(Hero->getPositionX() - x);//x获取光标当前x位置
@@ -78,36 +72,51 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e, unit* Hero)
 	auto pAC = AnimationCache::getInstance();
 	Vec2 a = Hero->getPosition() - e; 
 	float Distance = a.length();
+
 	double Speed = 200;//控制速度
-	//auto pAC = AnimationCache::getInstance();
-	//auto animationleftwalk = pAC->getAnimation(Hero->getid() + "left_walk");
-//	auto animateleftwalk = Animate::create(animationleftwalk);
-	//auto repeatleftwawlk = Repeat::create(animateleftwalk, Distance / Speed / 0.4f);
+	Animation* up_walk= pAC->getAnimation(Hero->getid()+"up_walk");
+	Animation* down_walk = pAC->getAnimation(Hero->getid() + "down_walk");
+	Animation* left_walk = pAC->getAnimation(Hero->getid() + "left_walk");
+	Animation* right_walk = pAC->getAnimation(Hero->getid() + "right_walk");
+		
+	Animate* animate_up = Animate::create(up_walk);
+	Animate* animate_down = Animate::create(down_walk);
+	Animate* animate_left = Animate::create(left_walk);
+	Animate* animate_right = Animate::create(right_walk);
+
+	auto _move = MoveTo::create(Distance / Speed, e);
+	Hero->stopAllActions();
 
 	switch (direction)
 	{
 	case unit::Direction::LEFT:
-
-		Hero->stopAllActions();
-		Hero->runAction(Animate::create(pAC->getAnimation(Hero->getid() + "left_walk")));
-		Hero->runAction(MoveTo::create(Distance / Speed, e));
+		Hero->runAction(animate_left);
+		Hero->runAction(_move);
+		if(Hero->getPosition() == e)
+			Hero->runAction(Animate::create(pAC->getAnimation(Hero->getid() + "left_stand")));
+		//Hero->runAction(animate_left);
+	//	Hero->runAction(MoveTo::create(Distance / Speed, e));
 		break;
 	case unit::Direction::RIGHT:
-		Hero->stopAllActions();
-		Hero->runAction(Animate::create(pAC->getAnimation(Hero->getid() + "right_walk")));
-		Hero->runAction(MoveTo::create(Distance / Speed, e));
+		Hero->runAction(animate_right);
+		Hero->runAction(_move);
+		if (Hero->getPosition() == e)
+			Hero->runAction(Animate::create(pAC->getAnimation(Hero->getid() + "right_stand")));
 		break;
 	case unit::Direction::UP:
 
-		Hero->stopAllActions();
+		Hero->runAction(animate_up);
+		Hero->runAction(_move);
+		if (Hero->getPosition() == e)
+			Hero->runAction(Animate::create(pAC->getAnimation(Hero->getid() + "up_stand")));
+		//Hero->runAction();
 
-		Hero->runAction(Animate::create(pAC->getAnimation(Hero->getid() + "up_walk")));
-		Hero->runAction(MoveTo::create(Distance / Speed, e));
 		break;
 	case unit::Direction::DOWN:
-		Hero->stopAllActions();
-		Hero->runAction(Animate::create(pAC->getAnimation(Hero->getid() + "down_walk")));
-		Hero->runAction(MoveTo::create(Distance / Speed, e));
+		Hero->runAction(animate_down);
+		Hero->runAction(_move);
+		if (Hero->getPosition() == e)
+			Hero->runAction(Animate::create(pAC->getAnimation(Hero->getid() + "down_stand")));
 		break;
 	case unit::Direction::NONE:
 		break;
