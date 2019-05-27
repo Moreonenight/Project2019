@@ -1,6 +1,5 @@
 #include "unitdata.h"
-#include <cstdio>
-#include <string.h>
+
 
 
 
@@ -34,7 +33,7 @@ bool unitdata::initial(string &datapath)
 				curani->addSpriteFrame(SFC->getSpriteFrameByName(buf.c_str()));
 				buf.erase(); memset(b, '\0', 50);
 			}
-			curani->setLoops(-1); curani->setDelayPerUnit(0.1f); 
+			curani->setLoops(-1); curani->setDelayPerUnit(0.2f); 
 			cocos2d::AnimationCache::getInstance()->addAnimation(curani, unitid + dir[curDir] + kind[order]);
 		}
 		fclose(data);
