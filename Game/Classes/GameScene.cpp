@@ -1,11 +1,6 @@
 #pragma once
-#include "HelloWorldScene.h"
-#include "SimpleAudioEngine.h"
 #include "GameScene.h"
-#include "MouseController.h"
-#include <stdlib.h>   
-#include <string.h>
-#include "unit.h"
+
 
 USING_NS_CC;
 Scene* Game::createScene()
@@ -44,11 +39,29 @@ bool Game::init()
 	//初始化单位属性
 	auto hero1data = new(unitdata);
 	hero1data->initial(string("HouYi"));
-
-	unit* hero1 = unit::create();
+	auto act = Animate::create(AnimationCache::getInstance()->getAnimation("HouYidown_stand"));
+	auto hero1 = unit::create();
 	hero1->initial(hero1data);
-	//hero1->setSpriteFrame(CCSpriteFrameCache::getInstance()->getSpriteFrameByName("000020.png"));
-//初始站姿设定过后会引起bug，不论是播放动画还是放一帧图片都会导致后边animation的bug
+	hero1->runAction(act);
+
+
+	//hero1->getActionManager()->addAction(act2, hero1, 0);
+
+
+	//hero1->runAction(Animate::create(act));
+
+
+
+
+
+	auto hero2 = unit::create();
+	hero2->initial(hero1data);	
+	hero2->setSpriteFrame("000140.png");
+
+	
+
+
+	//初始站姿设定过后会引起bug，不论是播放动画还是放一帧图片都会导致后边animation的bug
 	//似乎可以通过
 	//setSpriteFrame（AnimationCache-》getInstance（）-》getAnimation（“”）-》getSpriteFrames【0】））；
 	//解决

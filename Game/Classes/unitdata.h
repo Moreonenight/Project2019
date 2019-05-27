@@ -3,6 +3,7 @@
 #include <string.h>
 #include <vector>
 #include <cocos2d.h>
+#include <cstdio>
 using namespace std;
 #define NUM_OF_KINDS 5
 
