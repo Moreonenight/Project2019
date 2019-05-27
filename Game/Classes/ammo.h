@@ -1,3 +1,4 @@
+
 #pragma once
 #include <cocos2d.h>
 USING_NS_CC;
@@ -24,4 +25,5 @@ public:
 	int getDamage() { return damage; }
 	void changeTargetPosition(Vec2 targtPosition);
 	void fresh();
+
 };

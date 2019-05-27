@@ -72,7 +72,8 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e, unit* Hero)
 	auto pAC = AnimationCache::getInstance();
 	Vec2 a = Hero->getPosition() - e; 
 	float Distance = a.length();
-	double Speed = 100;//控制速度
+
+	double Speed = 200;//控制速度
 	Animation* up_walk= pAC->getAnimation(Hero->getid()+"up_walk");
 	Animation* down_walk = pAC->getAnimation(Hero->getid() + "down_walk");
 	Animation* left_walk = pAC->getAnimation(Hero->getid() + "left_walk");
@@ -85,6 +86,7 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e, unit* Hero)
 
 	auto _move = MoveTo::create(Distance / Speed, e);
 	Hero->stopAllActions();
+
 	switch (direction)
 	{
 	case unit::Direction::LEFT:

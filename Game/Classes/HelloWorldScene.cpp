@@ -34,7 +34,7 @@ bool HelloWorld::init()
 	MenuItemFont::setFontName("Times New Roman");
 	MenuItemFont::setFontSize(24);
     
-	auto bg = Sprite::create("/bg/bg.png");
+	auto bg = Sprite::create("/bg/StartScene.jpg");
 	bg->setPosition(Vec2(
 		origin.x + visibleSize.width / 2,
 		origin.y + visibleSize.height / 2
@@ -43,13 +43,13 @@ bool HelloWorld::init()
 	
 	//开始按钮
 	auto StartButton = MenuItemImage::create(
-		"/button/start.png",
-		"/button/start.png",
+		"/button/startgame.png",
+		"/button/startgame.png",
 		CC_CALLBACK_1(HelloWorld::menuStartCallback,this)
 	);
 	StartButton->setPosition(Vec2(
 		origin.x+visibleSize.width/2,
-		origin.y+visibleSize.height/3* 2
+		origin.y+visibleSize.height/2
 	));
 
 
@@ -60,7 +60,7 @@ bool HelloWorld::init()
 	);
 	SettingButton->setPosition(Vec2(
 		origin.x + visibleSize.width / 2,
-		origin.y + visibleSize.height / 2
+		origin.y + visibleSize.height / 4
 	));
 	//两个按钮合并成一个菜单
 	auto mn = Menu::create(
