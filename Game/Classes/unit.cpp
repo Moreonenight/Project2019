@@ -70,13 +70,13 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e, unit* Hero)
 	switch (direction)
 	{
 	case unit::Direction::UP:
-		if (Hero->getActionByTag(1) == nullptr)
+		if (Hero->getActionByTag(1) != nullptr)
 		{
 			Hero->stopAllActions();
 			Hero->runAction(RepeatForever::create(animate_up))->setTag(1);
 		}
 		else
-		{
+		{			
 			Hero->stopActionByTag(5);
 		}
 		Hero->runAction(Sequence::create(Moving, CallBackUp, nullptr))->setTag(5);
@@ -140,6 +140,7 @@ Sprite* unit::attack(unit * target)//返回攻击产生的弹道对象指针，可以把它加到lay
 	//runAction();
 	ammo *amo = ammo::create();
 	amo->initial(this->getAmmoFrameName(), getPosition(),getDamage(),getAmmoSpeed());//velocity = getAmmoSpeed()*Vec2.length()
+	
 	return amo;
 }
 

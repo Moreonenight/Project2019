@@ -49,10 +49,6 @@ bool Game::init()
 	_tileMap->addChild(hero1, 2, 200);
 
 
-	auto hero2 = unit::create();
-	hero2->initial(hero1data);
-	hero2->setSpriteFrame("000140.png");
-
 	//初始化监听器
 	listener = MouseController::create();
 	listener->initListener(hero1);
@@ -133,7 +129,7 @@ void Game::setViewpointCenter(Vec2 position)
 void Game::mapupdate(float dt)
 {
 	//auto sprite = this->getChildByTag(200);
-	auto sprite = _tileMap->getChildByTag(100);
+	auto sprite = _tileMap->getChildByTag(200);
 	auto pos = sprite->getPosition();
 	setViewpointCenter(pos);
 	if (IS_SHOP_OPEN) { listener->setPause(1); }
