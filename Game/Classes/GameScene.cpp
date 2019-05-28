@@ -1,8 +1,9 @@
 #pragma once
+
 #include "GameScene.h"
 
-
 USING_NS_CC;
+#define IS_SHOP_OPEN this->getChildByTag(133)
 Scene* Game::createScene()
 {
 	auto scene = Scene::create();
@@ -23,10 +24,10 @@ bool Game::init()
 	//初始化地图
 	_tileMap = TMXTiledMap::create("map/map1.tmx");
 	addChild(_tileMap, 0, 100);
-	
+
 	//初始化碰撞层
-	_collidable = _tileMap->getLayer("collidable");
-	_collidable->setVisible(true);
+	//_collidable = _tileMap->getLayer("collidable");
+	//_collidable->setVisible(true);
 
 	//获取地图设置出生点
 	auto group = _tileMap->getObjectGroup("hero");
@@ -34,48 +35,27 @@ bool Game::init()
 	float x = spawnPoint["x"].asFloat();
 	float y = spawnPoint["y"].asFloat();
 
-
 	//CCSpriteFrameCache::getInstance()->addSpriteFramesWithFile("HouYi/attack.plist");
-	//初始化单位属性
+   //初始化单位属性
 	auto hero1data = new(unitdata);
 	hero1data->initial(string("HouYi"));
 	auto act = Animate::create(AnimationCache::getInstance()->getAnimation("HouYidown_stand"));
-	auto hero1 = unit::create();
+	hero1 = unit::create();
 	hero1->initial(hero1data);
 	hero1->runAction(act);
-
-
-	//hero1->getActionManager()->addAction(act2, hero1, 0);
-
-
-	//hero1->runAction(Animate::create(act));
-
-
-
+	hero1->setPosition(Vec2(x, y));
+	_tileMap->addChild(hero1, 2, 200);
 
 
 	auto hero2 = unit::create();
-	hero2->initial(hero1data);	
+	hero2->initial(hero1data);
 	hero2->setSpriteFrame("000140.png");
-
-	
-
-
-	//初始站姿设定过后会引起bug，不论是播放动画还是放一帧图片都会导致后边animation的bug
-	//似乎可以通过
-	//setSpriteFrame（AnimationCache-》getInstance（）-》getAnimation（“”）-》getSpriteFrames【0】））；
-	//解决
-	hero1->setPosition(Vec2(x, y));
-	_tileMap->addChild(hero1, 2, 100);
-	//初始化英雄
-	auto _player = Sprite::create("Player/Player2.png");
-	_player->setPosition(Vec2(x,y));
-	_tileMap->addChild(_player, 2, 200);
 
 	//初始化监听器
 	listener = MouseController::create();
 	listener->initListener(hero1);
 	listener->changeOffset(Vec2::ZERO);
+
 	//初始化时间标签
 	TimerLabel = Label::createWithSystemFont("00:00", "Arial", 30);
 	this->addChild(TimerLabel, 3);
@@ -92,13 +72,24 @@ bool Game::init()
 		origin.y + closeItem->getContentSize().height / 2
 	));
 
-	auto menu = Menu::create(closeItem, NULL);
+
+	////  商店界面  ////
+
+	//进入按钮
+	auto shopButton = MenuItemImage::create(
+		"/button/Money.png",
+		"/button/Money.png",
+		CC_CALLBACK_1(Game::createShopCallBack, this));
+	shopButton->setPosition(30, visibleSize.height / 2 + 25);
+	shopButton->setScale(0.8f);
+
+
+	auto menu = Menu::create(closeItem, shopButton, NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
 
-
 	//////////  循环更新  /////////
-	this->schedule(schedule_selector(Game::mapupdate), 1.0f/60);
+	this->schedule(schedule_selector(Game::mapupdate), 1.0f / 60);
 	this->schedule(schedule_selector(Game::TimeRecorder), 1.0f);
 	return true;
 }
@@ -130,9 +121,9 @@ void Game::setViewpointCenter(Vec2 position)
 	//需要调整的方位
 	Vec2 offset = pointA - pointB;
 	_tileMap->setPosition(offset);
-	listener->changeOffset(offset); 
+	listener->changeOffset(offset);
 	TimerLabel->setVisible(true);
-	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width -45, Director::getInstance()->getVisibleSize().height - 15);
+	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width - 50, Director::getInstance()->getVisibleSize().height - 15);
 
 }
 
@@ -142,11 +133,13 @@ void Game::mapupdate(float dt)
 	auto sprite = _tileMap->getChildByTag(200);
 	auto pos = sprite->getPosition();
 	setViewpointCenter(pos);
-	
+	if (IS_SHOP_OPEN) { listener->setPause(1); }
+	else { listener->setPause(0); }
 }
 
 void Game::TimeRecorder(float dt)
 {
+
 	this->removeChild(TimerLabel);
 	Time++;
 	int Minute = Time / 60;
@@ -172,4 +165,56 @@ void Game::TimeRecorder(float dt)
 	TimerLabel = Label::createWithSystemFont(str, "Arial", 30);
 	TimerLabel->setVisible(false);
 	this->addChild(TimerLabel, 3);
+
+}
+
+void Game::createShopCallBack(cocos2d::Ref* pSender) {
+	hero1->stopAllActions();
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	if (IS_SHOP_OPEN) { return; }
+	_shopLayer = Layer::create();
+	auto shopbg = Sprite::create("bg/shop.png");
+	shopbg->setPosition(Vec2(
+		visibleSize.width / 2,
+		visibleSize.height / 2
+	));
+	//closebutton
+	auto closeShopButton = MenuItemImage::create(
+		"/button/back.png",
+		"/button/back.png",
+		CC_CALLBACK_1(Game::closeShopCallBack, this)
+	);
+	closeShopButton->setPosition(shopbg->getPosition() + Vec2(250, -200));
+
+	//item
+	auto itemShoe = MenuItemImage::create(
+		"/item/shoe_normal.png",
+		"/item/shoe_selected.png",
+		CC_CALLBACK_1(Game::buyItemCallBack, this)
+	);
+	itemShoe->setPosition(shopbg->getPosition() + Vec2(-200, 0));
+	auto itemHat = MenuItemImage::create(
+		"item/hat_normal.png",
+		"item/hat_selected.png",
+		CC_CALLBACK_1(Game::buyItemCallBack, this)
+	);
+	itemHat->setPosition(shopbg->getPosition() + Vec2(0, 0));
+	auto itemShield = MenuItemImage::create(
+		"item/shield_normal.png",
+		"item/shield_selected.png",
+		CC_CALLBACK_1(Game::buyItemCallBack, this)
+	);
+	itemShield->setPosition(shopbg->getPosition() + Vec2(200, 0));
+
+
+	auto mn = Menu::create(closeShopButton, itemShoe, itemHat, itemShield, NULL);
+
+	mn->setPosition(Vec2::ZERO);
+	_shopLayer->addChild(mn, 2);
+	_shopLayer->addChild(shopbg);
+	this->addChild(_shopLayer, 5, 133);
+}
+
+void Game::closeShopCallBack(cocos2d::Ref* pSender) {
+	_shopLayer->removeFromParent();
 }

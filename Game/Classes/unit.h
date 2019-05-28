@@ -14,6 +14,8 @@ private:
 	int level, gold, damage,ASPD,moveSpeed,ammoSpeed;
 	bool canAttack;
 	vector<ammo*> ammosOnWay;
+	Animate* AnimateLeft;
+
 public:
 	enum class Direction :int
 	{

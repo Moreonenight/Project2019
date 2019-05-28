@@ -1,9 +1,8 @@
 #include "unit.h"
 
-
 void unit::stop()
 {
-	this->stopAllActions();
+	;
 }
 
 void unit::initial(unitdata *unitdata)
@@ -30,107 +29,98 @@ void unit::initial(unitdata *unitdata)
 
 void unit::moveDirectionByKey(unit::Direction direction, Vec2 e, unit* Hero)
 {
-	//Unitdata后续优化
-	/*Vector<SpriteFrame*> animFrames_up;
-	Vector<SpriteFrame*> animFrames_down;
-	Vector<SpriteFrame*> animFrames_left;
-	Vector<SpriteFrame*> animFrames_right;
-	animFrames_up.reserve(6);
-	animFrames_down.reserve(6);
-	animFrames_left.reserve(6);
-	animFrames_right.reserve(6);
-	animFrames_down.pushBack(SpriteFrame::create("Player/Player2_1.png", Rect(0, 0, 32, 32)));
-	animFrames_down.pushBack(SpriteFrame::create("Player/Player2_2.png", Rect(0, 0, 32, 32)));
-	animFrames_down.pushBack(SpriteFrame::create("Player/Player2_3.png", Rect(0, 0, 32, 32)));
-	animFrames_down.pushBack(SpriteFrame::create("Player/Player2_4.png", Rect(0, 0, 32, 32)));
-	animFrames_down.pushBack(SpriteFrame::create("Player/Player2_5.png", Rect(0, 0, 32, 32)));
-	animFrames_left.pushBack(SpriteFrame::create("Player/Player2_6.png", Rect(0, 0, 32, 32)));
-	animFrames_left.pushBack(SpriteFrame::create("Player/Player2_7.png", Rect(0, 0, 32, 32)));
-	animFrames_left.pushBack(SpriteFrame::create("Player/Player2_8.png", Rect(0, 0, 32, 32)));
-	animFrames_left.pushBack(SpriteFrame::create("Player/Player2_9.png", Rect(0, 0, 32, 32)));
-	animFrames_left.pushBack(SpriteFrame::create("Player/Player2_10.png", Rect(0, 0, 32, 32)));
-	animFrames_right.pushBack(SpriteFrame::create("Player/Player2_11.png", Rect(0, 0, 32, 32)));
-	animFrames_right.pushBack(SpriteFrame::create("Player/Player2_12.png", Rect(0, 0, 32, 32)));
-	animFrames_right.pushBack(SpriteFrame::create("Player/Player2_13.png", Rect(0, 0, 32, 32)));
-	animFrames_right.pushBack(SpriteFrame::create("Player/Player2_14.png", Rect(0, 0, 32, 32)));
-	animFrames_right.pushBack(SpriteFrame::create("Player/Player2_15.png", Rect(0, 0, 32, 32)));
-	animFrames_up.pushBack(SpriteFrame::create("Player/Player2_16.png", Rect(0, 0, 32, 32)));
-	animFrames_up.pushBack(SpriteFrame::create("Player/Player2_17.png", Rect(0, 0, 32, 32)));
-	animFrames_up.pushBack(SpriteFrame::create("Player/Player2_18.png", Rect(0, 0, 32, 32)));
-	animFrames_up.pushBack(SpriteFrame::create("Player/Player2_19.png", Rect(0, 0, 32, 32)));
-	animFrames_up.pushBack(SpriteFrame::create("Player/Player2_20.png", Rect(0, 0, 32, 32)));
-	
-
-
-	pAC->addAnimation(animation_down, "animation_down");
-
-	*/
-
-	//double Distancex = abs(Hero->getPositionX() - x);//x获取光标当前x位置
-	//double Distancey = abs(Hero->getPositionY() - y);//y获取光标当前y位置
-	//double Distance = sqrt(Distancex*Distancex + Distancey * Distancey);//计算人物与目标点距离
-	auto pAC = AnimationCache::getInstance();
-	Vec2 a = Hero->getPosition() - e; 
-	float Distance = a.length();
-
+	Vec2 a = Hero->getPosition() - e; //英雄当前位置与目标位置连成的向量
+	float Distance = a.length();//计算向量的长度即为将要行走的距离
 	double Speed = 200;//控制速度
-	Animation* up_walk= pAC->getAnimation(Hero->getid()+"up_walk");
-	Animation* down_walk = pAC->getAnimation(Hero->getid() + "down_walk");
-	Animation* left_walk = pAC->getAnimation(Hero->getid() + "left_walk");
-	Animation* right_walk = pAC->getAnimation(Hero->getid() + "right_walk");
-		
+	auto Singleton = AnimationCache::getInstance();//通过动画缓存获取单例对象
+	/*加载走动动画*/
+	Animation* up_walk= Singleton->getAnimation(Hero->getid()+"up_walk");
+	Animation* down_walk = Singleton->getAnimation(Hero->getid() + "down_walk");
+	Animation* left_walk = Singleton->getAnimation(Hero->getid() + "left_walk");
+	Animation* right_walk = Singleton->getAnimation(Hero->getid() + "right_walk");
 	Animate* animate_up = Animate::create(up_walk);
 	Animate* animate_down = Animate::create(down_walk);
 	Animate* animate_left = Animate::create(left_walk);
 	Animate* animate_right = Animate::create(right_walk);
-
-	auto _move = MoveTo::create(Distance / Speed, e);
-	Hero->stopAllActions();
-
+	
+	auto Moving = MoveTo::create(Distance / Speed, e);//定义移动函数，第一个参数为时间
+	/*定义移动完成的回调函数*/
+	auto CallBackLeft = CallFunc::create([Hero,Singleton]() {
+		Hero->stopAllActions();
+		Hero->runAction(Animate::create(Singleton->getAnimation(Hero->getid() + "left_stand")));
+	});
+	auto CallBackRight = CallFunc::create([Hero, Singleton]() {
+		Hero->stopAllActions();
+		Hero->runAction(Animate::create(Singleton->getAnimation(Hero->getid() + "right_stand")));
+	});
+	auto CallBackUp = CallFunc::create([Hero, Singleton]() {
+		Hero->stopAllActions();
+		Hero->runAction(Animate::create(Singleton->getAnimation(Hero->getid() + "up_stand")));
+	});
+	auto CallBackDown = CallFunc::create([Hero, Singleton]() {
+		Hero->stopAllActions();
+		Hero->runAction(Animate::create(Singleton->getAnimation(Hero->getid() + "down_stand")));
+	});
+	/*Action标签作如下规定：
+	向上跑动动画：1；向下跑动动画：2；向左跑动动画：3；向右跑动动画：4；
+	向上走动：5；向下走动：6；向左走动：7；向右走动：8；
+	向上战立：9；向下战立：10；向左战立：11；向右战立：12.
+	*/
 	switch (direction)
 	{
-	case unit::Direction::LEFT:
-		Hero->runAction(animate_left);
-		Hero->runAction(_move);
-		if(Hero->getPosition() == e)
-			Hero->runAction(Animate::create(pAC->getAnimation(Hero->getid() + "left_stand")));
-		//Hero->runAction(animate_left);
-	//	Hero->runAction(MoveTo::create(Distance / Speed, e));
-		break;
-	case unit::Direction::RIGHT:
-		Hero->runAction(animate_right);
-		Hero->runAction(_move);
-		if (Hero->getPosition() == e)
-			Hero->runAction(Animate::create(pAC->getAnimation(Hero->getid() + "right_stand")));
-		break;
 	case unit::Direction::UP:
-
-		Hero->runAction(animate_up);
-		Hero->runAction(_move);
-		if (Hero->getPosition() == e)
-			Hero->runAction(Animate::create(pAC->getAnimation(Hero->getid() + "up_stand")));
-		//Hero->runAction();
-
+		if (Hero->getActionByTag(1) == nullptr)
+		{
+			Hero->stopAllActions();
+			Hero->runAction(RepeatForever::create(animate_up))->setTag(1);
+		}
+		else
+		{
+			Hero->stopActionByTag(5);
+		}
+		Hero->runAction(Sequence::create(Moving, CallBackUp, nullptr))->setTag(5);
 		break;
 	case unit::Direction::DOWN:
-		Hero->runAction(animate_down);
-		Hero->runAction(_move);
-		if (Hero->getPosition() == e)
-			Hero->runAction(Animate::create(pAC->getAnimation(Hero->getid() + "down_stand")));
+		if (Hero->getActionByTag(2) == nullptr)
+		{
+			Hero->stopAllActions();
+			Hero->runAction(RepeatForever::create(animate_down))->setTag(2);
+		}
+		else
+		{
+			Hero->stopActionByTag(6);
+		}
+		Hero->runAction(Sequence::create(Moving, CallBackDown, nullptr))->setTag(6);
+		break;
+	case unit::Direction::LEFT:
+		if (Hero->getActionByTag(3) == nullptr)
+		{
+			Hero->stopAllActions();
+			Hero->runAction(RepeatForever::create(animate_left))->setTag(3);
+		}
+		else
+		{
+			Hero->stopActionByTag(7);
+		}
+		Hero->runAction(Sequence::create(Moving, CallBackLeft, nullptr))->setTag(7);
+		break;
+	case unit::Direction::RIGHT:
+		if (Hero->getActionByTag(4) == nullptr)
+		{
+			Hero->stopAllActions();
+			Hero->runAction(RepeatForever::create(animate_right))->setTag(4);
+		}
+		else
+		{
+			Hero->stopActionByTag(8);
+		}
+		Hero->runAction(Sequence::create(Moving, CallBackRight, nullptr))->setTag(8);
 		break;
 	case unit::Direction::NONE:
 		break;
 	default:
 		break;
 	}
-	//id需要后续处理
-	/*auto aniCache = AnimationCache::getInstance();
-	if (angle <= 45.0&&angle > -45.0) runAction(Animate::create(aniCache->getAnimation(id + "right_walk")));
-	else if (angle > 45.0&&angle <= 135.0) runAction(Animate::create(aniCache->getAnimation(id + "back_walk")));
-	else if (angle > 135.0 || angle <= -135.0) runAction(Animate::create(aniCache->getAnimation(id + "left_walk")));
-	else if (angle > -135.0&&angle <= -45.0)runAction(Animate::create(aniCache->getAnimation(id + "front_walk")));
-	runAction(MoveTo::create((((destination - getPosition()).length()) / Velocity.length()), destination));*/
-
 }
 Sprite* unit::attack(unit * target)//返回攻击产生的弹道对象指针，可以把它加到layer中去。
 {
