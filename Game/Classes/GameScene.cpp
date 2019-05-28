@@ -1,11 +1,7 @@
 #pragma once
-#include "HelloWorldScene.h"
-#include "SimpleAudioEngine.h"
+
+
 #include "GameScene.h"
-#include "MouseController.h"
-#include <stdlib.h>   
-#include <string.h>
-#include "unit.h"
 
 USING_NS_CC;
 #define IS_SHOP_OPEN this->getChildByTag(133)
@@ -29,7 +25,7 @@ bool Game::init()
 	//初始化地图
 	_tileMap = TMXTiledMap::create("map/map1.tmx");
 	addChild(_tileMap, 0, 100);
-	
+
 	//初始化碰撞层
 	//_collidable = _tileMap->getLayer("collidable");
 	//_collidable->setVisible(true);
@@ -40,27 +36,28 @@ bool Game::init()
 	float x = spawnPoint["x"].asFloat();
 	float y = spawnPoint["y"].asFloat();
 
-
 	//CCSpriteFrameCache::getInstance()->addSpriteFramesWithFile("HouYi/attack.plist");
-	//初始化单位属性
+   //初始化单位属性
 	auto hero1data = new(unitdata);
 	hero1data->initial(string("HouYi"));
 
+	auto act = Animate::create(AnimationCache::getInstance()->getAnimation("HouYidown_stand"));
 	hero1 = unit::create();
 	hero1->initial(hero1data);
-	//hero1->setSpriteFrame(CCSpriteFrameCache::getInstance()->getSpriteFrameByName("000020.png"));
-  //初始站姿设定过后会引起bug，不论是播放动画还是放一帧图片都会导致后边animation的bug
-	//似乎可以通过
-	//setSpriteFrame（AnimationCache-》getInstance（）-》getAnimation（“”）-》getSpriteFrames【0】））；
-	//解决
-	//初始化英雄
+	hero1->runAction(act);
 	hero1->setPosition(Vec2(x, y));
-	_tileMap->addChild(hero1, 2, 100);
+	_tileMap->addChild(hero1, 2, 200);
+
+
+	auto hero2 = unit::create();
+	hero2->initial(hero1data);
+	hero2->setSpriteFrame("000140.png");
 
 	//初始化监听器
 	listener = MouseController::create();
 	listener->initListener(hero1);
 	listener->changeOffset(Vec2::ZERO);
+
 	//初始化时间标签
 	TimerLabel = Label::createWithSystemFont("00:00", "Arial", 30);
 	this->addChild(TimerLabel, 3);
@@ -85,16 +82,17 @@ bool Game::init()
 		"/button/Money.png",
 		"/button/Money.png",
 		CC_CALLBACK_1(Game::createShopCallBack, this));
-	shopButton->setPosition(30, visibleSize.height / 2+25);
+
+	shopButton->setPosition(30, visibleSize.height / 2 + 25);
 	shopButton->setScale(0.8f);
 
 
-	auto menu = Menu::create(closeItem,shopButton, NULL);
+	auto menu = Menu::create(closeItem, shopButton, NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
 
 	//////////  循环更新  /////////
-	this->schedule(schedule_selector(Game::mapupdate), 1.0f/60);
+	this->schedule(schedule_selector(Game::mapupdate), 1.0f / 60);
 	this->schedule(schedule_selector(Game::TimeRecorder), 1.0f);
 	return true;
 }
@@ -126,7 +124,7 @@ void Game::setViewpointCenter(Vec2 position)
 	//需要调整的方位
 	Vec2 offset = pointA - pointB;
 	_tileMap->setPosition(offset);
-	listener->changeOffset(offset); 
+	listener->changeOffset(offset);
 	TimerLabel->setVisible(true);
 	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width-50, Director::getInstance()->getVisibleSize().height - 15);
 
@@ -144,7 +142,7 @@ void Game::mapupdate(float dt)
 
 void Game::TimeRecorder(float dt)
 {
-	
+
 	this->removeChild(TimerLabel);
 	Time++;
 	int Minute = Time / 60;
@@ -170,7 +168,6 @@ void Game::TimeRecorder(float dt)
 	TimerLabel = Label::createWithSystemFont(str, "Arial", 30);
 	TimerLabel->setVisible(false);
 	this->addChild(TimerLabel, 3);
-	
 }
 
 void Game::createShopCallBack(cocos2d::Ref* pSender) {
@@ -222,4 +219,5 @@ void Game::createShopCallBack(cocos2d::Ref* pSender) {
 
 void Game::closeShopCallBack(cocos2d::Ref* pSender) {
 	_shopLayer->removeFromParent();
+
 }
