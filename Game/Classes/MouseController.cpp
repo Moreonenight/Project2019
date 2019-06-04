@@ -14,49 +14,62 @@ MouseController::~MouseController()
 {
 }
 
+unit * MouseController::selectFromSprites(Vec2 pos)
+{
+	Vector<unit*>::iterator it;
+	unit* ans;
+	float minlength = 65535.0, curlength;
+	for (it = (*sprites).begin(); it < (*sprites).end(); it++) {
+		curlength = ((*it)->getPosition() - pos).length();
+		if (curlength < minlength) {
+			ans = *it;
+			minlength = curlength;
+		}
+	}
+	if (minlength <= 60.0)
+		return ans;
+	else return nullptr;
+}
+
 
 //初始化
-void MouseController::initListener(unit* Hero) {
+void MouseController::initListener(unit* Hero,Vector<unit*>* children) {
 	isPaused = 0;
+	
 	listener = EventListenerMouse::create();//建立鼠标监听器
-	listener->onMouseDown = [this,Hero](EventMouse *e) {//用lamda表达式更加简洁，中括号内可以捕获外部变量
-		//如何判断正在运动的方向？
-		if (isPaused) {
+	listener->onMouseDown = [this,Hero,children](EventMouse *e) {//用lamda表达式更加简洁，中括号内可以捕获外部变量
+		Vec2 endPos = e->getLocationInView() - offset;	
+		sprites = children;
+		auto a = selectFromSprites(endPos);
+		if (a != nullptr) { 
+			Hero->attackTo(a); 
 			return true;
 		}
-		Vec2 startPos=Hero->getPosition();
-		Vec2 endPos = e->getLocationInView()-offset; //Vec2(e->getCursorX(), e->getCursorY());
-
-		int Angle= CC_RADIANS_TO_DEGREES((endPos - startPos).getAngle());
-		if (Angle>-45&&Angle<45)		{
-			_unit->moveDirectionByKey(unit::Direction::RIGHT, endPos, Hero);//UP
+		else {
+			//如何判断正在运动的方向？
+			if (isPaused) {
+				return true;
+			}
+			Hero->moveDirectionByKey(Hero->getDir(Hero->getPosition(), endPos), endPos);
+			return true;
 		}
-		else if (Angle > -135 && Angle < -45)
-		{ 
-			_unit->moveDirectionByKey(unit::Direction::DOWN,endPos, Hero);//LE
-
-		}
-			
-		else if ((Angle > -180 && Angle < -135) || (Angle >135&& Angle < 180))
-		{
-
-			_unit->moveDirectionByKey(unit::Direction::LEFT, endPos, Hero);//DO
-		}
-		else
-		{
-			_unit->moveDirectionByKey(unit::Direction::UP, endPos, Hero);//R
-		}
-			
-
-		//hero->moveDirectionByKey(Hero::Direction::NONE, e->getCursorX(), e->getCursorY(), Hero);
-		return true;
 	};
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, Hero);
 	listener->onMouseMove = [this](EventMouse *e) 
 	{
 		return true;
 	};
-};
+}
+void MouseController::initListener(HouYi * houyi)
+{
+}
+void MouseController::initListener(YaSe * yase)
+{
+}
+void MouseController::initListener(DaJi * daji)
+{
+}
+;
 
 	
 

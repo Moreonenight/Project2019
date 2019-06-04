@@ -26,12 +26,7 @@ void HP::changeCur(int delta) {
 void HP::changeMax(int delta) {
 	int cdmax = max_HP + delta;
 	if (cdmax > 0) {
-		max_HP = cdmax;	for (int i = max_HP / 1000; i; i--) {
-			Hp1000 = Sprite::create("HP/1000hp.png");
-			if (Hp1000 == NULL) return;
-			Hp1000->setPosition(bloodrect->getPositionX() + i * (1000.0 / max_HP)*bloodrect->getContentSize().width,
-				bloodrect->getPositionY() + bloodrect->getContentSize().height - Hp1000->getContentSize().height);
-		}
+		max_HP = cdmax;
 	}
 	else CCLOG("MaxBloodError");
 	return;
@@ -43,44 +38,53 @@ void HP::changeVel(int delta) {
 	return;
 }
 
-void HP::initial(Vec2 position,Size size,bool enemyOrAlly)
+
+void HP::initial(HpinitialData data)
 {
+	max_HP = data.max;
+	cur_Hp = data.max;
+	velocity = data.velocity;
+	bool enemyOrAlly = data.enemyOrAlly;
+	Size size = Size(Vec2(200.0, 10.0)); //data.size;
+	Vec2 position = data.position;
+	this->setPosition(position);
 	//位置信息要重新修改，考虑实际图片像素问题
 	bloodrect = Sprite::create("HP/bloodrect.png");
-	bloodrect->setPosition(position.x, position.y + 10);
+	bloodrect->setPosition(position.x, position.y + 100);
 	setScaleX(((float)(size.width)) / (size.width));
 	setScaleY(10.0 / bloodrect->getContentSize().height);
-	this->addChild(bloodrect, 0);
+	data._map->addChild(bloodrect, 6);
 	
-	/*if (enemyOrAlly)
+	if (enemyOrAlly)
 		curBlood = Sprite::create("HP/RedBlood.png");
-	else*/
+	else
 		curBlood = Sprite::create("HP/GreenBlood.png");
 
 	curBlood->setPosition(bloodrect->getPositionX(), bloodrect->getPositionY());
 	curBlood->setScaleY((float)bloodrect->getContentSize().height / curBlood->getContentSize().height);
 	curBlood->setScaleX((float)bloodrect->getContentSize().width / curBlood->getContentSize().width);
-	this->addChild(curBlood, 1);
+	data._map->addChild(curBlood, 5);
 
-	for (int i = max_HP / 1000; i; i--) {
-		Hp1000 = Sprite::create("HP/1000hp.png");
-		if (Hp1000 == NULL) return;
-		Hp1000->setPosition(bloodrect->getPositionX() + (i * (1000.0 / max_HP) - 0.5) * bloodrect->getContentSize().width,
-			bloodrect->getPositionY() + bloodrect->getContentSize().height - Hp1000->getContentSize().height);
-
-		this->addChild(Hp1000, 2);
-	}
 	emptyBlood = Sprite::create("HP/emptyrect.png");
-	emptyBlood->setPosition(bloodrect->getPositionX() + bloodrect->getContentSize().width - emptyBlood->getContentSize().width
+	emptyBlood->setPosition(bloodrect->getPositionX() /*+ bloodrect->getContentSize().width - emptyBlood->getContentSize().width*/
 		, bloodrect->getPositionY());
 	emptyBlood->setScaleX(bloodrect->getContentSize().width/emptyBlood->getContentSize().width);
-	this->addChild(emptyBlood, 0);
+	emptyBlood->setScaleY(bloodrect->getContentSize().height / emptyBlood->getContentSize().height);
+
+	data._map->addChild(emptyBlood, 4);
+	this->scheduleUpdate();
 	return;
 }
 
-void HP::fresh() {
+void HP::update(float dt) {
 	changeCur(velocity);
 	curBlood->setScaleX(((float)cur_Hp/max_HP)*(bloodrect->getContentSize().width / curBlood->getContentSize().width));
+	/*auto a = curBlood->getContentSize();
+	auto b = bloodrect->getPosition();
+	auto c = bloodrect->getContentSize();
+	auto e = curBlood->getPosition();
+	auto d = Vec2(((float)cur_Hp / max_HP)*(bloodrect->getContentSize().width / curBlood->getContentSize().width)bloodrect->getContentSize().width, 0);
+	curBlood->setPosition(b - c + d);Vec2(((float)cur_Hp / max_HP)*(bloodrect->getContentSize().width / curBlood->getContentSize().width)*curBlood->getContentSize().width, curBlood->getContentSize().height));*/
 	return;
 }
 HP::~HP() {

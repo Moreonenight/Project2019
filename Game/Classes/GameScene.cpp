@@ -5,6 +5,7 @@
 
 USING_NS_CC;
 #define IS_SHOP_OPEN this->getChildByTag(133)
+
 Scene* Game::createScene()
 {
 	auto scene = Scene::create();
@@ -41,20 +42,37 @@ bool Game::init()
 	auto hero1data = new(unitdata);
 	hero1data->initial(string("HouYi"));
 
-	auto act = Animate::create(AnimationCache::getInstance()->getAnimation("HouYidown_stand"));
+	auto act = Animate::create(AnimationCache::getInstance()->getAnimation("HouYidown_attack"));
 	hero1 = unit::create();
-	hero1->initial(hero1data);
+	hero1->setPosition(Vec2(x, y));	
+	hero1->initial(hero1data,_tileMap);
 	hero1->runAction(act);
-	hero1->setPosition(Vec2(x, y));
+	addToMap(hero1, 2, 200);
 	hero1->setScale(0.6);
-	_tileMap->addChild(hero1, 2, 200);
+
 
 
 	//初始化监听器
 	listener = MouseController::create();
-	listener->initListener(hero1);
+	listener->initListener(hero1,getUnits());
 	listener->changeOffset(Vec2::ZERO);
-
+	//////////////////////////
+	/*
+	
+	auto hp2 = Sprite::create("/HP/bloodrect.png");
+	auto hp3 = Sprite::create("/HP/GreenBlood.png");
+	_tileMap->addChild(hp3, 10);
+	_tileMap->addChild(hp2, 9);
+	hp3->setScale(20);
+	hp2->setScale(10);
+	hp2->setPosition(x, y);
+	hp3->setPosition(x + 200, y + 250);*/
+	auto hero2 = unit::create();hero2->initial(hero1data,_tileMap);
+	hero2->setPosition(Vec2(x+600, y+500));	// + 200, y + 200)); 
+	addToMap(hero2, 2, 202);
+	hero2->setScale(0.5);
+	hero2->runAction(act);
+	/////////////////////////
 	//初始化时间标签
 	TimerLabel = Label::createWithSystemFont("00:00", "Arial", 30);
 	this->addChild(TimerLabel, 3);
@@ -122,6 +140,7 @@ void Game::setViewpointCenter(Vec2 position)
 	Vec2 offset = pointA - pointB;
 	_tileMap->setPosition(offset);
 	listener->changeOffset(offset);
+	///skillListener->changeOffset(offset);
 	TimerLabel->setVisible(true);
 	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width-50, Director::getInstance()->getVisibleSize().height - 15);
 
@@ -133,6 +152,7 @@ void Game::mapupdate(float dt)
 	//auto sprite = _tileMap->getChildByTag(200);
 	auto pos = hero1->getPosition();
 	setViewpointCenter(pos);
+
 	if (IS_SHOP_OPEN) { listener->setPause(1); }
 	else { listener->setPause(0); }
 
@@ -146,7 +166,6 @@ void Game::mapupdate(float dt)
 	else {
 		hero1->setBeforePos(pos);
 	}
-
 }
 
 void Game::TimeRecorder(float dt)
@@ -177,6 +196,7 @@ void Game::TimeRecorder(float dt)
 	TimerLabel = Label::createWithSystemFont(str, "Arial", 30);
 	TimerLabel->setVisible(false);
 	this->addChild(TimerLabel, 3);
+	return;
 }
 
 cocos2d::Vec2 Game::tileCoordFromPosition(cocos2d::Vec2 pos)
@@ -184,6 +204,16 @@ cocos2d::Vec2 Game::tileCoordFromPosition(cocos2d::Vec2 pos)
 	int x = pos.x / _tileMap->getTileSize().width;
 	int y = ((_tileMap->getMapSize().height*_tileMap->getTileSize().height) - pos.y) / _tileMap->getTileSize().height;
 	return Vec2(x, y);
+}
+
+Vector<unit*>* Game::getUnits()
+{
+	return &unitsOnMap;
+}
+
+void Game::addToMap(unit* unit, int zorder, int tag) {
+	unitsOnMap.pushBack(unit);
+	_tileMap->addChild(unit, zorder, tag);
 }
 
 void Game::createShopCallBack(cocos2d::Ref* pSender) {
@@ -237,3 +267,33 @@ void Game::closeShopCallBack(cocos2d::Ref* pSender) {
 	_shopLayer->removeFromParent();
 
 }
+
+void Game::createSkillLayerCallBack(cocos2d::Ref * pSender)
+{
+	auto visibleSize = Director::getInstance()->getVisibleSize();
+	if (this->getChildByTag(250)) { return; }
+	_skillLayer = Layer::create();
+	auto shopbg = Sprite::create("bg/shop.png");
+	shopbg->setPosition(Vec2(
+		visibleSize.width / 2,
+		visibleSize.height / 2
+	));
+	//closebutton
+	auto undoSkillButton = MenuItemImage::create(
+		"/button/back.png",
+		"/button/back.png",
+		CC_CALLBACK_1(Game::undoSkillCallBack, this)
+	);
+	undoSkillButton->setPosition(shopbg->getPosition() + Vec2(300, 250));
+	///skillListener = MouseController::create();
+	///skillListener->initListener(unit* hero1);
+	///skillListener->changeOffset(Vec2::ZERO);
+}
+
+void Game::undoSkillCallBack(cocos2d::Ref * pSender)
+{
+	_skillLayer->removeFromParent();
+}
+
+
+

@@ -42,18 +42,29 @@ bool unitdata::initial(string &datapath)
 	currentPath = datapath + "/integer.txt";
 	data = fopen(currentPath.c_str(), "r");
 	if (data == NULL) return false;
+	index = 0;
 	while (fgets(b, 100, data) != NULL) {
 		b[strlen(b) - 1] = '\0';
-		m2[buf] = atoi(b);
+		if (index){
+			m2[buf] = atoi(b); index--; buf.erase(); memset(b, '\0', 50);
+		}
+		else {
+			buf = b; index++; memset(b,'\0',50);
+		}
 	}
 	maxHp = m2["maxHp"];
 	maxMana = m2["maxMana"]; 
 	damage = m2["damage"]; 
 	ASPD = m2["ASPD"];/* epl = m2["epl"];*/ 
-	initLvl = m2["initLvl"];
+	//initLvl = m2["initLvl"];
 	initGold = m2["initGold"];
 	attackRange = m2["attackRange"]; 
 	ammoSpeed = m2["ammoSpeed"];
+	moveSpeed = m2["moveSpeed"];
+	defenceOfPhysical = m2["defenceOfPhysical"];
+	defenceOfMagic = m2["defenceOfMagic"];
+	recoverOfHp = m2["recoverOfHp"];
+	recoverOfMana = m2["recoverOfMana"];
 	fclose(data);
 	/*currentPath = datapath + "/float.txt";
 	data = fopen(currentPath.c_str(), "r");
