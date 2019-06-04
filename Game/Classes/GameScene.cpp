@@ -27,8 +27,8 @@ bool Game::init()
 	addChild(_tileMap, 0, 100);
 
 	//初始化碰撞层
-	//_collidable = _tileMap->getLayer("collidable");
-	//_collidable->setVisible(true);
+	_collidable = _tileMap->getLayer("collidable");
+	_collidable->setVisible(false);
 
 	//获取地图设置出生点
 	auto group = _tileMap->getObjectGroup("hero");
@@ -46,6 +46,7 @@ bool Game::init()
 	hero1->initial(hero1data);
 	hero1->runAction(act);
 	hero1->setPosition(Vec2(x, y));
+	hero1->setScale(0.6);
 	_tileMap->addChild(hero1, 2, 200);
 
 
@@ -129,11 +130,23 @@ void Game::setViewpointCenter(Vec2 position)
 void Game::mapupdate(float dt)
 {
 	//auto sprite = this->getChildByTag(200);
-	auto sprite = _tileMap->getChildByTag(200);
-	auto pos = sprite->getPosition();
+	//auto sprite = _tileMap->getChildByTag(200);
+	auto pos = hero1->getPosition();
 	setViewpointCenter(pos);
 	if (IS_SHOP_OPEN) { listener->setPause(1); }
 	else { listener->setPause(0); }
+
+	//check crash
+	Vec2 tileCoord = this->tileCoordFromPosition(pos);
+	int tileGid = _collidable->getTileGIDAt(tileCoord);
+	if (tileGid) {
+		hero1->stopAllActions();
+		hero1->setPosition(hero1->getBeforePos());
+	}
+	else {
+		hero1->setBeforePos(pos);
+	}
+
 }
 
 void Game::TimeRecorder(float dt)
@@ -164,6 +177,13 @@ void Game::TimeRecorder(float dt)
 	TimerLabel = Label::createWithSystemFont(str, "Arial", 30);
 	TimerLabel->setVisible(false);
 	this->addChild(TimerLabel, 3);
+}
+
+cocos2d::Vec2 Game::tileCoordFromPosition(cocos2d::Vec2 pos)
+{
+	int x = pos.x / _tileMap->getTileSize().width;
+	int y = ((_tileMap->getMapSize().height*_tileMap->getTileSize().height) - pos.y) / _tileMap->getTileSize().height;
+	return Vec2(x, y);
 }
 
 void Game::createShopCallBack(cocos2d::Ref* pSender) {

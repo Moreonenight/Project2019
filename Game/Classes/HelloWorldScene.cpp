@@ -1,7 +1,7 @@
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include "SettingScene.h"
-#include "GameScene.h"
+#include "GameModeScene.h"
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -91,6 +91,6 @@ void HelloWorld::menuSettingCallback(Ref *pSender)
 }
 
 void HelloWorld::menuStartCallback(cocos2d::Ref* pSender) {
-	auto GameScence = Game::createScene();
-	Director::getInstance()->pushScene(GameScence);
+	auto GameModeScene = GameMode::createScene();
+	Director::getInstance()->pushScene(GameModeScene);
 }

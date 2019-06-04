@@ -15,6 +15,9 @@ private:
 	bool canAttack;
 	vector<ammo*> ammosOnWay;
 
+	Animate* AnimateLeft;
+Vec2 beforePos;
+
 public:
 	enum class Direction :int
 	{
@@ -57,6 +60,13 @@ public:
 	}
 
 	inline int getDamage(int delta);
+
+	inline int getDamage() { return damage; }/*when want to know how much the unit damage is*/ 
+	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
+	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
+	inline void setBeforePos(Vec2 x) { beforePos = x; }
+	inline Vec2 getBeforePos() { return beforePos; }
+	int getAmmoSpeed() { return ammoSpeed; }
 
 
 

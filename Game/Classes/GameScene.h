@@ -34,13 +34,17 @@ public:
 	void setViewpointCenter(cocos2d::Vec2 position);
 	void mapupdate(float dt);
 	void TimeRecorder(float dt);
+
+
 	// a selector callback
 	void menuItem1Callback(cocos2d::Ref* pSender);
-
 	void createShopCallBack(cocos2d::Ref* pSender);
 	void closeShopCallBack(cocos2d::Ref* pSender);
 	void buyItemCallBack(cocos2d::Ref* pSender) {}
 	// implement the "static create()" method manually
+
+	//×ª»»ÏñËØµ½ÍßÆ¬×ø±ê
+	cocos2d::Vec2 tileCoordFromPosition(cocos2d::Vec2 pos);
 	CREATE_FUNC(Game);
 };
 
