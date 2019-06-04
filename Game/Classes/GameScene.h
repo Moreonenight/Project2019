@@ -10,10 +10,14 @@
 #include <stdlib.h>   
 #include <string.h>
 
+class HouYi;
+class YaSe;
+class DaJi;
 USING_NS_CC;
 class Game : public cocos2d::Layer
 {
 	MouseController *listener;
+	MouseController *skillListener;
 	cocos2d::TMXTiledMap* _tileMap;
 	cocos2d::Sprite* _player;
 	cocos2d::TMXLayer* _collidable;
@@ -21,9 +25,10 @@ class Game : public cocos2d::Layer
 	cocos2d::ui::Button* Moneybutton;
 	cocos2d::Sprite* Tower;
 	cocos2d::Layer* _shopLayer = nullptr;
+	cocos2d::Layer* _skillLayer = nullptr;
 	int Time;
 	unit*hero1;
-
+	Vector<unit*> unitsOnMap;
 
 
 public:
@@ -37,9 +42,15 @@ public:
 	// a selector callback
 	void menuItem1Callback(cocos2d::Ref* pSender);
 
+	void addToMap(unit* unit, int zorder, int Tag);
+	Vector<Node*> *selectFromMap(Vec2 pos);
+	Vector<unit*> *getUnits();
 	void createShopCallBack(cocos2d::Ref* pSender);
 	void closeShopCallBack(cocos2d::Ref* pSender);
 	void buyItemCallBack(cocos2d::Ref* pSender) {}
+	void createSkillLayerCallBack(cocos2d::Ref* pSender);
+	void undoSkillCallBack(cocos2d::Ref* pSender);
+
 	// implement the "static create()" method manually
 	CREATE_FUNC(Game);
 };

@@ -38,13 +38,18 @@ private:
 	//skill
 
 	//cocos2d::Animation animations[NUM_OF_KINDS][4];
-	int maxMana, maxHp, initGold, initLvl, damage/*damage of single attack*/
+	int maxMana,
+		maxHp,
+		initGold,
+		damage/*damage of single attack*/
 		, ASPD/*attack speed*/,
 		attackRange,
 		ammoSpeed,
-		initMoveSpeed,
+		moveSpeed,
 		defenceOfPhysical,
-		defenceOfMagic;
+		defenceOfMagic,
+		recoverOfHp,
+		recoverOfMana;
 	//cocos2d::Vec2 velocity;
 	//cocos2d::Vec2 position;
 	//cocos2d::Vec2 dpm;//defPhyicalMagic;
@@ -55,18 +60,30 @@ public:
 	inline int getMaxHp() {
 		return maxHp;
 	}
+	int getRecoverOfHp() {
+		return recoverOfHp;
+	}
 	inline int getDamage() {
 		return damage;
 	}
 	inline int getASPD() {
 		return ASPD;
 	}
+	int getMoveSpeed() {
+		return moveSpeed;
+	}
 	inline int getInitGold() {
 		return initGold;
 	}
-	inline int getInitLvl() {
-		return initLvl;
+	int getDefenceOfPhysical() {
+		return defenceOfPhysical;
 	}
+	int getDefenceOfMagic() {
+		return defenceOfMagic;
+	}
+	int getMaxMana() { return maxMana; }
+	int getRecoverOfMana() { return recoverOfMana; }
+
 	inline int getAmmoSpeed() {
 		return ammoSpeed;
 	}
@@ -77,7 +94,7 @@ public:
 								   *各文件都以图集信息在第一行，
 								   *按顺序每行一个帧的图片名称*/
 	inline string unitdata::getAmmoFrameName() {
-		return (this->unitid + "Ammo");
+		return (this->unitid + "ammo.png");
 	}
 	inline string getUnitid() {
 		return unitid;

@@ -24,6 +24,6 @@ public:
 	}
 	int getDamage() { return damage; }
 	void changeTargetPosition(Vec2 targtPosition);
-	void fresh();
+	void update(float dt);
 
 };
