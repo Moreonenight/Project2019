@@ -5,16 +5,29 @@ void unit::stop()
 	;
 }
 
+/*Action标签作如下规定:
+跑动动画：
+runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation
+		  (getid()+		"up_walk"		))))->
+		  setTag(1：向上；	2：向下；	3：向左；	4：向右；  );
+移动后站立动画：
+runAction(Sequence::create(
+		 MoveTo::create(Distance / moveSpeed, e),Animate::create(AnimationCache::getInstance()->getAnimation
+		 (getid() +    "up_stand"      ), nullptr))->
+		 setTag(	5：向上；向下：6；向左：7；向右：8；);
+站立动画：
+runAction(Animate::create(AnimationCache::getInstance()->getAnimation
+		(getid() +		"up_stand"		)))->
+		setTag(9：向上站立；10：向下站立；11：向左站立；12：向右站立.)
+攻击动画：
+	13: 向上攻击	14：向下攻击	15：向左攻击	16：向右攻击
+*/
+
 void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map)
 {
 	_map = Map;
 	data = unitdata;
-	
-	//addChild(hp, 3);
-	
 	id = data->getUnitid();
-	//id未确定
-	//Velocity = data->getVelocity();
 	moveSpeed = data->getMoveSpeed();
 	level = 1; 
 	damage = data->getDamage();
@@ -25,13 +38,9 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map)
 	canAttack = true;
 	hp = HP::create();
 	hp->initial(HP::HpinitialData(data->getMaxHp(), data->getRecoverOfHp(), getPosition(), getContentSize(), Map,0));
-	hp->changeVel(data->getRecoverOfHp());
 	_map->addChild(hp, 5);
 	scheduleUpdate();
-	
-	//dpm = data->getDpm();
-	//setPosition(data->getPosition());
-	//((Layer *)(this->getParent()->getParent()))->schedule(schedule_selector(unit::fresh));
+
 	///scheldue函数不能在initial未完成之前加入（尚未addchild）
 }
 
@@ -56,29 +65,25 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e)
 	/*定义移动完成的回调函数*/
 	auto CallBackLeft = CallFunc::create([this,Singleton]() {
 		stopAllActions();
-		runAction(Animate::create(Singleton->getAnimation(getid() + "left_stand")));
+		runAction(Animate::create(Singleton->getAnimation(getid() + "left_stand")))->setTag(11);
 	});
 	auto CallBackRight = CallFunc::create([this, Singleton]() {
 		stopAllActions();
-		runAction(Animate::create(Singleton->getAnimation(getid() + "right_stand")));
+		runAction(Animate::create(Singleton->getAnimation(getid() + "right_stand")))->setTag(12);
 	});
 	auto CallBackUp = CallFunc::create([this, Singleton]() {
 		stopAllActions();
-		runAction(Animate::create(Singleton->getAnimation(getid() + "up_stand")));
+		runAction(Animate::create(Singleton->getAnimation(getid() + "up_stand")))->setTag(9);
 	});
 	auto CallBackDown = CallFunc::create([this, Singleton]() {
 		stopAllActions();
-		runAction(Animate::create(Singleton->getAnimation(getid() + "down_stand")));
+		runAction(Animate::create(Singleton->getAnimation(getid() + "down_stand")))->setTag(10);
 	});
-	/*Action标签作如下规定：
-	向上跑动动画：1；向下跑动动画：2；向左跑动动画：3；向右跑动动画：4；
-	向上走动：5；向下走动：6；向左走动：7；向右走动：8；
-	向上战立：9；向下战立：10；向左战立：11；向右战立：12.
-	*/
+
 	switch (direction)
 	{
 	case unit::Direction::UP:
-		if (getActionByTag(1) != nullptr)
+		if (getActionByTag(1) == nullptr)
 		{
 			stopAllActions();
 			runAction(RepeatForever::create(animate_up))->setTag(1);
@@ -134,19 +139,49 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e)
 }
 Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到layer中去。
 {
+	auto pAC = AnimationCache::getInstance();
+	auto CallBackLeft = CallFunc::create([this, pAC]() {
+		stopAllActions();
+		runAction(Animate::create(pAC->getAnimation(getid() + "left_stand")))->setTag(11);
+	});
+	auto CallBackRight = CallFunc::create([this, pAC]() {
+		stopAllActions();
+		runAction(Animate::create(pAC->getAnimation(getid() + "right_stand")))->setTag(12);
+	});
+	auto CallBackUp = CallFunc::create([this, pAC]() {
+		stopAllActions();
+		runAction(Animate::create(pAC->getAnimation(getid() + "up_stand")))->setTag(9);
+	});
+	auto CallBackDown = CallFunc::create([this, pAC]() {
+		stopAllActions();
+		runAction(Animate::create(pAC->getAnimation(getid() + "down_stand")))->setTag(10);
+	});
 	if (canAttack == false) return NULL;
-	this->stopAllActions();
-	auto aniCache = AnimationCache::getInstance();
 	canAttack = false;
-	switch (getDir(getPosition(), target->getPosition())) {
-	case Direction::RIGHT:runAction(Animate::create(aniCache->getAnimation(id + "right_attack"))); break;
-	case Direction::LEFT:runAction(Animate::create(aniCache->getAnimation(id + "left_attack"))); break;
-	case Direction::UP:runAction(Animate::create(aniCache->getAnimation(id + "up_attack"))); break;
-	case Direction::DOWN:runAction(Animate::create(aniCache->getAnimation(id + "down_attack"))); break;
-	}
+	stopAllActions();
 	ammo *amo = ammo::create();
-	amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
+	switch (getDir(getPosition(), target->getPosition())) {
+
+	case Direction::
+	RIGHT:runAction(Animate::create(pAC->getAnimation(id + "right_attack")))->setTag(16);
+		amo->initial(this->getAmmoFrameName(), getPosition() + Vec2(0.0, 30.5), getDamage(), getAmmoSpeed()); break;
+	case Direction::
+	LEFT:runAction(Animate::create(pAC->getAnimation(id + "left_attack")))->setTag(15);
+		amo->initial(this->getAmmoFrameName(), getPosition() + Vec2(0.0, 30.5), getDamage(), getAmmoSpeed());
+		break;
+	case Direction::
+	UP:runAction(Animate::create(pAC->getAnimation(id + "up_attack")))->setTag(13);
+		amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
+		break;
+	case Direction::
+	DOWN:runAction(Animate::create(pAC->getAnimation(id + "down_attack")))->setTag(14);
+		amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
+		break;
+	}
+	
+
 	target->getAttacked(amo);
+	schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 0, 0);
 	_map->addChild(amo, 6);
 	//((Layer *)(this->getParent()->getParent()))->schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
 	return amo;

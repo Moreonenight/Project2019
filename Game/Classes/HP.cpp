@@ -59,8 +59,9 @@ void HP::initial(HpinitialData data)
 		curBlood = Sprite::create("HP/RedBlood.png");
 	else
 		curBlood = Sprite::create("HP/GreenBlood.png");
-
-	curBlood->setPosition(bloodrect->getPositionX(), bloodrect->getPositionY());
+	
+	curBlood->setPosition(bloodrect->getPositionX()-bloodrect->getContentSize().width/2,bloodrect->getPositionY());
+	curBlood->setAnchorPoint(Vec2(0.0,0.5));
 	curBlood->setScaleY((float)bloodrect->getContentSize().height / curBlood->getContentSize().height);
 	curBlood->setScaleX((float)bloodrect->getContentSize().width / curBlood->getContentSize().width);
 	data._map->addChild(curBlood, 5);
@@ -79,15 +80,8 @@ void HP::initial(HpinitialData data)
 void HP::update(float dt) {
 	changeCur(velocity);
 	curBlood->setScaleX(((float)cur_Hp/max_HP)*(bloodrect->getContentSize().width / curBlood->getContentSize().width));
-	/*auto a = curBlood->getContentSize();
-	auto b = bloodrect->getPosition();
-	auto c = bloodrect->getContentSize();
-	auto e = curBlood->getPosition();
-	auto d = Vec2(((float)cur_Hp / max_HP)*(bloodrect->getContentSize().width / curBlood->getContentSize().width)bloodrect->getContentSize().width, 0);
-	curBlood->setPosition(b - c + d);Vec2(((float)cur_Hp / max_HP)*(bloodrect->getContentSize().width / curBlood->getContentSize().width)*curBlood->getContentSize().width, curBlood->getContentSize().height));*/
 	return;
 }
 HP::~HP() {
-	//delete(this);
 }
 

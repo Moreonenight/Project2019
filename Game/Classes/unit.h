@@ -130,12 +130,12 @@ public:
 				else {
 					(*it)->changeTargetPosition(getPosition());
 				}
-		}
-		if (this->canAttack == 1)return;
-		else { this->canAttack = 1; return; }
+			}
+		
 	}
 	void freshASPD(float dt) {
-		;
+		if (this->canAttack == 1)return;
+		else { this->canAttack = 1; return; }
 	}
 };
 
