@@ -32,7 +32,8 @@ class Game : public cocos2d::Layer
 
 
 public:
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(string HeroName);
+	void initwithRole(string HeroName);
 
 	virtual bool init();
 

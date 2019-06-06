@@ -26,7 +26,7 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map)
 	hp = HP::create();
 	hp->initial(HP::HpinitialData(data->getMaxHp(), data->getRecoverOfHp(), getPosition(), getContentSize(), Map,0));
 	hp->changeVel(data->getRecoverOfHp());
-	_map->addChild(hp, 5);
+	this->addChild(hp, 5);
 	scheduleUpdate();
 	
 	//dpm = data->getDpm();
@@ -56,29 +56,29 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e)
 	/*定义移动完成的回调函数*/
 	auto CallBackLeft = CallFunc::create([this,Singleton]() {
 		stopAllActions();
-		runAction(Animate::create(Singleton->getAnimation(getid() + "left_stand")));
+		runAction(Animate::create(Singleton->getAnimation(getid() + "left_stand")))->setTag(11);
 	});
 	auto CallBackRight = CallFunc::create([this, Singleton]() {
 		stopAllActions();
-		runAction(Animate::create(Singleton->getAnimation(getid() + "right_stand")));
+		runAction(Animate::create(Singleton->getAnimation(getid() + "right_stand")))->setTag(12);
 	});
 	auto CallBackUp = CallFunc::create([this, Singleton]() {
 		stopAllActions();
-		runAction(Animate::create(Singleton->getAnimation(getid() + "up_stand")));
+		runAction(Animate::create(Singleton->getAnimation(getid() + "up_stand")))->setTag(8);
 	});
 	auto CallBackDown = CallFunc::create([this, Singleton]() {
 		stopAllActions();
-		runAction(Animate::create(Singleton->getAnimation(getid() + "down_stand")));
+		runAction(Animate::create(Singleton->getAnimation(getid() + "down_stand")))->setTag(9);
 	});
 	/*Action标签作如下规定：
 	向上跑动动画：1；向下跑动动画：2；向左跑动动画：3；向右跑动动画：4；
 	向上走动：5；向下走动：6；向左走动：7；向右走动：8；
-	向上战立：9；向下战立：10；向左战立：11；向右战立：12.
+	向上站立：9；向下站立：10；向左站立：11；向右站立：12.
 	*/
 	switch (direction)
 	{
 	case unit::Direction::UP:
-		if (getActionByTag(1) != nullptr)
+		if (getActionByTag(1) == nullptr)
 		{
 			stopAllActions();
 			runAction(RepeatForever::create(animate_up))->setTag(1);
@@ -145,14 +145,14 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	case Direction::DOWN:runAction(Animate::create(aniCache->getAnimation(id + "down_attack"))); break;
 	}
 	ammo *amo = ammo::create();
-	amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
-	target->getAttacked(amo);
-	_map->addChild(amo, 6);
+	amo->initial(this->getAmmoFrameName(), this->getid(),getPosition(), getDamage(), getAmmoSpeed());
+	if (target->getid() != amo->getid()) {
+		target->getAttacked(amo);
+		_map->addChild(amo, 6);
+	}
 	//((Layer *)(this->getParent()->getParent()))->schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
 	return amo;
 }
-
-
 void unit::attackTo(unit * target)
 {
 	Vec2 destination = target->getPosition();

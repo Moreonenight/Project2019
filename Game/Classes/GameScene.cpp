@@ -6,20 +6,17 @@
 USING_NS_CC;
 #define IS_SHOP_OPEN this->getChildByTag(133)
 
-Scene* Game::createScene()
+Scene* Game::createScene(string HeroName)
 {
 	auto scene = Scene::create();
 	auto layer = Game::create();
+	layer->initwithRole(HeroName);
 	scene->addChild(layer);
 	return scene;
 }
 
-bool Game::init()
+void Game::initwithRole(string HeroName)
 {
-	if (!Layer::init())
-	{
-		return false;
-	}
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	Time = 0;
@@ -40,25 +37,56 @@ bool Game::init()
 	//CCSpriteFrameCache::getInstance()->addSpriteFramesWithFile("HouYi/attack.plist");
    //初始化单位属性
 	auto hero1data = new(unitdata);
-	hero1data->initial(string("HouYi"));
+	hero1data->initial(HeroName);
+	
 
-	auto act = Animate::create(AnimationCache::getInstance()->getAnimation("HouYidown_attack"));
+	auto act = Animate::create(AnimationCache::getInstance()->getAnimation(HeroName+"up_stand"));
 	hero1 = unit::create();
-	hero1->setPosition(Vec2(x, y));	
-	hero1->initial(hero1data,_tileMap);
-	hero1->runAction(act);
-	addToMap(hero1, 2, 200);
+	hero1->setPosition(Vec2(x, y));
+	hero1->initial(hero1data, _tileMap);
 	hero1->setScale(0.6);
+	addToMap(hero1, 0, 200);
+	hero1->runAction(act);
 
+
+	//初始化技能图标
+
+	auto Skill1Button = CCSprite::create("Skills/" + HeroName + "_Sk1.png");
+	auto Skill2Button = CCSprite::create("Skills/" + HeroName + "_Sk2.png");
+	auto Skill3Button = CCSprite::create("Skills/" + HeroName + "_Sk3.png");
+	auto Skill4Button = CCSprite::create("Skills/" + HeroName + "_Sk4.png");
+	Skill1Button->setScale(0.7f); Skill2Button->setScale(0.7f); Skill3Button->setScale(0.7f); Skill4Button->setScale(0.7f);
+	Skill1Button->setPosition(330, Skill1Button->getContentSize().height / 2);
+	Skill2Button->setPosition(430, Skill2Button->getContentSize().height / 2);
+	Skill3Button->setPosition(530, Skill3Button->getContentSize().height / 2);
+	Skill4Button->setPosition(630, Skill4Button->getContentSize().height / 2);
+
+
+	this->addChild(Skill1Button);this->addChild(Skill2Button);this->addChild(Skill3Button); this->addChild(Skill4Button);
+
+
+	/*auto fileUtiles = FileUtils::getInstance();
+	auto fragmentGrayFullPath = fileUtiles->fullPathForFilename("gray.fsh");
+	auto fragSource = fileUtiles->getStringFromFile(fragmentGrayFullPath);
+	auto glprogram = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource.c_str());
+	auto grayGLProgrameState = GLProgramState::getOrCreateWithGLProgram(glprogram);
+	grayGLProgrameState->retain();
+
+	auto fragmentColorFullPath = fileUtiles->fullPathForFilename("color.fsh");
+	auto fragColorSource = fileUtiles->getStringFromFile(fragmentColorFullPath);
+	auto Colorglprogram = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource.c_str());
+	auto ColorGLProgrameState = GLProgramState::getOrCreateWithGLProgram(glprogram);
+	ColorGLProgrameState->retain();*/
+    //Skill1Button->setGLProgramState(ColorGLProgrameState);
 
 
 	//初始化监听器
 	listener = MouseController::create();
-	listener->initListener(hero1,getUnits());
+	listener->initListener(hero1, getUnits());
 	listener->changeOffset(Vec2::ZERO);
 	//////////////////////////
 	/*
-	
+
 	auto hp2 = Sprite::create("/HP/bloodrect.png");
 	auto hp3 = Sprite::create("/HP/GreenBlood.png");
 	_tileMap->addChild(hp3, 10);
@@ -67,8 +95,10 @@ bool Game::init()
 	hp2->setScale(10);
 	hp2->setPosition(x, y);
 	hp3->setPosition(x + 200, y + 250);*/
-	auto hero2 = unit::create();hero2->initial(hero1data,_tileMap);
-	hero2->setPosition(Vec2(x+600, y+500));	// + 200, y + 200)); 
+
+	auto hero2 = unit::create(); hero2->initial(hero1data, _tileMap);
+	hero2->setPosition(Vec2(x + 600, y + 500));	// + 200, y + 200)); 
+	hero2->changeId("ta");
 	addToMap(hero2, 2, 202);
 	hero2->setScale(0.5);
 	hero2->runAction(act);
@@ -85,8 +115,8 @@ bool Game::init()
 		CC_CALLBACK_1(Game::menuItem1Callback, this));
 
 	closeItem->setPosition(Vec2(
-		origin.x + visibleSize.width - closeItem->getContentSize().width / 2,
-		origin.y + closeItem->getContentSize().height / 2
+		origin.x + closeItem->getContentSize().width / 2,
+		origin.y + visibleSize.height-closeItem->getContentSize().height/2
 	));
 
 
@@ -109,12 +139,24 @@ bool Game::init()
 	//////////  循环更新  /////////
 	this->schedule(schedule_selector(Game::mapupdate), 1.0f / 60);
 	this->schedule(schedule_selector(Game::TimeRecorder), 1.0f);
+
+}
+
+
+bool Game::init()
+{
+	if (!Layer::init())
+	{
+		return false;
+	}
 	return true;
 }
+
 
 //返回主页面
 void Game::menuItem1Callback(cocos2d::Ref* pSender)
 {
+	SpriteFrameCache::getInstance()->removeSpriteFrames();
 	unscheduleAllSelectors();
 	Director::getInstance()->popScene();
 }
@@ -142,7 +184,9 @@ void Game::setViewpointCenter(Vec2 position)
 	listener->changeOffset(offset);
 	///skillListener->changeOffset(offset);
 	TimerLabel->setVisible(true);
-	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width-50, Director::getInstance()->getVisibleSize().height - 15);
+	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width - 50, Director::getInstance()->getVisibleSize().height - 15);
+
+
 
 }
 

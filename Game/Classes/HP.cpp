@@ -50,9 +50,10 @@ void HP::initial(HpinitialData data)
 	this->setPosition(position);
 	//位置信息要重新修改，考虑实际图片像素问题
 	bloodrect = Sprite::create("HP/bloodrect.png");
-	bloodrect->setPosition(position.x, position.y + 100);
+	bloodrect->setPosition(position.x-100, position.y + 100);
 	setScaleX(((float)(size.width)) / (size.width));
 	setScaleY(10.0 / bloodrect->getContentSize().height);
+	bloodrect->setAnchorPoint(Vec2::ZERO);
 	data._map->addChild(bloodrect, 6);
 	
 	if (enemyOrAlly)
@@ -63,6 +64,7 @@ void HP::initial(HpinitialData data)
 	curBlood->setPosition(bloodrect->getPositionX(), bloodrect->getPositionY());
 	curBlood->setScaleY((float)bloodrect->getContentSize().height / curBlood->getContentSize().height);
 	curBlood->setScaleX((float)bloodrect->getContentSize().width / curBlood->getContentSize().width);
+	curBlood->setAnchorPoint(Vec2::ZERO);
 	data._map->addChild(curBlood, 5);
 
 	emptyBlood = Sprite::create("HP/emptyrect.png");
@@ -70,7 +72,7 @@ void HP::initial(HpinitialData data)
 		, bloodrect->getPositionY());
 	emptyBlood->setScaleX(bloodrect->getContentSize().width/emptyBlood->getContentSize().width);
 	emptyBlood->setScaleY(bloodrect->getContentSize().height / emptyBlood->getContentSize().height);
-
+	emptyBlood->setAnchorPoint(Vec2::ZERO);
 	data._map->addChild(emptyBlood, 4);
 	this->scheduleUpdate();
 	return;

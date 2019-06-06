@@ -1,9 +1,10 @@
 #include "ammo.h"
 
-void ammo::initial(std::string fileName,Vec2 currentPosition,int damge,int ammSpeed)
+void ammo::initial(std::string fileName,std::string Id,Vec2 currentPosition,int damge,int ammSpeed)
 {
 	this->setPosition(currentPosition);
 	damage = damge; ammoSpeed = ammSpeed;
+	id = Id;
 	Frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(fileName);
 	setSpriteFrame(Frame);
 	auto a = getContentSize();
