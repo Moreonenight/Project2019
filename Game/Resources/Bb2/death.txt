@@ -1,4 +1,4 @@
-MyRemote/death.plist
+Bb2/death.plist
 32.png
 33.png
 34.png

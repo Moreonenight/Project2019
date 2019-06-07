@@ -1,4 +1,4 @@
-EnemeyClose/death.plist
+Br1/death.plist
 4013-66.png
 4013-68.png
 4013-70.png

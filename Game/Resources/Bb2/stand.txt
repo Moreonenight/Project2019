@@ -1,4 +1,4 @@
-MyRemote/stand.plist
+Bb2/stand.plist
 0001-64.png
 0001-66.png
 0001-68.png

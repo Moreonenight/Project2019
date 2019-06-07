@@ -1,4 +1,4 @@
-MyClose/death.plist
+Bb1/death.plist
 4284-66.png
 4284-68.png
 4284-70.png

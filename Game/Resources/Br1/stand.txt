@@ -1,4 +1,4 @@
-EnemeyClose/stand.plist
+Br1/stand.plist
 3076-33.png
 3076-34.png
 3076-35.png

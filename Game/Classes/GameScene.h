@@ -5,14 +5,15 @@
 #include "MouseController.h"
 #include "ui/CocosGUI.h"
 #include "Soldier.h"
+#include "HouYi.h"
+#include "DaJi.h"
+#include "Yase.h"
+#include "Tower.h"
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include <stdlib.h>   
 #include <string.h>
 
-class HouYi;
-class YaSe;
-class DaJi;
 USING_NS_CC;
 class Game : public cocos2d::Layer
 {
@@ -23,15 +24,17 @@ class Game : public cocos2d::Layer
 	cocos2d::TMXLayer* _collidable;
 	cocos2d::Label* TimerLabel;
 	cocos2d::ui::Button* Moneybutton;
-	cocos2d::Sprite* Tower;
 	cocos2d::Layer* _shopLayer = nullptr;
 	cocos2d::Layer* _skillLayer = nullptr;
 	int Time;
-	unit*hero1;
+	unit* hero1;
 	Vector<unit*> unitsOnMap;
-	Vector<unit*> MySoldier;
+	Vector<unit*> MyUnit;
+	Vector<unit*> EnemeyUnit;
 	Vector<Soldier*> EnemeySoldier;
-
+	Vector<Soldier*> MySoldier;
+	Vector<Tower*> MyTower;
+	Vector<Tower*> EnemeyTower;
 public:
 	static cocos2d::Scene* createScene(string HeroName);
 	void initwithRole(string HeroName);
@@ -41,7 +44,7 @@ public:
 	void setViewpointCenter(cocos2d::Vec2 position);
 	void mapupdate(float dt);
 	void TimeRecorder(float dt);
-
+	void InitSkillButton(string HeroName);
 
 	// a selector callback
 	void menuItem1Callback(cocos2d::Ref* pSender);

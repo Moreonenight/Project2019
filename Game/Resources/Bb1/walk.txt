@@ -1,4 +1,4 @@
-MyClose/walk.plist
+Bb1/walk.plist
 1519-66.png
 1519-68.png
 1519-70.png

@@ -1,4 +1,4 @@
-MyClose/attack.plist
+Bb1/attack.plist
 5876-66.png
 5876-68.png
 5876-70.png

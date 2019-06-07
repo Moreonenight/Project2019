@@ -1,4 +1,4 @@
-EnemeyRemote/stand.plist
+Br2/stand.plist
 5392-65.png
 5392-67.png
 5392-69.png

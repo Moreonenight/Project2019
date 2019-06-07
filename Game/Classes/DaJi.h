@@ -1,7 +1,7 @@
 #pragma once
 #include "unit.h"
 
-class HouYi:public unit
+class DaJi:public unit
 {
 private:
 	unit* houyi;
@@ -48,5 +48,5 @@ public:
 		if (this->canAttack == 1)return;
 		else { this->canAttack = 1; return; }
 	}
-	CREATE_FUNC(HouYi);
+	CREATE_FUNC(DaJi);
 };

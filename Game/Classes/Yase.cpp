@@ -1,6 +1,6 @@
-#include "HouYi.h"
+#include "YaSe.h"
 
-void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map,Vec2 bornpoint)
+void YaSe::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint)
 {
 	auto hero1data = new(unitdata);
 	hero1data->initial(HeroName);
@@ -12,23 +12,23 @@ void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map,Vec2 bornpoi
 	scheduleUpdate();
 }
 
-void HouYi::sk1End(float dt) {
+void YaSe::sk1End(float dt) {
 	houyi->changeDamage((-1)*sk1Damage[skill_1Level]);
 	return;
 }
 
-void HouYi::useskill_1()
+void YaSe::useskill_1()
 {
 	houyi->changeDamage(sk1Damage[skill_1Level]);
 	//Scheduler::schedule(schedule_selector(HouYi::sk1End), this, 5.0, 0, 0, 0);
 }
 
 
-void HouYi::useSkill_2(Vec2 pos)
+void YaSe::useSkill_2(Vec2 pos)
 {
 
 }
 
-void HouYi::useAlti()
+void YaSe::useAlti()
 {
 }

@@ -1,4 +1,4 @@
-MyArtillery/walk.plist
+Bb3/walk.plist
 2562-66.png
 2562-68.png
 2562-70.png

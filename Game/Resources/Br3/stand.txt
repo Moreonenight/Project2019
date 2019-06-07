@@ -1,4 +1,4 @@
-EnemeyArtillery/stand.plist
+Br3/stand.plist
 167-66.png
 167-68.png
 167-70.png

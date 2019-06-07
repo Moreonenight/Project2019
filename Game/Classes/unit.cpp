@@ -178,15 +178,19 @@ void unit::attackTo(Vec2 destination)
 
 void unit::die()
 {
-	auto actdeath = Animate::create(AnimationCache::getInstance()->getAnimation(getid() + "up_death"));
+	
+	auto actdeath = Animate::create(AnimationCache::getInstance()->getAnimation(getid() + "down_death"));
 	
 	auto CallBackDeath = CallFunc::create([this]() {
-		stopAllActions();
+		
 		this->setPosition(-200, -200);
 		this->getHp()->setPosition(-200, -200);
 	});
 	
-	runAction(Sequence::create(actdeath, CallBackDeath, nullptr));
+
+	runAction(actdeath);
+
+	//runAction(Sequence::create(actdeath, CallBackDeath, nullptr));
 	
 	
 

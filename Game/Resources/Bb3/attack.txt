@@ -1,4 +1,4 @@
-MyArtillery/attack.plist
+Bb3/attack.plist
 669-37.png
 669-38.png
 669-39.png

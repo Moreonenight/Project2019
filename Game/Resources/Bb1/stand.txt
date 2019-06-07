@@ -1,4 +1,4 @@
-MyClose/stand.plist
+Bb1/stand.plist
 2439-33.png
 2439-34.png
 2439-35.png

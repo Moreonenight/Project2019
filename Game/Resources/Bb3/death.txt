@@ -1,4 +1,4 @@
-MyArtillery/death.plist
+Bb3/death.plist
 2836-61.png
 2836-63.png
 2836-65.png

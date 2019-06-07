@@ -1,4 +1,4 @@
-MyArtillery/stand.plist
+Bb3/stand.plist
 1748-66.png
 1748-68.png
 1748-70.png

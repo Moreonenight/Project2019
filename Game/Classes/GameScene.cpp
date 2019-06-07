@@ -1,6 +1,4 @@
 #pragma once
-
-
 #include "GameScene.h"
 
 USING_NS_CC;
@@ -34,52 +32,31 @@ void Game::initwithRole(string HeroName)
 	float x = spawnPoint["x"].asFloat();
 	float y = spawnPoint["y"].asFloat();
 
-	//CCSpriteFrameCache::getInstance()->addSpriteFramesWithFile("HouYi/attack.plist");
-   //初始化单位属性
-	auto hero1data = new(unitdata);
-	hero1data->initial(HeroName);
-	
+    //初始化单位属性
+	if (HeroName == string("HbHouYi"))
+	{
+		hero1 = HouYi::create();
+		((HouYi*) hero1)->initwithRole(HeroName, _tileMap,Vec2(x,y));
+		addToMap(hero1, 0, 200);
+		MyUnit.pushBack(hero1);
+	}
+	else if (HeroName == string("HbDaJi"))
+	{
+		hero1 = DaJi::create();
+		((DaJi*)hero1)->initwithRole(HeroName, _tileMap, Vec2(x, y));
+		addToMap(hero1, 0, 200);
+		MyUnit.pushBack(hero1);
 
-	auto act1 = Animate::create(AnimationCache::getInstance()->getAnimation(HeroName+"up_stand"));
-	hero1 = unit::create();
-	hero1->setPosition(Vec2(x, y));
-	hero1->initial(hero1data, _tileMap);
-	hero1->setScale(0.6);
-	addToMap(hero1, 0, 200);
-	MySoldier.pushBack(hero1);
-	hero1->runAction(act1);
-
-
+	}
+	else if (HeroName == string("HbYaSe"))
+	{
+		hero1 = DaJi::create();
+		((YaSe*)hero1)->initwithRole(HeroName, _tileMap, Vec2(x, y));
+		addToMap(hero1, 0, 200);
+		MyUnit.pushBack(hero1);
+	}
 	//初始化技能图标
-
-	auto Skill1Button = CCSprite::create("Skills/" + HeroName + "_Sk1.png");
-	auto Skill2Button = CCSprite::create("Skills/" + HeroName + "_Sk2.png");
-	auto Skill3Button = CCSprite::create("Skills/" + HeroName + "_Sk3.png");
-	auto Skill4Button = CCSprite::create("Skills/" + HeroName + "_Sk4.png");
-	Skill1Button->setScale(0.7f); Skill2Button->setScale(0.7f); Skill3Button->setScale(0.7f); Skill4Button->setScale(0.7f);
-	Skill1Button->setPosition(330, Skill1Button->getContentSize().height / 2);
-	Skill2Button->setPosition(430, Skill2Button->getContentSize().height / 2);
-	Skill3Button->setPosition(530, Skill3Button->getContentSize().height / 2);
-	Skill4Button->setPosition(630, Skill4Button->getContentSize().height / 2);
-
-
-	this->addChild(Skill1Button);this->addChild(Skill2Button);this->addChild(Skill3Button); this->addChild(Skill4Button);
-
-
-	/*auto fileUtiles = FileUtils::getInstance();
-	auto fragmentGrayFullPath = fileUtiles->fullPathForFilename("gray.fsh");
-	auto fragSource = fileUtiles->getStringFromFile(fragmentGrayFullPath);
-	auto glprogram = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource.c_str());
-	auto grayGLProgrameState = GLProgramState::getOrCreateWithGLProgram(glprogram);
-	grayGLProgrameState->retain();
-
-	auto fragmentColorFullPath = fileUtiles->fullPathForFilename("color.fsh");
-	auto fragColorSource = fileUtiles->getStringFromFile(fragmentColorFullPath);
-	auto Colorglprogram = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource.c_str());
-	auto ColorGLProgrameState = GLProgramState::getOrCreateWithGLProgram(glprogram);
-	ColorGLProgrameState->retain();*/
-    //Skill1Button->setGLProgramState(ColorGLProgrameState);
-
+	InitSkillButton(HeroName);
 
 	//初始化监听器
 	listener = MouseController::create();
@@ -96,16 +73,38 @@ void Game::initwithRole(string HeroName)
 	hp2->setScale(10);
 	hp2->setPosition(x, y);
 	hp3->setPosition(x + 200, y + 250);*/
+
+	/////////////////////////
+
+
+	/*
 	auto hero2data = new(unitdata);
 	hero2data->initial(string("HrHouYi"));
-	
 	auto act2 = Animate::create(AnimationCache::getInstance()->getAnimation("HrHouYiup_stand"));
-	auto hero2 = unit::create(); hero2->initial(hero2data, _tileMap);
-	hero2->setPosition(Vec2(x + 600, y + 500));	// + 200, y + 200)); 
+	auto hero2 = HouYi::create(); hero2->initwithRole(hero2data, _tileMap);
+	hero2->setPosition(Vec2(x + 600, y + 500));	// + 200, y + 200));
 	addToMap(hero2, 2, 202);
 	hero2->setScale(0.5);
-	hero2->runAction(act2);
-	/////////////////////////
+	hero2->runAction(act2);*/
+
+	//初始化技能图标
+
+
+	/*auto fileUtiles = FileUtils::getInstance();
+	auto fragmentGrayFullPath = fileUtiles->fullPathForFilename("gray.fsh");
+	auto fragSource = fileUtiles->getStringFromFile(fragmentGrayFullPath);
+	auto glprogram = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource.c_str());
+	auto grayGLProgrameState = GLProgramState::getOrCreateWithGLProgram(glprogram);
+	grayGLProgrameState->retain();
+
+	auto fragmentColorFullPath = fileUtiles->fullPathForFilename("color.fsh");
+	auto fragColorSource = fileUtiles->getStringFromFile(fragmentColorFullPath);
+	auto Colorglprogram = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource.c_str());
+	auto ColorGLProgrameState = GLProgramState::getOrCreateWithGLProgram(glprogram);
+	ColorGLProgrameState->retain();*/
+	//Skill1Button->setGLProgramState(ColorGLProgrameState);
+
+
 	//初始化时间标签
 	TimerLabel = Label::createWithSystemFont("00:00", "Arial", 30);
 	this->addChild(TimerLabel, 3);
@@ -154,7 +153,19 @@ bool Game::init()
 	}
 	return true;
 }
-
+void Game::InitSkillButton(string HeroName)
+{
+	auto Skill1Button = CCSprite::create("Skills/" + HeroName + "_Sk1.png");
+	auto Skill2Button = CCSprite::create("Skills/" + HeroName + "_Sk2.png");
+	auto Skill3Button = CCSprite::create("Skills/" + HeroName + "_Sk3.png");
+	auto Skill4Button = CCSprite::create("Skills/" + HeroName + "_Sk4.png");
+	Skill1Button->setScale(0.7f); Skill2Button->setScale(0.7f); Skill3Button->setScale(0.7f); Skill4Button->setScale(0.7f);
+	Skill1Button->setPosition(330, Skill1Button->getContentSize().height / 2);
+	Skill2Button->setPosition(430, Skill2Button->getContentSize().height / 2);
+	Skill3Button->setPosition(530, Skill3Button->getContentSize().height / 2);
+	Skill4Button->setPosition(630, Skill4Button->getContentSize().height / 2);
+	this->addChild(Skill1Button); this->addChild(Skill2Button); this->addChild(Skill3Button); this->addChild(Skill4Button);
+}
 
 //返回主页面
 void Game::menuItem1Callback(cocos2d::Ref* pSender)
@@ -188,9 +199,6 @@ void Game::setViewpointCenter(Vec2 position)
 	///skillListener->changeOffset(offset);
 	TimerLabel->setVisible(true);
 	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width - 50, Director::getInstance()->getVisibleSize().height - 15);
-
-
-
 }
 
 void Game::mapupdate(float dt)
@@ -218,7 +226,7 @@ void Game::mapupdate(float dt)
 	{
 		for (auto it = EnemeySoldier.begin(); it != EnemeySoldier.end(); it++)
 		{
-			for (auto it2 = MySoldier.begin(); it2 != MySoldier.end(); it2++)
+			for (auto it2 = MyUnit.begin(); it2 != MyUnit.end(); it2++)
 			{
 				auto ID = (*it2)->getid();
 				/*if (ID[0] == 'T')
@@ -317,6 +325,7 @@ void Game::TimeRecorder(float dt)
 		
 		//MySoldier.pushBack(Br1);
 		MySoldier.pushBack(Bb2); MySoldier.pushBack(Bb3);
+		MyUnit.pushBack(Bb2); MyUnit.pushBack(Bb3);
 		//EnemeySoldier.pushBack(Bb1);
 		EnemeySoldier.pushBack(Br2); EnemeySoldier.pushBack(Br3);
 		Br2->Soldierinit("Br2",_tileMap); Br3->Soldierinit("Br3", _tileMap);
