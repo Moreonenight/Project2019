@@ -1,15 +1,16 @@
 #include "ammo.h"
 
-void ammo::initial(std::string fileName,Vec2 currentPosition,int damge,int ammSpeed)
+void ammo::initial(std::string fileName,std::string fromid,Vec2 currentPosition,int damge,int ammSpeed)
 {
 	this->setPosition(currentPosition);
 	damage = damge; ammoSpeed = ammSpeed;
+	fromId = fromid;
 	Frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(fileName);
 	setSpriteFrame(Frame);
 	auto a = getContentSize();
 	//setAnchorPoint(getPosition()+(a/2));
 	scheduleUpdate();
-	setScale(2.0);
+	setScale(0.5);
 	return ;
 }
 
@@ -26,7 +27,7 @@ void ammo::changeTargetPosition(Vec2 targetPosition)
 void ammo::update(float dt) //ammo的“update”函数，一个Layer的update应该调用所有子结点的update函数
 {	
 	velocity = destination-getPosition();
-	this->setRotation(CC_RADIANS_TO_DEGREES(velocity.getAngle())+3.1415926);
+	this->setRotation(180-CC_RADIANS_TO_DEGREES(velocity.getAngle()));
 	velocity.normalize(); velocity *= ammoSpeed;
 	this->setPosition( velocity + getPosition());
 		/*

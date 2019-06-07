@@ -23,7 +23,7 @@ private:
 	bool canAttack;
 	vector<ammo*> ammosOnWay;
 	cocos2d::TMXTiledMap* _map;
-
+	Vector<unit*>* unitsOnMap;
 	Animate* AnimateLeft;
 Vec2 beforePos;
 
@@ -48,7 +48,7 @@ public:
 	}
 	Direction getDir(Vec2 curPos, Vec2 desPos) { return getDir(desPos - curPos); }
 
-	void initial(unitdata *unitdata, cocos2d::TMXTiledMap* _tileMap);
+	void initial(unitdata *unitdata, cocos2d::TMXTiledMap* _tileMap, Vector<unit*>* mapUnits);
 	CREATE_FUNC(unit);
 	
 	
@@ -74,7 +74,7 @@ public:
 	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
 	
 	
-	//string changeid(string& newid) { id = newid; return id; }
+	inline std::string changeid(string newid) { id = newid; return id; }
 	inline void changeMaxHp(int delta);
 	
 
@@ -88,7 +88,20 @@ public:
 		return;
 	}
 
-	inline int getDamage(int delta) {
+	int getDamage(int delta,std::string fromId) {
+		if (hp->getCur() < delta) {
+			die();
+			//得到击杀者unit*添加奖励
+			unit* killUnit=getUnitWithId(fromId);
+			if (killUnit != nullptr) {
+				killUnit->changeGold(50);
+			}
+
+
+			this->setPosition(Vec2(270, 90));
+			hp->changeCur(60000);
+			this->stopAllActions();
+		}
 		hp->changeCur((-delta)*(float)((100.0-defenceOfPhysical) / 100.0));
 		return hp->getCur();
 	}
@@ -117,7 +130,7 @@ public:
 		float i = damage * dpm.x;
 		hp->changeCur((int)i);
 	}//when get damaged*/
-	void die();
+	void die(){}
 	
 	void update(float dt) {
 		//hp->update();
@@ -130,7 +143,7 @@ public:
 
 				if (Dis<100) {
 					auto Damage = (*it)->getDamage();
-					this->getDamage(Damage);
+					this->getDamage(Damage,(*it)->getid());
 					(*it)->removeFromParentAndCleanup(1);
 					//(*it)->setVisible(0);
 					//(*it)->setPosition(200.0, 200.0);
@@ -141,11 +154,11 @@ public:
 					(*it)->changeTargetPosition(getPosition());
 				}
 		}
+	}
+	void freshASPD(float dt) {
 		if (this->canAttack == 1)return;
 		else { this->canAttack = 1; return; }
 	}
-	void freshASPD(float dt) {
-		;
-	}
+	unit* getUnitWithId(std::string id);
 };
 

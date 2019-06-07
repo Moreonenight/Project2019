@@ -42,7 +42,9 @@ void MouseController::initListener(unit* Hero,Vector<unit*>* children) {
 		sprites = children;
 		auto a = selectFromSprites(endPos);
 		if (a != nullptr) { 
-			Hero->attackTo(a); 
+			if ((*a).getid() != (*Hero).getid()) {
+				Hero->attackTo(a);
+			}
 			return true;
 		}
 		else {

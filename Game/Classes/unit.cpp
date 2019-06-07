@@ -5,11 +5,11 @@ void unit::stop()
 	;
 }
 
-void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map)
+void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits)
 {
 	_map = Map;
 	data = unitdata;
-	
+	unitsOnMap = mapUnits;
 	//addChild(hp, 3);
 	
 	id = data->getUnitid();
@@ -78,7 +78,7 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e)
 	switch (direction)
 	{
 	case unit::Direction::UP:
-		if (getActionByTag(1) != nullptr)
+		if (getActionByTag(1) == nullptr)
 		{
 			stopAllActions();
 			runAction(RepeatForever::create(animate_up))->setTag(1);
@@ -145,10 +145,10 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	case Direction::DOWN:runAction(Animate::create(aniCache->getAnimation(id + "down_attack"))); break;
 	}
 	ammo *amo = ammo::create();
-	amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
+	amo->initial(this->getAmmoFrameName(),this->getid(),getPosition(), getDamage(), getAmmoSpeed());
 	target->getAttacked(amo);
 	_map->addChild(amo, 6);
-	//((Layer *)(this->getParent()->getParent()))->schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
+	schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
 	return amo;
 }
 
@@ -169,8 +169,18 @@ void unit::attackTo(Vec2 destination)
 	
 }
 
-void unit::die()
+
+
+unit* unit::getUnitWithId(std::string id)
 {
+	auto it = unitsOnMap->begin();
+	for (; it < unitsOnMap->end(); ++it) {
+		if ((*it)->getid()[0] != 'H') { continue; }
+		else if ((*it)->getid() == id) {
+			return (*it);
+		}
+	}
+	return nullptr;
 }
 
 

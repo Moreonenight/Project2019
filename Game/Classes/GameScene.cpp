@@ -5,7 +5,6 @@
 
 USING_NS_CC;
 #define IS_SHOP_OPEN this->getChildByTag(133)
-
 Scene* Game::createScene()
 {
 	auto scene = Scene::create();
@@ -43,18 +42,18 @@ bool Game::init()
 	hero1data->initial(string("HouYi"));
 
 	auto act = Animate::create(AnimationCache::getInstance()->getAnimation("HouYidown_attack"));
-	hero1 = unit::create();
-	hero1->setPosition(Vec2(x, y));	
-	hero1->initial(hero1data,_tileMap);
-	hero1->runAction(act);
-	addToMap(hero1, 2, 200);
-	hero1->setScale(0.6);
+	myHero = unit::create();
+	myHero->setPosition(Vec2(x, y));	
+	myHero->initial(hero1data,_tileMap,&unitsOnMap);
+	myHero->runAction(act);
+	addToMap(myHero, 2, 200);
+	myHero->setScale(0.6);
 
 
 
 	//初始化监听器
 	listener = MouseController::create();
-	listener->initListener(hero1,getUnits());
+	listener->initListener(myHero,getUnits());
 	listener->changeOffset(Vec2::ZERO);
 	//////////////////////////
 	/*
@@ -67,8 +66,9 @@ bool Game::init()
 	hp2->setScale(10);
 	hp2->setPosition(x, y);
 	hp3->setPosition(x + 200, y + 250);*/
-	auto hero2 = unit::create();hero2->initial(hero1data,_tileMap);
+	auto hero2 = unit::create();hero2->initial(hero1data,_tileMap, &unitsOnMap);
 	hero2->setPosition(Vec2(x+600, y+500));	// + 200, y + 200)); 
+	hero2->changeid("Ta");
 	addToMap(hero2, 2, 202);
 	hero2->setScale(0.5);
 	hero2->runAction(act);
@@ -104,11 +104,12 @@ bool Game::init()
 
 	auto menu = Menu::create(closeItem, shopButton, NULL);
 	menu->setPosition(Vec2::ZERO);
-	this->addChild(menu, 1);
+	this->addChild(menu, 3);
 
 	//////////  循环更新  /////////
 	this->schedule(schedule_selector(Game::mapupdate), 1.0f / 60);
 	this->schedule(schedule_selector(Game::TimeRecorder), 1.0f);
+	this->schedule(schedule_selector(Game::GoldRecorder), 1.0f/60);
 	return true;
 }
 
@@ -150,7 +151,7 @@ void Game::mapupdate(float dt)
 {
 	//auto sprite = this->getChildByTag(200);
 	//auto sprite = _tileMap->getChildByTag(200);
-	auto pos = hero1->getPosition();
+	auto pos = myHero->getPosition();
 	setViewpointCenter(pos);
 
 	if (IS_SHOP_OPEN) { listener->setPause(1); }
@@ -160,19 +161,20 @@ void Game::mapupdate(float dt)
 	Vec2 tileCoord = this->tileCoordFromPosition(pos);
 	int tileGid = _collidable->getTileGIDAt(tileCoord);
 	if (tileGid) {
-		hero1->stopAllActions();
-		hero1->setPosition(hero1->getBeforePos());
+		myHero->stopAllActions();
+		myHero->setPosition(myHero->getBeforePos());
 	}
 	else {
-		hero1->setBeforePos(pos);
+		myHero->setBeforePos(pos);
 	}
 }
 
 void Game::TimeRecorder(float dt)
 {
 
-	this->removeChild(TimerLabel);
+	TimerLabel->removeFromParentAndCleanup(true);
 	Time++;
+	myHero->changeGold(1);
 	int Minute = Time / 60;
 	int Second = Time % 60;
 	std::string second_str = std::to_string(Second);
@@ -199,6 +201,19 @@ void Game::TimeRecorder(float dt)
 	return;
 }
 
+void Game::GoldRecorder(float dt)
+{
+	if (goldLabel != nullptr) {
+		goldLabel->removeFromParentAndCleanup(true);
+	}
+	std::string gold_str = "$: "+std::to_string(myHero->getGold());
+	goldLabel = Label::createWithSystemFont(gold_str, "Arial", 30);
+	goldLabel->setPosition(Vec2(10,250));
+	goldLabel->setAnchorPoint(Vec2(0, 0.5f));
+	this->addChild(goldLabel, 3);
+	return;
+}
+
 cocos2d::Vec2 Game::tileCoordFromPosition(cocos2d::Vec2 pos)
 {
 	int x = pos.x / _tileMap->getTileSize().width;
@@ -217,10 +232,10 @@ void Game::addToMap(unit* unit, int zorder, int tag) {
 }
 
 void Game::createShopCallBack(cocos2d::Ref* pSender) {
-	hero1->stopAllActions();
+	myHero->stopAllActions();
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	if (IS_SHOP_OPEN) { return; }
-	_shopLayer = Layer::create();
+	auto _shopLayer = Layer::create();
 	auto shopbg = Sprite::create("bg/shop.png");
 	shopbg->setPosition(Vec2(
 		visibleSize.width / 2,
@@ -258,14 +273,13 @@ void Game::createShopCallBack(cocos2d::Ref* pSender) {
 	auto mn = Menu::create(closeShopButton, itemShoe,itemHat,itemShield,NULL);
 
 	mn->setPosition(Vec2::ZERO);
-	_shopLayer->addChild(mn,2);
+	_shopLayer->addChild(mn,1);
 	_shopLayer->addChild(shopbg);
-	this->addChild(_shopLayer, 5,133);
+	this->addChild(_shopLayer, 2,133);
 }
 
 void Game::closeShopCallBack(cocos2d::Ref* pSender) {
-	_shopLayer->removeFromParent();
-
+	this->getChildByTag(133)->removeFromParentAndCleanup(true);
 }
 
 void Game::createSkillLayerCallBack(cocos2d::Ref * pSender)
@@ -295,5 +309,17 @@ void Game::undoSkillCallBack(cocos2d::Ref * pSender)
 	_skillLayer->removeFromParent();
 }
 
-
+//找到id对应Unit
+/*unit* Game::getUnitWithId(std::string id)
+{
+	auto it = unitsOnMap.begin();
+	for (; it < unitsOnMap.end(); ++it) {
+		if ((*it)->getid()[0] != 'H') { continue; }
+		else if ((*it)->getid() == id) {
+			return (*it);
+		}
+	}
+	return nullptr;
+}
+*/
 
