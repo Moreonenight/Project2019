@@ -1,6 +1,6 @@
 #include "GameModeScene.h"
 #include "SimpleAudioEngine.h"
-#include "GameScene.h"
+#include "ChooseHeroScene.h"
 #include "Game1v1Scene.h"
 #define CENTERX origin.x+visibleSize.width/2
 #define CENTERY origin.y+visibleSize.height/2
@@ -77,8 +77,8 @@ void GameMode::menuItem1Callback(cocos2d::Ref* pSender)
 }
 
 void GameMode::menuStartCallback(cocos2d::Ref* pSender) {
-	auto GameScene = Game::createScene();
-	Director::getInstance()->pushScene(GameScene);
+	auto ChooseHeroScene = ChooseHeroScene::createScene();
+	Director::getInstance()->pushScene(ChooseHeroScene);
 }
 
 void GameMode::Start1v1Callback(cocos2d::Ref* pSender) {

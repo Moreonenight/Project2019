@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>frames</key>
+        <dict>
+            <key>HbHouYiammo.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{1,0}</string>
+                <key>spriteSize</key>
+                <string>{243,48}</string>
+                <key>spriteSourceSize</key>
+                <string>{245,50}</string>
+                <key>textureRect</key>
+                <string>{{1,1},{243,48}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+        </dict>
+        <key>metadata</key>
+        <dict>
+            <key>format</key>
+            <integer>3</integer>
+            <key>pixelFormat</key>
+            <string>RGBA8888</string>
+            <key>premultiplyAlpha</key>
+            <false/>
+            <key>realTextureFileName</key>
+            <string>ammo.png</string>
+            <key>size</key>
+            <string>{245,50}</string>
+            <key>smartupdate</key>
+            <string>$TexturePacker:SmartUpdate:593295b1ec7e5fbf234da763240911aa:0e34d51dfbaae63c1b895dd2d0851479:34654e768e66b5ac2ec2f311e830279b$</string>
+            <key>textureFileName</key>
+            <string>ammo.png</string>
+        </dict>
+    </dict>
+</plist>

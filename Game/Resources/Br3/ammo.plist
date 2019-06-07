@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>frames</key>
+        <dict>
+            <key>Br3ammo.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{-3,0}</string>
+                <key>spriteSize</key>
+                <string>{114,56}</string>
+                <key>spriteSourceSize</key>
+                <string>{120,76}</string>
+                <key>textureRect</key>
+                <string>{{1,1},{114,56}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+        </dict>
+        <key>metadata</key>
+        <dict>
+            <key>format</key>
+            <integer>3</integer>
+            <key>pixelFormat</key>
+            <string>RGBA8888</string>
+            <key>premultiplyAlpha</key>
+            <false/>
+            <key>realTextureFileName</key>
+            <string>ammo.png</string>
+            <key>size</key>
+            <string>{116,58}</string>
+            <key>smartupdate</key>
+            <string>$TexturePacker:SmartUpdate:9ba244bc988a5ea899e40bedc94f2a08:d69c677cf7bf5ac48bb2604bf5c641d3:34654e768e66b5ac2ec2f311e830279b$</string>
+            <key>textureFileName</key>
+            <string>ammo.png</string>
+        </dict>
+    </dict>
+</plist>

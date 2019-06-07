@@ -48,7 +48,26 @@
     <ClCompile Include="..\Classes\GameModeScene.cpp">
       <Filter>src</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="..\Classes\Equipment.cpp">
+=======
+    <ClCompile Include="..\Classes\ChooseHeroScene.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\DaJi.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HouYi.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Soldier.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Tower.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Yase.cpp">
+>>>>>>> master
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,7 +108,26 @@
     <ClInclude Include="..\Classes\GameModeScene.h">
       <Filter>src</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="..\Classes\Equipment.h">
+=======
+    <ClInclude Include="..\Classes\ChooseHeroScene.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\DaJi.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HouYi.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Soldier.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Tower.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\YaSe.h">
+>>>>>>> master
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

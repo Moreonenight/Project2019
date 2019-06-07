@@ -1,7 +1,8 @@
 #pragma once
 #include "unit.h"
 
-class HouYi {
+class HouYi :public unit
+{
 private:
 	unit* houyi;
 	unitdata* houyiData;
@@ -15,11 +16,37 @@ private:
 	int sk3Damage[3] = { 700,875,1050 };
 	float sk3Cd[3] = { 45,40,35 };
 public:
-	void initial();
+	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint,Vector<unit*>* mapUnits);
 	unit* getUnit() { return houyi; }
 	void useskill_1();
 	void sk1End(float dt);
 	void skill_1_cd(float dt);
 	void useSkill_2(Vec2 pos);
 	void useAlti();
+	void update(float dt) {
+		//hp->update();
+		if (hp->getCur() <= 1) die();
+		hp->follow(getPosition());
+
+		auto it = ammosOnWay.begin();
+		for (; it < ammosOnWay.end(); it++) {
+			auto Dis = (this->getPosition() - (*it)->getPosition()).length();
+			auto id1 = this->getid(); auto id2 = (*it)->getid();
+			if (Dis < 100 && id1[1] != id2[1]) {
+				auto Damage = (*it)->getDamage();
+				this->getDamage(Damage,(*it)->getid());
+				(*it)->removeFromParentAndCleanup(1);
+				//(*it)->setVisible(0);
+				//(*it)->setPosition(-200.0, -200.0);
+				if (it == (ammosOnWay.end() - 1)) { ammosOnWay.clear(); break; }
+				else it = ammosOnWay.erase(it);
+			}
+			else {
+				(*it)->changeTargetPosition(getPosition());
+			}
+		}
+		if (this->canAttack == 1)return;
+		else { this->canAttack = 1; return; }
+	}
+	CREATE_FUNC(HouYi);
 };

@@ -6,15 +6,16 @@
 #include "cocos2d.h"
 #include "MouseController.h"
 #include "ui/CocosGUI.h"
-
+#include "Soldier.h"
+#include "HouYi.h"
+#include "DaJi.h"
+#include "Yase.h"
+#include "Tower.h"
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include <stdlib.h>   
 #include <string.h>
 
-class HouYi;
-class YaSe;
-class DaJi;
 USING_NS_CC;
 class Game : public cocos2d::Layer
 {
@@ -26,22 +27,27 @@ class Game : public cocos2d::Layer
 	cocos2d::Label* TimerLabel;
 	cocos2d::Label* goldLabel;
 	cocos2d::ui::Button* Moneybutton;
-	cocos2d::Sprite* Tower;
+	cocos2d::Layer* _shopLayer = nullptr;
 	cocos2d::Layer* _skillLayer = nullptr;
-	cocos2d::Layer* _uiLayer = nullptr;
 	int Time;
-	unit*myHero;
+	unit* hero1;
 	Vector<unit*> unitsOnMap;
+	Vector<unit*> MyUnit;
+	Vector<unit*> EnemeyUnit;
+	Vector<Soldier*> EnemeySoldier;
+	Vector<Soldier*> MySoldier;
+	Vector<Tower*> MyTower;
+	Vector<Tower*> EnemeyTower;
 public:
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(string HeroName);
+	void initwithRole(string HeroName);
 
 	virtual bool init();
-
+	void GoldRecorder(float dt);
 	void setViewpointCenter(cocos2d::Vec2 position);
 	void mapupdate(float dt);
 	void TimeRecorder(float dt);
-	void GoldRecorder(float dt);
-
+	void InitSkillButton(string HeroName);
 
 	// a selector callback
 	void menuItem1Callback(cocos2d::Ref* pSender);
@@ -56,17 +62,16 @@ public:
 	void createSkillLayerCallBack(cocos2d::Ref* pSender);
 	void undoSkillCallBack(cocos2d::Ref* pSender);
 
+<<<<<<< HEAD
 	//商店购买物品callback
 	void buyShoeCallBack(cocos2d::Ref* pSender);
 	void buyHelmetCallBack(cocos2d::Ref* pSender);
 	void buySwordCallBack(cocos2d::Ref* pSender);
 	
+=======
+>>>>>>> master
 	// implement the "static create()" method manually
 
-	//返回地图上特定单位
-	unit* getUnitWithId(std::string id);
-	
-	//返回unitsOnMap;
 	//转换像素到瓦片坐标
 	cocos2d::Vec2 tileCoordFromPosition(cocos2d::Vec2 pos);
 	CREATE_FUNC(Game);
