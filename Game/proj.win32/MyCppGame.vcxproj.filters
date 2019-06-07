@@ -70,6 +70,12 @@
 >>>>>>> master
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Equipment.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Exp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -128,6 +134,12 @@
     </ClInclude>
     <ClInclude Include="..\Classes\YaSe.h">
 >>>>>>> master
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Equipment.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Exp.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

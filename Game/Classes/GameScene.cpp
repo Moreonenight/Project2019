@@ -4,12 +4,9 @@
 #include "GameScene.h"
 
 USING_NS_CC;
-<<<<<<< HEAD
-Scene* Game::createScene()
-=======
+
 #define IS_SHOP_OPEN this->getChildByTag(133)
 Scene* Game::createScene(string HeroName)
->>>>>>> master
 {
 	auto scene = Scene::create();
 	auto layer = Game::create();
@@ -295,11 +292,7 @@ void Game::TimeRecorder(float dt)
 
 	TimerLabel->removeFromParentAndCleanup(true);
 	Time++;
-<<<<<<< HEAD
-	myHero->changeGold(50);
-=======
 	hero1->changeGold(1);
->>>>>>> master
 	int Minute = Time / 60;
 	int Second = Time % 60;
 	std::string second_str = std::to_string(Second);

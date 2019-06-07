@@ -21,16 +21,6 @@ private:
 		defenceOfPhysical,
 		defenceOfMagic,
 		recoverOfMana;
-<<<<<<< HEAD
-	Equipment equip[7];
-
-	bool canAttack;
-	vector<ammo*> ammosOnWay;
-	cocos2d::TMXTiledMap* _map;
-	Vector<unit*>* unitsOnMap;
-=======
-
->>>>>>> master
 	Animate* AnimateLeft;
 Vec2 beforePos;
 
@@ -67,7 +57,7 @@ public:
 	~unit();
 
 
-	///////    »ñÈ¡¸÷Àà×´Ì¬    ///////
+	///////    ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½×´Ì¬    ///////
 	int getDefenceOfPhysical() {
 		return defenceOfPhysical;
 	}
@@ -88,7 +78,7 @@ public:
 	
 	
 
-	///////    ¸Ä±ä¸÷Àà×´Ì¬    ///////
+	///////    ï¿½Ä±ï¿½ï¿½ï¿½ï¿½×´Ì¬    ///////
 	inline void changeMaxHp(int delta);
 	inline int changeMoveSpeed(int delta) { if (moveSpeed + delta < 0)moveSpeed = 0; else moveSpeed += delta; return moveSpeed; }
 	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
@@ -98,7 +88,7 @@ public:
 
 
 
-	///////    ¸÷Àà¹¦ÄÜº¯Êý    ///////
+	///////    ï¿½ï¿½ï¿½à¹¦ï¿½Üºï¿½ï¿½ï¿½    ///////
 	void getAttacked(ammo* amo) {
 		ammosOnWay.push_back(amo);
 		amo->changeTargetPosition(getPosition());
@@ -108,7 +98,7 @@ public:
 	int getDamage(int delta,std::string fromId) {
 		if (hp->getCur() < delta) {
 			die();
-			//µÃµ½»÷É±Õßunit*Ìí¼Ó½±Àø
+			//ï¿½Ãµï¿½ï¿½ï¿½É±ï¿½ï¿½unit*ï¿½ï¿½ï¿½Ó½ï¿½ï¿½ï¿½
 			unit* killUnit=getUnitWithId(fromId);
 			if (killUnit != nullptr) {
 				killUnit->changeGold(50);

@@ -14,18 +14,22 @@ bool Soldier::Soldierinit(string Soldiername,cocos2d::TMXTiledMap* Map, Vector<u
 	initial(data, Map, mapUnits);
 	if (getid()[1] == 'r'&&getid()[2] == '2')
 	{
+		this->changeGold(32);
 		setPosition(350, 250);
 	}
 	else if (getid()[1] == 'r'&&getid()[2] == '3')
 	{
+		this->changeGold(45);
 		setPosition(400, 200);
 	}
 	else if (getid()[1] == 'b'&&getid()[2] == '2')
 	{
+		this->changeGold(32);
 		setPosition(550, 450);
 	}
 	else if (getid()[1] == 'b'&&getid()[2] == '3')
 	{
+		this->changeGold(45);
 		setPosition(600, 300);
 	}
 	scheduleUpdate();
@@ -69,3 +73,5 @@ bool Soldier::AttackingJudgeAI()
 	}
 	return true;
 }
+
+

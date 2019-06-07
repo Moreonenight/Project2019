@@ -1,20 +1,15 @@
 #pragma once
 #include "cocos2d.h"
 
-class Equipment 
-{
+class Equipment {
 public:
 	bool isOccupied;
-
 	std::string Name;
-	int Price;
-	int plusMoveSpeed;
-	int plusMaxHp;
-	int plusDamage;
+	int Price,
+		plusDamage,
+		plusMoveSpeed,
+		plusMaxHp;
 
-	Equipment() {
-		isOccupied = false;
-	}
+	Equipment() {isOccupied = false;}
 	Equipment(std::string name);
-	~Equipment(){}
 };

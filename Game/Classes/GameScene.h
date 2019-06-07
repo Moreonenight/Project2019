@@ -49,30 +49,24 @@ public:
 	void TimeRecorder(float dt);
 	void InitSkillButton(string HeroName);
 
-	// a selector callback
-	void menuItem1Callback(cocos2d::Ref* pSender);
-
-
 	void addToMap(unit* unit, int zorder, int Tag);
 	Vector<Node*> *selectFromMap(Vec2 pos);
 	Vector<unit*> *getUnits();
 
+	// a selector callback
+	void menuItem1Callback(cocos2d::Ref* pSender);
 	void createShopCallBack(cocos2d::Ref* pSender);
 	void closeShopCallBack(cocos2d::Ref* pSender);
 	void createSkillLayerCallBack(cocos2d::Ref* pSender);
 	void undoSkillCallBack(cocos2d::Ref* pSender);
 
-<<<<<<< HEAD
-	//ÉÌµê¹ºÂòÎïÆ·callback
+
 	void buyShoeCallBack(cocos2d::Ref* pSender);
-	void buyHelmetCallBack(cocos2d::Ref* pSender);
+	void buyHatCallBack(cocos2d::Ref* pSender);
 	void buySwordCallBack(cocos2d::Ref* pSender);
-	
-=======
->>>>>>> master
 	// implement the "static create()" method manually
 
-	//×ª»»ÏñËØµ½ÍßÆ¬×ø±ê
+	//×ªï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½Æ¬ï¿½ï¿½ï¿½ï¿½
 	cocos2d::Vec2 tileCoordFromPosition(cocos2d::Vec2 pos);
 	CREATE_FUNC(Game);
 };
