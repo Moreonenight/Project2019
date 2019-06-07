@@ -16,7 +16,7 @@ bool unitdata::initial(string &datapath)
 		currentPath = "../Resources/" + datapath + "/" + kind[order] + ".txt";
 		data = fopen(currentPath.c_str(), "r");
 		if (data == NULL) {
-			//cocos2d::CCLog((kind[order] + ".txtFailed").c_str());
+			//cocos2d::CCLOG((kind[order] + ".txtFailed").c_str());
 			continue;
 		}
 		fgets(b, 100, data);
@@ -34,7 +34,14 @@ bool unitdata::initial(string &datapath)
 				curani->addSpriteFrame(SFC->getSpriteFrameByName(buf.c_str()));
 				buf.erase(); memset(b, '\0', 50);
 			}
-			curani->setLoops(-1); curani->setDelayPerUnit(0.1f); 
+			if (kind[order] == "death")
+			{
+				curani->setDelayPerUnit(0.1f);
+			}
+			else
+			{
+				curani->setLoops(-1); curani->setDelayPerUnit(0.1f);
+			}
 			cocos2d::AnimationCache::getInstance()->addAnimation(curani, unitid + dir[curDir] + kind[order]);
 		}
 		fclose(data);

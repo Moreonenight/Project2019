@@ -19,9 +19,11 @@ unit * MouseController::selectFromSprites(Vec2 pos)
 	Vector<unit*>::iterator it;
 	unit* ans;
 	float minlength = 65535.0, curlength;
-	for (it = (*sprites).begin(); it < (*sprites).end(); it++) {
+	for (it = (*sprites).begin(); it < (*sprites).end(); it++) 
+	{
+		
 		curlength = ((*it)->getPosition() - pos).length();
-		if (curlength < minlength) {
+		if (curlength < minlength&& (*it)->getid()[1] == 'r') {
 			ans = *it;
 			minlength = curlength;
 		}

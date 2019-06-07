@@ -9,7 +9,7 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map)
 {
 	_map = Map;
 	data = unitdata;
-	
+	bool EnemeyorAlley;
 	//addChild(hp, 3);
 	
 	id = data->getUnitid();
@@ -24,10 +24,16 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map)
 	defenceOfMagic = data->getDefenceOfMagic();
 	canAttack = true;
 	hp = HP::create();
-	hp->initial(HP::HpinitialData(data->getMaxHp(), data->getRecoverOfHp(), getPosition(), getContentSize(), Map,0));
+	if (data->getUnitid()[1] == 'r')
+	{
+		EnemeyorAlley = true;
+	}
+	else
+		EnemeyorAlley = false;
+	hp->initial(HP::HpinitialData(data->getMaxHp(), data->getRecoverOfHp(), getPosition(), getContentSize(), Map, EnemeyorAlley));
 	hp->changeVel(data->getRecoverOfHp());
 	this->addChild(hp, 5);
-	scheduleUpdate();
+	
 	
 	//dpm = data->getDpm();
 	//setPosition(data->getPosition());
@@ -146,7 +152,8 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	}
 	ammo *amo = ammo::create();
 	amo->initial(this->getAmmoFrameName(), this->getid(),getPosition(), getDamage(), getAmmoSpeed());
-	if (target->getid() != amo->getid()) {
+	auto id1 = target->getid(); auto id2 = amo->getid();
+	if (id1[1] != id2[1]) {
 		target->getAttacked(amo);
 		_map->addChild(amo, 6);
 	}
@@ -171,6 +178,20 @@ void unit::attackTo(Vec2 destination)
 
 void unit::die()
 {
+	auto actdeath = Animate::create(AnimationCache::getInstance()->getAnimation(getid() + "up_death"));
+	
+	auto CallBackDeath = CallFunc::create([this]() {
+		stopAllActions();
+		this->setPosition(-200, -200);
+		this->getHp()->setPosition(-200, -200);
+	});
+	
+	runAction(Sequence::create(actdeath, CallBackDeath, nullptr));
+	
+	
+
+
+
 }
 
 

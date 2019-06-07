@@ -1,2 +1,0 @@
-Daji/ammo.plist
-ammo.png

@@ -8,7 +8,7 @@ class unit:public Sprite
 {
 private:
 	unitdata *data;
-	HP *hp;//MP maxMana;
+	//MP maxMana;
 	std::string id;
 	int level,
 		gold, 
@@ -20,14 +20,16 @@ private:
 		defenceOfPhysical,
 		defenceOfMagic,
 		recoverOfMana;
-	bool canAttack;
-	vector<ammo*> ammosOnWay;
+	
+	
 	cocos2d::TMXTiledMap* _map;
-
 	Animate* AnimateLeft;
 Vec2 beforePos;
 
 public:
+	bool canAttack;
+	HP *hp;
+	vector<ammo*> ammosOnWay;
 	enum class Direction :int
 	{
 		UP,
@@ -71,6 +73,7 @@ public:
 	inline int getMaxHp();
 	inline int getMoveSpeed() {		return moveSpeed;	}
 	inline int getDamage() { return damage; }/*when want to know how much the unit damage is*/
+	
 	inline int changeMoveSpeed(int delta) 
 	{ if (moveSpeed + delta < 0)moveSpeed = 0;
 	  else moveSpeed += delta;
@@ -131,31 +134,7 @@ public:
 	}//when get damaged*/
 	void die();
 	
-	void update(float dt) {
-		//hp->update();
-		if (hp->getCur() <= 1) die();
-		hp->follow(getPosition());
 
-		auto it = ammosOnWay.begin(); 
-			for (; it < ammosOnWay.end(); it++){
-				auto Dis = (this->getPosition() - (*it)->getPosition()).length();
-
-				if (Dis<100&&this->getid()!=(*it)->getid()) {
-					auto Damage = (*it)->getDamage();
-					this->getDamage(Damage);
-					(*it)->removeFromParentAndCleanup(1);
-					//(*it)->setVisible(0);
-					//(*it)->setPosition(200.0, 200.0);
-					if (it == (ammosOnWay.end() - 1)) { ammosOnWay.clear(); break; }
-					else it = ammosOnWay.erase(it);
-				}
-				else {
-					(*it)->changeTargetPosition(getPosition());
-				}
-		}
-		if (this->canAttack == 1)return;
-		else { this->canAttack = 1; return; }
-	}
 	void freshASPD(float dt) {
 		;
 	}

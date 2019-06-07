@@ -4,7 +4,7 @@
 #include "cocos2d.h"
 #include "MouseController.h"
 #include "ui/CocosGUI.h"
-
+#include "Soldier.h"
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include <stdlib.h>   
@@ -29,7 +29,8 @@ class Game : public cocos2d::Layer
 	int Time;
 	unit*hero1;
 	Vector<unit*> unitsOnMap;
-
+	Vector<unit*> MySoldier;
+	Vector<Soldier*> EnemeySoldier;
 
 public:
 	static cocos2d::Scene* createScene(string HeroName);

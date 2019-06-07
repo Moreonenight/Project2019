@@ -110,17 +110,17 @@ bool ChooseHeroScene::init()
 
 void ChooseHeroScene::YaseEnterCallback(cocos2d::Ref* pSender)
 {
-	auto GameScene = Game::createScene("YaSe");
+	auto GameScene = Game::createScene("HbYaSe");
 	Director::getInstance()->pushScene(GameScene);
 }
 void ChooseHeroScene::DajiEnterCallback(cocos2d::Ref* pSender)
 {
-	auto GameScene = Game::createScene("DaJi");
+	auto GameScene = Game::createScene("HbDaJi");
 	Director::getInstance()->pushScene(GameScene);
 }
 void ChooseHeroScene::HouYiEnterCallback(cocos2d::Ref* pSender)
 {
-	auto GameScene = Game::createScene("HouYi");
+	auto GameScene = Game::createScene("HbHouYi");
 	Director::getInstance()->pushScene(GameScene);
 }
 

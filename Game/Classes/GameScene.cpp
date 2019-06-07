@@ -40,13 +40,14 @@ void Game::initwithRole(string HeroName)
 	hero1data->initial(HeroName);
 	
 
-	auto act = Animate::create(AnimationCache::getInstance()->getAnimation(HeroName+"up_stand"));
+	auto act1 = Animate::create(AnimationCache::getInstance()->getAnimation(HeroName+"up_stand"));
 	hero1 = unit::create();
 	hero1->setPosition(Vec2(x, y));
 	hero1->initial(hero1data, _tileMap);
 	hero1->setScale(0.6);
 	addToMap(hero1, 0, 200);
-	hero1->runAction(act);
+	MySoldier.pushBack(hero1);
+	hero1->runAction(act1);
 
 
 	//初始化技能图标
@@ -95,13 +96,15 @@ void Game::initwithRole(string HeroName)
 	hp2->setScale(10);
 	hp2->setPosition(x, y);
 	hp3->setPosition(x + 200, y + 250);*/
-
-	auto hero2 = unit::create(); hero2->initial(hero1data, _tileMap);
+	auto hero2data = new(unitdata);
+	hero2data->initial(string("HrHouYi"));
+	
+	auto act2 = Animate::create(AnimationCache::getInstance()->getAnimation("HrHouYiup_stand"));
+	auto hero2 = unit::create(); hero2->initial(hero2data, _tileMap);
 	hero2->setPosition(Vec2(x + 600, y + 500));	// + 200, y + 200)); 
-	hero2->changeId("ta");
 	addToMap(hero2, 2, 202);
 	hero2->setScale(0.5);
-	hero2->runAction(act);
+	hero2->runAction(act2);
 	/////////////////////////
 	//初始化时间标签
 	TimerLabel = Label::createWithSystemFont("00:00", "Arial", 30);
@@ -210,6 +213,67 @@ void Game::mapupdate(float dt)
 	else {
 		hero1->setBeforePos(pos);
 	}
+	
+	if (!EnemeySoldier.empty())
+	{
+		for (auto it = EnemeySoldier.begin(); it != EnemeySoldier.end(); it++)
+		{
+			for (auto it2 = MySoldier.begin(); it2 != MySoldier.end(); it2++)
+			{
+				auto ID = (*it2)->getid();
+				/*if (ID[0] == 'T')
+				{
+					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+					if (DIS < 100)
+					{
+						(*it)->ChangeCanAttackTower(true);
+					}
+					else
+					{
+						(*it)->ChangeCanAttackTower(false);
+					}
+					if ((*it)->GetCanAttackTower() == true)
+					{
+						(*it)->changeAttackingTarget(*it2);
+					}
+				}*/
+				if (ID[0] == 'H')
+				{
+					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+					if (DIS < 200)
+					{
+						(*it)->ChangeCanAttackHero(true);
+					}
+					else
+					{
+						(*it)->ChangeCanAttackHero(false);
+					}
+					if ((*it)->GetCanAttackHero() == true)
+					{
+						(*it)->changeAttackingTarget(*it2);
+					}
+				}
+				if (ID[0] == 'B')
+				{
+					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+					if (DIS < 200)
+					{
+						(*it)->ChangeCanAttackSoldier(true);
+					}
+					else
+					{
+						(*it)->ChangeCanAttackSoldier(false);
+					}
+					if ((*it)->GetCanAttackHero() == false&& (*it)->GetCanAttackSoldier()==true)
+					{
+						(*it)->changeAttackingTarget(*it2);
+					}
+				}
+			}
+
+	}
+	}
+
 }
 
 void Game::TimeRecorder(float dt)
@@ -240,6 +304,38 @@ void Game::TimeRecorder(float dt)
 	TimerLabel = Label::createWithSystemFont(str, "Arial", 30);
 	TimerLabel->setVisible(false);
 	this->addChild(TimerLabel, 3);
+
+
+	if (Time ==5) 
+	{
+		//auto Br1 = unit::create();
+		auto Br2 = Soldier::create();
+		auto Br3 = Soldier::create();
+		//auto Bb1 = unit::create();
+		auto Bb2 = Soldier::create();
+		auto Bb3 = Soldier::create();
+		
+		//MySoldier.pushBack(Br1);
+		MySoldier.pushBack(Bb2); MySoldier.pushBack(Bb3);
+		//EnemeySoldier.pushBack(Bb1);
+		EnemeySoldier.pushBack(Br2); EnemeySoldier.pushBack(Br3);
+		Br2->Soldierinit("Br2",_tileMap); Br3->Soldierinit("Br3", _tileMap);
+		Bb2->Soldierinit("Bb2", _tileMap); Bb3->Soldierinit("Bb3", _tileMap);
+		addToMap(Br2, 0, 200); addToMap(Br3, 0, 200);
+		addToMap(Bb2, 0, 200); addToMap(Bb3, 0, 200);
+		//Br1->moveDirectionByKey(Br1->getDir(Br1->getPosition(), Vec2(1000, 1000)), Vec2(1000, 1000));
+
+		//Bb1->moveDirectionByKey(Bb1->getDir(Bb1->getPosition(), Vec2(0, 0)), Vec2(0, 0));
+		//Bb2->moveDirectionByKey(Bb2->getDir(Bb2->getPosition(), Vec2(0, 0)), Vec2(0, 0));
+		//Bb3->moveDirectionByKey(Bb3->getDir(Bb3->getPosition(), Vec2(0, 0)), Vec2(0, 0));
+	}
+	if (!EnemeySoldier.empty())
+	{
+		for (auto it = EnemeySoldier.begin(); it != EnemeySoldier.end(); it++)
+		{
+			(*it)->AttackingJudgeAI();
+		}
+	}
 	return;
 }
 

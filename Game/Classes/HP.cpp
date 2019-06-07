@@ -41,6 +41,7 @@ void HP::changeVel(int delta) {
 
 void HP::initial(HpinitialData data)
 {
+	
 	max_HP = data.max;
 	cur_Hp = data.max;
 	velocity = data.velocity;
