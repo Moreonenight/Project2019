@@ -76,6 +76,7 @@ void HP::initial(HpinitialData data)
 	return;
 }
 
+
 void HP::update(float dt) {
 	changeCur(velocity);
 	curBlood->setScaleX(((float)cur_Hp/max_HP)*(bloodrect->getContentSize().width / curBlood->getContentSize().width));
