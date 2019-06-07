@@ -34,6 +34,13 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 	hp->initial(HP::HpinitialData(data->getMaxHp(), data->getRecoverOfHp(), getPosition(), getContentSize(), Map, EnemeyorAlley));
 	hp->changeVel(data->getRecoverOfHp());
 	_map->addChild(hp, 5);
+
+	//生成经验
+	if (id[0] == 'H') {
+		exp = Exp::create();
+		exp->initial(1, _map);
+		_map->addChild(exp, 5);
+	}
 	//scheduleUpdate();
 	
 	//dpm = data->getDpm();
@@ -193,9 +200,25 @@ unit* unit::getUnitWithId(std::string id)
 	return nullptr;
 }
 
+bool unit::addEquipment(std::string itemId)
+{
+	auto item = Equipment(itemId);
+	if (this->getGold() < item.Price) { return false; }
+	for (int count = 0; count < 6; ++count) {
+		if (!equip[count].isOccupied) {
+			equip[count] = item;
+			this->changeGold(-item.Price);
+			this->changeDamage(item.plusDamage);
+			this->changeMoveSpeed(item.plusMoveSpeed);
+			this->changeMaxHp(item.plusMaxHp);
+			return true;
+		}
+	}
+	return false;
+}
+inline void unit::changeMaxHp(int delta) { hp->changeMax(delta); }
+inline int unit::getMaxHp() { return hp->getMax(); }
 
-
-inline int unit::getMaxHp() { return hp->getMax(); }inline void unit::changeMaxHp(int delta) { hp->changeMax(delta); }
 unit::~unit()
 {
 //	hp->~HP();

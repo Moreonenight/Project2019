@@ -38,7 +38,7 @@ void Game::initwithRole(string HeroName)
 	{
 		hero1 = HouYi::create();
 		((HouYi*)hero1)->initwithRole(HeroName, _tileMap, Vec2(x, y),(&unitsOnMap));
-		addToMap(hero1, 0, 200);
+		addToMap(hero1, 0, 100);
 		MyUnit.pushBack(hero1);
 	}
 	else if (HeroName == string("HbDaJi"))
@@ -53,14 +53,14 @@ void Game::initwithRole(string HeroName)
 	{
 		hero1 = DaJi::create();
 		((YaSe*)hero1)->initwithRole(HeroName, _tileMap, Vec2(x, y), (&unitsOnMap));
-		addToMap(hero1, 0, 200);
+		addToMap(hero1, 0, 300);
 		MyUnit.pushBack(hero1);
 	}
 
 	auto hero2 = HouYi::create();
 	((HouYi*)hero2)->initwithRole(string("HrHouYi"), _tileMap, Vec2(x, y), (&unitsOnMap));
 	hero2->setPosition(500, 500);
-	addToMap(hero2, 0, 200);
+	addToMap(hero2, 0, 400);
 	EnemeyUnit.pushBack(hero2);
 
 	
@@ -144,9 +144,9 @@ void Game::initwithRole(string HeroName)
 	this->addChild(menu, 1);
 
 	
-	this->schedule(schedule_selector(Game::mapupdate), 1.0f / 60);
+	this->schedule(schedule_selector(Game::mapupdate), 1.0f / 45);
 	this->schedule(schedule_selector(Game::TimeRecorder), 1.0f);
-	this->schedule(schedule_selector(Game::GoldRecorder), 1.0f / 60);
+	this->schedule(schedule_selector(Game::GoldRecorder), 1.0f / 45);
 }
 bool Game::init()
 {
@@ -402,24 +402,46 @@ void Game::createShopCallBack(cocos2d::Ref* pSender) {
 	auto itemShoe = MenuItemImage::create(
 		"/item/shoe_normal.png",
 		"/item/shoe_selected.png",
-		CC_CALLBACK_1(Game::buyItemCallBack, this)
+		CC_CALLBACK_1(Game::buyShoeCallBack, this)
 	);
+	//shoe
+	auto ShoeLabel1 = Label::createWithSystemFont("FastShoe:$200", "Arial", 20);
+	auto ShoeLabel2 = Label::createWithSystemFont("Speed+100", "Arial", 20);
+	ShoeLabel1->setPosition(Vec2(37, -15));
+	ShoeLabel2->setPosition(Vec2(37, -38));
+	itemShoe->addChild(ShoeLabel1);
+	itemShoe->addChild(ShoeLabel2);
 	itemShoe->setPosition(shopbg->getPosition() + Vec2(-200, 0));
+	//hat
 	auto itemHat = MenuItemImage::create(
 		"item/hat_normal.png",
 		"item/hat_selected.png",
-		CC_CALLBACK_1(Game::buyItemCallBack, this)
+		CC_CALLBACK_1(Game::buyHatCallBack, this)
 	);
+	auto HatLabel1 = Label::createWithSystemFont("TankHat:$200", "Arial", 20);
+	auto HatLabel2 = Label::createWithSystemFont("MaxHp+10000", "Arial", 20);
+	HatLabel1->setPosition(Vec2(37, -15));
+	HatLabel2->setPosition(Vec2(37, -38));
+	itemHat->addChild(HatLabel1);
+	itemHat->addChild(HatLabel2);
 	itemHat->setPosition(shopbg->getPosition() + Vec2(0, 0));
-	auto itemShield = MenuItemImage::create(
+	//sword
+	auto itemSword = MenuItemImage::create(
 		"item/shield_normal.png",
 		"item/shield_selected.png",
-		CC_CALLBACK_1(Game::buyItemCallBack, this)
+		CC_CALLBACK_1(Game::buySwordCallBack, this)
 	);
-	itemShield->setPosition(shopbg->getPosition() + Vec2(200, 0));
+	auto SwordLabel1 = Label::createWithSystemFont("UglySword:$200", "Arial", 20);
+	auto SwordLabel2 = Label::createWithSystemFont("Damage+400", "Arial", 20);
+	SwordLabel1->setPosition(Vec2(37, -15));
+	SwordLabel2->setPosition(Vec2(37, -38));
+	itemSword->addChild(SwordLabel1);
+	itemSword->addChild(SwordLabel2);
+	itemSword->setPosition(shopbg->getPosition() + Vec2(0, 0));
+	itemSword->setPosition(shopbg->getPosition() + Vec2(200, 0));
 
 
-	auto mn = Menu::create(closeShopButton, itemShoe,itemHat,itemShield,NULL);
+	auto mn = Menu::create(closeShopButton, itemShoe,itemHat,itemSword,NULL);
 
 	mn->setPosition(Vec2::ZERO);
 	_shopLayer->addChild(mn,1);
@@ -458,17 +480,19 @@ void Game::undoSkillCallBack(cocos2d::Ref * pSender)
 	_skillLayer->removeFromParent();
 }
 
-//找到id对应Unit
-/*unit* Game::getUnitWithId(std::string id)
+void Game::buyShoeCallBack(cocos2d::Ref* pSender) 
 {
-	auto it = unitsOnMap.begin();
-	for (; it < unitsOnMap.end(); ++it) {
-		if ((*it)->getid()[0] != 'H') { continue; }
-		else if ((*it)->getid() == id) {
-			return (*it);
-		}
-	}
-	return nullptr;
+	if (!IS_SHOP_OPEN) { return; }
+	hero1->addEquipment("Shoe");
 }
-*/
+void Game::buyHatCallBack(cocos2d::Ref* pSender)
+{
+	if (!IS_SHOP_OPEN) { return; }
+	hero1->addEquipment("Hat");
+}
+void Game::buySwordCallBack(cocos2d::Ref* pSender)
+{
+	if (!IS_SHOP_OPEN) { return; }
+	hero1->addEquipment("Sword");
+}
 
