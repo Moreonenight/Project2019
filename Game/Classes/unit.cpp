@@ -12,6 +12,11 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 	unitsOnMap = mapUnits;
 	//addChild(hp, 3);
 	
+	//装备栏清空
+	for (int i = 0; i < 3; ++i) {
+		equip[i].isOccupied= false;
+	}
+	
 	id = data->getUnitid();
 	//id未确定
 	//Velocity = data->getVelocity();
@@ -190,4 +195,22 @@ unit::~unit()
 {
 //	hp->~HP();
 //	delete(this);
+}
+
+//各类功能函数
+bool unit::addEquipment(std::string itemName)
+{
+	auto item = Equipment(itemName);
+	if (this->getGold() < item.Price) { return false; }
+	for (int count = 0; count < 7; ++count) {
+		if (!equip[count].isOccupied) {
+			equip[count] = item;
+			this->changeGold(-item.Price);
+			this->changeDamage(equip[count].plusDamage);
+			this->changeMaxHp(equip[count].plusMaxHp);
+			this->changeMoveSpeed(equip[count].plusMoveSpeed);
+			return true;
+		}
+	}
+	return false;
 }

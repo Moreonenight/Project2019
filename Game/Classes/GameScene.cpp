@@ -4,7 +4,6 @@
 #include "GameScene.h"
 
 USING_NS_CC;
-#define IS_SHOP_OPEN this->getChildByTag(133)
 Scene* Game::createScene()
 {
 	auto scene = Scene::create();
@@ -174,7 +173,7 @@ void Game::TimeRecorder(float dt)
 
 	TimerLabel->removeFromParentAndCleanup(true);
 	Time++;
-	myHero->changeGold(1);
+	myHero->changeGold(50);
 	int Minute = Time / 60;
 	int Second = Time % 60;
 	std::string second_str = std::to_string(Second);
@@ -253,24 +252,24 @@ void Game::createShopCallBack(cocos2d::Ref* pSender) {
 	auto itemShoe = MenuItemImage::create(
 		"/item/shoe_normal.png",
 		"/item/shoe_selected.png",
-		CC_CALLBACK_1(Game::buyItemCallBack, this)
+		CC_CALLBACK_1(Game::buyShoeCallBack, this)
 	);
 	itemShoe->setPosition(shopbg->getPosition() + Vec2(-200, 0));
 	auto itemHat = MenuItemImage::create(
-		"item/hat_normal.png",
-		"item/hat_selected.png",
-		CC_CALLBACK_1(Game::buyItemCallBack, this)
+		"item/helmet_normal.png",
+		"item/helmet_selected.png",
+		CC_CALLBACK_1(Game::buyHelmetCallBack, this)
 	);
 	itemHat->setPosition(shopbg->getPosition() + Vec2(0, 0));
-	auto itemShield = MenuItemImage::create(
-		"item/shield_normal.png",
-		"item/shield_selected.png",
-		CC_CALLBACK_1(Game::buyItemCallBack, this)
+	auto itemSword = MenuItemImage::create(
+		"item/sword_nomal.jpg",
+		"item/sword_selected.jpg",
+		CC_CALLBACK_1(Game::buySwordCallBack, this)
 	);
-	itemShield->setPosition(shopbg->getPosition() + Vec2(200, 0));
+	itemSword->setPosition(shopbg->getPosition() + Vec2(200, 0));
 
 
-	auto mn = Menu::create(closeShopButton, itemShoe,itemHat,itemShield,NULL);
+	auto mn = Menu::create(closeShopButton, itemShoe,itemHat,itemSword,NULL);
 
 	mn->setPosition(Vec2::ZERO);
 	_shopLayer->addChild(mn,1);
@@ -307,6 +306,20 @@ void Game::createSkillLayerCallBack(cocos2d::Ref * pSender)
 void Game::undoSkillCallBack(cocos2d::Ref * pSender)
 {
 	_skillLayer->removeFromParent();
+}
+
+void Game::buyShoeCallBack(cocos2d::Ref* pSender) { 
+	if (!IS_SHOP_OPEN) { return; }
+	myHero->addEquipment("Shoe"); 
+}
+void Game::buyHelmetCallBack(cocos2d::Ref* pSender) { 
+	if (!IS_SHOP_OPEN) { return; }
+	myHero->addEquipment("Helmet");
+	myHero->getHp()->changeCur(600000);
+}
+void Game::buySwordCallBack(cocos2d::Ref* pSender) {
+	if (!IS_SHOP_OPEN) { return; }
+	myHero->addEquipment("Sword");
 }
 
 //找到id对应Unit

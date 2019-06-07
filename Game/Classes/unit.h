@@ -2,6 +2,7 @@
 #include "unitdata.h"
 #include "ammo.h"
 #include "HP.h"
+#include "Equipment.h"
 USING_NS_CC;
 class HP;
 class unit:public Sprite
@@ -20,6 +21,8 @@ private:
 		defenceOfPhysical,
 		defenceOfMagic,
 		recoverOfMana;
+	Equipment equip[7];
+
 	bool canAttack;
 	vector<ammo*> ammosOnWay;
 	cocos2d::TMXTiledMap* _map;
@@ -53,7 +56,9 @@ public:
 	
 	
 	~unit();
-	
+
+
+	///////    获取各类状态    ///////
 	int getDefenceOfPhysical() {
 		return defenceOfPhysical;
 	}
@@ -68,20 +73,23 @@ public:
 	inline int getMaxHp();
 	inline int getMoveSpeed() {		return moveSpeed;	}
 	inline int getDamage() { return damage; }/*when want to know how much the unit damage is*/
-	inline int changeMoveSpeed(int delta) { if (moveSpeed + delta < 0)moveSpeed = 0; else moveSpeed += delta; return moveSpeed; }
-	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
+	
 	int getAmmoSpeed() { return ammoSpeed; }
 	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
 	
 	
-	inline std::string changeid(string newid) { id = newid; return id; }
+
+	///////    改变各类状态    ///////
 	inline void changeMaxHp(int delta);
-	
+	inline int changeMoveSpeed(int delta) { if (moveSpeed + delta < 0)moveSpeed = 0; else moveSpeed += delta; return moveSpeed; }
+	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
+	inline void setBeforePos(Vec2 x) { beforePos = x; }
+	inline Vec2 getBeforePos() { return beforePos; }
+	inline std::string changeid(string newid) { id = newid; return id; }
 
 
 
-
-
+	///////    各类功能函数    ///////
 	void getAttacked(ammo* amo) {
 		ammosOnWay.push_back(amo);
 		amo->changeTargetPosition(getPosition());
@@ -109,13 +117,7 @@ public:
 	//inline int getDamage() { return damage; }/*when want to know how much the unit damage is*/ 
 //	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
 //	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
-	inline void setBeforePos(Vec2 x) { beforePos = x; }
-	inline Vec2 getBeforePos() { return beforePos; }
 	//int getAmmoSpeed() { return ammoSpeed; }
-
-
-
-
 	void stop();
 	void moveDirectionByKey(unit::Direction direction, Vec2 e);
 	
@@ -160,5 +162,7 @@ public:
 		else { this->canAttack = 1; return; }
 	}
 	unit* getUnitWithId(std::string id);
+
+	bool addEquipment(std::string itemName);
 };
 

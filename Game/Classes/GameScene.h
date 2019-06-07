@@ -1,5 +1,7 @@
 #ifndef __Game_SCENE_H__
 #define __Game_SCENE_H__
+
+#define IS_SHOP_OPEN this->getChildByTag(133)
 #pragma once
 #include "cocos2d.h"
 #include "MouseController.h"
@@ -51,9 +53,13 @@ public:
 
 	void createShopCallBack(cocos2d::Ref* pSender);
 	void closeShopCallBack(cocos2d::Ref* pSender);
-	void buyItemCallBack(cocos2d::Ref* pSender) {}
 	void createSkillLayerCallBack(cocos2d::Ref* pSender);
 	void undoSkillCallBack(cocos2d::Ref* pSender);
+
+	//…ÃµÍπ∫¬ÚŒÔ∆∑callback
+	void buyShoeCallBack(cocos2d::Ref* pSender);
+	void buyHelmetCallBack(cocos2d::Ref* pSender);
+	void buySwordCallBack(cocos2d::Ref* pSender);
 	
 	// implement the "static create()" method manually
 
