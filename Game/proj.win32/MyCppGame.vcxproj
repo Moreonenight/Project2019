@@ -149,29 +149,41 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
   <ItemGroup>
     <ClCompile Include="..\Classes\ammo.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
+    <ClCompile Include="..\Classes\ChooseHeroScene.cpp" />
+    <ClCompile Include="..\Classes\DaJi.cpp" />
     <ClCompile Include="..\Classes\Game1v1Scene.cpp" />
     <ClCompile Include="..\Classes\GameModeScene.cpp" />
     <ClCompile Include="..\Classes\GameScene.cpp" />
     <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
+    <ClCompile Include="..\Classes\HouYi.cpp" />
     <ClCompile Include="..\Classes\HP.cpp" />
     <ClCompile Include="..\Classes\MouseController.cpp" />
     <ClCompile Include="..\Classes\SettingScene.cpp" />
+    <ClCompile Include="..\Classes\Soldier.cpp" />
+    <ClCompile Include="..\Classes\Tower.cpp" />
     <ClCompile Include="..\Classes\unit.cpp" />
     <ClCompile Include="..\Classes\unitdata.cpp" />
+    <ClCompile Include="..\Classes\Yase.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Classes\ammo.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
+    <ClInclude Include="..\Classes\ChooseHeroScene.h" />
+    <ClInclude Include="..\Classes\DaJi.h" />
     <ClInclude Include="..\Classes\Game1v1Scene.h" />
     <ClInclude Include="..\Classes\GameModeScene.h" />
     <ClInclude Include="..\Classes\GameScene.h" />
     <ClInclude Include="..\Classes\HelloWorldScene.h" />
+    <ClInclude Include="..\Classes\HouYi.h" />
     <ClInclude Include="..\Classes\HP.h" />
     <ClInclude Include="..\Classes\MouseController.h" />
     <ClInclude Include="..\Classes\SettingScene.h" />
+    <ClInclude Include="..\Classes\Soldier.h" />
+    <ClInclude Include="..\Classes\Tower.h" />
     <ClInclude Include="..\Classes\unit.h" />
     <ClInclude Include="..\Classes\unitdata.h" />
+    <ClInclude Include="..\Classes\YaSe.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>
   <ItemGroup>

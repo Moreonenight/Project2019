@@ -10,6 +10,7 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 	_map = Map;
 	data = unitdata;
 	unitsOnMap = mapUnits;
+	bool EnemeyorAlley;
 	//addChild(hp, 3);
 	
 	id = data->getUnitid();
@@ -24,10 +25,16 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 	defenceOfMagic = data->getDefenceOfMagic();
 	canAttack = true;
 	hp = HP::create();
-	hp->initial(HP::HpinitialData(data->getMaxHp(), data->getRecoverOfHp(), getPosition(), getContentSize(), Map,0));
+	if (data->getUnitid()[1] == 'r')
+	{
+		EnemeyorAlley = true;
+	}
+	else
+		EnemeyorAlley = false;
+	hp->initial(HP::HpinitialData(data->getMaxHp(), data->getRecoverOfHp(), getPosition(), getContentSize(), Map, EnemeyorAlley));
 	hp->changeVel(data->getRecoverOfHp());
 	_map->addChild(hp, 5);
-	scheduleUpdate();
+	//scheduleUpdate();
 	
 	//dpm = data->getDpm();
 	//setPosition(data->getPosition());
@@ -146,9 +153,12 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	}
 	ammo *amo = ammo::create();
 	amo->initial(this->getAmmoFrameName(),this->getid(),getPosition(), getDamage(), getAmmoSpeed());
-	target->getAttacked(amo);
-	_map->addChild(amo, 6);
-	schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
+	auto id1 = target->getid(); auto id2 = amo->getid();
+	if (id1[1] != id2[1]) {
+		_map->addChild(amo, 6);
+		target->getAttacked(amo);
+	}
+	//schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
 	return amo;
 }
 

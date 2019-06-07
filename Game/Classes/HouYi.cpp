@@ -1,12 +1,15 @@
 #include "HouYi.h"
 
-void HouYi::initial()
+void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint,Vector<unit*>* mapUnits)
 {
-	houyiData = new(unitdata);
-	houyiData->initial(string("HouYi"));
-	houyi = unit::create();
-	houyi->initial(houyiData);
-//	SpriteFrameCache::getInstance()->addSpriteFramesWithFile("HouYi/ammo.plist");
+	auto hero1data = new(unitdata);
+	hero1data->initial(HeroName);
+	initial(hero1data, Map, mapUnits);
+	auto Act = Animate::create(AnimationCache::getInstance()->getAnimation(HeroName + "up_stand"));
+	setPosition(bornpoint);
+	setScale(0.6);
+	runAction(Act);
+	scheduleUpdate();
 }
 
 void HouYi::sk1End(float dt) {
@@ -17,7 +20,7 @@ void HouYi::sk1End(float dt) {
 void HouYi::useskill_1()
 {
 	houyi->changeDamage(sk1Damage[skill_1Level]);
-	Scheduler::schedule(schedule_selector(HouYi::sk1End), this, 5.0, 0, 0, 0);
+	//Scheduler::schedule(schedule_selector(HouYi::sk1End), this, 5.0, 0, 0, 0);
 }
 
 

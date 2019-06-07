@@ -21,7 +21,7 @@ unit * MouseController::selectFromSprites(Vec2 pos)
 	float minlength = 65535.0, curlength;
 	for (it = (*sprites).begin(); it < (*sprites).end(); it++) {
 		curlength = ((*it)->getPosition() - pos).length();
-		if (curlength < minlength) {
+		if (curlength < minlength && (*it)->getid()[1] == 'r') {
 			ans = *it;
 			minlength = curlength;
 		}
@@ -42,9 +42,7 @@ void MouseController::initListener(unit* Hero,Vector<unit*>* children) {
 		sprites = children;
 		auto a = selectFromSprites(endPos);
 		if (a != nullptr) { 
-			if ((*a).getid() != (*Hero).getid()) {
 				Hero->attackTo(a);
-			}
 			return true;
 		}
 		else {

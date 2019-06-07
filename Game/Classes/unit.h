@@ -8,7 +8,7 @@ class unit:public Sprite
 {
 private:
 	unitdata *data;
-	HP *hp;//MP maxMana;
+	
 	std::string id;
 	int level,
 		gold, 
@@ -20,14 +20,16 @@ private:
 		defenceOfPhysical,
 		defenceOfMagic,
 		recoverOfMana;
-	bool canAttack;
-	vector<ammo*> ammosOnWay;
-	cocos2d::TMXTiledMap* _map;
-	Vector<unit*>* unitsOnMap;
+
 	Animate* AnimateLeft;
 Vec2 beforePos;
 
 public:
+	HP *hp;//MP maxMana;
+	bool canAttack;
+	vector<ammo*> ammosOnWay;
+	cocos2d::TMXTiledMap* _map;
+	Vector<unit*>* unitsOnMap;
 	enum class Direction :int
 	{
 		UP,
@@ -96,8 +98,6 @@ public:
 			if (killUnit != nullptr) {
 				killUnit->changeGold(50);
 			}
-
-
 			this->setPosition(Vec2(270, 90));
 			hp->changeCur(60000);
 			this->stopAllActions();
@@ -132,7 +132,7 @@ public:
 	}//when get damaged*/
 	void die(){}
 	
-	void update(float dt) {
+	/*void update(float dt) {
 		//hp->update();
 		if (hp->getCur() <= 1) die();
 		hp->follow(getPosition());
@@ -158,7 +158,7 @@ public:
 	void freshASPD(float dt) {
 		if (this->canAttack == 1)return;
 		else { this->canAttack = 1; return; }
-	}
+	}*/
 	unit* getUnitWithId(std::string id);
 };
 
