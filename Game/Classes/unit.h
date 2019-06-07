@@ -24,6 +24,9 @@ private:
 	vector<ammo*> ammosOnWay;
 	cocos2d::TMXTiledMap* _map;
 
+	Animate* AnimateLeft;
+Vec2 beforePos;
+
 public:
 	enum class Direction :int
 	{
@@ -60,15 +63,27 @@ public:
 	//int getMaxMana() { return maxMana; }
 	HP* getHp() { return hp; }
 	int getRecoverOfMana() { return recoverOfMana; }
-	int getGold() { return gold; }int changeGold(int delta) { if (gold + delta <= 0)gold = 0; else gold += delta; return gold; }
+	int getGold() { return gold; }
+	int changeGold(int delta)
+	{ if (gold + delta <= 0)gold = 0; 
+	else gold += delta; return gold; }
 	inline string getid() { return id; }
 	inline int getMaxHp();
 	inline int getMoveSpeed() {		return moveSpeed;	}
 	inline int getDamage() { return damage; }/*when want to know how much the unit damage is*/
-	inline int changeMoveSpeed(int delta) { if (moveSpeed + delta < 0)moveSpeed = 0; else moveSpeed += delta; return moveSpeed; }
-	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
-	int getAmmoSpeed() { return ammoSpeed; }
-	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
+	inline int changeMoveSpeed(int delta) 
+	{ if (moveSpeed + delta < 0)moveSpeed = 0;
+	  else moveSpeed += delta;
+	  return moveSpeed; }
+	//²âÊÔ
+	inline void changeId(std::string name) { id = name; }
+
+	inline int changeDamage(int delta)
+	{ if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
+	int getAmmoSpeed()
+	{ return ammoSpeed; }
+	inline string getAmmoFrameName()
+	{ return data->getAmmoFrameName(); }
 	
 	
 	//string changeid(string& newid) { id = newid; return id; }
@@ -89,6 +104,13 @@ public:
 		hp->changeCur((-delta)*(float)((100.0-defenceOfPhysical) / 100.0));
 		return hp->getCur();
 	}
+
+	//inline int getDamage() { return damage; }/*when want to know how much the unit damage is*/ 
+//	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
+//	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
+	inline void setBeforePos(Vec2 x) { beforePos = x; }
+	inline Vec2 getBeforePos() { return beforePos; }
+	//int getAmmoSpeed() { return ammoSpeed; }
 
 
 
@@ -118,7 +140,7 @@ public:
 			for (; it < ammosOnWay.end(); it++){
 				auto Dis = (this->getPosition() - (*it)->getPosition()).length();
 
-				if (Dis<100) {
+				if (Dis<100&&this->getid()!=(*it)->getid()) {
 					auto Damage = (*it)->getDamage();
 					this->getDamage(Damage);
 					(*it)->removeFromParentAndCleanup(1);

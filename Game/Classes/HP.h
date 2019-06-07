@@ -37,6 +37,7 @@ public:
 		bloodrect->setPosition(pos.x, pos.y + 90);
 		emptyBlood->setPosition(pos.x, pos.y + 90);
 		curBlood->setPosition(bloodrect->getPositionX() - bloodrect->getContentSize().width / 2, bloodrect->getPositionY());
+
 		return;
 	}
 	void changeCur(int delta);

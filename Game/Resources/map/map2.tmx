@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="6" height="4" tilewidth="160" tileheight="160">
+ <tileset firstgid="1" name="t_map_png" tilewidth="160" tileheight="160" spacing="20">
+  <image source="E:/Program Files/像素/t_map_png.png" width="1024" height="1024"/>
+ </tileset>
+ <layer name="ABC" width="6" height="4">
+  <data encoding="base64" compression="zlib">
+   eJxjY2BgYKMhBgAcgACR
+  </data>
+ </layer>
+</map>

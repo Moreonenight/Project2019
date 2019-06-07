@@ -5,12 +5,13 @@ USING_NS_CC;
 class ammo :public Sprite {
 private:
 	//unit *target;
+	std::string id;
 	Vec2 velocity;
 	Vec2 destination;
 	int damage, ammoSpeed;
 	SpriteFrame *Frame;
 public:
-	void initial(std::string fileName, Vec2 currentPosition, int damge, int ammSpeed);
+	void initial(std::string fileName,std::string id, Vec2 currentPosition, int damge, int ammSpeed);
 	ammo();
 	CREATE_FUNC(ammo);
 	inline Vec2 getDes() {
@@ -23,6 +24,7 @@ public:
 		return Frame;
 	}
 	int getDamage() { return damage; }
+	inline std::string getid() { return id; }
 	void changeTargetPosition(Vec2 targtPosition);
 	void update(float dt);
 

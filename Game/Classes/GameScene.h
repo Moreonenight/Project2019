@@ -32,19 +32,24 @@ class Game : public cocos2d::Layer
 
 
 public:
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(string HeroName);
+	void initwithRole(string HeroName);
 
 	virtual bool init();
 
 	void setViewpointCenter(cocos2d::Vec2 position);
 	void mapupdate(float dt);
 	void TimeRecorder(float dt);
+
+
 	// a selector callback
 	void menuItem1Callback(cocos2d::Ref* pSender);
+
 
 	void addToMap(unit* unit, int zorder, int Tag);
 	Vector<Node*> *selectFromMap(Vec2 pos);
 	Vector<unit*> *getUnits();
+
 	void createShopCallBack(cocos2d::Ref* pSender);
 	void closeShopCallBack(cocos2d::Ref* pSender);
 	void buyItemCallBack(cocos2d::Ref* pSender) {}
@@ -52,6 +57,9 @@ public:
 	void undoSkillCallBack(cocos2d::Ref* pSender);
 
 	// implement the "static create()" method manually
+
+	//×ª»»ÏñËØµ½ÍßÆ¬×ø±ê
+	cocos2d::Vec2 tileCoordFromPosition(cocos2d::Vec2 pos);
 	CREATE_FUNC(Game);
 };
 

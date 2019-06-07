@@ -177,17 +177,12 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	DOWN:runAction(Animate::create(pAC->getAnimation(id + "down_attack")))->setTag(14);
 		amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
 		break;
-	}
-	
-
+	}	
 	target->getAttacked(amo);
 	schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 0, 0);
 	_map->addChild(amo, 6);
-	//((Layer *)(this->getParent()->getParent()))->schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
 	return amo;
 }
-
-
 void unit::attackTo(unit * target)
 {
 	Vec2 destination = target->getPosition();
@@ -213,6 +208,5 @@ void unit::die()
 inline int unit::getMaxHp() { return hp->getMax(); }inline void unit::changeMaxHp(int delta) { hp->changeMax(delta); }
 unit::~unit()
 {
-//	hp->~HP();
-//	delete(this);
+
 }
