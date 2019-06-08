@@ -12,24 +12,20 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 	unitsOnMap = mapUnits;
 	bool EnemeyorAlley;
 	//addChild(hp, 3);
-	
-	//×°±¸À¸Çå¿Õ
-	for (int i = 0; i < 3; ++i) {
-		equip[i].isOccupied= false;
-	}
-	
 	id = data->getUnitid();
-	//idÎ´È·¶¨
+	//idÎ´È·ï¿½ï¿½
 	//Velocity = data->getVelocity();
 	moveSpeed = data->getMoveSpeed();
 	level = 1; 
 	damage = data->getDamage();
+	InitDamage = damage;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½Â¼Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½Ä¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç¶ï¿½ï¿½ï¿½,ï¿½ï¿½ï¿½Úºï¿½ï¿½ï¿½ï¿½Ö¸ï¿½
 	ammoSpeed = data->getAmmoSpeed();
 	ASPD = data->getASPD(); 
 	defenceOfPhysical = data->getDefenceOfPhysical();
 	defenceOfMagic = data->getDefenceOfMagic();
 	canAttack = true;
 	hp = HP::create();
+	hp->changeID(id);
 	if (data->getUnitid()[1] == 'r')
 	{
 		EnemeyorAlley = true;
@@ -40,7 +36,7 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 	hp->changeVel(data->getRecoverOfHp());
 	_map->addChild(hp, 5);
 
-	//Éú³É¾­Ñé
+	//ï¿½ï¿½ï¿½É¾ï¿½ï¿½ï¿½
 	if (id[0] == 'H') {
 		exp = Exp::create();
 		exp->initial(1, _map);
@@ -51,17 +47,17 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 	//dpm = data->getDpm();
 	//setPosition(data->getPosition());
 	//((Layer *)(this->getParent()->getParent()))->schedule(schedule_selector(unit::fresh));
-	///scheldueº¯Êý²»ÄÜÔÚinitialÎ´Íê³ÉÖ®Ç°¼ÓÈë£¨ÉÐÎ´addchild£©
+	///scheldueï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½initialÎ´ï¿½ï¿½ï¿½Ö®Ç°ï¿½ï¿½ï¿½ë£¨ï¿½ï¿½Î´addchildï¿½ï¿½
 }
 
 void unit::moveDirectionByKey(unit::Direction direction, Vec2 e)
 {
 
-	Vec2 a = getPosition() - e; //Ó¢ÐÛµ±Ç°Î»ÖÃÓëÄ¿±êÎ»ÖÃÁ¬³ÉµÄÏòÁ¿
-	float Distance = a.length();//¼ÆËãÏòÁ¿µÄ³¤¶È¼´Îª½«ÒªÐÐ×ßµÄ¾àÀë
-	///double moveSpeed = 200;//¿ØÖÆËÙ¶È
-	auto Singleton = AnimationCache::getInstance();//Í¨¹ý¶¯»­»º´æ»ñÈ¡µ¥Àý¶ÔÏó
-	/*¼ÓÔØ×ß¶¯¶¯»­*/
+	Vec2 a = getPosition() - e; //Ó¢ï¿½Ûµï¿½Ç°Î»ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½Î»ï¿½ï¿½ï¿½ï¿½ï¿½Éµï¿½ï¿½ï¿½ï¿½ï¿½
+	float Distance = a.length();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä³ï¿½ï¿½È¼ï¿½Îªï¿½ï¿½Òªï¿½ï¿½ï¿½ßµÄ¾ï¿½ï¿½ï¿½
+	///double moveSpeed = 200;//ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶ï¿½
+	auto Singleton = AnimationCache::getInstance();//Í¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	/*ï¿½ï¿½ï¿½ï¿½ï¿½ß¶ï¿½ï¿½ï¿½ï¿½ï¿½*/
 	Animation* up_walk= Singleton->getAnimation(getid()+"up_walk");
 	Animation* down_walk = Singleton->getAnimation(getid() + "down_walk");
 	Animation* left_walk = Singleton->getAnimation(getid() + "left_walk");
@@ -71,8 +67,8 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e)
 	Animate* animate_left = Animate::create(left_walk);
 	Animate* animate_right = Animate::create(right_walk);
 	
-	auto Moving = MoveTo::create(Distance / moveSpeed, e);//¶¨ÒåÒÆ¶¯º¯Êý£¬µÚÒ»¸ö²ÎÊýÎªÊ±¼ä
-	/*¶¨ÒåÒÆ¶¯Íê³ÉµÄ»Øµ÷º¯Êý*/
+	auto Moving = MoveTo::create(Distance / moveSpeed, e);//ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ÎªÊ±ï¿½ï¿½
+	/*ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ÉµÄ»Øµï¿½ï¿½ï¿½ï¿½ï¿½*/
 	auto CallBackLeft = CallFunc::create([this,Singleton]() {
 		stopAllActions();
 		runAction(Animate::create(Singleton->getAnimation(getid() + "left_stand")));
@@ -89,10 +85,10 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e)
 		stopAllActions();
 		runAction(Animate::create(Singleton->getAnimation(getid() + "down_stand")));
 	});
-	/*Action±êÇ©×÷ÈçÏÂ¹æ¶¨£º
-	ÏòÉÏÅÜ¶¯¶¯»­£º1£»ÏòÏÂÅÜ¶¯¶¯»­£º2£»Ïò×óÅÜ¶¯¶¯»­£º3£»ÏòÓÒÅÜ¶¯¶¯»­£º4£»
-	ÏòÉÏ×ß¶¯£º5£»ÏòÏÂ×ß¶¯£º6£»Ïò×ó×ß¶¯£º7£»ÏòÓÒ×ß¶¯£º8£»
-	ÏòÉÏÕ½Á¢£º9£»ÏòÏÂÕ½Á¢£º10£»Ïò×óÕ½Á¢£º11£»ÏòÓÒÕ½Á¢£º12.
+	/*Actionï¿½ï¿½Ç©ï¿½ï¿½ï¿½ï¿½ï¿½Â¹æ¶¨ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½ï¿½Ü¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½3ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ü¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½4ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½ï¿½ß¶ï¿½ï¿½ï¿½5ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¶ï¿½ï¿½ï¿½6ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¶ï¿½ï¿½ï¿½7ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¶ï¿½ï¿½ï¿½8ï¿½ï¿½
+	ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½9ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½10ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½11ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õ½ï¿½ï¿½ï¿½ï¿½12.
 	*/
 	switch (direction)
 	{
@@ -151,18 +147,22 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e)
 		break;
 	}
 }
-Sprite* unit::attack(unit *target)//·µ»Ø¹¥»÷²úÉúµÄµ¯µÀ¶ÔÏóÖ¸Õë£¬¿ÉÒÔ°ÑËü¼Óµ½layerÖÐÈ¥¡£
+Sprite* unit::attack(unit *target)//ï¿½ï¿½ï¿½Ø¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Äµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ë£¬ï¿½ï¿½ï¿½Ô°ï¿½ï¿½ï¿½ï¿½Óµï¿½layerï¿½ï¿½È¥ï¿½ï¿½
 {
 	if (canAttack == false) return NULL;
 	this->stopAllActions();
 	auto aniCache = AnimationCache::getInstance();
 	canAttack = false;
-	switch (getDir(getPosition(), target->getPosition())) {
-	case Direction::RIGHT:runAction(Animate::create(aniCache->getAnimation(id + "right_attack"))); break;
-	case Direction::LEFT:runAction(Animate::create(aniCache->getAnimation(id + "left_attack"))); break;
-	case Direction::UP:runAction(Animate::create(aniCache->getAnimation(id + "up_attack"))); break;
-	case Direction::DOWN:runAction(Animate::create(aniCache->getAnimation(id + "down_attack"))); break;
+	if(getid()[0]!='T'){
+	
+		switch (getDir(getPosition(), target->getPosition())) {
+		case Direction::RIGHT:runAction(Animate::create(aniCache->getAnimation(id + "right_attack"))); break;
+		case Direction::LEFT:runAction(Animate::create(aniCache->getAnimation(id + "left_attack"))); break;
+		case Direction::UP:runAction(Animate::create(aniCache->getAnimation(id + "up_attack"))); break;
+		case Direction::DOWN:runAction(Animate::create(aniCache->getAnimation(id + "down_attack"))); break;
+		}
 	}
+
 	ammo *amo = ammo::create();
 	amo->initial(this->getAmmoFrameName(),this->getid(),getPosition(), getDamage(), getAmmoSpeed());
 	auto id1 = target->getid(); auto id2 = amo->getid();
@@ -179,9 +179,10 @@ void unit::attackTo(unit * target)
 {
 	Vec2 destination = target->getPosition();
 	float angle = CC_RADIANS_TO_DEGREES((destination - getPosition()).getAngle());
-	if ((getPosition() - destination).length() > (data->getAttackRange())) {
+	if ((getPosition() - destination).length() > (data->getAttackRange())&& getid()[0] != 'T') {
 		moveDirectionByKey(getDir(angle), destination);
 	}
+	
 	else attack(target);
 }
 
@@ -214,7 +215,7 @@ unit::~unit()
 //	delete(this);
 }
 
-//¸÷Àà¹¦ÄÜº¯Êý
+//ï¿½ï¿½ï¿½à¹¦ï¿½Üºï¿½ï¿½ï¿½
 bool unit::addEquipment(std::string itemName)
 {
 	auto item = Equipment(itemName);

@@ -70,7 +70,9 @@ void HP::initial(HpinitialData data)
 		, bloodrect->getPositionY());
 	emptyBlood->setScaleX(bloodrect->getContentSize().width/emptyBlood->getContentSize().width);
 	emptyBlood->setScaleY(bloodrect->getContentSize().height / emptyBlood->getContentSize().height);
-
+	curBlood->setAnchorPoint(Vec2(0, 0));
+	bloodrect->setAnchorPoint(Vec2(0, 0));
+	emptyBlood->setAnchorPoint(Vec2(0, 0));
 	data._map->addChild(emptyBlood, 4);
 	this->scheduleUpdate();
 	return;

@@ -20,21 +20,21 @@ void Game::initwithRole(string HeroName)
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
 	Time = 0;
-	//鍒濆鍖栧湴鍥?
+	//初始化地图
 	_tileMap = TMXTiledMap::create("map/map1.tmx");
 	addChild(_tileMap, 0, 100);
 
-	//鍒濆鍖栫鎾炲眰
+	//获取碰撞层
 	_collidable = _tileMap->getLayer("collidable");
 	_collidable->setVisible(false);
 
-	//鑾峰彇鍦板浘璁剧疆鍑虹敓鐐?
+	//获取地图上英雄的出生点
 	auto group = _tileMap->getObjectGroup("hero");
 	auto spawnPoint = group->getObject("spawnpoint");
 	float x = spawnPoint["x"].asFloat();
 	float y = spawnPoint["y"].asFloat();
 
-	//鍒濆鍖栧崟浣嶅睘鎬?
+	//我方英雄根据选择进行初始化
 	if (HeroName == string("HbHouYi"))
 	{
 		hero1 = HouYi::create();
@@ -52,21 +52,42 @@ void Game::initwithRole(string HeroName)
 	}
 	else if (HeroName == string("HbYaSe"))
 	{
-		hero1 = DaJi::create();
+		hero1 = YaSe::create();
 		((YaSe*)hero1)->initwithRole(HeroName, _tileMap, Vec2(x, y), (&unitsOnMap));
 		addToMap(hero1, 0, 200);
 		MyUnit.pushBack(hero1);
 	}
-
-	auto hero2 = HouYi::create();
+	//我方英雄技能图标初始化
+	InitSkillButton(HeroName);
+	//敌方AI英雄初始化
+	/*auto hero2 = HouYi::create();
 	((HouYi*)hero2)->initwithRole(string("HrHouYi"), _tileMap, Vec2(x, y), (&unitsOnMap));
 	hero2->setPosition(500, 500);
+
 	addToMap(hero2, 0, 200);
-	EnemeyUnit.pushBack(hero2);
+	EnemeyUnit.pushBack(hero2);*/
 
-	
-	InitSkillButton(HeroName);
+	//我方塔敌方塔初始化
+	auto MyTower1 = Tower::create();
+	MyTower1->InitWithRole(string("Tb1"), _tileMap, (&unitsOnMap));
+	addToMap(MyTower1, 0, 200); MyTower.pushBack(MyTower1); MyUnit.pushBack(MyTower1);
+	auto MyTower2 = Tower::create();
+	MyTower2->InitWithRole(string("Tb2"), _tileMap, (&unitsOnMap));
+	addToMap(MyTower2, 0, 200); MyTower.pushBack(MyTower2); MyUnit.pushBack(MyTower2);
+	auto MyTower3 = Tower::create();
+	MyTower3->InitWithRole(string("Tb3"), _tileMap, (&unitsOnMap));
+	addToMap(MyTower3, 0, 200); MyTower.pushBack(MyTower3);
+	auto EnemeyTower1 = Tower::create();
+	EnemeyTower1->InitWithRole(string("Tr1"), _tileMap, (&unitsOnMap));
+	addToMap(EnemeyTower1, 0, 200); EnemeyTower.pushBack(EnemeyTower1); EnemeyUnit.pushBack(EnemeyTower1);
+	auto EnemeyTower2 = Tower::create();
+	EnemeyTower2->InitWithRole(string("Tr2"), _tileMap, (&unitsOnMap));
+	addToMap(EnemeyTower2, 0, 200); EnemeyTower.pushBack(EnemeyTower2); EnemeyUnit.pushBack(EnemeyTower2);
+	auto EnemeyTower3 = Tower::create();
+	EnemeyTower3->InitWithRole(string("Tr3"), _tileMap,(&unitsOnMap));
+	addToMap(EnemeyTower3, 0, 200);EnemeyUnit.pushBack(EnemeyTower3);
 
+	//监听器初始化
 	listener = MouseController::create();
 	listener->initListener(hero1, getUnits());
 	listener->changeOffset(Vec2::ZERO);
@@ -94,10 +115,6 @@ void Game::initwithRole(string HeroName)
 	addToMap(hero2, 2, 202);
 	hero2->setScale(0.5);
 	hero2->runAction(act2);*/
-
-	//鍒濆鍖栨妧鑳藉浘鏍?
-
-
 	/*auto fileUtiles = FileUtils::getInstance();
 	auto fragmentGrayFullPath = fileUtiles->fullPathForFilename("gray.fsh");
 	auto fragSource = fileUtiles->getStringFromFile(fragmentGrayFullPath);
@@ -201,7 +218,6 @@ void Game::setViewpointCenter(Vec2 position)
 	_tileMap->setPosition(offset);
 	listener->changeOffset(offset);
 	///skillListener->changeOffset(offset);
-	TimerLabel->setVisible(true);
 	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width-50, Director::getInstance()->getVisibleSize().height - 15);
 
 }
@@ -233,10 +249,10 @@ void Game::mapupdate(float dt)
 			for (auto it2 = MyUnit.begin(); it2 != MyUnit.end(); it2++)
 			{
 				auto ID = (*it2)->getid();
-				/*if (ID[0] == 'T')
+				if (ID[0] == 'T')
 				{
 					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-					if (DIS < 100)
+					if (DIS < 200)
 					{
 						(*it)->ChangeCanAttackTower(true);
 					}
@@ -248,7 +264,7 @@ void Game::mapupdate(float dt)
 					{
 						(*it)->changeAttackingTarget(*it2);
 					}
-				}*/
+				}
 				if (ID[0] == 'H')
 				{
 					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
@@ -260,7 +276,7 @@ void Game::mapupdate(float dt)
 					{
 						(*it)->ChangeCanAttackHero(false);
 					}
-					if ((*it)->GetCanAttackHero() == true)
+					if ((*it)->GetCanAttackTower() == false&&(*it)->GetCanAttackHero() == true)
 					{
 						(*it)->changeAttackingTarget(*it2);
 					}
@@ -276,13 +292,172 @@ void Game::mapupdate(float dt)
 					{
 						(*it)->ChangeCanAttackSoldier(false);
 					}
-					if ((*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == true)
+					if ((*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == true)
 					{
 						(*it)->changeAttackingTarget(*it2);
 					}
 				}
-			}
+				if ((*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == false)
+				{
+					(*it)->changeAttackingTarget(nullptr);
+				}
 
+
+			}
+		}
+	}
+	if (!MySoldier.empty())
+	{
+		for (auto it = MySoldier.begin(); it != MySoldier.end(); it++)
+		{
+			for (auto it2 = EnemeyUnit.begin(); it2 != EnemeyUnit.end(); it2++)
+			{
+				auto ID = (*it2)->getid();
+				if (ID[0] == 'T')
+				{
+					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+					if (DIS < 200)
+					{
+						(*it)->ChangeCanAttackTower(true);
+					}
+					else
+					{
+						(*it)->ChangeCanAttackTower(false);
+					}
+					if ((*it)->GetCanAttackTower() == true)
+					{
+						(*it)->changeAttackingTarget(*it2);
+					}
+				}
+				if (ID[0] == 'H')
+				{
+					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+					if (DIS < 200)
+					{
+						(*it)->ChangeCanAttackHero(true);
+					}
+					else
+					{
+						(*it)->ChangeCanAttackHero(false);
+					}
+					if ((*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == true)
+					{
+						(*it)->changeAttackingTarget(*it2);
+					}
+				}
+				if (ID[0] == 'B')
+				{
+					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+					if (DIS < 200)
+					{
+						(*it)->ChangeCanAttackSoldier(true);
+					}
+					else
+					{
+						(*it)->ChangeCanAttackSoldier(false);
+					}
+					if ((*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == true)
+					{
+						(*it)->changeAttackingTarget(*it2);
+					}
+				}
+				if ((*it)->GetCanAttackTower() == true && (*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == true)
+				{
+					(*it)->changeAttackingTarget(nullptr);
+				}
+			}
+		}
+	}
+	if (!EnemeyTower.empty())
+	{
+		for (auto it = EnemeyTower.begin(); it != EnemeyTower.end(); it++)
+		{
+			for (auto it2 = MyUnit.begin(); it2 != MyUnit.end(); it2++)
+			{
+				auto ID = (*it2)->getid();
+				if (ID[0] == 'B')
+				{
+					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+					if (DIS < 500)
+					{
+						(*it)->ChangeCanAttackSoldier(true);
+					}
+					else
+					{
+						(*it)->ChangeCanAttackSoldier(false);
+					}
+					if ((*it)->GetCanAttackSoldier() == true)
+					{
+						(*it)->changeAttackingTarget(*it2);
+					}
+				}
+				if (ID[0] == 'H')
+				{
+					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+					if (DIS < 500)
+					{
+						(*it)->ChangeCanAttackHero(true);
+					}
+					else
+					{
+						(*it)->ChangeCanAttackHero(false);
+					}
+					if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackHero() == true)
+					{
+						(*it)->changeAttackingTarget(*it2);
+					}
+				}
+				if ((*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == false)
+				{
+					(*it)->changeAttackingTarget(nullptr);
+				}
+				}
+			}
+		}
+	if (!MyTower.empty())
+	{
+		for (auto it = MyTower.begin(); it != MyTower.end(); it++)
+		{
+			for (auto it2 = EnemeyUnit.begin(); it2 != EnemeyUnit.end(); it2++)
+			{
+				auto ID = (*it2)->getid();
+				if (ID[0] == 'B')
+				{
+					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+					if (DIS < 200)
+					{
+						(*it)->ChangeCanAttackSoldier(true);
+					}
+					else
+					{
+						(*it)->ChangeCanAttackSoldier(false);
+					}
+					if ((*it)->GetCanAttackSoldier() == true)
+					{
+						(*it)->changeAttackingTarget(*it2);
+					}
+				}
+				if (ID[0] == 'H')
+				{
+					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+					if (DIS < 200)
+					{
+						(*it)->ChangeCanAttackHero(true);
+					}
+					else
+					{
+						(*it)->ChangeCanAttackHero(false);
+					}
+					if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackHero() == true)
+					{
+						(*it)->changeAttackingTarget(*it2);
+					}
+				}
+				if ((*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == false)
+				{
+					(*it)->changeAttackingTarget(nullptr);
+				}
+			}
 		}
 	}
 }
@@ -314,34 +489,75 @@ void Game::TimeRecorder(float dt)
 		Minute_str = minute_str;
 	std::string str = Minute_str + ':' + Second_str;
 	TimerLabel = Label::createWithSystemFont(str, "Arial", 30);
-	TimerLabel->setVisible(false);
+	
 	this->addChild(TimerLabel, 3);
 
-	if (Time == 10)
+	if (Time == 2)
 	{
-		//auto Br1 = unit::create();
-		auto Br2 = Soldier::create();
-		auto Br3 = Soldier::create();
-		//auto Bb1 = unit::create();
-		auto Bb2 = Soldier::create();
-		auto Bb3 = Soldier::create();
-
-		//MySoldier.pushBack(Br1);
-		MySoldier.pushBack(Bb2); MySoldier.pushBack(Bb3);
-		MyUnit.pushBack(Bb2); MyUnit.pushBack(Bb3);
-		//EnemeySoldier.pushBack(Bb1);
-		EnemeySoldier.pushBack(Br2); EnemeySoldier.pushBack(Br3);
-		Br2->Soldierinit("Br2", _tileMap, (&unitsOnMap)); Br3->Soldierinit("Br3", _tileMap, (&unitsOnMap));
-		Bb2->Soldierinit("Bb2", _tileMap, (&unitsOnMap)); Bb3->Soldierinit("Bb3", _tileMap, (&unitsOnMap));
-		addToMap(Br2, 0, 200); addToMap(Br3, 0, 200);
-		addToMap(Bb2, 0, 200); addToMap(Bb3, 0, 200);
+		auto Br1_1 = Soldier::create();
+		Br1_1->Soldierinit("Br1",1, _tileMap, (&unitsOnMap));
+		addToMap(Br1_1, 0, 233); EnemeySoldier.pushBack(Br1_1); EnemeyUnit.pushBack(Br1_1);
+		auto Br2_1 = Soldier::create();
+		Br2_1->Soldierinit("Br2",1, _tileMap, (&unitsOnMap));
+		addToMap(Br2_1, 0, 234); EnemeySoldier.pushBack(Br2_1); EnemeyUnit.pushBack(Br2_1);
+		auto Br3_1 = Soldier::create();
+		Br3_1->Soldierinit("Br3",1, _tileMap, (&unitsOnMap));
+		addToMap(Br3_1, 0, 235); EnemeySoldier.pushBack(Br3_1); EnemeyUnit.pushBack(Br3_1);
+		auto Br1_2 = Soldier::create();
+		Br1_2->Soldierinit("Br1", 2, _tileMap, (&unitsOnMap));
+		addToMap(Br1_2, 0, 236); EnemeySoldier.pushBack(Br1_2); EnemeyUnit.pushBack(Br1_2);
+		auto Br2_2 = Soldier::create();
+		Br2_2->Soldierinit("Br2", 2, _tileMap, (&unitsOnMap));
+		addToMap(Br2_2, 0, 237); EnemeySoldier.pushBack(Br2_2); EnemeyUnit.pushBack(Br2_2);
+		auto Br3_2 = Soldier::create();
+		Br3_2->Soldierinit("Br3", 2, _tileMap, (&unitsOnMap));
+		addToMap(Br3_2, 0, 238); EnemeySoldier.pushBack(Br3_2); EnemeyUnit.pushBack(Br3_2);
+		auto Bb1_1 = Soldier::create();
+		Bb1_1->Soldierinit("Bb1", 1, _tileMap, (&unitsOnMap));
+		addToMap(Bb1_1, 0, 239); MySoldier.pushBack(Bb1_1); MyUnit.pushBack(Bb1_1);
+		auto Bb2_1 = Soldier::create();
+		Bb2_1->Soldierinit("Bb2", 1, _tileMap, (&unitsOnMap));
+		addToMap(Bb2_1, 0, 240); MySoldier.pushBack(Bb2_1); MyUnit.pushBack(Bb2_1);
+		auto Bb3_1 = Soldier::create();
+		Bb3_1->Soldierinit("Bb3", 1, _tileMap, (&unitsOnMap));
+		addToMap(Bb3_1, 0, 241); MySoldier.pushBack(Bb3_1); MyUnit.pushBack(Bb3_1);
+		auto Bb1_2 = Soldier::create();
+		Bb1_2->Soldierinit("Bb1", 2, _tileMap, (&unitsOnMap));
+		addToMap(Bb1_2, 0, 239); MySoldier.pushBack(Bb1_2); MyUnit.pushBack(Bb1_2);
+		auto Bb2_2 = Soldier::create();
+		Bb2_2->Soldierinit("Bb2", 2, _tileMap, (&unitsOnMap));
+		addToMap(Bb2_2, 0, 240); MySoldier.pushBack(Bb2_2); MyUnit.pushBack(Bb2_2);
+		auto Bb3_2 = Soldier::create();
+		Bb3_2->Soldierinit("Bb3", 2, _tileMap, (&unitsOnMap));
+		addToMap(Bb3_2, 0, 241); MySoldier.pushBack(Bb3_2); MyUnit.pushBack(Bb3_2);
 		//Br1->moveDirectionByKey(Br1->getDir(Br1->getPosition(), Vec2(1000, 1000)), Vec2(1000, 1000));
 
 		//Bb1->moveDirectionByKey(Bb1->getDir(Bb1->getPosition(), Vec2(0, 0)), Vec2(0, 0));
 		//Bb2->moveDirectionByKey(Bb2->getDir(Bb2->getPosition(), Vec2(0, 0)), Vec2(0, 0));
 		//Bb3->moveDirectionByKey(Bb3->getDir(Bb3->getPosition(), Vec2(0, 0)), Vec2(0, 0));
 	}
+	if (!MySoldier.empty())
+	{
+		for (auto it = MySoldier.begin(); it != MySoldier.end(); it++)
+		{
+			(*it)->AttackingJudgeAI();
+		}
+	}
 	if (!EnemeySoldier.empty())
+	{
+		for (auto it = EnemeySoldier.begin(); it != EnemeySoldier.end(); it++)
+		{
+			(*it)->AttackingJudgeAI();
+		}
+	}
+	if (!EnemeyTower.empty())
+	{
+		for (auto it = EnemeyTower.begin(); it != EnemeyTower.end(); it++)
+		{
+			(*it)->AttackingJudgeAI();
+		}
+	}
+	if (!MyTower.empty())
 	{
 		for (auto it = EnemeySoldier.begin(); it != EnemeySoldier.end(); it++)
 		{

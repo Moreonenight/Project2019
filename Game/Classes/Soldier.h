@@ -12,6 +12,7 @@ private:
 	bool CanAttackHero;
 	bool Alreadydead;
 	unit* AttackingTarget;
+	int Destination;
 public:
 	inline void ChangeAlreadydead(bool dead)
 	{
@@ -69,13 +70,13 @@ public:
 
 	}
 	bool AttackingJudgeAI();
-	bool Soldierinit(string Soldiername,cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits);
 
+	bool Soldierinit(string Soldiername, int number, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits);
 
 	virtual int getDamage(int delta, std::string fromId) {
 		if (hp->getCur() < delta) {
 			die();
-			//µÃµ½»÷É±Õßunit*Ìí¼Ó½±Àø
+			//ÂµÃƒÂµÂ½Â»Ã·Ã‰Â±Ã•ÃŸunit*ÃŒÃ­Â¼Ã“Â½Â±Ã€Ã¸
 			if (fromId[0] == 'H') {
 				unit* killUnit = getUnitWithId(fromId);
 				if (killUnit != nullptr) {
@@ -89,7 +90,6 @@ public:
 		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
 		return hp->getCur();
 	}
-
 
 	void update(float dt) {
 		//hp->update();
