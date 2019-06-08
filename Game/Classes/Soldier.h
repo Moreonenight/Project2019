@@ -12,6 +12,7 @@ private:
 	bool CanAttackHero;
 	bool Alreadydead;
 	unit* AttackingTarget;
+	int Destination;
 public:
 	inline void ChangeAlreadydead(bool dead)
 	{
@@ -69,7 +70,7 @@ public:
 
 	}
 	bool AttackingJudgeAI();
-	bool Soldierinit(string Soldiername,cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits);
+	bool Soldierinit(string Soldiername, int number, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits);
 	void update(float dt) {
 		//hp->update();
 		if (hp->getCur() <= 1) die();
