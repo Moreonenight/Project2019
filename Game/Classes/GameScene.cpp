@@ -58,13 +58,33 @@ void Game::initwithRole(string HeroName)
 	}
 	//我方英雄技能图标初始化
 	InitSkillButton(HeroName);
-	//敌方AI英雄初始化
-	/*auto hero2 = HouYi::create();
-	((HouYi*)hero2)->initwithRole(string("HrHouYi"), _tileMap, Vec2(x, y), (&unitsOnMap));
-	hero2->setPosition(500, 500);
-
-	addToMap(hero2, 0, 200);
-	EnemeyUnit.pushBack(hero2);*/
+	//随机产生一名敌方AI英雄并初始化
+	srand(time(NULL));
+	int RandNumber = rand() % 100;
+	if (RandNumber >= 0 && RandNumber <= 33)
+	{
+		hero2 = HouYi::create();
+        ((HouYi*)hero2)->initwithRole(string("HrHouYi"), _tileMap, Vec2(x, y), (&unitsOnMap));
+        hero2->setPosition(500, 500);
+        addToMap(hero2, 0, 200);
+        EnemeyUnit.pushBack(hero2);
+	}
+	else if (RandNumber <= 66)
+	{
+		hero2 = DaJi::create();
+		((DaJi*)hero2)->initwithRole(string("HrDaJi"), _tileMap, Vec2(x, y), (&unitsOnMap));
+		hero2->setPosition(500, 500);
+		addToMap(hero2, 0, 200);
+		EnemeyUnit.pushBack(hero2);
+	}
+	else if (RandNumber <= 99)
+	{
+		hero2 = YaSe::create();
+		((YaSe*)hero2)->initwithRole(string("HrYaSe"), _tileMap, Vec2(x, y), (&unitsOnMap));
+		hero2->setPosition(500, 500);
+		addToMap(hero2, 0, 200);
+		EnemeyUnit.pushBack(hero2);
+	}
 
 	//我方塔敌方塔初始化
 	auto MyTower1 = Tower::create();
@@ -90,6 +110,9 @@ void Game::initwithRole(string HeroName)
 	listener = MouseController::create();
 	listener->initListener(hero1, getUnits());
 	listener->changeOffset(Vec2::ZERO);
+	//战绩页面初始化
+	InitTabListener(hero1->getid(),hero2->getid());
+
 	//////////////////////////
 	/*
 
@@ -173,6 +196,85 @@ bool Game::init()
 	}
 	return true;
 }
+void Game::InitTabListener(string Hero1Name,string Hero2Name)
+{
+	auto GradeLayer = Layer::create();
+	this->addChild(GradeLayer,3,138);
+	auto Gradebg = Sprite::create("bg/GradeScene.jpg");
+	Gradebg->setPosition(Director::getInstance()->getVisibleSize().width / 2, Director::getInstance()->getVisibleSize().height / 2);
+	GradeLayer->addChild(Gradebg, 0); Gradebg->setScale(0.5f); GradeLayer->setVisible(false);
+	auto LabelTitle = Label::create("Military Exploits", "fonts/Marker Felt.ttf", 35);
+	LabelTitle->setPosition(480, 440); LabelTitle->enableGlow(Color4B::MAGENTA);
+	auto LabelHero = Label::create("Your Hero", "fonts/Marker Felt.ttf", 30);
+	LabelHero->setPosition(250, 410); LabelHero->enableGlow(Color4B::GREEN);
+	GradeLayer->addChild(LabelHero, 1);
+	auto YourHero = Sprite::create(Hero1Name + "/Choose.png"); YourHero->setScale(0.25f); YourHero->setPosition(250, 340);
+	GradeLayer->addChild(YourHero, 1);
+	GradeLayer->addChild(LabelTitle, 1);
+	auto EnemeyHero = Sprite::create(Hero2Name + "/Choose.png"); EnemeyHero->setScale(0.25f); EnemeyHero->setPosition(250, 180);
+	GradeLayer->addChild(EnemeyHero, 1);
+	auto LabelHero2 = Label::create("Enemey Hero", "fonts/Marker Felt.ttf", 30);
+	LabelHero2->setPosition(250, 240); LabelHero2->enableGlow(Color4B::RED);
+	GradeLayer->addChild(LabelHero2, 1);
+	auto TabListener = EventListenerKeyboard::create();
+	TabListener->onKeyPressed = [this,Gradebg, GradeLayer](EventKeyboard::KeyCode keyCode, Event * event) {
+		if (keyCode == EventKeyboard::KeyCode::KEY_TAB)
+		{
+			GradeLayer->setVisible(true);
+		}
+		if (GradeLayer->getChildByTag(312) != nullptr) { GradeLayer->removeChildByTag(312); }
+		if (GradeLayer->getChildByTag(313) != nullptr) { GradeLayer->removeChildByTag(313); }
+		if (GradeLayer->getChildByTag(314) != nullptr) { GradeLayer->removeChildByTag(314); }
+		if (GradeLayer->getChildByTag(315) != nullptr) { GradeLayer->removeChildByTag(315); }
+		if (GradeLayer->getChildByTag(316) != nullptr) { GradeLayer->removeChildByTag(316); }
+		if (GradeLayer->getChildByTag(317) != nullptr) { GradeLayer->removeChildByTag(317); }
+		if (GradeLayer->getChildByTag(318) != nullptr) { GradeLayer->removeChildByTag(318); }
+		if (GradeLayer->getChildByTag(319) != nullptr) { GradeLayer->removeChildByTag(319); }
+		if (GradeLayer->getChildByTag(320) != nullptr) { GradeLayer->removeChildByTag(320); }
+		if (GradeLayer->getChildByTag(321) != nullptr) { GradeLayer->removeChildByTag(321); }
+		if (GradeLayer->getChildByTag(322) != nullptr) { GradeLayer->removeChildByTag(322); }
+		if (GradeLayer->getChildByTag(323) != nullptr) { GradeLayer->removeChildByTag(323); }
+		auto LabelLevel = Label::create("LV"+to_string(hero1->getExp()->getLevel()), "fonts/arial.ttf", 50);
+		LabelLevel->setPosition(650, 330); LabelLevel->setAnchorPoint(Vec2(0, 0)); LabelLevel->enableGlow(Color4B::GREEN);
+		auto LabelKill = Label::create("Number of kills:" + to_string(hero1->getKillHero()), "fonts/arial.ttf", 25);
+		LabelKill->setPosition(340, 390); LabelKill->setAnchorPoint(Vec2(0, 0)); LabelKill->enableGlow(Color4B::GREEN);
+		auto LabelDead = Label::create("Number of deaths:" + to_string(hero1->getDeath()) , "fonts/arial.ttf", 25);
+		LabelDead->setPosition(340, 360); LabelDead->setAnchorPoint(Vec2(0, 0)); LabelDead->enableGlow(Color4B::GREEN);
+		auto LabelKillSoldier = Label::create("Number of killsoldiers:" + to_string(hero1->getKillSoldiers()), "fonts/arial.ttf", 25);
+		LabelKillSoldier->setPosition(340, 330); LabelKillSoldier->setAnchorPoint(Vec2(0, 0)); LabelKillSoldier->enableGlow(Color4B::GREEN);
+		auto Labeldamage = Label::create("Current Damage:"+ to_string(hero1->getDamage()), "fonts/arial.ttf", 25);
+		Labeldamage->setPosition(340, 300); Labeldamage->setAnchorPoint(Vec2(0, 0)); Labeldamage->enableGlow(Color4B::GREEN);
+		auto LabelBlood = Label::create("Current Max HP:" + to_string(hero1->getMaxHp()), "fonts/arial.ttf", 25);
+		LabelBlood->setPosition(340, 270); LabelBlood->setAnchorPoint(Vec2(0, 0)); LabelBlood->enableGlow(Color4B::GREEN);
+		auto LabelLevel2 = Label::create("LV"+to_string(hero2->getExp()->getLevel()), "fonts/arial.ttf", 50);
+		LabelLevel2->setPosition(650, 180); LabelLevel2->setAnchorPoint(Vec2(0, 0));
+		auto LabelKill2 = Label::create("Number of kills:" + to_string(hero2->getKillHero()), "fonts/arial.ttf", 25);LabelLevel2->enableGlow(Color4B::RED);
+		LabelKill2->setPosition(340, 240); LabelKill2->setAnchorPoint(Vec2(0, 0)); LabelKill2->enableGlow(Color4B::RED);
+		auto LabelDead2 = Label::create("Number of deaths:" + to_string(hero2->getDeath()), "fonts/arial.ttf", 25);
+		LabelDead2->setPosition(340, 210); LabelDead2->setAnchorPoint(Vec2(0, 0)); LabelDead2->enableGlow(Color4B::RED);
+		auto LabelKillSoldier2 = Label::create("Number of killsoldiers:" + to_string(hero2->getKillSoldiers()), "fonts/arial.ttf", 25);
+		LabelKillSoldier2->setPosition(340, 180); LabelKillSoldier2->setAnchorPoint(Vec2(0, 0)); LabelKillSoldier2->enableGlow(Color4B::RED);
+		auto Labeldamage2 = Label::create("Current Damage:"+to_string(hero2->getDamage()), "fonts/arial.ttf", 25);
+		Labeldamage2->setPosition(340, 150); Labeldamage2->setAnchorPoint(Vec2(0, 0)); Labeldamage2->enableGlow(Color4B::RED);
+		auto LabelBlood2 = Label::create("Current Max HP:" + to_string(hero2->getMaxHp()), "fonts/arial.ttf", 25);
+		LabelBlood2->setPosition(340, 120); LabelBlood2->setAnchorPoint(Vec2(0, 0)); LabelBlood2->enableGlow(Color4B::RED);
+		GradeLayer->addChild(LabelKill, 1,312); GradeLayer->addChild(LabelDead, 1, 313); GradeLayer->addChild(LabelKillSoldier, 1, 314);
+		GradeLayer->addChild(Labeldamage, 1, 315); GradeLayer->addChild(LabelBlood, 1, 316);
+		GradeLayer->addChild(LabelLevel, 1, 317);
+		GradeLayer->addChild(LabelKill2, 1, 318); GradeLayer->addChild(LabelDead2, 1, 319); GradeLayer->addChild(LabelKillSoldier2, 1, 320);
+		GradeLayer->addChild(Labeldamage2, 1, 321); GradeLayer->addChild(LabelBlood2,1, 322);
+		GradeLayer->addChild(LabelLevel2, 1, 323);
+
+	};
+	TabListener->onKeyReleased = [this, Gradebg, GradeLayer](EventKeyboard::KeyCode keyCode, Event * event) {
+		if (keyCode == EventKeyboard::KeyCode::KEY_TAB)
+		{
+			GradeLayer->setVisible(false);
+		}
+	};
+	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(TabListener, this);
+}
+
 void Game::InitSkillButton(string HeroName)
 {
 	auto Skill1Button = CCSprite::create("Skills/" + HeroName + "_Sk1.png");
@@ -712,3 +814,15 @@ void Game::buySwordCallBack(cocos2d::Ref* pSender)
 	hero1->addEquipment("Sword");
 }
 
+char * Game::FontToUTF8(const char* font) {
+	int len = MultiByteToWideChar(CP_ACP, 0, font, -1, NULL, 0);
+	wchar_t *wstr = new wchar_t[len + 1];
+	memset(wstr, 0, len + 1);
+	MultiByteToWideChar(CP_ACP, 0, font, -1, wstr, len);
+	len = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, NULL, 0, NULL, NULL);
+	char *str = new char[len + 1];
+	memset(str, 0, len + 1);
+	WideCharToMultiByte(CP_UTF8, 0, wstr, -1, str, len, NULL, NULL);
+	if (wstr)delete[] wstr;
+	return str;
+}

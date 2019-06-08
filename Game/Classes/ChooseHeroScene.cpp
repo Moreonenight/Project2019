@@ -125,16 +125,10 @@ void ChooseHeroScene::HouYiEnterCallback(cocos2d::Ref* pSender)
 }
 
 
-
 void ChooseHeroScene::menuItem1Callback(cocos2d::Ref* pSender)
 {
 	Director::getInstance()->popScene();
 }
-
-
-
-
-
 
 char *ChooseHeroScene::FontToUTF8(const char* font) {
 	int len = MultiByteToWideChar(CP_ACP, 0, font, -1, NULL, 0);

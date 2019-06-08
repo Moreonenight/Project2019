@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>000160.png</key>
+            <key>00000160.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -19,7 +19,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000161.png</key>
+            <key>00000161.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -34,7 +34,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000162.png</key>
+            <key>00000162.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -49,7 +49,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>000163.png</key>
+            <key>00000163.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -64,7 +64,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>000164.png</key>
+            <key>00000164.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -79,7 +79,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>000165.png</key>
+            <key>00000165.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -94,7 +94,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>000166.png</key>
+            <key>00000166.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -109,7 +109,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000167.png</key>
+            <key>00000167.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -124,7 +124,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>000180.png</key>
+            <key>00000180.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -139,7 +139,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000181.png</key>
+            <key>00000181.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -154,7 +154,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000182.png</key>
+            <key>00000182.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -169,7 +169,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000183.png</key>
+            <key>00000183.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -184,7 +184,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000184.png</key>
+            <key>00000184.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -199,7 +199,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000185.png</key>
+            <key>00000185.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -214,7 +214,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000186.png</key>
+            <key>00000186.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -229,7 +229,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000187.png</key>
+            <key>00000187.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -244,7 +244,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000200.png</key>
+            <key>00000200.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -259,7 +259,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000201.png</key>
+            <key>00000201.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -274,7 +274,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000202.png</key>
+            <key>00000202.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -289,7 +289,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000203.png</key>
+            <key>00000203.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -304,7 +304,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>000204.png</key>
+            <key>00000204.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -319,7 +319,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>000205.png</key>
+            <key>00000205.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -334,7 +334,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>000206.png</key>
+            <key>00000206.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -349,7 +349,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000207.png</key>
+            <key>00000207.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -364,7 +364,7 @@
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>000220.png</key>
+            <key>00000220.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -379,7 +379,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000221.png</key>
+            <key>00000221.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -394,7 +394,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000222.png</key>
+            <key>00000222.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -409,7 +409,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000223.png</key>
+            <key>00000223.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -424,7 +424,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000224.png</key>
+            <key>00000224.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -439,7 +439,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000225.png</key>
+            <key>00000225.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -454,7 +454,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000226.png</key>
+            <key>00000226.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -469,7 +469,7 @@
                 <key>textureRotated</key>
                 <true/>
             </dict>
-            <key>000227.png</key>
+            <key>00000227.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -498,7 +498,7 @@
             <key>size</key>
             <string>{1960,1128}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:18e45872ea484bcbf1f0a159166daa93:eb1a080e88026fa99f848c222439f456:856f6152432936647e7bca42c85187ec$</string>
+            <string>$TexturePacker:SmartUpdate:ea068e583a72e276869833356f3bd038:eb1a080e88026fa99f848c222439f456:856f6152432936647e7bca42c85187ec$</string>
             <key>textureFileName</key>
             <string>attack.png</string>
         </dict>

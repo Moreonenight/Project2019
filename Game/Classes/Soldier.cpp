@@ -80,38 +80,16 @@ bool Soldier::Soldierinit(string Soldiername,int number,cocos2d::TMXTiledMap* Ma
 bool Soldier::AttackingJudgeAI()
 {
 
-	auto actAttack1 = Animate::create(AnimationCache::getInstance()->getAnimation(getid() + "up_attack"));
-	auto actAttack2 = Animate::create(AnimationCache::getInstance()->getAnimation(getid() + "down_attack"));
-	auto actAttack3 = Animate::create(AnimationCache::getInstance()->getAnimation(getid() + "left_attack"));
-	auto actAttack4 = Animate::create(AnimationCache::getInstance()->getAnimation(getid() + "right_attack"));
+	
 	if (getAttackingTarget() == nullptr)
 	{
-		//stopAllActions();
+		stopAllActions();
 		moveDirectionByKey(getDir(getPosition(), Vec2(1930, 1430)), Vec2(1930, 1430));
 	}
 	else {
 		attackTo(getAttackingTarget());
-		auto Direction = getDir(getPosition(), getAttackingTarget()->getPosition());
-		switch (Direction)
-		{
-		case unit::Direction::UP:
-			runAction(actAttack1)->setTag(20);
-			break;
-		case unit::Direction::DOWN:
-			runAction(actAttack2)->setTag(20);
-			break;
-		case unit::Direction::LEFT:
-			runAction(actAttack3)->setTag(20);
-			break;
-		case unit::Direction::RIGHT:
-			runAction(actAttack4)->setTag(20);
-			break;
-		case unit::Direction::NONE:
-			break;
-		default:
-			break;
+	
 		}
-	}
 	return true;
 }
 

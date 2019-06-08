@@ -13,6 +13,7 @@
 #include "SimpleAudioEngine.h"
 #include <stdlib.h>   
 #include <string.h>
+#include<time.h>
 
 USING_NS_CC;
 class Game : public cocos2d::Layer
@@ -29,6 +30,7 @@ class Game : public cocos2d::Layer
 	cocos2d::Layer* _skillLayer = nullptr;
 	int Time;
 	unit* hero1;
+	unit* hero2;
 	Vector<unit*> unitsOnMap;
 	Vector<unit*> MyUnit;
 	Vector<unit*> EnemeyUnit;
@@ -50,7 +52,8 @@ public:
 	void addToMap(unit* unit, int zorder, int Tag);
 	Vector<Node*> *selectFromMap(Vec2 pos);
 	Vector<unit*> *getUnits();
-
+	void InitTabListener(string Hero1Name,string Hero2Name);
+	char* FontToUTF8(const char* font);
 	// a selector callback
 	void menuItem1Callback(cocos2d::Ref* pSender);
 	void createShopCallBack(cocos2d::Ref* pSender);
