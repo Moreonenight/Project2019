@@ -13,8 +13,9 @@ private:
 	
 	std::string id;
 	int level,
-		gold, 
+		gold,
 		damage,
+		InitDamage,
 		ASPD,
 		moveSpeed,
 		ammoSpeed,
@@ -59,7 +60,7 @@ public:
 	
 	
 	~unit();
-	
+	inline int getInitDamage() { return InitDamage; }
 	int getDefenceOfPhysical() {
 		return defenceOfPhysical;
 	}

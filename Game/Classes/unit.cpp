@@ -12,19 +12,20 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 	unitsOnMap = mapUnits;
 	bool EnemeyorAlley;
 	//addChild(hp, 3);
-	
 	id = data->getUnitid();
 	//id未确定
 	//Velocity = data->getVelocity();
 	moveSpeed = data->getMoveSpeed();
 	level = 1; 
 	damage = data->getDamage();
+	InitDamage = damage;//对于塔,想记录一下最初始的攻击力是多少,便于后续恢复
 	ammoSpeed = data->getAmmoSpeed();
 	ASPD = data->getASPD(); 
 	defenceOfPhysical = data->getDefenceOfPhysical();
 	defenceOfMagic = data->getDefenceOfMagic();
 	canAttack = true;
 	hp = HP::create();
+	hp->changeID(id);
 	if (data->getUnitid()[1] == 'r')
 	{
 		EnemeyorAlley = true;
@@ -152,12 +153,16 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	this->stopAllActions();
 	auto aniCache = AnimationCache::getInstance();
 	canAttack = false;
-	switch (getDir(getPosition(), target->getPosition())) {
-	case Direction::RIGHT:runAction(Animate::create(aniCache->getAnimation(id + "right_attack"))); break;
-	case Direction::LEFT:runAction(Animate::create(aniCache->getAnimation(id + "left_attack"))); break;
-	case Direction::UP:runAction(Animate::create(aniCache->getAnimation(id + "up_attack"))); break;
-	case Direction::DOWN:runAction(Animate::create(aniCache->getAnimation(id + "down_attack"))); break;
+	if(getid()[0]!='T'){
+	
+		switch (getDir(getPosition(), target->getPosition())) {
+		case Direction::RIGHT:runAction(Animate::create(aniCache->getAnimation(id + "right_attack"))); break;
+		case Direction::LEFT:runAction(Animate::create(aniCache->getAnimation(id + "left_attack"))); break;
+		case Direction::UP:runAction(Animate::create(aniCache->getAnimation(id + "up_attack"))); break;
+		case Direction::DOWN:runAction(Animate::create(aniCache->getAnimation(id + "down_attack"))); break;
+		}
 	}
+
 	ammo *amo = ammo::create();
 	amo->initial(this->getAmmoFrameName(),this->getid(),getPosition(), getDamage(), getAmmoSpeed());
 	auto id1 = target->getid(); auto id2 = amo->getid();
@@ -174,9 +179,10 @@ void unit::attackTo(unit * target)
 {
 	Vec2 destination = target->getPosition();
 	float angle = CC_RADIANS_TO_DEGREES((destination - getPosition()).getAngle());
-	if ((getPosition() - destination).length() > (data->getAttackRange())) {
+	if ((getPosition() - destination).length() > (data->getAttackRange())&& getid()[0] != 'T') {
 		moveDirectionByKey(getDir(angle), destination);
 	}
+	
 	else attack(target);
 }
 
