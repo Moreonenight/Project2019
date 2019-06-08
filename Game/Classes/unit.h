@@ -2,6 +2,8 @@
 #include "unitdata.h"
 #include "ammo.h"
 #include "HP.h"
+#include "Exp.h"
+#include "Equipment.h"
 USING_NS_CC;
 class HP;
 class unit:public Sprite
@@ -22,11 +24,13 @@ private:
 		defenceOfMagic,
 		recoverOfMana;
 
-	Animate* AnimateLeft;
-Vec2 beforePos;
+		Animate* AnimateLeft;
+		Vec2 beforePos;
+		Equipment equip[6];
 
 public:
 	HP *hp;//MP maxMana;
+	Exp *exp=nullptr;
 	bool canAttack;
 	vector<ammo*> ammosOnWay;
 	cocos2d::TMXTiledMap* _map;
@@ -63,41 +67,48 @@ public:
 	int getDefencOfMagic() {
 		return defenceOfMagic;
 	}
+
+	//getFunc
 	//int getMaxMana() { return maxMana; }
 	HP* getHp() { return hp; }
+	Exp* getExp(){ return exp; }
 	int getRecoverOfMana() { return recoverOfMana; }
 	int getGold() { return gold; }int changeGold(int delta) { if (gold + delta <= 0)gold = 0; else gold += delta; return gold; }
 	inline string getid() { return id; }
 	inline int getMaxHp();
 	inline int getMoveSpeed() {		return moveSpeed;	}
 	inline int getDamage() { return damage; }/*when want to know how much the unit damage is*/
-	inline int changeMoveSpeed(int delta) { if (moveSpeed + delta < 0)moveSpeed = 0; else moveSpeed += delta; return moveSpeed; }
-	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
 	int getAmmoSpeed() { return ammoSpeed; }
 	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
 	
-	
+
+
+	//change Func
 	inline std::string changeid(string newid) { id = newid; return id; }
 	inline void changeMaxHp(int delta);
-	
+	inline int changeMoveSpeed(int delta) { if (moveSpeed + delta < 0)moveSpeed = 0; else moveSpeed += delta; return moveSpeed; }
+	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
+	inline void changeCurExp(int delta) { exp->changeCurExp(delta); }
 
 
 
 
-
+	//otherFunc
 	void getAttacked(ammo* amo) {
 		ammosOnWay.push_back(amo);
 		amo->changeTargetPosition(getPosition());
 		return;
 	}
 
-	int getDamage(int delta,std::string fromId) {
+	virtual int getDamage(int delta,std::string fromId) {
 		if (hp->getCur() < delta) {
 			die();
 			//得到击杀者unit*添加奖励
-			unit* killUnit=getUnitWithId(fromId);
-			if (killUnit != nullptr) {
-				killUnit->changeGold(50);
+			if (fromId[0] == 'H') {
+				unit* killUnit = getUnitWithId(fromId);
+				if (killUnit != nullptr) {
+					killUnit->changeGold(50);
+				}
 			}
 			this->setPosition(Vec2(270, 90));
 			hp->changeCur(60000);
@@ -161,5 +172,6 @@ public:
 		else { this->canAttack = 1; return; }
 	}*/
 	unit* getUnitWithId(std::string id);
+	bool addEquipment(std::string itemId);
 };
 

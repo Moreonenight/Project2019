@@ -66,6 +66,12 @@
     <ClCompile Include="..\Classes\Yase.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Equipment.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Exp.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -120,6 +126,12 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\YaSe.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Equipment.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Exp.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

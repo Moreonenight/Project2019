@@ -70,7 +70,27 @@ public:
 
 	}
 	bool AttackingJudgeAI();
+
 	bool Soldierinit(string Soldiername, int number, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits);
+
+	virtual int getDamage(int delta, std::string fromId) {
+		if (hp->getCur() < delta) {
+			die();
+			//µÃµ½»÷É±Õßunit*Ìí¼Ó½±Àø
+			if (fromId[0] == 'H') {
+				unit* killUnit = getUnitWithId(fromId);
+				if (killUnit != nullptr) {
+					killUnit->changeGold(this->getGold());
+					(killUnit->getExp())->changeCurExp(30);
+				}
+			}
+			this->setPosition(Vec2(270, 90));
+			hp->changeCur(3000000);
+		}
+		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
+		return hp->getCur();
+	}
+
 	void update(float dt) {
 		//hp->update();
 		if (hp->getCur() <= 1) die();

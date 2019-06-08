@@ -27,7 +27,7 @@ public:
 		//hp->update();
 		if (hp->getCur() <= 1) die();
 		hp->follow(getPosition());
-
+		exp->follow(getPosition());
 		auto it = ammosOnWay.begin();
 		for (; it < ammosOnWay.end(); it++) {
 			auto Dis = (this->getPosition() - (*it)->getPosition()).length();
@@ -47,6 +47,23 @@ public:
 		}
 		if (this->canAttack == 1)return;
 		else { this->canAttack = 1; return; }
+	}
+	virtual int getDamage(int delta, std::string fromId) {
+		if (hp->getCur() < delta) {
+			die();
+			//得到击杀者unit*添加奖励
+			if (fromId[0] == 'H') {
+				unit* killUnit = getUnitWithId(fromId);
+				if (killUnit != nullptr) {
+					killUnit->changeGold(float(getGold())*0.3>150? float(getGold())*0.3:150);
+					killUnit->changeCurExp((getExp()->getMaxExp())*2/10);
+				}
+			}
+			this->setPosition(Vec2(270, 90));
+			hp->changeCur(60000);
+		}
+		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
+		return hp->getCur();
 	}
 	CREATE_FUNC(HouYi);
 };
