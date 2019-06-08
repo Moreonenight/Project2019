@@ -58,10 +58,37 @@ public:
 
 	}
 	bool Tower::InitWithRole(string Towername, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits);
+
+	virtual int getDamage(int delta, std::string fromId) {
+		if (hp->getCur() < delta) {
+			die();
+			if (fromId[0] == 'H') {
+				unit* killUnit = getUnitWithId(fromId);
+				if (killUnit != nullptr) {
+					switch (getid()[2]) {
+					case '1':killUnit->changeGold(200);
+							(killUnit->getExp())->changeCurExp(300);
+							break;
+					case '2':killUnit->changeGold(350);
+							(killUnit->getExp())->changeCurExp(400);
+							break;
+					case '3':break;
+					default:break;
+					}
+				}
+			}
+		}
+		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
+		return hp->getCur();
+	}
+	virtual void die() {
+		this->removeFromParent();
+		unscheduleUpdate();
+	}
+
 	bool AttackingJudgeAI();
 	void update(float dt) {
 		//hp->update();
-		if (hp->getCur() <= 1) die();
 		hp->follow(getPosition());
 
 		auto it = ammosOnWay.begin();

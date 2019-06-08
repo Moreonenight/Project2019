@@ -62,7 +62,7 @@ bool Tower::AttackingJudgeAI() {
 	}
 	else
 	{
-		changeDamage(getInitDamage() - getDamage());
+		setDamage(getInitDamage());
 	}
 	return true;
 }

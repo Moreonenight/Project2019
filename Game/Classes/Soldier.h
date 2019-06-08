@@ -93,7 +93,6 @@ public:
 
 	void update(float dt) {
 		//hp->update();
-		if (hp->getCur() <= 1) die();
 		hp->follow(getPosition());
 
 		auto it = ammosOnWay.begin();

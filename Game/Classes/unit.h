@@ -75,7 +75,6 @@ public:
 	inline int getMaxHp();
 	inline int getMoveSpeed() {		return moveSpeed;	}
 	inline int getDamage() { return damage; }/*when want to know how much the unit damage is*/
-	
 	int getAmmoSpeed() { return ammoSpeed; }
 	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
 	
@@ -85,6 +84,8 @@ public:
 	inline void changeMaxHp(int delta);
 	inline int changeMoveSpeed(int delta) { if (moveSpeed + delta < 0)moveSpeed = 0; else moveSpeed += delta; return moveSpeed; }
 	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
+	inline void setDamage(int num) { damage = num;}
+	inline void setMaxHp() { hp->changeCur(getMaxHp()); }
 	inline void setBeforePos(Vec2 x) { beforePos = x; }
 	inline Vec2 getBeforePos() { return beforePos; }
 	inline std::string changeid(string newid) { id = newid; return id; }
@@ -107,7 +108,7 @@ public:
 				killUnit->changeGold(50);
 			}
 			this->setPosition(Vec2(270, 90));
-			hp->changeCur(60000);
+			setMaxHp();
 			this->stopAllActions();
 		}
 		hp->changeCur((-delta)*(float)((100.0-defenceOfPhysical) / 100.0));
@@ -132,7 +133,7 @@ public:
 		float i = damage * dpm.x;
 		hp->changeCur((int)i);
 	}//when get damaged*/
-	void die(){}
+	virtual void die(){}
 	
 	/*void update(float dt) {
 		//hp->update();

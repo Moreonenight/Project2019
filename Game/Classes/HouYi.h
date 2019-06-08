@@ -11,6 +11,7 @@ private:
 	int skill_2Level;
 	int skill_3Level;
 	int sk1Damage[6] = { 200,240,280,320,360,400 };
+	float sk1Cd[6] = { 300,350,400,450,500,550 };
 	int sk2Damage[6] = { 300,350,400,450,500,550 };
 	float sk2Cd[6] = { 8.0,7.4,6.8,6.2,5.6,5 };
 	int sk3Damage[3] = { 700,875,1050 };
