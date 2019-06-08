@@ -13,10 +13,12 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 	bool EnemeyorAlley;
 	//addChild(hp, 3);
 	id = data->getUnitid();
+	
 	//id未确定
 	//Velocity = data->getVelocity();
 	moveSpeed = data->getMoveSpeed();
 	level = 1; 
+	KillHero = 0; KillSoldiers = 0; deathnumber = 0;
 	damage = data->getDamage();
 	InitDamage = damage;//对于塔,想记录一下最初始的攻击力是多少,便于后续恢复
 	ammoSpeed = data->getAmmoSpeed();
@@ -156,15 +158,16 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	if(getid()[0]!='T'){
 	
 		switch (getDir(getPosition(), target->getPosition())) {
-		case Direction::RIGHT:runAction(Animate::create(aniCache->getAnimation(id + "right_attack"))); break;
-		case Direction::LEFT:runAction(Animate::create(aniCache->getAnimation(id + "left_attack"))); break;
-		case Direction::UP:runAction(Animate::create(aniCache->getAnimation(id + "up_attack"))); break;
-		case Direction::DOWN:runAction(Animate::create(aniCache->getAnimation(id + "down_attack"))); break;
+		case Direction::RIGHT:runAction(Animate::create(aniCache->getAnimation(id + "right_attack")))->setTag(20); break;
+		case Direction::LEFT:runAction(Animate::create(aniCache->getAnimation(id + "left_attack")))->setTag(21); break;
+		case Direction::UP:runAction(Animate::create(aniCache->getAnimation(id + "up_attack")))->setTag(22); break;
+		case Direction::DOWN:runAction(Animate::create(aniCache->getAnimation(id + "down_attack")))->setTag(23); break;
 		}
 	}
 
 	ammo *amo = ammo::create();
 	amo->initial(this->getAmmoFrameName(),this->getid(),getPosition(), getDamage(), getAmmoSpeed());
+	if (getid()[2] == '1') { amo->setVisible(0); }
 	auto id1 = target->getid(); auto id2 = amo->getid();
 	if (id1[1] != id2[1]) {
 		_map->addChild(amo, 6);
@@ -179,7 +182,12 @@ void unit::attackTo(unit * target)
 {
 	Vec2 destination = target->getPosition();
 	float angle = CC_RADIANS_TO_DEGREES((destination - getPosition()).getAngle());
+
 	if ((getPosition() - destination).length() > (data->getAttackRange())&& getid()[0] != 'T') {
+		if (getActionByTag(20) != nullptr) { stopActionByTag(20); }
+		if (getActionByTag(21) != nullptr) { stopActionByTag(21); }
+		if (getActionByTag(22) != nullptr) { stopActionByTag(22); }
+		if (getActionByTag(23) != nullptr) { stopActionByTag(23); }
 		moveDirectionByKey(getDir(angle), destination);
 	}
 	
@@ -191,8 +199,6 @@ void unit::attackTo(Vec2 destination)
 {	
 	
 }
-
-
 
 unit* unit::getUnitWithId(std::string id)
 {
@@ -222,8 +228,7 @@ bool unit::addEquipment(std::string itemId)
 	}
 	return false;
 }
-inline void unit::changeMaxHp(int delta) { hp->changeMax(delta); }
-inline int unit::getMaxHp() { return hp->getMax(); }
+
 
 unit::~unit()
 {

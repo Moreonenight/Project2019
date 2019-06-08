@@ -27,6 +27,7 @@ private:
 		Animate* AnimateLeft;
 		Vec2 beforePos;
 		Equipment equip[6];
+		int KillHero, KillSoldiers, deathnumber;
 
 public:
 	HP *hp;//MP maxMana;
@@ -43,7 +44,12 @@ public:
 		RIGHT,
 		NONE
 	};
-	
+	int* getDamagepointer(){
+
+
+		return &damage;
+
+	}
 	Direction getDir(Vec2 v) { return getDir(CC_RADIANS_TO_DEGREES(v.getAngle()));  };
 	Direction getDir(float angle) {
 		Direction dir; 
@@ -75,17 +81,26 @@ public:
 	int getRecoverOfMana() { return recoverOfMana; }
 	int getGold() { return gold; }int changeGold(int delta) { if (gold + delta <= 0)gold = 0; else gold += delta; return gold; }
 	inline string getid() { return id; }
-	inline int getMaxHp();
+
+
+	inline int getKillHero() { return KillHero; }
+	inline void changeKillHero(int delta) { KillHero+=delta; }
+	inline int getKillSoldiers() { return KillSoldiers; }
+	inline void changeKillSoldiers(int delta) { KillSoldiers += delta; }
+	inline int getDeath() { return deathnumber; }
+	inline void changeDeath(int delta) { deathnumber += delta; }
+
+
 	inline int getMoveSpeed() {		return moveSpeed;	}
 	inline int getDamage() { return damage; }/*when want to know how much the unit damage is*/
 	int getAmmoSpeed() { return ammoSpeed; }
 	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
-	
-
+	inline void changeMaxHp(int delta) { hp->changeMax(delta); }
+	inline int getMaxHp() { return hp->getMax(); }
 
 	//change Func
 	inline std::string changeid(string newid) { id = newid; return id; }
-	inline void changeMaxHp(int delta);
+
 	inline int changeMoveSpeed(int delta) { if (moveSpeed + delta < 0)moveSpeed = 0; else moveSpeed += delta; return moveSpeed; }
 	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
 	inline void changeCurExp(int delta) { exp->changeCurExp(delta); }

@@ -46,7 +46,6 @@ void MouseController::initListener(unit* Hero,Vector<unit*>* children) {
 			return true;
 		}
 		else {
-			//如何判断正在运动的方向？
 			if (isPaused) {
 				return true;
 			}

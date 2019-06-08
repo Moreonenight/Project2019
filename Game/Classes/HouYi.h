@@ -32,7 +32,7 @@ public:
 		for (; it < ammosOnWay.end(); it++) {
 			auto Dis = (this->getPosition() - (*it)->getPosition()).length();
 			auto id1 = this->getid(); auto id2 = (*it)->getid();
-			if (Dis < 100 && id1[1] != id2[1]) {
+			if (Dis < 150 && id1[1] != id2[1]) {
 				auto Damage = (*it)->getDamage();
 				this->getDamage(Damage,(*it)->getid());
 				(*it)->removeFromParentAndCleanup(1);
@@ -52,11 +52,13 @@ public:
 		if (hp->getCur() < delta) {
 			die();
 			//得到击杀者unit*添加奖励
+			changeDeath(1);
 			if (fromId[0] == 'H') {
 				unit* killUnit = getUnitWithId(fromId);
 				if (killUnit != nullptr) {
 					killUnit->changeGold(float(getGold())*0.3>150? float(getGold())*0.3:150);
 					killUnit->changeCurExp((getExp()->getMaxExp())*2/10);
+					killUnit->changeKillHero(1);
 				}
 			}
 			this->setPosition(Vec2(270, 90));

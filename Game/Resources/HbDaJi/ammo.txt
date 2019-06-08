@@ -1,2 +1,2 @@
-DaJi/ammo.plist
+HbDaJi/ammo.plist
 ammo.png

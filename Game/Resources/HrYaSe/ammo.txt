@@ -1,2 +1,2 @@
-YaSe/ammo.plist
+HrYaSe/ammo.plist
 ammo.png
