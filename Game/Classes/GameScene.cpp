@@ -409,7 +409,7 @@ void Game::createShopCallBack(cocos2d::Ref* pSender) {
 	auto itemHat = MenuItemImage::create(
 		"item/helmet_normal.png",
 		"item/helmet_selected.png",
-		CC_CALLBACK_1(Game::buyHelmetCallBack, this)
+		CC_CALLBACK_1(Game::buyHatCallBack, this)
 	);
 	itemHat->setPosition(shopbg->getPosition() + Vec2(0, 0));
 	auto itemSword = MenuItemImage::create(
@@ -461,16 +461,16 @@ void Game::undoSkillCallBack(cocos2d::Ref * pSender)
 
 void Game::buyShoeCallBack(cocos2d::Ref* pSender) { 
 	if (!IS_SHOP_OPEN) { return; }
-	myHero->addEquipment("Shoe"); 
+	hero1->addEquipment("Shoe"); 
 }
-void Game::buyHelmetCallBack(cocos2d::Ref* pSender) { 
+void Game::buyHatCallBack(cocos2d::Ref* pSender) { 
 	if (!IS_SHOP_OPEN) { return; }
-	myHero->addEquipment("Helmet");
-	myHero->getHp()->changeCur(600000);
+	hero1->addEquipment("Helmet");
+	hero1->getHp()->changeCur(600000);
 }
 void Game::buySwordCallBack(cocos2d::Ref* pSender) {
 	if (!IS_SHOP_OPEN) { return; }
-	myHero->addEquipment("Sword");
+	hero1->addEquipment("Sword");
 }
 
 //找到id对应Unit

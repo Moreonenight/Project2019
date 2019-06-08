@@ -56,7 +56,7 @@ public:
 				unit* killUnit = getUnitWithId(fromId);
 				if (killUnit != nullptr) {
 					killUnit->changeGold(float(getGold())*0.3>150? float(getGold())*0.3:150);
-					killUnit->changeCurExp((getExp()->getMaxExp())*2/10);
+					(killUnit->getExp())->changeCurExp((getExp()->getMaxExp())*2/10);
 				}
 			}
 			this->setPosition(Vec2(270, 90));

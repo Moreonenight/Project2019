@@ -205,22 +205,6 @@ unit* unit::getUnitWithId(std::string id)
 	return nullptr;
 }
 
-bool unit::addEquipment(std::string itemId)
-{
-	auto item = Equipment(itemId);
-	if (this->getGold() < item.Price) { return false; }
-	for (int count = 0; count < 6; ++count) {
-		if (!equip[count].isOccupied) {
-			equip[count] = item;
-			this->changeGold(-item.Price);
-			this->changeDamage(item.plusDamage);
-			this->changeMoveSpeed(item.plusMoveSpeed);
-			this->changeMaxHp(item.plusMaxHp);
-			return true;
-		}
-	}
-	return false;
-}
 inline void unit::changeMaxHp(int delta) { hp->changeMax(delta); }
 inline int unit::getMaxHp() { return hp->getMax(); }
 

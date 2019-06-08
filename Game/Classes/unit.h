@@ -3,6 +3,7 @@
 #include "ammo.h"
 #include "HP.h"
 #include "Equipment.h"
+#include "Exp.h"
 USING_NS_CC;
 class HP;
 class unit:public Sprite
@@ -22,10 +23,12 @@ private:
 		defenceOfMagic,
 		recoverOfMana;
 	Animate* AnimateLeft;
-Vec2 beforePos;
+	Equipment equip[6];
+	Vec2 beforePos;
 
 public:
 	HP *hp;//MP maxMana;
+	Exp *exp;
 	bool canAttack;
 	vector<ammo*> ammosOnWay;
 	cocos2d::TMXTiledMap* _map;
@@ -66,6 +69,7 @@ public:
 	}
 	//int getMaxMana() { return maxMana; }
 	HP* getHp() { return hp; }
+	Exp* getExp() { return exp; }
 	int getRecoverOfMana() { return recoverOfMana; }
 	int getGold() { return gold; }int changeGold(int delta) { if (gold + delta <= 0)gold = 0; else gold += delta; return gold; }
 	inline string getid() { return id; }
