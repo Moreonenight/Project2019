@@ -81,12 +81,12 @@ public:
 				unit* killUnit = getUnitWithId(fromId);
 				if (killUnit != nullptr) {
 					killUnit->changeGold(this->getGold());
-					(killUnit->getExp())->changeCurExp(30);
+					killUnit->addCurExp(30);
 					killUnit->changeKillSoldiers(1);
 				}
 			}
 			this->setPosition(Vec2(270, 90));
-			hp->changeCur(3000000);
+			fullHp();
 		}
 		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
 		return hp->getCur();

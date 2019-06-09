@@ -37,14 +37,14 @@ void Game::initwithRole(string HeroName)
 	if (HeroName == string("HbHouYi"))
 	{
 		hero1 = HouYi::create();
-		((HouYi*)hero1)->initwithRole(HeroName, _tileMap, Vec2(x, y),(&unitsOnMap));
+		((HouYi*)hero1)->initwithRole(HeroName, _tileMap, hero1,Vec2(x, y),(&unitsOnMap));
 		addToMap(hero1, 0, 100);
 		MyUnit.pushBack(hero1);
 	}
 	else if (HeroName == string("HbDaJi"))
 	{
 		hero1 = DaJi::create();
-		((DaJi*)hero1)->initwithRole(HeroName, _tileMap, Vec2(x, y), (&unitsOnMap));
+		((DaJi*)hero1)->initwithRole(HeroName, _tileMap, hero1, Vec2(x, y), (&unitsOnMap));
 		addToMap(hero1, 0, 200);
 		MyUnit.pushBack(hero1);
 
@@ -52,7 +52,7 @@ void Game::initwithRole(string HeroName)
 	else if (HeroName == string("HbYaSe"))
 	{
 		hero1 = YaSe::create();
-		((YaSe*)hero1)->initwithRole(HeroName, _tileMap, Vec2(x, y), (&unitsOnMap));
+		((YaSe*)hero1)->initwithRole(HeroName, _tileMap, hero1, Vec2(x, y), (&unitsOnMap));
 		addToMap(hero1, 0, 300);
 		MyUnit.pushBack(hero1);
 	}
@@ -64,7 +64,7 @@ void Game::initwithRole(string HeroName)
 	if (RandNumber >= 0 && RandNumber <= 33)
 	{
 		hero2 = HouYi::create();
-        ((HouYi*)hero2)->initwithRole(string("HrHouYi"), _tileMap, Vec2(x, y), (&unitsOnMap));
+        ((HouYi*)hero2)->initwithRole(string("HrHouYi"), _tileMap, hero2,Vec2(x, y), (&unitsOnMap));
         hero2->setPosition(500, 500);
         addToMap(hero2, 0, 200);
         EnemeyUnit.pushBack(hero2);
@@ -72,7 +72,7 @@ void Game::initwithRole(string HeroName)
 	else if (RandNumber <= 66)
 	{
 		hero2 = DaJi::create();
-		((DaJi*)hero2)->initwithRole(string("HrDaJi"), _tileMap, Vec2(x, y), (&unitsOnMap));
+		((DaJi*)hero2)->initwithRole(string("HrDaJi"), _tileMap, hero2, Vec2(x, y), (&unitsOnMap));
 		hero2->setPosition(500, 500);
 		addToMap(hero2, 0, 200);
 		EnemeyUnit.pushBack(hero2);
@@ -80,7 +80,7 @@ void Game::initwithRole(string HeroName)
 	else if (RandNumber <= 99)
 	{
 		hero2 = YaSe::create();
-		((YaSe*)hero2)->initwithRole(string("HrYaSe"), _tileMap, Vec2(x, y), (&unitsOnMap));
+		((YaSe*)hero2)->initwithRole(string("HrYaSe"),_tileMap, hero2, Vec2(x, y), (&unitsOnMap));
 		hero2->setPosition(500, 500);
 		addToMap(hero2, 0, 200);
 		EnemeyUnit.pushBack(hero2);
@@ -108,7 +108,9 @@ void Game::initwithRole(string HeroName)
 
 	//监听器初始化
 	listener = MouseController::create();
-	listener->initListener(hero1, getUnits());
+	if (hero1->getid()[2] == 'H') {
+		listener->initListener(((HouYi*)hero1), getUnits());
+	}
 	listener->changeOffset(Vec2::ZERO);
 	//战绩页面初始化
 	InitTabListener(hero1->getid(),hero2->getid());
@@ -275,6 +277,7 @@ void Game::InitTabListener(string Hero1Name,string Hero2Name)
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(TabListener, this);
 }
 
+//技能
 void Game::InitSkillButton(string HeroName)
 {
 	auto Skill1Button = CCSprite::create("Skills/" + HeroName + "_Sk1.png");
@@ -286,8 +289,16 @@ void Game::InitSkillButton(string HeroName)
 	Skill2Button->setPosition(430, Skill2Button->getContentSize().height / 2);
 	Skill3Button->setPosition(530, Skill3Button->getContentSize().height / 2);
 	Skill4Button->setPosition(630, Skill4Button->getContentSize().height / 2);
+	auto Skill1Lock = Sprite::create("button/lock.png");
+	auto Skill2Lock = Sprite::create("button/lock.png");
+	auto Skill3Lock = Sprite::create("button/lock.png");
+	Skill1Lock->setPosition(Skill1Button->getPosition()+Vec2(20,20));
+	Skill2Lock->setPosition(Skill2Button->getPosition() + Vec2(20, 20));
+	Skill3Lock->setPosition(Skill3Button->getPosition() + Vec2(20, 20));
 	this->addChild(Skill1Button); this->addChild(Skill2Button); this->addChild(Skill3Button); this->addChild(Skill4Button);
+	this->addChild(Skill1Lock, 5, 0001); this->addChild(Skill2Lock, 5, 0002); this->addChild(Skill3Lock, 5, 0003);
 }
+
 
 //返回主页面
 void Game::menuItem1Callback(cocos2d::Ref* pSender)
@@ -678,6 +689,27 @@ void Game::GoldRecorder(float dt)
 	goldLabel->setPosition(Vec2(10,250));
 	goldLabel->setAnchorPoint(Vec2(0, 0.5f));
 	this->addChild(goldLabel, 3);
+
+	//暂时添加的技能方面
+	switch ((hero1->getid())[2]) {
+	case 'H': {
+		if (((HouYi*)hero1)->getSk1Level() > 0) {
+			if (this->getChildByTag(0001)) {this->removeChildByTag(0001);}
+		}
+		if (((HouYi*)hero1)->getSk2Level() > 0) {
+			if (this->getChildByTag(0002)) { this->removeChildByTag(0002); }
+		}
+		if (((HouYi*)hero1)->getSk3Level() > 0) {
+			if (this->getChildByTag(0003)) { this->removeChildByTag(0003); }
+		}
+	};
+	case 'D': {
+
+	};
+	case 'Y': {
+
+	};
+	}
 	return;
 }
 

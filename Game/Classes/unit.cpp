@@ -7,6 +7,7 @@ void unit::stop()
 
 void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits)
 {
+	level = 1;
 	_map = Map;
 	data = unitdata;
 	unitsOnMap = mapUnits;

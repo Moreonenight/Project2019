@@ -1,6 +1,6 @@
 #include "DaJi.h"
 
-void DaJi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint,Vector<unit*>* mapUnits)
+void DaJi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1, Vec2 bornpoint, Vector<unit*>* mapUnits)
 {
 	auto hero1data = new(unitdata);
 	hero1data->initial(HeroName);

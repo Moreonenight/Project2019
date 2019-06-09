@@ -6,23 +6,50 @@ class HouYi :public unit
 private:
 	unit* houyi;
 	unitdata* houyiData;
-	int level;
-	int skill_1Level;
-	int skill_2Level;
-	int skill_3Level;
+	int level=1;
+	int skill_1Level=0;
+	int skill_2Level=0;
+	int skill_3Level=0;
 	int sk1Damage[6] = { 200,240,280,320,360,400 };
+	int sk1Cd[6] = { 8,7,6,5,5,4 };
 	int sk2Damage[6] = { 300,350,400,450,500,550 };
-	float sk2Cd[6] = { 8.0,7.4,6.8,6.2,5.6,5 };
-	int sk3Damage[3] = { 700,875,1050 };
-	float sk3Cd[3] = { 45,40,35 };
+	int sk2Cd[6] = { 8,7,6,5,5,4 };
+	int sk3Damage[3] = { 7000,875,1050 };
+	int sk3Cd[3] = { 8,40,35 };
+	//表示技能是否开启
+	bool sk1 = false;
+	bool sk2 = false;
+	bool sk3=  false;
+	int sk1Cd_left = 0;
+	int sk2Cd_left = 0;
+	int	sk3Cd_left = 0;
+	//表示当前能否释放其他技能
+	bool canReleaseSkill = true;
 public:
-	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint,Vector<unit*>* mapUnits);
+	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1,Vec2 bornpoint,Vector<unit*>* mapUnits);
 	unit* getUnit() { return houyi; }
-	void useskill_1();
-	void sk1End(float dt);
-	void skill_1_cd(float dt);
+	void useSkill_1();
 	void useSkill_2(Vec2 pos);
+	void useSkill_3(unit* target);
+	void sk1End();
+	void sk2End();
+	void sk3End();
 	void useAlti();
+	//技能相关
+	inline bool isReleasing() { return sk1 || sk2 || sk3; }
+	inline bool getSk1() { return sk1; }
+	inline bool getSk2() { return sk2; }
+	inline bool getSk3() { return sk3; }
+	inline int getSk1Level() { return skill_1Level; }
+	inline int getSk2Level() { return skill_2Level; }
+	inline int getSk3Level() { return skill_3Level; }
+	inline bool canRelease() { return canReleaseSkill; }
+	inline void changeCanRelease(bool now) { canReleaseSkill = now; }
+
+	//游戏刷新
+	void cdUpdate(float dt);
+	void skillFreshUpdate(float dt);
+
 	void update(float dt) {
 		//hp->update();
 		if (hp->getCur() <= 1) die();
@@ -57,7 +84,7 @@ public:
 				unit* killUnit = getUnitWithId(fromId);
 				if (killUnit != nullptr) {
 					killUnit->changeGold(float(getGold())*0.3>150? float(getGold())*0.3:150);
-					killUnit->changeCurExp((getExp()->getMaxExp())*2/10);
+					killUnit->addCurExp((getExp()->getMaxExp())*2/10);
 					killUnit->changeKillHero(1);
 				}
 			}
