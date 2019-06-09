@@ -1,5 +1,6 @@
 #pragma once
 #include "cocos2d.h"
+#include "Houyi.h"
 #include "unit.h"
 //#include "Money.h"
 //#include "GameScene.h"
@@ -20,7 +21,7 @@ public:
 	~MouseController();
 	unit* selectFromSprites(Vec2 pos);
 	void initListener(unit* Hero,Vector<unit*>* children);
-	void initListener(HouYi* houyi);
+	void initListener(HouYi* houyi,Vector<unit*>* children);
 	void initListener(YaSe* yase);
 	void initListener(DaJi* daji);
 	void changeOffset(const Vec2 a) {

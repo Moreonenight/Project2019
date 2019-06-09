@@ -1,2 +1,2 @@
-HouYi/ammo.plist
+HrHouYi/ammo.plist
 ammo.png

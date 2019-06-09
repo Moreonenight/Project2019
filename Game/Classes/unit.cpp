@@ -7,16 +7,19 @@ void unit::stop()
 
 void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits)
 {
+	level = 1;
 	_map = Map;
 	data = unitdata;
 	unitsOnMap = mapUnits;
 	bool EnemeyorAlley;
 	//addChild(hp, 3);
 	id = data->getUnitid();
+	
 	//idδȷ��
 	//Velocity = data->getVelocity();
 	moveSpeed = data->getMoveSpeed();
 	level = 1; 
+	KillHero = 0; KillSoldiers = 0; deathnumber = 0;
 	damage = data->getDamage();
 	InitDamage = damage;//������,���¼һ�����ʼ�Ĺ������Ƕ���,���ں����ָ�
 	ammoSpeed = data->getAmmoSpeed();
@@ -156,15 +159,16 @@ Sprite* unit::attack(unit *target)//���ع��������ĵ���
 	if(getid()[0]!='T'){
 	
 		switch (getDir(getPosition(), target->getPosition())) {
-		case Direction::RIGHT:runAction(Animate::create(aniCache->getAnimation(id + "right_attack"))); break;
-		case Direction::LEFT:runAction(Animate::create(aniCache->getAnimation(id + "left_attack"))); break;
-		case Direction::UP:runAction(Animate::create(aniCache->getAnimation(id + "up_attack"))); break;
-		case Direction::DOWN:runAction(Animate::create(aniCache->getAnimation(id + "down_attack"))); break;
+		case Direction::RIGHT:runAction(Animate::create(aniCache->getAnimation(id + "right_attack")))->setTag(20); break;
+		case Direction::LEFT:runAction(Animate::create(aniCache->getAnimation(id + "left_attack")))->setTag(21); break;
+		case Direction::UP:runAction(Animate::create(aniCache->getAnimation(id + "up_attack")))->setTag(22); break;
+		case Direction::DOWN:runAction(Animate::create(aniCache->getAnimation(id + "down_attack")))->setTag(23); break;
 		}
 	}
 
 	ammo *amo = ammo::create();
 	amo->initial(this->getAmmoFrameName(),this->getid(),getPosition(), getDamage(), getAmmoSpeed());
+	if (getid()[2] == '1') { amo->setVisible(0); }
 	auto id1 = target->getid(); auto id2 = amo->getid();
 	if (id1[1] != id2[1]) {
 		_map->addChild(amo, 6);
@@ -179,7 +183,12 @@ void unit::attackTo(unit * target)
 {
 	Vec2 destination = target->getPosition();
 	float angle = CC_RADIANS_TO_DEGREES((destination - getPosition()).getAngle());
+
 	if ((getPosition() - destination).length() > (data->getAttackRange())&& getid()[0] != 'T') {
+		if (getActionByTag(20) != nullptr) { stopActionByTag(20); }
+		if (getActionByTag(21) != nullptr) { stopActionByTag(21); }
+		if (getActionByTag(22) != nullptr) { stopActionByTag(22); }
+		if (getActionByTag(23) != nullptr) { stopActionByTag(23); }
 		moveDirectionByKey(getDir(angle), destination);
 	}
 	
@@ -191,8 +200,6 @@ void unit::attackTo(Vec2 destination)
 {	
 	
 }
-
-
 
 unit* unit::getUnitWithId(std::string id)
 {
@@ -231,4 +238,26 @@ bool unit::addEquipment(std::string itemName)
 		}
 	}
 	return false;
+}
+
+Vec2 unit::getSpawnPoint() {
+	auto group = _map->getObjectGroup("hero");
+	auto blueSpawnPoint = group->getObject("BlueSpawnpoint");
+	auto redSpawnPoint = group->getObject("RedSpawnpoint");
+	float bluex = blueSpawnPoint["x"].asFloat();
+	float bluey = blueSpawnPoint["y"].asFloat();
+	float redx = redSpawnPoint["x"].asFloat();
+	float redy = redSpawnPoint["y"].asFloat();
+	if (getid()[1] == 'r') {
+		return Vec2(redx, redy);
+	}
+	else {
+		return Vec2(bluex, bluey);
+	}
+}
+
+unit::~unit()
+{
+//	hp->~HP();
+//	delete(this);
 }

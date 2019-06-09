@@ -5,6 +5,9 @@
 #include "Equipment.h"
 #include "Exp.h"
 USING_NS_CC;
+//����������
+
+
 class HP;
 class unit:public Sprite
 {
@@ -23,9 +26,12 @@ private:
 		defenceOfPhysical,
 		defenceOfMagic,
 		recoverOfMana;
-	Animate* AnimateLeft;
-	Equipment equip[6];
-	Vec2 beforePos;
+	int skillPoint;
+
+		Animate* AnimateLeft;
+		Vec2 beforePos;
+		Equipment equip[6];
+		int KillHero, KillSoldiers, deathnumber;
 
 public:
 	HP *hp;//MP maxMana;
@@ -42,7 +48,12 @@ public:
 		RIGHT,
 		NONE
 	};
-	
+	int* getDamagepointer(){
+
+
+		return &damage;
+
+	}
 	Direction getDir(Vec2 v) { return getDir(CC_RADIANS_TO_DEGREES(v.getAngle()));  };
 	Direction getDir(float angle) {
 		Direction dir; 
@@ -71,26 +82,35 @@ public:
 	Exp* getExp() { return exp; }
 	int getRecoverOfMana() { return recoverOfMana; }
 	int getGold() { return gold; }int changeGold(int delta) { if (gold + delta <= 0)gold = 0; else gold += delta; return gold; }
+	inline int getKillHero() { return KillHero; }
+	inline int getDeath() { return deathnumber; }
+	inline int getKillSoldiers() { return KillSoldiers; }
 	inline string getid() { return id; }
-	inline int getMaxHp();
+
+
 	inline int getMoveSpeed() {		return moveSpeed;	}
 	inline int getDamage() { return damage; }/*when want to know how much the unit damage is*/
 	int getAmmoSpeed() { return ammoSpeed; }
 	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
-	
-	
+	inline void changeMaxHp(int delta) { hp->changeMax(delta); }
+	inline int getMaxHp() { return hp->getMax(); }
 
-	///////    �ı����״̬    ///////
-	inline void changeMaxHp(int delta);
+	inline int getSkillPoint() { return skillPoint; }
+	Vec2 getSpawnPoint();
+
+	//change Func
+	inline std::string changeid(string newid) { id = newid; return id; }
+	inline void changeLevel(int num) { if (num == 0) { return; }if (level + num <= 8)level += num; skillPoint += num; }
 	inline int changeMoveSpeed(int delta) { if (moveSpeed + delta < 0)moveSpeed = 0; else moveSpeed += delta; return moveSpeed; }
 	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
-	inline void setDamage(int num) { damage = num;}
-	inline void setMaxHp() { hp->changeCur(getMaxHp()); }
-	inline void setBeforePos(Vec2 x) { beforePos = x; }
-	inline Vec2 getBeforePos() { return beforePos; }
-	inline std::string changeid(string newid) { id = newid; return id; }
+	inline void changeCurHp(int delta) { hp->changeCur(delta); }
+	void addCurExp(int delta) { exp->changeCurExp(delta); changeLevel(exp->getLevel() - level);}
+	inline void changeKillHero(int delta) { KillHero += delta; }
+	inline void changeKillSoldiers(int delta) { KillSoldiers += delta; }
+	inline void changeDeath(int delta) { deathnumber += delta; }
+	inline void fullHp() { hp->changeCur(hp->getMax()); }
 
-
+	inline void changeSkillPoint(int num) { if ((skillPoint + num) < 0)skillPoint = 0; else skillPoint += num; }
 
 	///////    ���๦�ܺ���    ///////
 	void getAttacked(ammo* amo) {
@@ -103,12 +123,15 @@ public:
 		if (hp->getCur() < delta) {
 			die();
 			//�õ���ɱ��unit*���ӽ���
-			unit* killUnit=getUnitWithId(fromId);
-			if (killUnit != nullptr) {
-				killUnit->changeGold(50);
+			if (fromId[0] == 'H') {
+				unit* killUnit = getUnitWithId(fromId);
+				if (killUnit != nullptr) {
+					killUnit->changeGold(50);
+					killUnit->addCurExp(50);
+				}
 			}
-			this->setPosition(Vec2(270, 90));
-			setMaxHp();
+			this->setPosition(getSpawnPoint());
+			fullHp();
 			this->stopAllActions();
 		}
 		hp->changeCur((-delta)*(float)((100.0-defenceOfPhysical) / 100.0));

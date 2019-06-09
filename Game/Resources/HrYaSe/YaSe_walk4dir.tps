@@ -187,38 +187,38 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">E:/Program Files/小图标/外观/000080.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000081.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000082.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000083.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000084.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000085.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000086.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000087.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000100.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000101.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000102.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000103.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000104.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000105.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000106.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000107.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000120.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000121.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000122.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000123.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000124.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000125.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000126.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000127.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000140.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000141.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000142.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000143.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000144.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000145.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000146.png</key>
-            <key type="filename">E:/Program Files/小图标/外观/000147.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000080.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000081.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000082.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000083.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000084.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000085.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000086.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000087.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000100.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000101.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000102.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000103.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000104.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000105.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000106.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000107.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000120.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000121.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000122.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000123.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000124.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000125.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000126.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000127.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000140.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000141.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000142.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000143.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000144.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000145.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000146.png</key>
+            <key type="filename">E:/Program Files/小图标/外观/00000147.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -234,38 +234,38 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>E:/Program Files/小图标/外观/000085.png</filename>
-            <filename>E:/Program Files/小图标/外观/000086.png</filename>
-            <filename>E:/Program Files/小图标/外观/000087.png</filename>
-            <filename>E:/Program Files/小图标/外观/000080.png</filename>
-            <filename>E:/Program Files/小图标/外观/000081.png</filename>
-            <filename>E:/Program Files/小图标/外观/000082.png</filename>
-            <filename>E:/Program Files/小图标/外观/000083.png</filename>
-            <filename>E:/Program Files/小图标/外观/000084.png</filename>
-            <filename>E:/Program Files/小图标/外观/000126.png</filename>
-            <filename>E:/Program Files/小图标/外观/000127.png</filename>
-            <filename>E:/Program Files/小图标/外观/000120.png</filename>
-            <filename>E:/Program Files/小图标/外观/000121.png</filename>
-            <filename>E:/Program Files/小图标/外观/000122.png</filename>
-            <filename>E:/Program Files/小图标/外观/000123.png</filename>
-            <filename>E:/Program Files/小图标/外观/000124.png</filename>
-            <filename>E:/Program Files/小图标/外观/000125.png</filename>
-            <filename>E:/Program Files/小图标/外观/000145.png</filename>
-            <filename>E:/Program Files/小图标/外观/000146.png</filename>
-            <filename>E:/Program Files/小图标/外观/000147.png</filename>
-            <filename>E:/Program Files/小图标/外观/000140.png</filename>
-            <filename>E:/Program Files/小图标/外观/000141.png</filename>
-            <filename>E:/Program Files/小图标/外观/000142.png</filename>
-            <filename>E:/Program Files/小图标/外观/000143.png</filename>
-            <filename>E:/Program Files/小图标/外观/000144.png</filename>
-            <filename>E:/Program Files/小图标/外观/000105.png</filename>
-            <filename>E:/Program Files/小图标/外观/000106.png</filename>
-            <filename>E:/Program Files/小图标/外观/000107.png</filename>
-            <filename>E:/Program Files/小图标/外观/000100.png</filename>
-            <filename>E:/Program Files/小图标/外观/000101.png</filename>
-            <filename>E:/Program Files/小图标/外观/000102.png</filename>
-            <filename>E:/Program Files/小图标/外观/000103.png</filename>
-            <filename>E:/Program Files/小图标/外观/000104.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000083.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000084.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000085.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000086.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000087.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000080.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000081.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000082.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000124.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000125.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000126.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000127.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000120.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000121.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000122.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000123.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000145.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000146.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000147.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000140.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000141.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000142.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000143.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000144.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000104.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000105.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000106.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000107.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000100.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000101.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000102.png</filename>
+            <filename>E:/Program Files/小图标/外观/00000103.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

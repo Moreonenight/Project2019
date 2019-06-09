@@ -76,16 +76,17 @@ public:
 	virtual int getDamage(int delta, std::string fromId) {
 		if (hp->getCur() < delta) {
 			die();
-			//µÃµ½»÷É±Õßunit*Ìí¼Ó½±Àø
+			changeDeath(1);
 			if (fromId[0] == 'H') {
 				unit* killUnit = getUnitWithId(fromId);
 				if (killUnit != nullptr) {
 					killUnit->changeGold(this->getGold());
-					(killUnit->getExp())->changeCurExp(30);
+					killUnit->addCurExp(30);
+					killUnit->changeKillSoldiers(1);
 				}
 			}
-			this->setPosition(Vec2(270, 90));
-			hp->changeCur(3000000);
+			this->setPosition(getSpawnPoint());
+			fullHp();
 		}
 		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
 		return hp->getCur();
@@ -97,9 +98,14 @@ public:
 
 		auto it = ammosOnWay.begin();
 		for (; it < ammosOnWay.end(); it++) {
+			int MinDis;
 			auto Dis = (this->getPosition() - (*it)->getPosition()).length();
 			auto id1 = this->getid(); auto id2 = (*it)->getid();
-			if (Dis < 100 && id1[1] != id2[1]) {
+			if (getid()[2] == '1') { MinDis = 5000; }
+			else if (getid()[2] == '2') { MinDis = 350; }
+			else if (getid()[2] == '3') { MinDis = 350; }
+			
+			if (Dis < MinDis && id1[1] != id2[1]) {
 				auto Damage = (*it)->getDamage();
 				this->getDamage(Damage,(*it)->getid());
 				(*it)->removeFromParentAndCleanup(1);

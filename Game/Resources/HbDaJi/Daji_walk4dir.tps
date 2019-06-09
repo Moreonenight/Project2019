@@ -132,7 +132,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../Daji/walk.plist</filename>
+                <filename>walk.plist</filename>
             </struct>
             <key>header</key>
             <key>source</key>
@@ -187,38 +187,38 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">E:/外观/000080.png</key>
-            <key type="filename">E:/外观/000081.png</key>
-            <key type="filename">E:/外观/000082.png</key>
-            <key type="filename">E:/外观/000083.png</key>
-            <key type="filename">E:/外观/000084.png</key>
-            <key type="filename">E:/外观/000085.png</key>
-            <key type="filename">E:/外观/000086.png</key>
-            <key type="filename">E:/外观/000087.png</key>
-            <key type="filename">E:/外观/000100.png</key>
-            <key type="filename">E:/外观/000101.png</key>
-            <key type="filename">E:/外观/000102.png</key>
-            <key type="filename">E:/外观/000103.png</key>
-            <key type="filename">E:/外观/000104.png</key>
-            <key type="filename">E:/外观/000105.png</key>
-            <key type="filename">E:/外观/000106.png</key>
-            <key type="filename">E:/外观/000107.png</key>
-            <key type="filename">E:/外观/000120.png</key>
-            <key type="filename">E:/外观/000121.png</key>
-            <key type="filename">E:/外观/000122.png</key>
-            <key type="filename">E:/外观/000123.png</key>
-            <key type="filename">E:/外观/000124.png</key>
-            <key type="filename">E:/外观/000125.png</key>
-            <key type="filename">E:/外观/000126.png</key>
-            <key type="filename">E:/外观/000127.png</key>
-            <key type="filename">E:/外观/000140.png</key>
-            <key type="filename">E:/外观/000141.png</key>
-            <key type="filename">E:/外观/000142.png</key>
-            <key type="filename">E:/外观/000143.png</key>
-            <key type="filename">E:/外观/000144.png</key>
-            <key type="filename">E:/外观/000145.png</key>
-            <key type="filename">E:/外观/000146.png</key>
-            <key type="filename">E:/外观/000147.png</key>
+            <key type="filename">E:/外观/0000080.png</key>
+            <key type="filename">E:/外观/0000081.png</key>
+            <key type="filename">E:/外观/0000082.png</key>
+            <key type="filename">E:/外观/0000083.png</key>
+            <key type="filename">E:/外观/0000084.png</key>
+            <key type="filename">E:/外观/0000085.png</key>
+            <key type="filename">E:/外观/0000086.png</key>
+            <key type="filename">E:/外观/0000087.png</key>
+            <key type="filename">E:/外观/0000100.png</key>
+            <key type="filename">E:/外观/0000101.png</key>
+            <key type="filename">E:/外观/0000102.png</key>
+            <key type="filename">E:/外观/0000103.png</key>
+            <key type="filename">E:/外观/0000104.png</key>
+            <key type="filename">E:/外观/0000105.png</key>
+            <key type="filename">E:/外观/0000106.png</key>
+            <key type="filename">E:/外观/0000107.png</key>
+            <key type="filename">E:/外观/0000120.png</key>
+            <key type="filename">E:/外观/0000121.png</key>
+            <key type="filename">E:/外观/0000122.png</key>
+            <key type="filename">E:/外观/0000123.png</key>
+            <key type="filename">E:/外观/0000124.png</key>
+            <key type="filename">E:/外观/0000125.png</key>
+            <key type="filename">E:/外观/0000126.png</key>
+            <key type="filename">E:/外观/0000127.png</key>
+            <key type="filename">E:/外观/0000140.png</key>
+            <key type="filename">E:/外观/0000141.png</key>
+            <key type="filename">E:/外观/0000142.png</key>
+            <key type="filename">E:/外观/0000143.png</key>
+            <key type="filename">E:/外观/0000144.png</key>
+            <key type="filename">E:/外观/0000145.png</key>
+            <key type="filename">E:/外观/0000146.png</key>
+            <key type="filename">E:/外观/0000147.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -234,38 +234,38 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>E:/外观/000082.png</filename>
-            <filename>E:/外观/000083.png</filename>
-            <filename>E:/外观/000084.png</filename>
-            <filename>E:/外观/000085.png</filename>
-            <filename>E:/外观/000086.png</filename>
-            <filename>E:/外观/000087.png</filename>
-            <filename>E:/外观/000080.png</filename>
-            <filename>E:/外观/000081.png</filename>
-            <filename>E:/外观/000123.png</filename>
-            <filename>E:/外观/000124.png</filename>
-            <filename>E:/外观/000125.png</filename>
-            <filename>E:/外观/000126.png</filename>
-            <filename>E:/外观/000127.png</filename>
-            <filename>E:/外观/000120.png</filename>
-            <filename>E:/外观/000121.png</filename>
-            <filename>E:/外观/000122.png</filename>
-            <filename>E:/外观/000144.png</filename>
-            <filename>E:/外观/000145.png</filename>
-            <filename>E:/外观/000146.png</filename>
-            <filename>E:/外观/000147.png</filename>
-            <filename>E:/外观/000140.png</filename>
-            <filename>E:/外观/000141.png</filename>
-            <filename>E:/外观/000142.png</filename>
-            <filename>E:/外观/000143.png</filename>
-            <filename>E:/外观/000104.png</filename>
-            <filename>E:/外观/000105.png</filename>
-            <filename>E:/外观/000106.png</filename>
-            <filename>E:/外观/000107.png</filename>
-            <filename>E:/外观/000100.png</filename>
-            <filename>E:/外观/000101.png</filename>
-            <filename>E:/外观/000102.png</filename>
-            <filename>E:/外观/000103.png</filename>
+            <filename>E:/外观/0000103.png</filename>
+            <filename>E:/外观/0000104.png</filename>
+            <filename>E:/外观/0000105.png</filename>
+            <filename>E:/外观/0000106.png</filename>
+            <filename>E:/外观/0000107.png</filename>
+            <filename>E:/外观/0000100.png</filename>
+            <filename>E:/外观/0000101.png</filename>
+            <filename>E:/外观/0000102.png</filename>
+            <filename>E:/外观/0000123.png</filename>
+            <filename>E:/外观/0000124.png</filename>
+            <filename>E:/外观/0000125.png</filename>
+            <filename>E:/外观/0000126.png</filename>
+            <filename>E:/外观/0000127.png</filename>
+            <filename>E:/外观/0000120.png</filename>
+            <filename>E:/外观/0000121.png</filename>
+            <filename>E:/外观/0000122.png</filename>
+            <filename>E:/外观/0000143.png</filename>
+            <filename>E:/外观/0000144.png</filename>
+            <filename>E:/外观/0000145.png</filename>
+            <filename>E:/外观/0000146.png</filename>
+            <filename>E:/外观/0000147.png</filename>
+            <filename>E:/外观/0000140.png</filename>
+            <filename>E:/外观/0000141.png</filename>
+            <filename>E:/外观/0000142.png</filename>
+            <filename>E:/外观/0000082.png</filename>
+            <filename>E:/外观/0000083.png</filename>
+            <filename>E:/外观/0000084.png</filename>
+            <filename>E:/外观/0000085.png</filename>
+            <filename>E:/外观/0000086.png</filename>
+            <filename>E:/外观/0000087.png</filename>
+            <filename>E:/外观/0000080.png</filename>
+            <filename>E:/外观/0000081.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

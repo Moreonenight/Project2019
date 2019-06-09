@@ -1,4 +1,4 @@
-HouYi/walk.plist
+HrHouYi/walk.plist
 000080.png
 000081.png
 000082.png
