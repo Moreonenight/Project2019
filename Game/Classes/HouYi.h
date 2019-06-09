@@ -26,7 +26,7 @@ private:
 	//表示当前能否释放其他技能
 	bool canReleaseSkill = true;
 public:
-	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1， Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer);
+	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1,Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer);
 	unit* getUnit() { return houyi; }
 	void useSkill_1();
 	void useSkill_2(Vec2 pos);

@@ -42,14 +42,14 @@ void Game::initwithRole(string HeroName)
 	if (HeroName == string("HbHouYi"))
 	{
 		hero1 = HouYi::create();
-		((HouYi*)hero1)->initwithRole(HeroName, _tileMap, Vec2(bluex, bluey),(&unitsOnMap), _ammoLayer);
+		((HouYi*)hero1)->initwithRole(HeroName,_tileMap, hero1, Vec2(bluex, bluey),(&unitsOnMap), _ammoLayer);
 		addToMap(hero1, 0, 100);
 		MyUnit.pushBack(hero1);
 	}
 	else if (HeroName == string("HbDaJi"))
 	{
 		hero1 = DaJi::create();
-		((DaJi*)hero1)->initwithRole(HeroName, _tileMap, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
+		((DaJi*)hero1)->initwithRole(HeroName,_tileMap, hero1, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
 		addToMap(hero1, 0, 200);
 		MyUnit.pushBack(hero1);
 
@@ -57,7 +57,7 @@ void Game::initwithRole(string HeroName)
 	else if (HeroName == string("HbYaSe"))
 	{
 		hero1 = YaSe::create();
-		((YaSe*)hero1)->initwithRole(HeroName, _tileMap, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
+		((YaSe*)hero1)->initwithRole(HeroName, _tileMap, hero1, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
 		addToMap(hero1, 0, 300);
 		MyUnit.pushBack(hero1);
 	}
@@ -69,7 +69,7 @@ void Game::initwithRole(string HeroName)
 	if (RandNumber >= 0 && RandNumber <= 33)
 	{
 		hero2 = HouYi::create();
-        ((HouYi*)hero2)->initwithRole(string("HrHouYi"), _tileMap, Vec2(redx, redy), (&unitsOnMap), _ammoLayer);
+        ((HouYi*)hero2)->initwithRole(string("HrHouYi"), _tileMap, hero2, Vec2(redx, redy), (&unitsOnMap), _ammoLayer);
         hero2->setPosition(500, 500);
         addToMap(hero2, 0, 200);
         EnemeyUnit.pushBack(hero2);
@@ -77,7 +77,7 @@ void Game::initwithRole(string HeroName)
 	else if (RandNumber <= 66)
 	{
 		hero2 = DaJi::create();
-		((DaJi*)hero2)->initwithRole(string("HrDaJi"), _tileMap, Vec2(redx, redy), (&unitsOnMap), _ammoLayer);
+		((DaJi*)hero2)->initwithRole(string("HrDaJi"), _tileMap, hero2, Vec2(redx, redy), (&unitsOnMap), _ammoLayer);
 		hero2->setPosition(500, 500);
 		addToMap(hero2, 0, 200);
 		EnemeyUnit.pushBack(hero2);
@@ -85,10 +85,8 @@ void Game::initwithRole(string HeroName)
 	else if (RandNumber <= 99)
 	{
 		hero2 = YaSe::create();
-		((YaSe*)hero2)->initwithRole(string("HrYaSe"), _tileMap, Vec2(x, y), (&unitsOnMap), _ammoLayer);
+		((YaSe*)hero2)->initwithRole(string("HrYaSe"), _tileMap, hero2, Vec2(redx, redy), (&unitsOnMap), _ammoLayer);
 		hero2->setPosition(500, 500);
-		((YaSe*)hero2)->initwithRole(string("HrYaSe"),_tileMap, hero2, Vec2(redx, redy), (&unitsOnMap));
-		addToMap(hero2, 0, 200);
 		EnemeyUnit.pushBack(hero2);
 	}
 

@@ -1,6 +1,6 @@
 #include "HouYi.h"
 
-void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1，Vec2 bornpoint,Vector<unit*>* mapUnits,Layer* ammoLayer)
+void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1,Vec2 bornpoint,Vector<unit*>* mapUnits,Layer* ammoLayer)
 {
 	auto hero1data = new(unitdata);
 	hero1data->initial(HeroName);
