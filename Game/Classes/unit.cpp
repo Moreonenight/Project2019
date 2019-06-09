@@ -7,6 +7,7 @@ void unit::stop()
 
 void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits,Layer* ammoLayer)
 {
+	level = 1;
 	_map = Map;
 	data = unitdata;
 	unitsOnMap = mapUnits;
@@ -306,6 +307,21 @@ bool unit::sellEquipment(int number, Layer* equipmentlayer, Layer* shoplayer)
 		shoplayer->addChild(Label_6, 0, 893);
 	}
 
+Vec2 unit::getSpawnPoint() {
+	auto group = _map->getObjectGroup("hero");
+	auto blueSpawnPoint = group->getObject("BlueSpawnpoint");
+	auto redSpawnPoint = group->getObject("RedSpawnpoint");
+	float bluex = blueSpawnPoint["x"].asFloat();
+	float bluey = blueSpawnPoint["y"].asFloat();
+	float redx = redSpawnPoint["x"].asFloat();
+	float redy = redSpawnPoint["y"].asFloat();
+	if (getid()[1] == 'r') {
+		return Vec2(redx, redy);
+	}
+	else {
+		return Vec2(bluex, bluey);
+	}
+}
 
 }
 unit::~unit()

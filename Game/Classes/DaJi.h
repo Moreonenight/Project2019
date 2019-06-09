@@ -4,7 +4,7 @@
 class DaJi:public unit
 {
 private:
-	unit* houyi;
+	unit* daji;
 	unitdata* houyiData;
 	int level;
 	int skill_1Level;
@@ -16,8 +16,9 @@ private:
 	int sk3Damage[3] = { 700,875,1050 };
 	float sk3Cd[3] = { 45,40,35 };
 public:
+
 	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer);
-	unit* getUnit() { return houyi; }
+	unit* getUnit() { return daji; }
 	void useskill_1();
 	void sk1End(float dt);
 	void skill_1_cd(float dt);

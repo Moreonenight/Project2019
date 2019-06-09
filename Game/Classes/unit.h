@@ -7,6 +7,9 @@
 #include "ui/CocosGUI.h"
 
 USING_NS_CC;
+//出生点坐标
+
+
 class HP;
 class unit:public Sprite
 {
@@ -25,6 +28,7 @@ private:
 		defenceOfPhysical,
 		defenceOfMagic,
 		recoverOfMana;
+	int skillPoint;
 
 		Animate* AnimateLeft;
 		Vec2 beforePos;
@@ -97,15 +101,10 @@ public:
 	Exp* getExp(){ return exp; }
 	int getRecoverOfMana() { return recoverOfMana; }
 	int getGold() { return gold; }int changeGold(int delta) { if (gold + delta <= 0)gold = 0; else gold += delta; return gold; }
-	inline string getid() { return id; }
-
-
 	inline int getKillHero() { return KillHero; }
-	inline void changeKillHero(int delta) { KillHero+=delta; }
-	inline int getKillSoldiers() { return KillSoldiers; }
-	inline void changeKillSoldiers(int delta) { KillSoldiers += delta; }
 	inline int getDeath() { return deathnumber; }
-	inline void changeDeath(int delta) { deathnumber += delta; }
+	inline int getKillSoldiers() { return KillSoldiers; }
+	inline string getid() { return id; }
 
 
 	inline int getMoveSpeed() {		return moveSpeed;	}
@@ -115,15 +114,22 @@ public:
 	inline void changeMaxHp(int delta) { hp->changeMax(delta); }
 	inline int getMaxHp() { return hp->getMax(); }
 
+	inline int getSkillPoint() { return skillPoint; }
+	Vec2 getSpawnPoint();
+
 	//change Func
 	inline std::string changeid(string newid) { id = newid; return id; }
-
+	inline void changeLevel(int num) { if (num == 0) { return; }if (level + num <= 8)level += num; skillPoint += num; }
 	inline int changeMoveSpeed(int delta) { if (moveSpeed + delta < 0)moveSpeed = 0; else moveSpeed += delta; return moveSpeed; }
 	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
-	inline void changeCurExp(int delta) { exp->changeCurExp(delta); }
+	inline void changeCurHp(int delta) { hp->changeCur(delta); }
+	void addCurExp(int delta) { exp->changeCurExp(delta); changeLevel(exp->getLevel() - level);}
+	inline void changeKillHero(int delta) { KillHero += delta; }
+	inline void changeKillSoldiers(int delta) { KillSoldiers += delta; }
+	inline void changeDeath(int delta) { deathnumber += delta; }
+	inline void fullHp() { hp->changeCur(hp->getMax()); }
 
-
-
+	inline void changeSkillPoint(int num) { if ((skillPoint + num) < 0)skillPoint = 0; else skillPoint += num; }
 
 	//otherFunc
 	void getAttacked(ammo* amo) {
@@ -140,10 +146,11 @@ public:
 				unit* killUnit = getUnitWithId(fromId);
 				if (killUnit != nullptr) {
 					killUnit->changeGold(50);
+					killUnit->addCurExp(50);
 				}
 			}
-			this->setPosition(Vec2(270, 90));
-			hp->changeCur(60000);
+			this->setPosition(getSpawnPoint());
+			fullHp();
 			this->stopAllActions();
 		}
 		hp->changeCur((-delta)*(float)((100.0-defenceOfPhysical) / 100.0));

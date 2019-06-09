@@ -75,7 +75,7 @@ public:
 				unit* killUnit = getUnitWithId(fromId);
 				if (killUnit != nullptr) {
 					killUnit->changeGold(this->getGold());
-					(killUnit->getExp())->changeCurExp(30);
+					killUnit->addCurExp(30);
 					killUnit->changeKillSoldiers(1);
 
 					
