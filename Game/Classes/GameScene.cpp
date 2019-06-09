@@ -27,6 +27,9 @@ void Game::initwithRole(string HeroName)
 	_collidable = _tileMap->getLayer("collidable");
 	_collidable->setVisible(false);
 
+
+
+	
 	//获取地图上英雄的出生点
 	auto group = _tileMap->getObjectGroup("hero");
 	auto blueSpawnPoint = group->getObject("BlueSpawnpoint");
