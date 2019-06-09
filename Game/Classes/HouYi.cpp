@@ -1,10 +1,10 @@
 #include "HouYi.h"
 
-void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint,Vector<unit*>* mapUnits)
+void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint,Vector<unit*>* mapUnits,Layer* ammoLayer)
 {
 	auto hero1data = new(unitdata);
 	hero1data->initial(HeroName);
-	initial(hero1data, Map, mapUnits);
+	initial(hero1data, Map, mapUnits, ammoLayer);
 	auto Act = Animate::create(AnimationCache::getInstance()->getAnimation(HeroName + "up_stand"));
 	setPosition(bornpoint);
 	setScale(0.6);

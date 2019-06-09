@@ -32,19 +32,21 @@ void Game::initwithRole(string HeroName)
 	auto spawnPoint = group->getObject("spawnpoint");
 	float x = spawnPoint["x"].asFloat();
 	float y = spawnPoint["y"].asFloat();
-
+	_ammoLayer = Layer::create();
+	
+	_tileMap->addChild(_ammoLayer,2);
 	//我方英雄根据选择进行初始化
 	if (HeroName == string("HbHouYi"))
 	{
 		hero1 = HouYi::create();
-		((HouYi*)hero1)->initwithRole(HeroName, _tileMap, Vec2(x, y),(&unitsOnMap));
+		((HouYi*)hero1)->initwithRole(HeroName, _tileMap, Vec2(1500, 1500),(&unitsOnMap), _ammoLayer);
 		addToMap(hero1, 0, 100);
 		MyUnit.pushBack(hero1);
 	}
 	else if (HeroName == string("HbDaJi"))
 	{
 		hero1 = DaJi::create();
-		((DaJi*)hero1)->initwithRole(HeroName, _tileMap, Vec2(x, y), (&unitsOnMap));
+		((DaJi*)hero1)->initwithRole(HeroName, _tileMap, Vec2(x, y), (&unitsOnMap), _ammoLayer);
 		addToMap(hero1, 0, 200);
 		MyUnit.pushBack(hero1);
 
@@ -52,7 +54,7 @@ void Game::initwithRole(string HeroName)
 	else if (HeroName == string("HbYaSe"))
 	{
 		hero1 = YaSe::create();
-		((YaSe*)hero1)->initwithRole(HeroName, _tileMap, Vec2(x, y), (&unitsOnMap));
+		((YaSe*)hero1)->initwithRole(HeroName, _tileMap, Vec2(x, y), (&unitsOnMap), _ammoLayer);
 		addToMap(hero1, 0, 300);
 		MyUnit.pushBack(hero1);
 	}
@@ -64,47 +66,55 @@ void Game::initwithRole(string HeroName)
 	if (RandNumber >= 0 && RandNumber <= 33)
 	{
 		hero2 = HouYi::create();
-        ((HouYi*)hero2)->initwithRole(string("HrHouYi"), _tileMap, Vec2(x, y), (&unitsOnMap));
-        hero2->setPosition(500, 500);
+        ((HouYi*)hero2)->initwithRole(string("HrHouYi"), _tileMap, Vec2(x, y), (&unitsOnMap), _ammoLayer);
+        hero2->setPosition(100, 1000);
         addToMap(hero2, 0, 200);
         EnemeyUnit.pushBack(hero2);
 	}
 	else if (RandNumber <= 66)
 	{
 		hero2 = DaJi::create();
-		((DaJi*)hero2)->initwithRole(string("HrDaJi"), _tileMap, Vec2(x, y), (&unitsOnMap));
-		hero2->setPosition(500, 500);
+		((DaJi*)hero2)->initwithRole(string("HrDaJi"), _tileMap, Vec2(x, y), (&unitsOnMap), _ammoLayer);
+		hero2->setPosition(100, 1000);
 		addToMap(hero2, 0, 200);
 		EnemeyUnit.pushBack(hero2);
 	}
 	else if (RandNumber <= 99)
 	{
 		hero2 = YaSe::create();
-		((YaSe*)hero2)->initwithRole(string("HrYaSe"), _tileMap, Vec2(x, y), (&unitsOnMap));
-		hero2->setPosition(500, 500);
+		((YaSe*)hero2)->initwithRole(string("HrYaSe"), _tileMap, Vec2(x, y), (&unitsOnMap), _ammoLayer);
+		hero2->setPosition(100, 1000);
 		addToMap(hero2, 0, 200);
 		EnemeyUnit.pushBack(hero2);
 	}
 
 	//我方塔敌方塔初始化
 	auto MyTower1 = Tower::create();
-	MyTower1->InitWithRole(string("Tb1"), _tileMap, (&unitsOnMap));
-	addToMap(MyTower1, 0, 200); MyTower.pushBack(MyTower1); MyUnit.pushBack(MyTower1);
+	MyTower1->InitWithRole(string("Tb1"), _tileMap, (&unitsOnMap), _ammoLayer);
+	addToMap(MyTower1, 0, 200);MyTower.pushBack(MyTower1); 
 	auto MyTower2 = Tower::create();
-	MyTower2->InitWithRole(string("Tb2"), _tileMap, (&unitsOnMap));
-	addToMap(MyTower2, 0, 200); MyTower.pushBack(MyTower2); MyUnit.pushBack(MyTower2);
+	MyTower2->InitWithRole(string("Tb2"), _tileMap, (&unitsOnMap), _ammoLayer);
+	addToMap(MyTower2, 0, 200);MyTower.pushBack(MyTower2); 
 	auto MyTower3 = Tower::create();
-	MyTower3->InitWithRole(string("Tb3"), _tileMap, (&unitsOnMap));
+	MyTower3->InitWithRole(string("Tb3"), _tileMap, (&unitsOnMap), _ammoLayer);
 	addToMap(MyTower3, 0, 200); MyTower.pushBack(MyTower3);
 	auto EnemeyTower1 = Tower::create();
-	EnemeyTower1->InitWithRole(string("Tr1"), _tileMap, (&unitsOnMap));
-	addToMap(EnemeyTower1, 0, 200); EnemeyTower.pushBack(EnemeyTower1); EnemeyUnit.pushBack(EnemeyTower1);
+	EnemeyTower1->InitWithRole(string("Tr1"), _tileMap, (&unitsOnMap), _ammoLayer);
+	addToMap(EnemeyTower1, 0, 200); EnemeyTower.pushBack(EnemeyTower1); 
 	auto EnemeyTower2 = Tower::create();
-	EnemeyTower2->InitWithRole(string("Tr2"), _tileMap, (&unitsOnMap));
-	addToMap(EnemeyTower2, 0, 200); EnemeyTower.pushBack(EnemeyTower2); EnemeyUnit.pushBack(EnemeyTower2);
+	EnemeyTower2->InitWithRole(string("Tr2"), _tileMap, (&unitsOnMap), _ammoLayer);
+	addToMap(EnemeyTower2, 0, 200); EnemeyTower.pushBack(EnemeyTower2); 
 	auto EnemeyTower3 = Tower::create();
-	EnemeyTower3->InitWithRole(string("Tr3"), _tileMap,(&unitsOnMap));
-	addToMap(EnemeyTower3, 0, 200);EnemeyUnit.pushBack(EnemeyTower3);
+	EnemeyTower3->InitWithRole(string("Tr3"), _tileMap,(&unitsOnMap), _ammoLayer);
+	addToMap(EnemeyTower3, 0, 200); MyTower.pushBack(MyTower3);
+	//由于在逻辑上，我们先判断一塔的可攻击情况，所以顺序不可改
+	MyTower.pushBack(MyTower3);
+	MyUnit.pushBack(MyTower2);
+	MyUnit.pushBack(MyTower1);
+	EnemeyUnit.pushBack(EnemeyTower3);
+	EnemeyUnit.pushBack(EnemeyTower2);
+	EnemeyUnit.pushBack(EnemeyTower1);
+
 
 	//监听器初始化
 	listener = MouseController::create();
@@ -127,37 +137,9 @@ void Game::initwithRole(string HeroName)
 
 	/////////////////////////
 
-
-	/*
-	auto hero2data = new(unitdata);
-	hero2data->initial(string("HrHouYi"));
-	auto act2 = Animate::create(AnimationCache::getInstance()->getAnimation("HrHouYiup_stand"));
-	auto hero2 = HouYi::create(); hero2->initwithRole(hero2data, _tileMap);
-	hero2->setPosition(Vec2(x + 600, y + 500));	// + 200, y + 200));
-	addToMap(hero2, 2, 202);
-	hero2->setScale(0.5);
-	hero2->runAction(act2);*/
-	/*auto fileUtiles = FileUtils::getInstance();
-	auto fragmentGrayFullPath = fileUtiles->fullPathForFilename("gray.fsh");
-	auto fragSource = fileUtiles->getStringFromFile(fragmentGrayFullPath);
-	auto glprogram = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource.c_str());
-	auto grayGLProgrameState = GLProgramState::getOrCreateWithGLProgram(glprogram);
-	grayGLProgrameState->retain();
-
-	auto fragmentColorFullPath = fileUtiles->fullPathForFilename("color.fsh");
-	auto fragColorSource = fileUtiles->getStringFromFile(fragmentColorFullPath);
-	auto Colorglprogram = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource.c_str());
-	auto ColorGLProgrameState = GLProgramState::getOrCreateWithGLProgram(glprogram);
-	ColorGLProgrameState->retain();*/
-	//Skill1Button->setGLProgramState(ColorGLProgrameState);
-
-
-	
 	TimerLabel = Label::createWithSystemFont("00:00", "Arial", 30);
 	this->addChild(TimerLabel, 3);
 
-
-	
 	auto closeItem = MenuItemImage::create(
 		"/button/closetoupper.png",
 		"/button/closetoupper_selected.png",
@@ -183,7 +165,17 @@ void Game::initwithRole(string HeroName)
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
 
+
+	_equipmentlLayer = Layer::create();
+	this->addChild(_equipmentlLayer, 0, 138);
+	auto Equipmentbg = Sprite::create("bg/Equipment.png");
+	Equipmentbg->setAnchorPoint(Vec2(1, 0));
+	Equipmentbg->setScale(0.85f);
+	Equipmentbg->setPosition(960, 0);
+	_equipmentlLayer->addChild(Equipmentbg);
 	
+
+
 	this->schedule(schedule_selector(Game::mapupdate), 1.0f / 45);
 	this->schedule(schedule_selector(Game::TimeRecorder), 1.0f);
 	this->schedule(schedule_selector(Game::GoldRecorder), 1.0f / 45);
@@ -274,7 +266,6 @@ void Game::InitTabListener(string Hero1Name,string Hero2Name)
 	};
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(TabListener, this);
 }
-
 void Game::InitSkillButton(string HeroName)
 {
 	auto Skill1Button = CCSprite::create("Skills/" + HeroName + "_Sk1.png");
@@ -350,10 +341,26 @@ void Game::mapupdate(float dt)
 			for (auto it2 = MyUnit.begin(); it2 != MyUnit.end(); it2++)
 			{
 				auto ID = (*it2)->getid();
+				if (ID[0] == 'B')
+				{
+					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+					if (DIS < 300 && (*it2)->GetAlreadydead() == false)
+					{
+						(*it)->ChangeCanAttackSoldier(true);
+					}
+					else
+					{
+						(*it)->ChangeCanAttackSoldier(false);
+					}
+					if ((*it)->GetCanAttackSoldier() == true)
+					{
+						(*it)->changeAttackingTarget(*it2);
+					}
+				}
 				if (ID[0] == 'T')
 				{
 					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-					if (DIS < 200)
+					if (DIS < 350)
 					{
 						(*it)->ChangeCanAttackTower(true);
 					}
@@ -361,7 +368,7 @@ void Game::mapupdate(float dt)
 					{
 						(*it)->ChangeCanAttackTower(false);
 					}
-					if ((*it)->GetCanAttackTower() == true)
+					if ((*it)->GetCanAttackSoldier() == false&&(*it)->GetCanAttackTower() == true)
 					{
 						(*it)->changeAttackingTarget(*it2);
 					}
@@ -377,23 +384,7 @@ void Game::mapupdate(float dt)
 					{
 						(*it)->ChangeCanAttackHero(false);
 					}
-					if ((*it)->GetCanAttackTower() == false&&(*it)->GetCanAttackHero() == true)
-					{
-						(*it)->changeAttackingTarget(*it2);
-					}
-				}
-				if (ID[0] == 'B')
-				{
-					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-					if (DIS < 200)
-					{
-						(*it)->ChangeCanAttackSoldier(true);
-					}
-					else
-					{
-						(*it)->ChangeCanAttackSoldier(false);
-					}
-					if ((*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == true)
+					if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == true)
 					{
 						(*it)->changeAttackingTarget(*it2);
 					}
@@ -413,11 +404,29 @@ void Game::mapupdate(float dt)
 		{
 			for (auto it2 = EnemeyUnit.begin(); it2 != EnemeyUnit.end(); it2++)
 			{
+
 				auto ID = (*it2)->getid();
+				if (ID[0] == 'B')
+				{
+					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+					
+					if(DIS < 300&& (*it2)->GetAlreadydead() == false)
+					{
+						(*it)->ChangeCanAttackSoldier(true);
+					}
+					else
+					{
+						(*it)->ChangeCanAttackSoldier(false);
+					}
+					if ((*it)->GetCanAttackSoldier() == true)
+					{
+						(*it)->changeAttackingTarget(*it2);
+					}
+				}
 				if (ID[0] == 'T')
 				{
 					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-					if (DIS < 200)
+					if (DIS < 350)
 					{
 						(*it)->ChangeCanAttackTower(true);
 					}
@@ -425,7 +434,7 @@ void Game::mapupdate(float dt)
 					{
 						(*it)->ChangeCanAttackTower(false);
 					}
-					if ((*it)->GetCanAttackTower() == true)
+					if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackTower() == true)
 					{
 						(*it)->changeAttackingTarget(*it2);
 					}
@@ -441,31 +450,17 @@ void Game::mapupdate(float dt)
 					{
 						(*it)->ChangeCanAttackHero(false);
 					}
-					if ((*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == true)
+					if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == true)
 					{
 						(*it)->changeAttackingTarget(*it2);
 					}
 				}
-				if (ID[0] == 'B')
-				{
-					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-					if (DIS < 200)
-					{
-						(*it)->ChangeCanAttackSoldier(true);
-					}
-					else
-					{
-						(*it)->ChangeCanAttackSoldier(false);
-					}
-					if ((*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == true)
-					{
-						(*it)->changeAttackingTarget(*it2);
-					}
-				}
-				if ((*it)->GetCanAttackTower() == true && (*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == true)
+				if ((*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == false)
 				{
 					(*it)->changeAttackingTarget(nullptr);
 				}
+
+
 			}
 		}
 	}
@@ -562,13 +557,11 @@ void Game::mapupdate(float dt)
 		}
 	}
 }
-
 void Game::TimeRecorder(float dt)
 {
-
 	TimerLabel->removeFromParentAndCleanup(true);
 	Time++;
-	hero1->changeGold(1);
+	hero1->changeGold(100);
 	int Minute = Time / 60;
 	int Second = Time % 60;
 	std::string second_str = std::to_string(Second);
@@ -592,50 +585,52 @@ void Game::TimeRecorder(float dt)
 	TimerLabel = Label::createWithSystemFont(str, "Arial", 30);
 	
 	this->addChild(TimerLabel, 3);
-
-	if (Time == 2)
+	if (Time % 2 == 0)
+	{
+		for (auto it = _ammoLayer->getChildren().begin(); it!=_ammoLayer->getChildren().end(); it++)
+		{
+			(*it)->setPosition(-2000, -2000);
+			((ammo*)*it)->changeTargetPosition(Vec2(-2000, -2000));
+		}
+	}//暂时修复有时子弹无法消失的bug
+	if (Time==5)
 	{
 		auto Br1_1 = Soldier::create();
-		Br1_1->Soldierinit("Br1",1, _tileMap, (&unitsOnMap));
+		Br1_1->Soldierinit("Br1",1, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Br1_1, 0, 233); EnemeySoldier.pushBack(Br1_1); EnemeyUnit.pushBack(Br1_1);
 		auto Br2_1 = Soldier::create();
-		Br2_1->Soldierinit("Br2",1, _tileMap, (&unitsOnMap));
+		Br2_1->Soldierinit("Br2",1, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Br2_1, 0, 234); EnemeySoldier.pushBack(Br2_1); EnemeyUnit.pushBack(Br2_1);
 		auto Br3_1 = Soldier::create();
-		Br3_1->Soldierinit("Br3",1, _tileMap, (&unitsOnMap));
+		Br3_1->Soldierinit("Br3",1, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Br3_1, 0, 235); EnemeySoldier.pushBack(Br3_1); EnemeyUnit.pushBack(Br3_1);
 		auto Br1_2 = Soldier::create();
-		Br1_2->Soldierinit("Br1", 2, _tileMap, (&unitsOnMap));
+		Br1_2->Soldierinit("Br1", 2, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Br1_2, 0, 236); EnemeySoldier.pushBack(Br1_2); EnemeyUnit.pushBack(Br1_2);
 		auto Br2_2 = Soldier::create();
-		Br2_2->Soldierinit("Br2", 2, _tileMap, (&unitsOnMap));
+		Br2_2->Soldierinit("Br2", 2, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Br2_2, 0, 237); EnemeySoldier.pushBack(Br2_2); EnemeyUnit.pushBack(Br2_2);
 		auto Br3_2 = Soldier::create();
-		Br3_2->Soldierinit("Br3", 2, _tileMap, (&unitsOnMap));
+		Br3_2->Soldierinit("Br3", 2, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Br3_2, 0, 238); EnemeySoldier.pushBack(Br3_2); EnemeyUnit.pushBack(Br3_2);
 		auto Bb1_1 = Soldier::create();
-		Bb1_1->Soldierinit("Bb1", 1, _tileMap, (&unitsOnMap));
+		Bb1_1->Soldierinit("Bb1", 1, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Bb1_1, 0, 239); MySoldier.pushBack(Bb1_1); MyUnit.pushBack(Bb1_1);
 		auto Bb2_1 = Soldier::create();
-		Bb2_1->Soldierinit("Bb2", 1, _tileMap, (&unitsOnMap));
+		Bb2_1->Soldierinit("Bb2", 1, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Bb2_1, 0, 240); MySoldier.pushBack(Bb2_1); MyUnit.pushBack(Bb2_1);
 		auto Bb3_1 = Soldier::create();
-		Bb3_1->Soldierinit("Bb3", 1, _tileMap, (&unitsOnMap));
+		Bb3_1->Soldierinit("Bb3", 1, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Bb3_1, 0, 241); MySoldier.pushBack(Bb3_1); MyUnit.pushBack(Bb3_1);
 		auto Bb1_2 = Soldier::create();
-		Bb1_2->Soldierinit("Bb1", 2, _tileMap, (&unitsOnMap));
+		Bb1_2->Soldierinit("Bb1", 2, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Bb1_2, 0, 239); MySoldier.pushBack(Bb1_2); MyUnit.pushBack(Bb1_2);
 		auto Bb2_2 = Soldier::create();
-		Bb2_2->Soldierinit("Bb2", 2, _tileMap, (&unitsOnMap));
+		Bb2_2->Soldierinit("Bb2", 2, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Bb2_2, 0, 240); MySoldier.pushBack(Bb2_2); MyUnit.pushBack(Bb2_2);
 		auto Bb3_2 = Soldier::create();
-		Bb3_2->Soldierinit("Bb3", 2, _tileMap, (&unitsOnMap));
+		Bb3_2->Soldierinit("Bb3", 2, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Bb3_2, 0, 241); MySoldier.pushBack(Bb3_2); MyUnit.pushBack(Bb3_2);
-		//Br1->moveDirectionByKey(Br1->getDir(Br1->getPosition(), Vec2(1000, 1000)), Vec2(1000, 1000));
-
-		//Bb1->moveDirectionByKey(Bb1->getDir(Bb1->getPosition(), Vec2(0, 0)), Vec2(0, 0));
-		//Bb2->moveDirectionByKey(Bb2->getDir(Bb2->getPosition(), Vec2(0, 0)), Vec2(0, 0));
-		//Bb3->moveDirectionByKey(Bb3->getDir(Bb3->getPosition(), Vec2(0, 0)), Vec2(0, 0));
 	}
 	if (!MySoldier.empty())
 	{
@@ -658,13 +653,13 @@ void Game::TimeRecorder(float dt)
 			(*it)->AttackingJudgeAI();
 		}
 	}
-	if (!MyTower.empty())
+	/*if (!MyTower.empty())
 	{
-		for (auto it = EnemeySoldier.begin(); it != EnemeySoldier.end(); it++)
+		for (auto it = MyTower.begin(); it != MyTower.end(); it++)
 		{
 			(*it)->AttackingJudgeAI();
 		}
-	}
+	}*/
 	return;
 }
 
@@ -702,7 +697,7 @@ void Game::createShopCallBack(cocos2d::Ref* pSender) {
 	hero1->stopAllActions();
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	if (IS_SHOP_OPEN) { return; }
-	auto _shopLayer = Layer::create();
+	_shopLayer = Layer::create();
 	auto shopbg = Sprite::create("bg/shop.png");
 	shopbg->setPosition(Vec2(
 		visibleSize.width / 2,
@@ -715,7 +710,7 @@ void Game::createShopCallBack(cocos2d::Ref* pSender) {
 		CC_CALLBACK_1(Game::closeShopCallBack, this)
 	);
 	closeShopButton->setPosition(shopbg->getPosition() + Vec2(250, -200));
-
+	
 	//item
 	auto itemShoe = MenuItemImage::create(
 		"/item/shoe_normal.png",
@@ -729,7 +724,7 @@ void Game::createShopCallBack(cocos2d::Ref* pSender) {
 	ShoeLabel2->setPosition(Vec2(37, -38));
 	itemShoe->addChild(ShoeLabel1);
 	itemShoe->addChild(ShoeLabel2);
-	itemShoe->setPosition(shopbg->getPosition() + Vec2(-200, 0));
+	itemShoe->setPosition(shopbg->getPosition() + Vec2(-200, 100));
 	//hat
 	auto itemHat = MenuItemImage::create(
 		"item/hat_normal.png",
@@ -742,7 +737,7 @@ void Game::createShopCallBack(cocos2d::Ref* pSender) {
 	HatLabel2->setPosition(Vec2(37, -38));
 	itemHat->addChild(HatLabel1);
 	itemHat->addChild(HatLabel2);
-	itemHat->setPosition(shopbg->getPosition() + Vec2(0, 0));
+	itemHat->setPosition(shopbg->getPosition() + Vec2(0, 100));
 	//sword
 	auto itemSword = MenuItemImage::create(
 		"item/shield_normal.png",
@@ -755,12 +750,29 @@ void Game::createShopCallBack(cocos2d::Ref* pSender) {
 	SwordLabel2->setPosition(Vec2(37, -38));
 	itemSword->addChild(SwordLabel1);
 	itemSword->addChild(SwordLabel2);
-	itemSword->setPosition(shopbg->getPosition() + Vec2(0, 0));
-	itemSword->setPosition(shopbg->getPosition() + Vec2(200, 0));
+	itemSword->setPosition(shopbg->getPosition() + Vec2(200, 100));
 
-
-	auto mn = Menu::create(closeShopButton, itemShoe,itemHat,itemSword,NULL);
-
+	
+	auto eqbg1 = Sprite::create("bg/EquipmentChoose.png");
+	eqbg1->setScale(0.8f);
+	eqbg1->setPosition(290,150);
+	_shopLayer->addChild(eqbg1,1);
+	auto Notice = Label::create("You can sell your equipment here,\nbut it will be sold at half the purchase price", "fonts/Arial.ttf",20);
+	Notice->enableGlow(Color4B::BLACK); Notice->setPosition(350, 60);
+	_shopLayer->addChild(Notice, 1);
+	auto Sell1 = MenuItemImage::create("bg/Sell1.png","bg/Sell11.png",CC_CALLBACK_1(Game::sell1CallBack, this));
+	Sell1->setPosition(460, 200);
+	auto Sell2 = MenuItemImage::create("bg/Sell2.png", "bg/Sell22.png", CC_CALLBACK_1(Game::sell2CallBack, this));
+	Sell2->setPosition(560, 200);
+	auto Sell3 = MenuItemImage::create("bg/Sell3.png", "bg/Sell33.png", CC_CALLBACK_1(Game::sell3CallBack, this));
+	Sell3->setPosition(460, 150);
+	auto Sell4 = MenuItemImage::create("bg/Sell4.png", "bg/Sell44.png", CC_CALLBACK_1(Game::sell4CallBack, this));
+	Sell4->setPosition(560, 150);
+	auto Sell5 = MenuItemImage::create("bg/Sell5.png", "bg/Sell55.png", CC_CALLBACK_1(Game::sell5CallBack, this));
+	Sell5->setPosition(460, 100);
+	auto Sell6 = MenuItemImage::create("bg/Sell6.png", "bg/Sell66.png", CC_CALLBACK_1(Game::sell6CallBack, this));
+	Sell6->setPosition(560, 100);
+	auto mn = Menu::create(closeShopButton, itemShoe,itemHat,itemSword,Sell1, Sell2,Sell3,Sell4,Sell5,Sell6,NULL);
 	mn->setPosition(Vec2::ZERO);
 	_shopLayer->addChild(mn,1);
 	_shopLayer->addChild(shopbg);
@@ -801,28 +813,45 @@ void Game::undoSkillCallBack(cocos2d::Ref * pSender)
 void Game::buyShoeCallBack(cocos2d::Ref* pSender) 
 {
 	if (!IS_SHOP_OPEN) { return; }
-	hero1->addEquipment("Shoe");
+	hero1->addEquipment("Shoe", _equipmentlLayer,_shopLayer);
 }
 void Game::buyHatCallBack(cocos2d::Ref* pSender)
 {
 	if (!IS_SHOP_OPEN) { return; }
-	hero1->addEquipment("Hat");
+	hero1->addEquipment("Hat", _equipmentlLayer, _shopLayer);
 }
 void Game::buySwordCallBack(cocos2d::Ref* pSender)
 {
 	if (!IS_SHOP_OPEN) { return; }
-	hero1->addEquipment("Sword");
+	hero1->addEquipment("Sword",_equipmentlLayer, _shopLayer);
 }
-
-char * Game::FontToUTF8(const char* font) {
-	int len = MultiByteToWideChar(CP_ACP, 0, font, -1, NULL, 0);
-	wchar_t *wstr = new wchar_t[len + 1];
-	memset(wstr, 0, len + 1);
-	MultiByteToWideChar(CP_ACP, 0, font, -1, wstr, len);
-	len = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, NULL, 0, NULL, NULL);
-	char *str = new char[len + 1];
-	memset(str, 0, len + 1);
-	WideCharToMultiByte(CP_UTF8, 0, wstr, -1, str, len, NULL, NULL);
-	if (wstr)delete[] wstr;
-	return str;
+void Game::sell1CallBack(cocos2d::Ref* pSender)
+{
+	if (!IS_SHOP_OPEN) { return; }
+	hero1->sellEquipment(0, _equipmentlLayer, _shopLayer);
+}
+void Game::sell2CallBack(cocos2d::Ref* pSender)
+{
+	if (!IS_SHOP_OPEN) { return; }
+	hero1->sellEquipment(1, _equipmentlLayer, _shopLayer);
+}
+void Game::sell3CallBack(cocos2d::Ref* pSender)
+{
+	if (!IS_SHOP_OPEN) { return; }
+	hero1->sellEquipment(2, _equipmentlLayer, _shopLayer);
+}
+void Game::sell4CallBack(cocos2d::Ref* pSender)
+{
+	if (!IS_SHOP_OPEN) { return; }
+	hero1->sellEquipment(3, _equipmentlLayer, _shopLayer);
+}
+void Game::sell5CallBack(cocos2d::Ref* pSender)
+{
+	if (!IS_SHOP_OPEN) { return; }
+	hero1->sellEquipment(4, _equipmentlLayer, _shopLayer);
+}
+void Game::sell6CallBack(cocos2d::Ref* pSender)
+{
+	if (!IS_SHOP_OPEN) { return; }
+	hero1->sellEquipment(5, _equipmentlLayer, _shopLayer);
 }

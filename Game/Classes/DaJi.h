@@ -16,7 +16,7 @@ private:
 	int sk3Damage[3] = { 700,875,1050 };
 	float sk3Cd[3] = { 45,40,35 };
 public:
-	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint, Vector<unit*>* mapUnits);
+	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer);
 	unit* getUnit() { return houyi; }
 	void useskill_1();
 	void sk1End(float dt);
