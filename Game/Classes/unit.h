@@ -60,7 +60,7 @@ public:
 		return &damage;
 
 	}
-	
+	Vec2 getSpawnPoint();
 	inline void ChangeAlreadydead(bool dead)
 	{
 		Alreadydead = dead;
@@ -115,7 +115,7 @@ public:
 	inline int getMaxHp() { return hp->getMax(); }
 
 	inline int getSkillPoint() { return skillPoint; }
-	Vec2 getSpawnPoint();
+	
 
 	//change Func
 	inline std::string changeid(string newid) { id = newid; return id; }

@@ -174,7 +174,7 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	ammo *amo = ammo::create();
 	amo->initial(this->getAmmoFrameName(),this->getid(),getPosition(), getDamage(), getAmmoSpeed());
 	if (getid()[0] == 'B'&&getid()[2] == '1') { amo->setVisible(0); }
-	auto id1 = target->getid(); auto id2 = amo->getid();
+	auto id1 = this->getid(); auto id2 = target->getid();
 	if (id1[1] != id2[1]) {
 		AmmoLayer->addChild(amo, 6);
 		target->getAttacked(amo);
@@ -292,7 +292,7 @@ bool unit::sellEquipment(int number, Layer* equipmentlayer, Layer* shoplayer)
 		Label_5->setPosition(700, 150);
 		shoplayer->addChild(Label_5, 0, 892);
 		equip[number].isOccupied = false;
-		this->changeGold(equip[number].Price/2);
+		this->changeGold(equip[number].Price / 2);
 		this->changeDamage(-equip[number].plusDamage);
 		this->changeMoveSpeed(-equip[number].plusMoveSpeed);
 		this->changeMaxHp(-equip[number].plusMaxHp);
@@ -306,7 +306,7 @@ bool unit::sellEquipment(int number, Layer* equipmentlayer, Layer* shoplayer)
 		Label_6->setPosition(700, 150);
 		shoplayer->addChild(Label_6, 0, 893);
 	}
-
+}
 Vec2 unit::getSpawnPoint() {
 	auto group = _map->getObjectGroup("hero");
 	auto blueSpawnPoint = group->getObject("BlueSpawnpoint");
@@ -321,8 +321,6 @@ Vec2 unit::getSpawnPoint() {
 	else {
 		return Vec2(bluex, bluey);
 	}
-}
-
 }
 unit::~unit()
 {

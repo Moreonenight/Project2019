@@ -6,6 +6,7 @@ class HouYi :public unit
 private:
 	unit* houyi;
 	unitdata* houyiData;
+	cocos2d::TMXTiledMap* map;
 	int level=1;
 	int skill_1Level=0;
 	int skill_2Level=0;
@@ -26,7 +27,7 @@ private:
 	//表示当前能否释放其他技能
 	bool canReleaseSkill = true;
 public:
-	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1， Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer);
+	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1,Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer);
 	unit* getUnit() { return houyi; }
 	void useSkill_1();
 	void useSkill_2(Vec2 pos);
@@ -34,6 +35,7 @@ public:
 	void sk1End();
 	void sk2End();
 	void sk3End();
+	void sk3End(Vec2 Target);
 	void useAlti();
 	//技能相关
 	inline bool isReleasing() { return sk1 || sk2 || sk3; }
