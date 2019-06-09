@@ -17,7 +17,7 @@ ammoSpeed
 moveSpeed
 50
 recoverOfHp
-5
+0
 defenceOfPhysical
 15
 defenceOfMagic

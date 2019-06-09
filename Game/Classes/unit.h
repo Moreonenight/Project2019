@@ -4,6 +4,8 @@
 #include "HP.h"
 #include "Exp.h"
 #include "Equipment.h"
+#include "ui/CocosGUI.h"
+
 USING_NS_CC;
 //出生点坐标
 
@@ -31,7 +33,11 @@ private:
 		Animate* AnimateLeft;
 		Vec2 beforePos;
 		Equipment equip[6];
+		Vec2 EquipmentPostion[6];
+		Layer* AmmoLayer;
+		Menu* myMenu;
 		int KillHero, KillSoldiers, deathnumber;
+		bool Alreadydead;
 
 public:
 	HP *hp;//MP maxMana;
@@ -54,6 +60,16 @@ public:
 		return &damage;
 
 	}
+	
+	inline void ChangeAlreadydead(bool dead)
+	{
+		Alreadydead = dead;
+	}
+	inline bool GetAlreadydead()
+	{
+		return Alreadydead;
+	}
+
 	Direction getDir(Vec2 v) { return getDir(CC_RADIANS_TO_DEGREES(v.getAngle()));  };
 	Direction getDir(float angle) {
 		Direction dir; 
@@ -65,7 +81,7 @@ public:
 	}
 	Direction getDir(Vec2 curPos, Vec2 desPos) { return getDir(desPos - curPos); }
 
-	void initial(unitdata *unitdata, cocos2d::TMXTiledMap* _tileMap, Vector<unit*>* mapUnits);
+	void initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits, Layer* ammoLayer);
 	CREATE_FUNC(unit);
 	
 	
@@ -81,6 +97,7 @@ public:
 	//getFunc
 	//int getMaxMana() { return maxMana; }
 	HP* getHp() { return hp; }
+	unitdata* getdata() { return data; }
 	Exp* getExp(){ return exp; }
 	int getRecoverOfMana() { return recoverOfMana; }
 	int getGold() { return gold; }int changeGold(int delta) { if (gold + delta <= 0)gold = 0; else gold += delta; return gold; }
@@ -194,6 +211,7 @@ public:
 		else { this->canAttack = 1; return; }
 	}*/
 	unit* getUnitWithId(std::string id);
-	bool addEquipment(std::string itemId);
+	bool addEquipment(std::string itemId, Layer* equipmentlayer,Layer* shoplayer);
+	bool sellEquipment(int number, Layer* equipmentlayer, Layer* shoplayer);
 };
 

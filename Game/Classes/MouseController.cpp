@@ -26,7 +26,7 @@ unit * MouseController::selectFromSprites(Vec2 pos)
 			minlength = curlength;
 		}
 	}
-	if (minlength <= 200.0)
+	if (minlength <= 150.0)
 		return ans;
 	else return nullptr;
 }

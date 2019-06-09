@@ -16,17 +16,17 @@ private:
 	int sk2Cd[6] = { 8,7,6,5,5,4 };
 	int sk3Damage[3] = { 7000,875,1050 };
 	int sk3Cd[3] = { 8,40,35 };
-	//±íÊ¾¼¼ÄÜÊÇ·ñ¿ªÆô
+	//è¡¨ç¤ºæŠ€èƒ½æ˜¯å¦å¼€å¯
 	bool sk1 = false;
 	bool sk2 = false;
 	bool sk3=  false;
 	int sk1Cd_left = 0;
 	int sk2Cd_left = 0;
 	int	sk3Cd_left = 0;
-	//±íÊ¾µ±Ç°ÄÜ·ñÊÍ·ÅÆäËû¼¼ÄÜ
+	//è¡¨ç¤ºå½“å‰èƒ½å¦é‡Šæ”¾å…¶ä»–æŠ€èƒ½
 	bool canReleaseSkill = true;
 public:
-	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1,Vec2 bornpoint,Vector<unit*>* mapUnits);
+	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1ï¼Œ Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer);
 	unit* getUnit() { return houyi; }
 	void useSkill_1();
 	void useSkill_2(Vec2 pos);
@@ -35,7 +35,7 @@ public:
 	void sk2End();
 	void sk3End();
 	void useAlti();
-	//¼¼ÄÜÏà¹Ø
+	//æŠ€èƒ½ç›¸å…³
 	inline bool isReleasing() { return sk1 || sk2 || sk3; }
 	inline bool getSk1() { return sk1; }
 	inline bool getSk2() { return sk2; }
@@ -46,7 +46,7 @@ public:
 	inline bool canRelease() { return canReleaseSkill; }
 	inline void changeCanRelease(bool now) { canReleaseSkill = now; }
 
-	//ÓÎÏ·Ë¢ĞÂ
+	//æ¸¸æˆåˆ·æ–°
 	void cdUpdate(float dt);
 	void skillFreshUpdate(float dt);
 
@@ -78,7 +78,7 @@ public:
 	virtual int getDamage(int delta, std::string fromId) {
 		if (hp->getCur() < delta) {
 			die();
-			//µÃµ½»÷É±Õßunit*Ìí¼Ó½±Àø
+			//å¾—åˆ°å‡»æ€è€…unit*æ·»åŠ å¥–åŠ±
 			changeDeath(1);
 			if (fromId[0] == 'H') {
 				unit* killUnit = getUnitWithId(fromId);

@@ -1,10 +1,10 @@
 #include "HouYi.h"
 
-void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1, Vec2 bornpoint,Vector<unit*>* mapUnits)
+void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1ï¼ŒVec2 bornpoint,Vector<unit*>* mapUnits,Layer* ammoLayer)
 {
 	auto hero1data = new(unitdata);
 	hero1data->initial(HeroName);
-	initial(hero1data, Map, mapUnits);
+	initial(hero1data, Map, mapUnits, ammoLayer);
 	houyi = hero1;
 	houyi->changeid(HeroName);
 	auto Act = Animate::create(AnimationCache::getInstance()->getAnimation(HeroName + "up_stand"));
@@ -12,7 +12,7 @@ void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1
 	setScale(0.6);
 	runAction(Act);
 	if (getid()[1] == 'b') {
-		//³õÊ¼»¯¼üÅÌ¼àÌýÆ÷
+		//Â³ÃµÃŠÂ¼Â»Â¯Â¼Ã¼Ã…ÃŒÂ¼Ã ÃŒÃ½Ã†Ã·
 		auto skillListener = EventListenerKeyboard::create();
 		skillListener->onKeyPressed = [this](EventKeyboard::KeyCode keyCode, Event * event) 
 		{
