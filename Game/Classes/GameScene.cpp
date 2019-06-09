@@ -29,22 +29,25 @@ void Game::initwithRole(string HeroName)
 
 	//获取地图上英雄的出生点
 	auto group = _tileMap->getObjectGroup("hero");
-	auto spawnPoint = group->getObject("spawnpoint");
-	float x = spawnPoint["x"].asFloat();
-	float y = spawnPoint["y"].asFloat();
+	auto blueSpawnPoint = group->getObject("BlueSpawnpoint");
+	auto redSpawnPoint = group->getObject("RedSpawnpoint");
+	float bluex = blueSpawnPoint["x"].asFloat();
+	float bluey = blueSpawnPoint["y"].asFloat();
+	float redx = redSpawnPoint["x"].asFloat();
+	float redy = redSpawnPoint["y"].asFloat();
 
 	//我方英雄根据选择进行初始化
 	if (HeroName == string("HbHouYi"))
 	{
 		hero1 = HouYi::create();
-		((HouYi*)hero1)->initwithRole(HeroName, _tileMap, hero1,Vec2(x, y),(&unitsOnMap));
+		((HouYi*)hero1)->initwithRole(HeroName, _tileMap, hero1,Vec2(bluex, bluey),(&unitsOnMap));
 		addToMap(hero1, 0, 100);
 		MyUnit.pushBack(hero1);
 	}
 	else if (HeroName == string("HbDaJi"))
 	{
 		hero1 = DaJi::create();
-		((DaJi*)hero1)->initwithRole(HeroName, _tileMap, hero1, Vec2(x, y), (&unitsOnMap));
+		((DaJi*)hero1)->initwithRole(HeroName, _tileMap, hero1, Vec2(bluex, bluey), (&unitsOnMap));
 		addToMap(hero1, 0, 200);
 		MyUnit.pushBack(hero1);
 
@@ -52,7 +55,7 @@ void Game::initwithRole(string HeroName)
 	else if (HeroName == string("HbYaSe"))
 	{
 		hero1 = YaSe::create();
-		((YaSe*)hero1)->initwithRole(HeroName, _tileMap, hero1, Vec2(x, y), (&unitsOnMap));
+		((YaSe*)hero1)->initwithRole(HeroName, _tileMap, hero1, Vec2(bluex, bluey), (&unitsOnMap));
 		addToMap(hero1, 0, 300);
 		MyUnit.pushBack(hero1);
 	}
@@ -64,7 +67,7 @@ void Game::initwithRole(string HeroName)
 	if (RandNumber >= 0 && RandNumber <= 33)
 	{
 		hero2 = HouYi::create();
-        ((HouYi*)hero2)->initwithRole(string("HrHouYi"), _tileMap, hero2,Vec2(x, y), (&unitsOnMap));
+        ((HouYi*)hero2)->initwithRole(string("HrHouYi"), _tileMap, hero2,Vec2(redx, redy), (&unitsOnMap));
         hero2->setPosition(500, 500);
         addToMap(hero2, 0, 200);
         EnemeyUnit.pushBack(hero2);
@@ -72,7 +75,7 @@ void Game::initwithRole(string HeroName)
 	else if (RandNumber <= 66)
 	{
 		hero2 = DaJi::create();
-		((DaJi*)hero2)->initwithRole(string("HrDaJi"), _tileMap, hero2, Vec2(x, y), (&unitsOnMap));
+		((DaJi*)hero2)->initwithRole(string("HrDaJi"), _tileMap, hero2, Vec2(redx, redy), (&unitsOnMap));
 		hero2->setPosition(500, 500);
 		addToMap(hero2, 0, 200);
 		EnemeyUnit.pushBack(hero2);
@@ -80,7 +83,7 @@ void Game::initwithRole(string HeroName)
 	else if (RandNumber <= 99)
 	{
 		hero2 = YaSe::create();
-		((YaSe*)hero2)->initwithRole(string("HrYaSe"),_tileMap, hero2, Vec2(x, y), (&unitsOnMap));
+		((YaSe*)hero2)->initwithRole(string("HrYaSe"),_tileMap, hero2, Vec2(redx, redy), (&unitsOnMap));
 		hero2->setPosition(500, 500);
 		addToMap(hero2, 0, 200);
 		EnemeyUnit.pushBack(hero2);
@@ -110,6 +113,12 @@ void Game::initwithRole(string HeroName)
 	listener = MouseController::create();
 	if (hero1->getid()[2] == 'H') {
 		listener->initListener(((HouYi*)hero1), getUnits());
+	}
+	if (hero1->getid()[2] == 'D') {
+		listener->initListener(hero1, getUnits());
+	}
+	if (hero1->getid()[2] == 'Y') {
+		listener->initListener(hero1, getUnits());
 	}
 	listener->changeOffset(Vec2::ZERO);
 	//战绩页面初始化
@@ -296,7 +305,7 @@ void Game::InitSkillButton(string HeroName)
 	Skill2Lock->setPosition(Skill2Button->getPosition() + Vec2(20, 20));
 	Skill3Lock->setPosition(Skill3Button->getPosition() + Vec2(20, 20));
 	this->addChild(Skill1Button); this->addChild(Skill2Button); this->addChild(Skill3Button); this->addChild(Skill4Button);
-	this->addChild(Skill1Lock, 5, 0001); this->addChild(Skill2Lock, 5, 0002); this->addChild(Skill3Lock, 5, 0003);
+	this->addChild(Skill1Lock, 0, 0001); this->addChild(Skill2Lock, 0, 0002); this->addChild(Skill3Lock, 0, 0003);
 }
 
 

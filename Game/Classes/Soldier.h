@@ -85,7 +85,7 @@ public:
 					killUnit->changeKillSoldiers(1);
 				}
 			}
-			this->setPosition(Vec2(270, 90));
+			this->setPosition(getSpawnPoint());
 			fullHp();
 		}
 		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));

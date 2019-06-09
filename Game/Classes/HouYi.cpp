@@ -6,6 +6,7 @@ void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1
 	hero1data->initial(HeroName);
 	initial(hero1data, Map, mapUnits);
 	houyi = hero1;
+	houyi->changeid(HeroName);
 	auto Act = Animate::create(AnimationCache::getInstance()->getAnimation(HeroName + "up_stand"));
 	setPosition(bornpoint);
 	setScale(0.6);

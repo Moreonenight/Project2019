@@ -5,6 +5,9 @@
 #include "Exp.h"
 #include "Equipment.h"
 USING_NS_CC;
+//出生点坐标
+
+
 class HP;
 class unit:public Sprite
 {
@@ -95,6 +98,7 @@ public:
 	inline int getMaxHp() { return hp->getMax(); }
 
 	inline int getSkillPoint() { return skillPoint; }
+	Vec2 getSpawnPoint();
 
 	//change Func
 	inline std::string changeid(string newid) { id = newid; return id; }
@@ -109,7 +113,6 @@ public:
 	inline void fullHp() { hp->changeCur(hp->getMax()); }
 
 	inline void changeSkillPoint(int num) { if ((skillPoint + num) < 0)skillPoint = 0; else skillPoint += num; }
-
 
 	//otherFunc
 	void getAttacked(ammo* amo) {
@@ -129,8 +132,8 @@ public:
 					killUnit->addCurExp(50);
 				}
 			}
-			this->setPosition(Vec2(270, 90));
-			hp->changeCur(60000);
+			this->setPosition(getSpawnPoint());
+			fullHp();
 			this->stopAllActions();
 		}
 		hp->changeCur((-delta)*(float)((100.0-defenceOfPhysical) / 100.0));

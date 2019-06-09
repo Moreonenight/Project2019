@@ -230,6 +230,21 @@ bool unit::addEquipment(std::string itemId)
 	return false;
 }
 
+Vec2 unit::getSpawnPoint() {
+	auto group = _map->getObjectGroup("hero");
+	auto blueSpawnPoint = group->getObject("BlueSpawnpoint");
+	auto redSpawnPoint = group->getObject("RedSpawnpoint");
+	float bluex = blueSpawnPoint["x"].asFloat();
+	float bluey = blueSpawnPoint["y"].asFloat();
+	float redx = redSpawnPoint["x"].asFloat();
+	float redy = redSpawnPoint["y"].asFloat();
+	if (getid()[1] == 'r') {
+		return Vec2(redx, redy);
+	}
+	else {
+		return Vec2(bluex, bluey);
+	}
+}
 
 unit::~unit()
 {
