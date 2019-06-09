@@ -23,7 +23,8 @@ runAction(Animate::create(AnimationCache::getInstance()->getAnimation
 	13: 向上攻击	14：向下攻击	15：向左攻击	16：向右攻击
 */
 
-void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits)
+
+void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits,Layer* ammoLayer)
 
 {
 	level = 1;
@@ -31,10 +32,15 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 	data = unitdata;
 
 	unitsOnMap = mapUnits;
+	AmmoLayer = ammoLayer;
+	myMenu = Menu::create();
+
+	EquipmentPostion[0] = Vec2(793, 104); EquipmentPostion[1] = Vec2(858, 104); EquipmentPostion[2] = Vec2(923, 104);
+	EquipmentPostion[3] = Vec2(793, 39); EquipmentPostion[4] = Vec2(858, 39); EquipmentPostion[5] = Vec2(923, 39);
 	bool EnemeyorAlley;
 	//addChild(hp, 3);
 	id = data->getUnitid();
-	
+	Equipment("FALSE");
 	//id未确定
 	//Velocity = data->getVelocity();
 	moveSpeed = data->getMoveSpeed();
@@ -227,18 +233,16 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 
 	ammo *amo = ammo::create();
 	amo->initial(this->getAmmoFrameName(),this->getid(),getPosition(), getDamage(), getAmmoSpeed());
-	if (getid()[2] == '1') { amo->setVisible(0); }
-	auto id1 = target->getid(); auto id2 = amo->getid();
+	if (getid()[0] == 'B'&&getid()[2] == '1') { amo->setVisible(0); }
+	auto id1 = this->getid(); auto id2 = target->getid();
 	if (id1[1] != id2[1]) {
-		_map->addChild(amo, 6);
+		AmmoLayer->addChild(amo, 6);
 		target->getAttacked(amo);
 	}
 	//schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
 
 	return amo;
 }
-
-
 void unit::attackTo(unit * target)
 {
 	Vec2 destination = target->getPosition();
@@ -254,13 +258,10 @@ void unit::attackTo(unit * target)
 	
 	else attack(target);
 }
-
-
 void unit::attackTo(Vec2 destination)
 {	
 	
 }
-
 unit* unit::getUnitWithId(std::string id)
 {
 	auto it = unitsOnMap->begin();
@@ -272,25 +273,116 @@ unit* unit::getUnitWithId(std::string id)
 	}
 	return nullptr;
 }
-
-bool unit::addEquipment(std::string itemId)
+bool unit::addEquipment(std::string itemId,Layer* equipmentlayer,Layer* shoplayer)
 {
+	if (shoplayer->getChildByTag(887) != nullptr) { shoplayer->removeChildByTag(887); }
+	if (shoplayer->getChildByTag(888) != nullptr) { shoplayer->removeChildByTag(888); }
+	if (shoplayer->getChildByTag(889) != nullptr) { shoplayer->removeChildByTag(889); }
+	if (shoplayer->getChildByTag(890) != nullptr) { shoplayer->removeChildByTag(890); }
+	if (shoplayer->getChildByTag(891) != nullptr) { shoplayer->removeChildByTag(891); }
 	auto item = Equipment(itemId);
-	if (this->getGold() < item.Price) { return false; }
+	if (this->getGold() < item.Price) { 
+		auto Money = Label::create("Your Money is not enough", "fonts/Arial.ttf", 20);
+		Money->enableGlow(Color4B::MAGENTA);
+		Money->setPosition(Director::getInstance()->getVisibleSize().width / 2, 150);
+		shoplayer->addChild(Money, 0, 887);
+		return false; }
 	for (int count = 0; count < 6; ++count) {
 		if (!equip[count].isOccupied) {
+			
+			if (itemId == "Shoe")
+			{
+				auto shoe = Sprite::create("item/shoe_normal.png");
+				shoe->setPosition(EquipmentPostion[count]);
+				equipmentlayer->addChild(shoe,1,count);
+				auto Label_1 = Label::create("Congratulations on the success of your purchase.\nYour speed has increased a lot.", "fonts/Arial.ttf", 20);
+				Label_1->enableGlow(Color4B::MAGENTA);
+				Label_1->setPosition(Director::getInstance()->getVisibleSize().width / 2, 250);
+				shoplayer->addChild(Label_1,0,888);
+			}
+			else if (itemId == "Hat")
+			{
+				auto hat = Sprite::create("item/hat_normal.png");
+				hat->setPosition(EquipmentPostion[count]);
+				equipmentlayer->addChild(hat, 1, count);
+				auto Label_2 = Label::create("Congratulations on the success of your purchase.\nYour HP has increased a lot.", "fonts/Arial.ttf", 20);
+				Label_2->enableGlow(Color4B::MAGENTA);
+				Label_2->setPosition(Director::getInstance()->getVisibleSize().width / 2, 250);
+				shoplayer->addChild(Label_2, 0, 889);
+			}
+			else
+			{
+				auto sword = Sprite::create("item/shield_normal.png");
+				sword->setPosition(EquipmentPostion[count]);
+				equipmentlayer->addChild(sword, 1, count);
+				auto Label_3 = Label::create("Congratulations on the success of your purchase.\nYour Damage has increased a lot.", "fonts/Arial.ttf", 20);
+				Label_3->enableGlow(Color4B::MAGENTA);
+				Label_3->setPosition(Director::getInstance()->getVisibleSize().width / 2, 250);
+				shoplayer->addChild(Label_3, 0, 890);
+			}
 			equip[count] = item;
+			equip[count].isOccupied = true;
 			this->changeGold(-item.Price);
 			this->changeDamage(item.plusDamage);
 			this->changeMoveSpeed(item.plusMoveSpeed);
 			this->changeMaxHp(item.plusMaxHp);
 			return true;
 		}
+		if(count==5){
+			auto Label_4 = Label::create("You have already have 6 equipments.\nYou can't buy more.", "fonts/Arial.ttf", 20);
+			Label_4->enableGlow(Color4B::MAGENTA);
+			Label_4->setPosition(Director::getInstance()->getVisibleSize().width / 2, 250);
+			shoplayer->addChild(Label_4, 0, 891);
+		}
 	}
 	return false;
 }
-
-
+bool unit::sellEquipment(int number, Layer* equipmentlayer, Layer* shoplayer)
+{
+	if (shoplayer->getChildByTag(887) != nullptr) { shoplayer->removeChildByTag(887); }
+	if (shoplayer->getChildByTag(888) != nullptr) { shoplayer->removeChildByTag(888); }
+	if (shoplayer->getChildByTag(889) != nullptr) { shoplayer->removeChildByTag(889); }
+	if (shoplayer->getChildByTag(890) != nullptr) { shoplayer->removeChildByTag(890); }
+	if (shoplayer->getChildByTag(891) != nullptr) { shoplayer->removeChildByTag(891); }
+	if (shoplayer->getChildByTag(892) != nullptr) { shoplayer->removeChildByTag(892); }
+	if (shoplayer->getChildByTag(893) != nullptr) { shoplayer->removeChildByTag(893); }
+	if (equip[number].isOccupied)
+	{
+		auto Label_5 = Label::create("Sold successfully!", "fonts/Arial.ttf", 20);
+		Label_5->enableGlow(Color4B::BLACK);
+		Label_5->setPosition(700, 150);
+		shoplayer->addChild(Label_5, 0, 892);
+		equip[number].isOccupied = false;
+		this->changeGold(equip[number].Price / 2);
+		this->changeDamage(-equip[number].plusDamage);
+		this->changeMoveSpeed(-equip[number].plusMoveSpeed);
+		this->changeMaxHp(-equip[number].plusMaxHp);
+		equipmentlayer->removeChildByTag(number);
+		return true;
+	}
+	else
+	{
+		auto Label_6 = Label::create("There is nothing!", "fonts/Arial.ttf", 20);
+		Label_6->enableGlow(Color4B::BLACK);
+		Label_6->setPosition(700, 150);
+		shoplayer->addChild(Label_6, 0, 893);
+	}
+}
+Vec2 unit::getSpawnPoint() {
+	auto group = _map->getObjectGroup("hero");
+	auto blueSpawnPoint = group->getObject("BlueSpawnpoint");
+	auto redSpawnPoint = group->getObject("RedSpawnpoint");
+	float bluex = blueSpawnPoint["x"].asFloat();
+	float bluey = blueSpawnPoint["y"].asFloat();
+	float redx = redSpawnPoint["x"].asFloat();
+	float redy = redSpawnPoint["y"].asFloat();
+	if (getid()[1] == 'r') {
+		return Vec2(redx, redy);
+	}
+	else {
+		return Vec2(bluex, bluey);
+	}
+}
 unit::~unit()
 {
 //	hp->~HP();

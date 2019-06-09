@@ -26,8 +26,10 @@ class Game : public cocos2d::Layer
 	cocos2d::Label* TimerLabel;
 	cocos2d::Label* goldLabel;
 	cocos2d::ui::Button* Moneybutton;
+	cocos2d::Layer* _ammoLayer = nullptr;
 	cocos2d::Layer* _shopLayer = nullptr;
 	cocos2d::Layer* _skillLayer = nullptr;
+	cocos2d::Layer* _equipmentlLayer = nullptr;
 	int Time;
 	unit* hero1;
 	unit* hero2;
@@ -53,7 +55,7 @@ public:
 	Vector<Node*> *selectFromMap(Vec2 pos);
 	Vector<unit*> *getUnits();
 	void InitTabListener(string Hero1Name,string Hero2Name);
-	char* FontToUTF8(const char* font);
+
 	// a selector callback
 	void menuItem1Callback(cocos2d::Ref* pSender);
 	void createShopCallBack(cocos2d::Ref* pSender);
@@ -64,8 +66,12 @@ public:
 	void buyShoeCallBack(cocos2d::Ref* pSender);
 	void buyHatCallBack(cocos2d::Ref* pSender);
 	void buySwordCallBack(cocos2d::Ref* pSender);
-
-
+	void sell1CallBack(cocos2d::Ref* pSender);
+	void sell2CallBack(cocos2d::Ref* pSender);
+	void sell3CallBack(cocos2d::Ref* pSender);
+	void sell4CallBack(cocos2d::Ref* pSender);
+	void sell5CallBack(cocos2d::Ref* pSender);
+	void sell6CallBack(cocos2d::Ref* pSender);
 
 	// implement the "static create()" method manually
 

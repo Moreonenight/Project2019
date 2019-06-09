@@ -4,7 +4,12 @@
 #include "HP.h"
 #include "Exp.h"
 #include "Equipment.h"
+#include "ui/CocosGUI.h"
+
 USING_NS_CC;
+//出生点坐标
+
+
 class HP;
 class unit:public Sprite
 {
@@ -28,7 +33,11 @@ private:
 		Animate* AnimateLeft;
 		Vec2 beforePos;
 		Equipment equip[6];
+		Vec2 EquipmentPostion[6];
+		Layer* AmmoLayer;
+		Menu* myMenu;
 		int KillHero, KillSoldiers, deathnumber;
+		bool Alreadydead;
 
 public:
 	HP *hp;//MP maxMana;
@@ -51,6 +60,16 @@ public:
 		return &damage;
 
 	}
+	Vec2 getSpawnPoint();
+	inline void ChangeAlreadydead(bool dead)
+	{
+		Alreadydead = dead;
+	}
+	inline bool GetAlreadydead()
+	{
+		return Alreadydead;
+	}
+
 	Direction getDir(Vec2 v) { return getDir(CC_RADIANS_TO_DEGREES(v.getAngle()));  };
 	Direction getDir(float angle) {
 		Direction dir; 
@@ -62,7 +81,7 @@ public:
 	}
 	Direction getDir(Vec2 curPos, Vec2 desPos) { return getDir(desPos - curPos); }
 
-	void initial(unitdata *unitdata, cocos2d::TMXTiledMap* _tileMap, Vector<unit*>* mapUnits);
+	void initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits, Layer* ammoLayer);
 	CREATE_FUNC(unit);
 	
 	
@@ -78,6 +97,7 @@ public:
 	//getFunc
 	//int getMaxMana() { return maxMana; }
 	HP* getHp() { return hp; }
+	unitdata* getdata() { return data; }
 	Exp* getExp(){ return exp; }
 	int getRecoverOfMana() { return recoverOfMana; }
 	int getGold() { return gold; }int changeGold(int delta) { if (gold + delta <= 0)gold = 0; else gold += delta; return gold; }
@@ -95,6 +115,7 @@ public:
 	inline int getMaxHp() { return hp->getMax(); }
 
 	inline int getSkillPoint() { return skillPoint; }
+	
 
 	//change Func
 	inline std::string changeid(string newid) { id = newid; return id; }
@@ -109,7 +130,6 @@ public:
 	inline void fullHp() { hp->changeCur(hp->getMax()); }
 
 	inline void changeSkillPoint(int num) { if ((skillPoint + num) < 0)skillPoint = 0; else skillPoint += num; }
-
 
 	//otherFunc
 	void getAttacked(ammo* amo) {
@@ -129,8 +149,8 @@ public:
 					killUnit->addCurExp(50);
 				}
 			}
-			this->setPosition(Vec2(270, 90));
-			hp->changeCur(60000);
+			this->setPosition(getSpawnPoint());
+			fullHp();
 			this->stopAllActions();
 		}
 		hp->changeCur((-delta)*(float)((100.0-defenceOfPhysical) / 100.0));
@@ -191,6 +211,7 @@ public:
 		else { this->canAttack = 1; return; }
 */
 	unit* getUnitWithId(std::string id);
-	bool addEquipment(std::string itemId);
+	bool addEquipment(std::string itemId, Layer* equipmentlayer,Layer* shoplayer);
+	bool sellEquipment(int number, Layer* equipmentlayer, Layer* shoplayer);
 };
 

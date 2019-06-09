@@ -57,7 +57,7 @@ public:
 		return CanAttackHero;
 
 	}
-	bool Tower::InitWithRole(string Towername, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits);
+	bool Tower::InitWithRole(string Towername, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits, Layer* ammoLayer);
 	bool AttackingJudgeAI();
 	void update(float dt) {
 		//hp->update();
@@ -68,7 +68,7 @@ public:
 		for (; it < ammosOnWay.end(); it++) {
 			auto Dis = (this->getPosition() - (*it)->getPosition()).length();
 			auto id1 = this->getid(); auto id2 = (*it)->getid();
-			if (Dis < 100 && id1[1] != id2[1]) {
+			if (Dis < 200 && id1[1] != id2[1]) {
 				auto Damage = (*it)->getDamage();
 				this->getDamage(Damage, (*it)->getid());
 				(*it)->removeFromParentAndCleanup(1);

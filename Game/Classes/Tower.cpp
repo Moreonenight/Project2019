@@ -1,16 +1,17 @@
 #include "Tower.h"
 USING_NS_CC;
-bool Tower::InitWithRole(string Towername, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits)
+bool Tower::InitWithRole(string Towername, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits,Layer* ammoLayer)
 {
 	auto data = new(unitdata);
+	ChangeAlreadydead(false);
 	data->initial(Towername);
 	cocos2d::SpriteFrameCache::getInstance()->addSpriteFramesWithFile(Towername+"/stand.plist");
 	this->setDisplayFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(Towername+".png"));
-	initial(data, Map, mapUnits);
+	initial(data, Map, mapUnits, ammoLayer);
 	if (getid()[1] == 'r'&&getid()[2] == '1')
 	{
 		setScale(0.5);
-		setPosition(1350, 1100);
+		setPosition(1450, 1050);
 	}
 	else if (getid()[1] == 'r'&&getid()[2] == '2')
 	{
