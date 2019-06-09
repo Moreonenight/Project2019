@@ -1,0 +1,2 @@
+HrYaSe/ammo.plist
+ammo.png

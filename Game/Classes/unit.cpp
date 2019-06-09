@@ -23,24 +23,53 @@ runAction(Animate::create(AnimationCache::getInstance()->getAnimation
 	13: 向上攻击	14：向下攻击	15：向左攻击	16：向右攻击
 */
 
-void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map)
+void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits)
+
 {
+	level = 1;
 	_map = Map;
 	data = unitdata;
+
+	unitsOnMap = mapUnits;
+	bool EnemeyorAlley;
+	//addChild(hp, 3);
 	id = data->getUnitid();
+	
+	//id未确定
+	//Velocity = data->getVelocity();
 	moveSpeed = data->getMoveSpeed();
 	level = 1; 
+	KillHero = 0; KillSoldiers = 0; deathnumber = 0;
 	damage = data->getDamage();
+	InitDamage = damage;//对于塔,想记录一下最初始的攻击力是多少,便于后续恢复
 	ammoSpeed = data->getAmmoSpeed();
 	ASPD = data->getASPD(); 
 	defenceOfPhysical = data->getDefenceOfPhysical();
 	defenceOfMagic = data->getDefenceOfMagic();
 	canAttack = true;
 	hp = HP::create();
-	hp->initial(HP::HpinitialData(data->getMaxHp(), data->getRecoverOfHp(), getPosition(), getContentSize(), Map,0));
+	hp->changeID(id);
+	if (data->getUnitid()[1] == 'r')
+	{
+		EnemeyorAlley = true;
+	}
+	else
+		EnemeyorAlley = false;
+	hp->initial(HP::HpinitialData(data->getMaxHp(), data->getRecoverOfHp(), getPosition(), getContentSize(), Map, EnemeyorAlley));
+	hp->changeVel(data->getRecoverOfHp());
 	_map->addChild(hp, 5);
-	scheduleUpdate();
 
+	//生成经验
+	if (id[0] == 'H') {
+		exp = Exp::create();
+		exp->initial(1, _map);
+		_map->addChild(exp, 5);
+	}
+	//scheduleUpdate();
+	
+	//dpm = data->getDpm();
+	//setPosition(data->getPosition());
+	//((Layer *)(this->getParent()->getParent()))->schedule(schedule_selector(unit::fresh));
 	///scheldue函数不能在initial未完成之前加入（尚未addchild）
 }
 
@@ -158,6 +187,7 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	});
 	if (canAttack == false) return NULL;
 	canAttack = false;
+/*<<<<<<< HEAD
 	stopAllActions();
 	ammo *amo = ammo::create();
 	switch (getDir(getPosition(), target->getPosition())) {
@@ -184,6 +214,27 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 0, 0);
 	_map->addChild(amo, 6);
 	//((Layer *)(this->getParent()->getParent()))->schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
+=======*/
+	if(getid()[0]!='T'){
+	
+		switch (getDir(getPosition(), target->getPosition())) {
+		case Direction::RIGHT:runAction(Animate::create(aniCache->getAnimation(id + "right_attack")))->setTag(20); break;
+		case Direction::LEFT:runAction(Animate::create(aniCache->getAnimation(id + "left_attack")))->setTag(21); break;
+		case Direction::UP:runAction(Animate::create(aniCache->getAnimation(id + "up_attack")))->setTag(22); break;
+		case Direction::DOWN:runAction(Animate::create(aniCache->getAnimation(id + "down_attack")))->setTag(23); break;
+		}
+	}
+
+	ammo *amo = ammo::create();
+	amo->initial(this->getAmmoFrameName(),this->getid(),getPosition(), getDamage(), getAmmoSpeed());
+	if (getid()[2] == '1') { amo->setVisible(0); }
+	auto id1 = target->getid(); auto id2 = amo->getid();
+	if (id1[1] != id2[1]) {
+		_map->addChild(amo, 6);
+		target->getAttacked(amo);
+	}
+	//schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
+
 	return amo;
 }
 
@@ -192,9 +243,15 @@ void unit::attackTo(unit * target)
 {
 	Vec2 destination = target->getPosition();
 	float angle = CC_RADIANS_TO_DEGREES((destination - getPosition()).getAngle());
-	if ((getPosition() - destination).length() > (data->getAttackRange())) {
+
+	if ((getPosition() - destination).length() > (data->getAttackRange())&& getid()[0] != 'T') {
+		if (getActionByTag(20) != nullptr) { stopActionByTag(20); }
+		if (getActionByTag(21) != nullptr) { stopActionByTag(21); }
+		if (getActionByTag(22) != nullptr) { stopActionByTag(22); }
+		if (getActionByTag(23) != nullptr) { stopActionByTag(23); }
 		moveDirectionByKey(getDir(angle), destination);
 	}
+	
 	else attack(target);
 }
 
@@ -204,13 +261,36 @@ void unit::attackTo(Vec2 destination)
 	
 }
 
-void unit::die()
+unit* unit::getUnitWithId(std::string id)
 {
+	auto it = unitsOnMap->begin();
+	for (; it < unitsOnMap->end(); ++it) {
+		if ((*it)->getid()[0] != 'H') { continue; }
+		else if ((*it)->getid() == id) {
+			return (*it);
+		}
+	}
+	return nullptr;
+}
+
+bool unit::addEquipment(std::string itemId)
+{
+	auto item = Equipment(itemId);
+	if (this->getGold() < item.Price) { return false; }
+	for (int count = 0; count < 6; ++count) {
+		if (!equip[count].isOccupied) {
+			equip[count] = item;
+			this->changeGold(-item.Price);
+			this->changeDamage(item.plusDamage);
+			this->changeMoveSpeed(item.plusMoveSpeed);
+			this->changeMaxHp(item.plusMaxHp);
+			return true;
+		}
+	}
+	return false;
 }
 
 
-
-inline int unit::getMaxHp() { return hp->getMax(); }inline void unit::changeMaxHp(int delta) { hp->changeMax(delta); }
 unit::~unit()
 {
 //	hp->~HP();

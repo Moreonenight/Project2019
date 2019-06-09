@@ -1,2 +1,0 @@
-HouYi/ammo.plist
-ammo.png

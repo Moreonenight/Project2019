@@ -4,15 +4,17 @@
 #include "cocos2d.h"
 #include "MouseController.h"
 #include "ui/CocosGUI.h"
-
+#include "Soldier.h"
+#include "HouYi.h"
+#include "DaJi.h"
+#include "Yase.h"
+#include "Tower.h"
 #include "HelloWorldScene.h"
 #include "SimpleAudioEngine.h"
 #include <stdlib.h>   
 #include <string.h>
+#include<time.h>
 
-class HouYi;
-class YaSe;
-class DaJi;
 USING_NS_CC;
 class Game : public cocos2d::Layer
 {
@@ -22,38 +24,48 @@ class Game : public cocos2d::Layer
 	cocos2d::Sprite* _player;
 	cocos2d::TMXLayer* _collidable;
 	cocos2d::Label* TimerLabel;
+	cocos2d::Label* goldLabel;
 	cocos2d::ui::Button* Moneybutton;
-	cocos2d::Sprite* Tower;
 	cocos2d::Layer* _shopLayer = nullptr;
 	cocos2d::Layer* _skillLayer = nullptr;
 	int Time;
-	unit*hero1;
+	unit* hero1;
+	unit* hero2;
 	Vector<unit*> unitsOnMap;
-
-
+	Vector<unit*> MyUnit;
+	Vector<unit*> EnemeyUnit;
+	Vector<Soldier*> EnemeySoldier;
+	Vector<Soldier*> MySoldier;
+	Vector<Tower*> MyTower;
+	Vector<Tower*> EnemeyTower;
 public:
-	static cocos2d::Scene* createScene();
+	static cocos2d::Scene* createScene(string HeroName);
+	void initwithRole(string HeroName);
 
 	virtual bool init();
-
+	void GoldRecorder(float dt);
 	void setViewpointCenter(cocos2d::Vec2 position);
 	void mapupdate(float dt);
 	void TimeRecorder(float dt);
-
-
-	// a selector callback
-	void menuItem1Callback(cocos2d::Ref* pSender);
-
+	void InitSkillButton(string HeroName);
 
 	void addToMap(unit* unit, int zorder, int Tag);
 	Vector<Node*> *selectFromMap(Vec2 pos);
 	Vector<unit*> *getUnits();
-
+	void InitTabListener(string Hero1Name,string Hero2Name);
+	char* FontToUTF8(const char* font);
+	// a selector callback
+	void menuItem1Callback(cocos2d::Ref* pSender);
 	void createShopCallBack(cocos2d::Ref* pSender);
 	void closeShopCallBack(cocos2d::Ref* pSender);
-	void buyItemCallBack(cocos2d::Ref* pSender) {}
 	void createSkillLayerCallBack(cocos2d::Ref* pSender);
 	void undoSkillCallBack(cocos2d::Ref* pSender);
+
+	void buyShoeCallBack(cocos2d::Ref* pSender);
+	void buyHatCallBack(cocos2d::Ref* pSender);
+	void buySwordCallBack(cocos2d::Ref* pSender);
+
+
 
 	// implement the "static create()" method manually
 

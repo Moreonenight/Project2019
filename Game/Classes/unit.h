@@ -2,17 +2,20 @@
 #include "unitdata.h"
 #include "ammo.h"
 #include "HP.h"
+#include "Exp.h"
+#include "Equipment.h"
 USING_NS_CC;
 class HP;
 class unit:public Sprite
 {
 private:
 	unitdata *data;
-	HP *hp;//MP maxMana;
+	
 	std::string id;
 	int level,
-		gold, 
+		gold,
 		damage,
+		InitDamage,
 		ASPD,
 		moveSpeed,
 		ammoSpeed,
@@ -20,14 +23,20 @@ private:
 		defenceOfPhysical,
 		defenceOfMagic,
 		recoverOfMana;
+	int skillPoint;
+
+		Animate* AnimateLeft;
+		Vec2 beforePos;
+		Equipment equip[6];
+		int KillHero, KillSoldiers, deathnumber;
+
+public:
+	HP *hp;//MP maxMana;
+	Exp *exp=nullptr;
 	bool canAttack;
 	vector<ammo*> ammosOnWay;
 	cocos2d::TMXTiledMap* _map;
-
-	Animate* AnimateLeft;
-Vec2 beforePos;
-
-public:
+	Vector<unit*>* unitsOnMap;
 	enum class Direction :int
 	{
 		UP,
@@ -36,7 +45,12 @@ public:
 		RIGHT,
 		NONE
 	};
-	
+	int* getDamagepointer(){
+
+
+		return &damage;
+
+	}
 	Direction getDir(Vec2 v) { return getDir(CC_RADIANS_TO_DEGREES(v.getAngle()));  };
 	Direction getDir(float angle) {
 		Direction dir; 
@@ -48,47 +62,77 @@ public:
 	}
 	Direction getDir(Vec2 curPos, Vec2 desPos) { return getDir(desPos - curPos); }
 
-	void initial(unitdata *unitdata, cocos2d::TMXTiledMap* _tileMap);
+	void initial(unitdata *unitdata, cocos2d::TMXTiledMap* _tileMap, Vector<unit*>* mapUnits);
 	CREATE_FUNC(unit);
 	
 	
 	~unit();
-	
+	inline int getInitDamage() { return InitDamage; }
 	int getDefenceOfPhysical() {
 		return defenceOfPhysical;
 	}
 	int getDefencOfMagic() {
 		return defenceOfMagic;
 	}
+
+	//getFunc
 	//int getMaxMana() { return maxMana; }
 	HP* getHp() { return hp; }
+	Exp* getExp(){ return exp; }
 	int getRecoverOfMana() { return recoverOfMana; }
 	int getGold() { return gold; }int changeGold(int delta) { if (gold + delta <= 0)gold = 0; else gold += delta; return gold; }
+	inline int getKillHero() { return KillHero; }
+	inline int getDeath() { return deathnumber; }
+	inline int getKillSoldiers() { return KillSoldiers; }
 	inline string getid() { return id; }
-	inline int getMaxHp();
+
+
 	inline int getMoveSpeed() {		return moveSpeed;	}
 	inline int getDamage() { return damage; }/*when want to know how much the unit damage is*/
-	inline int changeMoveSpeed(int delta) { if (moveSpeed + delta < 0)moveSpeed = 0; else moveSpeed += delta; return moveSpeed; }
-	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
 	int getAmmoSpeed() { return ammoSpeed; }
 	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
-	
-	
-	//string changeid(string& newid) { id = newid; return id; }
-	inline void changeMaxHp(int delta);
-	
+	inline void changeMaxHp(int delta) { hp->changeMax(delta); }
+	inline int getMaxHp() { return hp->getMax(); }
+
+	inline int getSkillPoint() { return skillPoint; }
+
+	//change Func
+	inline std::string changeid(string newid) { id = newid; return id; }
+	inline void changeLevel(int num) { if (num == 0) { return; }if (level + num <= 8)level += num; skillPoint += num; }
+	inline int changeMoveSpeed(int delta) { if (moveSpeed + delta < 0)moveSpeed = 0; else moveSpeed += delta; return moveSpeed; }
+	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
+	inline void changeCurHp(int delta) { hp->changeCur(delta); }
+	void addCurExp(int delta) { exp->changeCurExp(delta); changeLevel(exp->getLevel() - level);}
+	inline void changeKillHero(int delta) { KillHero += delta; }
+	inline void changeKillSoldiers(int delta) { KillSoldiers += delta; }
+	inline void changeDeath(int delta) { deathnumber += delta; }
+	inline void fullHp() { hp->changeCur(hp->getMax()); }
+
+	inline void changeSkillPoint(int num) { if ((skillPoint + num) < 0)skillPoint = 0; else skillPoint += num; }
 
 
-
-
-
+	//otherFunc
 	void getAttacked(ammo* amo) {
 		ammosOnWay.push_back(amo);
 		amo->changeTargetPosition(getPosition());
 		return;
 	}
 
-	inline int getDamage(int delta) {
+	virtual int getDamage(int delta,std::string fromId) {
+		if (hp->getCur() < delta) {
+			die();
+			//得到击杀者unit*添加奖励
+			if (fromId[0] == 'H') {
+				unit* killUnit = getUnitWithId(fromId);
+				if (killUnit != nullptr) {
+					killUnit->changeGold(50);
+					killUnit->addCurExp(50);
+				}
+			}
+			this->setPosition(Vec2(270, 90));
+			hp->changeCur(60000);
+			this->stopAllActions();
+		}
 		hp->changeCur((-delta)*(float)((100.0-defenceOfPhysical) / 100.0));
 		return hp->getCur();
 	}
@@ -117,9 +161,9 @@ public:
 		float i = damage * dpm.x;
 		hp->changeCur((int)i);
 	}//when get damaged*/
-	void die();
+	void die(){}
 	
-	void update(float dt) {
+	/*void update(float dt) {
 		//hp->update();
 		if (hp->getCur() <= 1) die();
 		hp->follow(getPosition());
@@ -130,7 +174,7 @@ public:
 
 				if (Dis<100) {
 					auto Damage = (*it)->getDamage();
-					this->getDamage(Damage);
+					this->getDamage(Damage,(*it)->getid());
 					(*it)->removeFromParentAndCleanup(1);
 					//(*it)->setVisible(0);
 					//(*it)->setPosition(200.0, 200.0);
@@ -140,12 +184,13 @@ public:
 				else {
 					(*it)->changeTargetPosition(getPosition());
 				}
-			}
-		
-	}
+}
+}
 	void freshASPD(float dt) {
 		if (this->canAttack == 1)return;
 		else { this->canAttack = 1; return; }
-	}
+*/
+	unit* getUnitWithId(std::string id);
+	bool addEquipment(std::string itemId);
 };
 
