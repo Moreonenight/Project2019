@@ -37,6 +37,7 @@ void Exp::changeCurExp(int delta) {
 			changeLevel(1);
 			Max_Exp = expNeeded[Level];
 			cur_Exp = 0;
+			
 		}
 	}
 	else {

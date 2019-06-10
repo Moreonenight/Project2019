@@ -306,6 +306,7 @@ bool unit::sellEquipment(int number, Layer* equipmentlayer, Layer* shoplayer)
 		Label_6->setPosition(700, 150);
 		shoplayer->addChild(Label_6, 0, 893);
 	}
+	return true;
 }
 Vec2 unit::getSpawnPoint() {
 	auto group = _map->getObjectGroup("hero");
