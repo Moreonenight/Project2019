@@ -44,8 +44,8 @@ bool Setting::init()
 	);
 	auto soundToggleMenuItem = MenuItemToggle::createWithCallback(
 		CC_CALLBACK_1(Setting::menuSoundToggleCallback, this),
-		SoundOnMenuItem,
 		SoundOffMenuItem,
+		SoundOnMenuItem,
 		NULL
 	);
 	soundToggleMenuItem->setPosition(Vec2(
@@ -89,9 +89,9 @@ void Setting::menuSoundToggleCallback(cocos2d::Ref* pSender)
 {
 	auto audio=CocosDenshion::SimpleAudioEngine::getInstance();
 	if (audio->isBackgroundMusicPlaying()) {
-		audio->stopBackgroundMusic();
+		audio->pauseBackgroundMusic();
 	}
 	else {
-		audio->playBackgroundMusic("/music/roomScene.mp3");
+		audio->resumeBackgroundMusic();
 	}
 }

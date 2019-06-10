@@ -33,6 +33,7 @@ class Game : public cocos2d::Layer
 	int Time;
 	unit* hero1;
 	unit* hero2;
+	string _heroname;
 	Vector<unit*> unitsOnMap;
 	Vector<unit*> MyUnit;
 	Vector<unit*> EnemeyUnit;
