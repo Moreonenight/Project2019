@@ -82,11 +82,7 @@ void HouYi::useSkill_1()
 	sk1Cd_left = sk1Cd[skill_1Level-1];
 
 	houyi->changeDamage(sk1Damage[skill_1Level - 1]);
-	sk1End();
-	
-
-	
-	//schedule(schedule_selector(HouYi::sk1End), this, 5.0f, 0, 0, 0);
+	sk1 = false;
 }
 void HouYi::useSkill_2(Vec2 pos)
 {
@@ -197,7 +193,7 @@ void HouYi::cdUpdate(float dt)
 {
 	if (sk1Cd_left > 0) { 
 		sk1Cd_left -= 1; 
-		if (sk1Cd_left == 3) { houyi->changeDamage((-1)*sk1Damage[skill_1Level-1]); }
+		if (sk1Cd_left == 3) { houyi->changeDamage((-1)*sk1Damage[skill_1Level - 1]); sk1End(); }
 		if (sk1Cd_left <= 0) {
 			sk1Cd_left = 0;
 		}

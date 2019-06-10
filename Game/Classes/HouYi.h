@@ -130,7 +130,6 @@ public:
 				}
 			}
 			this->setPosition(Vec2(270, 90));
-			hp->changeCur(60000);
 		}
 		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
 		return hp->getCur();

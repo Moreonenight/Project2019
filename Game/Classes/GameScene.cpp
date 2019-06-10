@@ -151,13 +151,13 @@ void Game::initwithRole(string HeroName)
 	//监听器初始化
 	listener = MouseController::create();
 	if (hero1->getid()[2] == 'H') {
-		listener->initListener(((HouYi*)hero1), getUnits());
+		listener->initListener(static_cast<HouYi*>(hero1), getUnits());
 	}
 	if (hero1->getid()[2] == 'D') {
-		listener->initListener(hero1, getUnits());
+		listener->initListener(static_cast<DaJi*>(hero1), getUnits());
 	}
 	if (hero1->getid()[2] == 'Y') {
-		listener->initListener(hero1, getUnits());
+		listener->initListener(static_cast<YaSe*>(hero1), getUnits());
 	}
 	listener->changeOffset(Vec2::ZERO);
 	//战绩页面初始化
@@ -806,13 +806,123 @@ void Game::LevelUpdate(float dt)
 				this->addChild(Skill3Lock, 0, 3333);
 			}
 		}
-	};
+	}; break;
 	case 'D': {
-
-	};
+		auto hero = static_cast<DaJi*>(hero1);
+		if (hero->getSk1Level() > 0) {
+			(this->getChildByTag(1))->setOpacity(255);
+			if (hero->getSk1CdLeft() > 0) {
+				(this->getChildByTag(1))->setOpacity(140);
+			}
+			if ((this->getChildByTag(11)) != nullptr)this->removeChildByTag(11);
+			auto Label1 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk1Level()), "Arial", 20);
+			Label1->enableGlow(Color4B::BLACK);
+			Label1->setPosition(Vec2(310, 20));
+			this->addChild(Label1, 0, 11);
+		}
+		if (hero->getSk2Level() > 0) {
+			(this->getChildByTag(2))->setOpacity(255);
+			if (hero->getSk2CdLeft() > 0) {
+				(this->getChildByTag(2))->setOpacity(140);
+			}
+			if ((this->getChildByTag(22)) != nullptr)this->removeChildByTag(22);
+			auto Label2 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk2Level()), "Arial", 20);
+			Label2->setPosition(Vec2(410, 20));
+			Label2->enableGlow(Color4B::BLACK);
+			this->addChild(Label2, 0, 22);
+		}
+		if (hero->getSk3Level() > 0) {
+			(this->getChildByTag(3))->setOpacity(255);
+			if (hero->getSk3CdLeft() > 0) {
+				(this->getChildByTag(3))->setOpacity(140);
+			}
+			if ((this->getChildByTag(33)) != nullptr)this->removeChildByTag(33);
+			auto Label3 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk3Level()), "Arial", 20);
+			Label3->setPosition(Vec2(510, 20));
+			Label3->enableGlow(Color4B::BLACK);
+			this->addChild(Label3, 0, 33);
+		}
+		if (hero->getSkillPoint() == 0) {
+			if (this->getChildByTag(1111) != nullptr) { this->removeChildByTag(1111); }
+			if (this->getChildByTag(2222) != nullptr) { this->removeChildByTag(2222); }
+			if (this->getChildByTag(3333) != nullptr) { this->removeChildByTag(3333); }
+		}
+		else {
+			if (this->getChildByTag(1111) == nullptr&&hero->getSk1Level() < 3) {
+				auto Skill1Lock = Sprite::create("button/lock.png");
+				Skill1Lock->setPosition(Vec2(350, 40));
+				this->addChild(Skill1Lock, 0, 1111);
+			}
+			if (this->getChildByTag(2222) == nullptr&&hero->getSk2Level() < 3) {
+				auto Skill2Lock = Sprite::create("button/lock.png");
+				Skill2Lock->setPosition(Vec2(450, 40));
+				this->addChild(Skill2Lock, 0, 2222);
+			}
+			if (this->getChildByTag(3333) == nullptr&&hero->getSk3Level() < 2) {
+				auto Skill3Lock = Sprite::create("button/lock.png");
+				Skill3Lock->setPosition(Vec2(550, 40));
+				this->addChild(Skill3Lock, 0, 3333);
+			}
+		}
+	}; break;
 	case 'Y': {
-
-	};
+		auto hero = static_cast<YaSe*>(hero1);
+		if (hero->getSk1Level() > 0) {
+			(this->getChildByTag(1))->setOpacity(255);
+			if (hero->getSk1CdLeft() > 0) {
+				(this->getChildByTag(1))->setOpacity(140);
+			}
+			if ((this->getChildByTag(11)) != nullptr)this->removeChildByTag(11);
+			auto Label1 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk1Level()), "Arial", 20);
+			Label1->enableGlow(Color4B::BLACK);
+			Label1->setPosition(Vec2(310, 20));
+			this->addChild(Label1, 0, 11);
+		}
+		if (hero->getSk2Level() > 0) {
+			(this->getChildByTag(2))->setOpacity(255);
+			if (hero->getSk2CdLeft() > 0) {
+				(this->getChildByTag(2))->setOpacity(140);
+			}
+			if ((this->getChildByTag(22)) != nullptr)this->removeChildByTag(22);
+			auto Label2 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk2Level()), "Arial", 20);
+			Label2->setPosition(Vec2(410, 20));
+			Label2->enableGlow(Color4B::BLACK);
+			this->addChild(Label2, 0, 22);
+		}
+		if (hero->getSk3Level() > 0) {
+			(this->getChildByTag(3))->setOpacity(255);
+			if (hero->getSk3CdLeft() > 0) {
+				(this->getChildByTag(3))->setOpacity(140);
+			}
+			if ((this->getChildByTag(33)) != nullptr)this->removeChildByTag(33);
+			auto Label3 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk3Level()), "Arial", 20);
+			Label3->setPosition(Vec2(510, 20));
+			Label3->enableGlow(Color4B::BLACK);
+			this->addChild(Label3, 0, 33);
+		}
+		if (hero->getSkillPoint() == 0) {
+			if (this->getChildByTag(1111) != nullptr) { this->removeChildByTag(1111); }
+			if (this->getChildByTag(2222) != nullptr) { this->removeChildByTag(2222); }
+			if (this->getChildByTag(3333) != nullptr) { this->removeChildByTag(3333); }
+		}
+		else {
+			if (this->getChildByTag(1111) == nullptr&&hero->getSk1Level() < 3) {
+				auto Skill1Lock = Sprite::create("button/lock.png");
+				Skill1Lock->setPosition(Vec2(350, 40));
+				this->addChild(Skill1Lock, 0, 1111);
+			}
+			if (this->getChildByTag(2222) == nullptr&&hero->getSk2Level() < 3) {
+				auto Skill2Lock = Sprite::create("button/lock.png");
+				Skill2Lock->setPosition(Vec2(450, 40));
+				this->addChild(Skill2Lock, 0, 2222);
+			}
+			if (this->getChildByTag(3333) == nullptr&&hero->getSk3Level() < 2) {
+				auto Skill3Lock = Sprite::create("button/lock.png");
+				Skill3Lock->setPosition(Vec2(550, 40));
+				this->addChild(Skill3Lock, 0, 3333);
+			}
+		}
+	}; break;
 	}
 	
 }

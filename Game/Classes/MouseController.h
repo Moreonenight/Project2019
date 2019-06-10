@@ -1,6 +1,8 @@
 #pragma once
 #include "cocos2d.h"
 #include "Houyi.h"
+#include "YaSe.h"
+#include "DaJi.h"
 #include "unit.h"
 //#include "Money.h"
 //#include "GameScene.h"
@@ -22,8 +24,8 @@ public:
 	unit* selectFromSprites(Vec2 pos);
 	void initListener(unit* Hero,Vector<unit*>* children);
 	void initListener(HouYi* houyi,Vector<unit*>* children);
-	void initListener(YaSe* yase);
-	void initListener(DaJi* daji);
+	void initListener(YaSe* yase, Vector<unit*>* children);
+	void initListener(DaJi* daji, Vector<unit*>* children);
 	void changeOffset(const Vec2 a) {
 		offset = a;
 	}
