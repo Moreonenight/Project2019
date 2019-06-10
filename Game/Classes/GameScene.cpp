@@ -192,6 +192,7 @@ void Game::initwithRole(string HeroName)
 	this->schedule(schedule_selector(Game::mapupdate), 1.0f / 45);
 	this->schedule(schedule_selector(Game::TimeRecorder), 1.0f);
 	this->schedule(schedule_selector(Game::GoldRecorder), 1.0f / 45);
+	this->schedule(schedule_selector(Game::LevelUpdate), 1.0f/10);
 }
 bool Game::init()
 {
@@ -292,14 +293,11 @@ void Game::InitSkillButton(string HeroName)
 	Skill2Button->setPosition(430, Skill2Button->getContentSize().height / 2);
 	Skill3Button->setPosition(530, Skill3Button->getContentSize().height / 2);
 	Skill4Button->setPosition(630, Skill4Button->getContentSize().height / 2);
-	auto Skill1Lock = Sprite::create("button/lock.png");
-	auto Skill2Lock = Sprite::create("button/lock.png");
-	auto Skill3Lock = Sprite::create("button/lock.png");
-	Skill1Lock->setPosition(Skill1Button->getPosition()+Vec2(20,20));
-	Skill2Lock->setPosition(Skill2Button->getPosition() + Vec2(20, 20));
-	Skill3Lock->setPosition(Skill3Button->getPosition() + Vec2(20, 20));
-	this->addChild(Skill1Button); this->addChild(Skill2Button); this->addChild(Skill3Button); this->addChild(Skill4Button);
-	this->addChild(Skill1Lock, 0, 0001); this->addChild(Skill2Lock, 0, 0002); this->addChild(Skill3Lock, 0, 0003);
+	Skill1Button->setOpacity(80);
+	Skill2Button->setOpacity(80);
+	Skill3Button->setOpacity(80);
+	Skill4Button->setOpacity(80);
+	this->addChild(Skill1Button,0,1); this->addChild(Skill2Button,0,2); this->addChild(Skill3Button,0,3); this->addChild(Skill4Button,0,4);
 }
 
 
@@ -616,44 +614,44 @@ void Game::TimeRecorder(float dt)
 			((ammo*)*it)->changeTargetPosition(Vec2(-2000, -2000));
 		}
 	}//暂时修复有时子弹无法消失的bug
-	if (Time==5)
+	if (Time==5||Time%40==0)
 	{
 		auto Br1_1 = Soldier::create();
 		Br1_1->Soldierinit("Br1",1, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Br1_1, 0, 233); EnemeySoldier.pushBack(Br1_1); EnemeyUnit.pushBack(Br1_1);
+		addToMap(Br1_1, 0,Time+10001); EnemeySoldier.pushBack(Br1_1); EnemeyUnit.pushBack(Br1_1);
 		auto Br2_1 = Soldier::create();
 		Br2_1->Soldierinit("Br2",1, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Br2_1, 0, 234); EnemeySoldier.pushBack(Br2_1); EnemeyUnit.pushBack(Br2_1);
+		addToMap(Br2_1, 0,Time+10002); EnemeySoldier.pushBack(Br2_1); EnemeyUnit.pushBack(Br2_1);
 		auto Br3_1 = Soldier::create();
 		Br3_1->Soldierinit("Br3",1, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Br3_1, 0, 235); EnemeySoldier.pushBack(Br3_1); EnemeyUnit.pushBack(Br3_1);
+		addToMap(Br3_1, 0, Time + 10003); EnemeySoldier.pushBack(Br3_1); EnemeyUnit.pushBack(Br3_1);
 		auto Br1_2 = Soldier::create();
 		Br1_2->Soldierinit("Br1", 2, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Br1_2, 0, 236); EnemeySoldier.pushBack(Br1_2); EnemeyUnit.pushBack(Br1_2);
+		addToMap(Br1_2, 0, Time + 10004); EnemeySoldier.pushBack(Br1_2); EnemeyUnit.pushBack(Br1_2);
 		auto Br2_2 = Soldier::create();
 		Br2_2->Soldierinit("Br2", 2, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Br2_2, 0, 237); EnemeySoldier.pushBack(Br2_2); EnemeyUnit.pushBack(Br2_2);
+		addToMap(Br2_2, 0, Time + 10005); EnemeySoldier.pushBack(Br2_2); EnemeyUnit.pushBack(Br2_2);
 		auto Br3_2 = Soldier::create();
 		Br3_2->Soldierinit("Br3", 2, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Br3_2, 0, 238); EnemeySoldier.pushBack(Br3_2); EnemeyUnit.pushBack(Br3_2);
+		addToMap(Br3_2, 0, Time + 10006); EnemeySoldier.pushBack(Br3_2); EnemeyUnit.pushBack(Br3_2);
 		auto Bb1_1 = Soldier::create();
 		Bb1_1->Soldierinit("Bb1", 1, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Bb1_1, 0, 239); MySoldier.pushBack(Bb1_1); MyUnit.pushBack(Bb1_1);
+		addToMap(Bb1_1, 0, Time + 10007); MySoldier.pushBack(Bb1_1); MyUnit.pushBack(Bb1_1);
 		auto Bb2_1 = Soldier::create();
 		Bb2_1->Soldierinit("Bb2", 1, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Bb2_1, 0, 240); MySoldier.pushBack(Bb2_1); MyUnit.pushBack(Bb2_1);
+		addToMap(Bb2_1, 0, Time + 10008); MySoldier.pushBack(Bb2_1); MyUnit.pushBack(Bb2_1);
 		auto Bb3_1 = Soldier::create();
 		Bb3_1->Soldierinit("Bb3", 1, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Bb3_1, 0, 241); MySoldier.pushBack(Bb3_1); MyUnit.pushBack(Bb3_1);
+		addToMap(Bb3_1, 0, Time + 10009); MySoldier.pushBack(Bb3_1); MyUnit.pushBack(Bb3_1);
 		auto Bb1_2 = Soldier::create();
 		Bb1_2->Soldierinit("Bb1", 2, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Bb1_2, 0, 239); MySoldier.pushBack(Bb1_2); MyUnit.pushBack(Bb1_2);
+		addToMap(Bb1_2, 0, Time + 10010); MySoldier.pushBack(Bb1_2); MyUnit.pushBack(Bb1_2);
 		auto Bb2_2 = Soldier::create();
 		Bb2_2->Soldierinit("Bb2", 2, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Bb2_2, 0, 240); MySoldier.pushBack(Bb2_2); MyUnit.pushBack(Bb2_2);
+		addToMap(Bb2_2, 0, Time + 10011); MySoldier.pushBack(Bb2_2); MyUnit.pushBack(Bb2_2);
 		auto Bb3_2 = Soldier::create();
 		Bb3_2->Soldierinit("Bb3", 2, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Bb3_2, 0, 241); MySoldier.pushBack(Bb3_2); MyUnit.pushBack(Bb3_2);
+		addToMap(Bb3_2, 0, Time + 10012); MySoldier.pushBack(Bb3_2); MyUnit.pushBack(Bb3_2);
 	}
 	if (!MySoldier.empty())
 	{
@@ -696,18 +694,67 @@ void Game::GoldRecorder(float dt)
 	goldLabel->setPosition(Vec2(10,250));
 	goldLabel->setAnchorPoint(Vec2(0, 0.5f));
 	this->addChild(goldLabel, 3);
-
-	//暂时添加的技能方面
+	return;
+}
+void Game::LevelUpdate(float dt)
+{
 	switch ((hero1->getid())[2]) {
 	case 'H': {
-		if (((HouYi*)hero1)->getSk1Level() > 0) {
-			if (this->getChildByTag(0001)) {this->removeChildByTag(0001);}
+		auto hero = static_cast<HouYi*>(hero1);
+		if (hero->getSk1Level() > 0) {
+			(this->getChildByTag(1))->setOpacity(255);
+			if (hero->getSk1CdLeft() > 0) {
+				(this->getChildByTag(1))->setOpacity(140);
+			}
+			if ((this->getChildByTag(11)) != nullptr)this->removeChildByTag(11);
+			auto Label1 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk1Level()), "Arial", 20);
+			Label1->enableGlow(Color4B::BLACK);
+			Label1->setPosition(Vec2(310, 20));
+			this->addChild(Label1, 0, 11);
 		}
-		if (((HouYi*)hero1)->getSk2Level() > 0) {
-			if (this->getChildByTag(0002)) { this->removeChildByTag(0002); }
+		if (hero->getSk2Level() > 0) {
+			(this->getChildByTag(2))->setOpacity(255);
+			if (hero->getSk2CdLeft() > 0) {
+				(this->getChildByTag(2))->setOpacity(140);
+			}
+			if ((this->getChildByTag(22)) != nullptr)this->removeChildByTag(22);
+			auto Label2 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk2Level()), "Arial", 20);
+			Label2->setPosition(Vec2(410, 20));
+			Label2->enableGlow(Color4B::BLACK);
+			this->addChild(Label2, 0, 22);
 		}
-		if (((HouYi*)hero1)->getSk3Level() > 0) {
-			if (this->getChildByTag(0003)) { this->removeChildByTag(0003); }
+		if (hero->getSk3Level() > 0) {
+			(this->getChildByTag(3))->setOpacity(255);
+			if (hero->getSk3CdLeft() > 0) {
+				(this->getChildByTag(3))->setOpacity(140);
+			}
+			if ((this->getChildByTag(33)) != nullptr)this->removeChildByTag(33);
+			auto Label3 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk3Level()), "Arial", 20);
+			Label3->setPosition(Vec2(510, 20));
+			Label3->enableGlow(Color4B::BLACK);
+			this->addChild(Label3, 0, 33);
+		}
+		if (hero->getSkillPoint() == 0) {
+			if (this->getChildByTag(1111) != nullptr) { this->removeChildByTag(1111); }
+			if (this->getChildByTag(2222) != nullptr) { this->removeChildByTag(2222); }
+			if (this->getChildByTag(3333) != nullptr) { this->removeChildByTag(3333); }
+		}
+		else {
+			if (this->getChildByTag(1111) == nullptr&&hero->getSk1Level()<3) {
+				auto Skill1Lock = Sprite::create("button/lock.png");
+				Skill1Lock->setPosition(Vec2(350, 40));
+				this->addChild(Skill1Lock, 0, 1111);
+			}
+			if (this->getChildByTag(2222) == nullptr&&hero->getSk2Level() < 3) {
+				auto Skill2Lock = Sprite::create("button/lock.png");
+				Skill2Lock->setPosition(Vec2(450, 40));
+				this->addChild(Skill2Lock, 0, 2222);
+			}
+			if (this->getChildByTag(3333) == nullptr&&hero->getSk3Level() < 2) {
+				auto Skill3Lock = Sprite::create("button/lock.png");
+				Skill3Lock->setPosition(Vec2(550, 40));
+				this->addChild(Skill3Lock, 0, 3333);
+			}
 		}
 	};
 	case 'D': {
@@ -717,9 +764,8 @@ void Game::GoldRecorder(float dt)
 
 	};
 	}
-	return;
+	
 }
-
 cocos2d::Vec2 Game::tileCoordFromPosition(cocos2d::Vec2 pos)
 {
 	int x = pos.x / _tileMap->getTileSize().width;

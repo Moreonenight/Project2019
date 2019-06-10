@@ -73,7 +73,7 @@ void MouseController::initListener(HouYi * houyi, Vector<unit*>* children)
 			}
 			else if (((HouYi*)houyi)->getSk3()) {
 				auto a = selectFromSprites(endPos);
-				if (a != nullptr) {((HouYi*)houyi)->useSkill_3(a);}
+				if (a != nullptr) {((HouYi*)houyi)->useSkill_3(a); ((HouYi*)houyi)->sk3End();}
 				else{ ((HouYi*)houyi)->sk3End(e->getLocationInView() - offset); }
 			}
 		}

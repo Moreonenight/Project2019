@@ -1403,7 +1403,7 @@ void Label::updateContent()
         }
     }
 
-    if (_underlineNode)
+    if (_underlineNode)			
     {
         _underlineNode->clear();
 

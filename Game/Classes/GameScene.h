@@ -45,10 +45,11 @@ public:
 	void initwithRole(string HeroName);
 
 	virtual bool init();
-	void GoldRecorder(float dt);
 	void setViewpointCenter(cocos2d::Vec2 position);
+	void GoldRecorder(float dt);
 	void mapupdate(float dt);
 	void TimeRecorder(float dt);
+	void LevelUpdate(float dt);
 	void InitSkillButton(string HeroName);
 
 	void addToMap(unit* unit, int zorder, int Tag);

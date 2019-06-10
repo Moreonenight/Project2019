@@ -81,6 +81,9 @@ public:
 					
 				}
 			}
+			//getHp()->dieHp();
+			//getHp()->deleteHp();
+			//removeFromParent();
 			if (getid()[1] == 'r') {
 
 				this->setPosition(Vec2(2000, 2000));

@@ -42,18 +42,27 @@ void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1
 			}
 			else if (keyCode == EventKeyboard::KeyCode::KEY_1) {
 				if (getSkillPoint() == 0) { return true; }
-				skill_1Level += 1;
-				changeSkillPoint(-1);
+				if (skill_1Level + 1 <= 3)
+				{
+					skill_1Level += 1;
+					changeSkillPoint(-1);
+				}
 			}
 			else if (keyCode == EventKeyboard::KeyCode::KEY_2) {
 				if (getSkillPoint() == 0) { return true; }
-				skill_2Level += 1;
-				changeSkillPoint(-1);
+				if (skill_2Level + 1 <= 3)
+				{
+					skill_2Level += 1;
+					changeSkillPoint(-1);
+				}
 			}
 			else if (keyCode == EventKeyboard::KeyCode::KEY_3) {
 				if (getSkillPoint() == 0) { return true; }
-				skill_3Level += 1;
-				changeSkillPoint(-1);
+				if (skill_3Level + 1 <= 2)
+				{
+					skill_3Level += 1;
+					changeSkillPoint(-1);
+				}
 			}
 
 		};
