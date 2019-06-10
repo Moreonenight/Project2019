@@ -104,6 +104,11 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	//music
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("/music/roomScene.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/roomScene2.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/Daji.wav");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/Yase.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/HouYi.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/kill.mp3");
 
     return true;
 }

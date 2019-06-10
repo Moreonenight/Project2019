@@ -43,6 +43,7 @@ void MouseController::initListener(unit* Hero,Vector<unit*>* children) {
 		auto a = selectFromSprites(endPos);
 		if (a != nullptr) { 
 				Hero->attackTo(a);
+				
 			return true;
 		}
 		else {

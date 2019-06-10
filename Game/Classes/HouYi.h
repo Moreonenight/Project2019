@@ -1,6 +1,6 @@
 #pragma once
 #include "unit.h"
-
+#include "SimpleAudioEngine.h"
 class HouYi :public unit
 {
 private:
@@ -57,6 +57,35 @@ public:
 		if (hp->getCur() <= 1) die();
 		hp->follow(getPosition());
 		exp->follow(getPosition());
+		if (exp->getLevel() > level)
+		{
+			level = exp->getLevel();
+			auto Upgrade = Sprite::create("Upgrade/gg-tx-025-0013.png");
+			Vector<SpriteFrame*> animFrames;
+			animFrames.reserve(13);
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0001.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0002.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0003.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0004.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0005.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0006.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0007.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0008.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0009.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0010.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0011.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0012.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0013.png", Rect(0, 0, 850, 800)));
+			Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.1f);
+			Animate* animate = Animate::create(animation);
+			Upgrade->setScale(0.5f); Upgrade->setPosition(houyi->getPosition());
+			map->addChild(Upgrade); auto Playit = Repeat::create(animate, 1.0f);
+			auto callback = CallFunc::create([this, Upgrade]() {
+				Upgrade->removeFromParent();
+			});
+			auto seq = Sequence::create(Playit, callback, nullptr);
+			houyi->runAction(seq);
+		}
 		auto it = ammosOnWay.begin();
 		for (; it < ammosOnWay.end(); it++) {
 			auto Dis = (this->getPosition() - (*it)->getPosition()).length();
@@ -81,6 +110,7 @@ public:
 		if (hp->getCur() < delta) {
 			die();
 			//得到击杀者unit*添加奖励
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/kill.mp3");
 			changeDeath(1);
 			if (fromId[0] == 'H') {
 				unit* killUnit = getUnitWithId(fromId);

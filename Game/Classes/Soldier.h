@@ -77,12 +77,9 @@ public:
 					killUnit->changeGold(this->getGold());
 					killUnit->addCurExp(30);
 					killUnit->changeKillSoldiers(1);
-
-					
 				}
 			}
 			if (getid()[1] == 'r') {
-
 				this->setPosition(Vec2(2000, 2000));
 
 			}

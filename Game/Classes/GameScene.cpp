@@ -1,5 +1,30 @@
 #pragma once
+/*游戏说明：
+1.鼠标不区分左右键，点击地图上空位或己方单位可以让人物走动，
+点击敌方单位则攻击。
 
+2.您可以用TAB键查看当前您与敌方的杀敌数/死亡数/补兵数/攻击力与最大生命值/等级
+您的初始等级为1级，当您升级时会显示升级特效提示您的升级成功，
+1级时所有技能均不可以使用
+每升一级您将会有一个技能点可以增加你的技能等级
+按下键盘上的1、2、3键来升级所对应的技能(当然您有权利保留您的技能点)
+使用技能时你可按下键盘上的QWR键并根据技能说明来使用您的技能
+E技能为闪现技能
+
+3.在您的游戏界面左方显示当前您所拥有的金币值，
+在其上方的金币按钮可以让您进入商城进行购买与卖出物品
+
+4.在您的游戏界面右下方显示了您当前所拥有的物品，右上方显示当前游戏进行的时间
+
+5.杀死敌方英雄、小兵、推塔均可获得游戏经验与游戏金币
+
+6.攻击请勿暴击屏幕，这样您将不会拥有最佳的游戏体验
+
+人机模式：
+您可以从亚瑟、妲己、后羿三个英雄中任选一个作为您的英雄出战，
+敌人将随机派出这三名角色中的一名与您对战。
+由于团队能力有限，本项目是初学C++所编写，有所不足，敬请谅解！
+*/
 
 #include "GameScene.h"
 
@@ -27,7 +52,7 @@ void Game::initwithRole(string HeroName)
 	_collidable = _tileMap->getLayer("collidable");
 	_collidable->setVisible(false);
 
-
+	_heroname = HeroName;
 
 	
 	//获取地图上英雄的出生点
@@ -45,14 +70,15 @@ void Game::initwithRole(string HeroName)
 	if (HeroName == string("HbHouYi"))
 	{
 		hero1 = HouYi::create();
-		((HouYi*)hero1)->initwithRole(HeroName,_tileMap, hero1, Vec2(bluex, bluey),(&unitsOnMap), _ammoLayer);
+		static_cast<HouYi*>(hero1)->initwithRole(HeroName, _tileMap, hero1, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
+		hero1->setAnchorPoint(Vec2(0.5, 0.5));
 		addToMap(hero1, 0, 100);
 		MyUnit.pushBack(hero1);
 	}
 	else if (HeroName == string("HbDaJi"))
 	{
 		hero1 = DaJi::create();
-		((DaJi*)hero1)->initwithRole(HeroName,_tileMap, hero1, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
+		static_cast<DaJi*>(hero1)->initwithRole(HeroName,_tileMap, hero1, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
 		addToMap(hero1, 0, 200);
 		MyUnit.pushBack(hero1);
 
@@ -60,7 +86,7 @@ void Game::initwithRole(string HeroName)
 	else if (HeroName == string("HbYaSe"))
 	{
 		hero1 = YaSe::create();
-		((YaSe*)hero1)->initwithRole(HeroName, _tileMap, hero1, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
+		static_cast<YaSe*>(hero1)->initwithRole(HeroName, _tileMap, hero1, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
 		addToMap(hero1, 0, 300);
 		MyUnit.pushBack(hero1);
 	}
@@ -90,6 +116,7 @@ void Game::initwithRole(string HeroName)
 		hero2 = YaSe::create();
 		((YaSe*)hero2)->initwithRole(string("HrYaSe"), _tileMap, hero2, Vec2(redx, redy), (&unitsOnMap), _ammoLayer);
 		hero2->setPosition(500, 500);
+		addToMap(hero2, 0, 200);
 		EnemeyUnit.pushBack(hero2);
 	}
 
@@ -113,7 +140,7 @@ void Game::initwithRole(string HeroName)
 	EnemeyTower3->InitWithRole(string("Tr3"), _tileMap,(&unitsOnMap), _ammoLayer);
 	addToMap(EnemeyTower3, 0, 200); MyTower.pushBack(MyTower3);
 	//由于在逻辑上，我们先判断一塔的可攻击情况，所以顺序不可改
-	MyTower.pushBack(MyTower3);
+	MyUnit.pushBack(MyTower3);
 	MyUnit.pushBack(MyTower2);
 	MyUnit.pushBack(MyTower1);
 	EnemeyUnit.pushBack(EnemeyTower3);
@@ -140,8 +167,8 @@ void Game::initwithRole(string HeroName)
 	/*
 
 	auto hp2 = Sprite::create("/HP/bloodrect.png");
-	auto hp3 = Sprite::create("/HP/GreenBlood.png");
-	_tileMap->addChild(hp3, 10);
+	auto hp3 = Sprite::create("/HP/Green
+
 	_tileMap->addChild(hp2, 9);
 	hp3->setScale(20);
 	hp2->setScale(10);
@@ -199,6 +226,9 @@ bool Game::init()
 	{
 		return false;
 	}
+	
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+
 	return true;
 }
 void Game::InitTabListener(string Hero1Name,string Hero2Name)
@@ -616,6 +646,26 @@ void Game::TimeRecorder(float dt)
 			((ammo*)*it)->changeTargetPosition(Vec2(-2000, -2000));
 		}
 	}//暂时修复有时子弹无法消失的bug
+
+	if (Time == 3)
+	{
+		if (_heroname == "HbHouYi")
+		{
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/HouYi.mp3");
+		}
+		else if (_heroname == "HbDaJi")
+		{
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/Daji.wav");
+		}
+		else
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/Yase.mp3");
+
+	}
+	if ((hero1->getPosition() - Vec2(160, 96)).length() < 300)
+	{
+		hero1->changeCurHp(hero1->getMaxHp()/5);
+	}
+
 	if (Time==5)
 	{
 		auto Br1_1 = Soldier::create();
