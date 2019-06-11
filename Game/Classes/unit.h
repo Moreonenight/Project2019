@@ -122,6 +122,7 @@ public:
 	inline void changeLevel(int num) { if (num == 0) { return; }if (level + num <= 8)level += num; skillPoint += num; }
 	inline int changeMoveSpeed(int delta) { if (moveSpeed + delta < 0)moveSpeed = 0; else moveSpeed += delta; return moveSpeed; }
 	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
+	inline void setDamage(int num) { if (num > 0)damage = num; }
 	inline void changeCurHp(int delta) { hp->changeCur(delta); }
 	void addCurExp(int delta) { exp->changeCurExp(delta); changeLevel(exp->getLevel() - level);}
 	inline void changeKillHero(int delta) { KillHero += delta; }

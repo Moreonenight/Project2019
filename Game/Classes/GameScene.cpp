@@ -1,5 +1,30 @@
 #pragma once
+/*游戏说明：
+1.鼠标不区分左右键，点击地图上空位或己方单位可以让人物走动，
+点击敌方单位则攻击。
 
+2.您可以用TAB键查看当前您与敌方的杀敌数/死亡数/补兵数/攻击力与最大生命值/等级
+您的初始等级为1级，当您升级时会显示升级特效提示您的升级成功，
+1级时所有技能均不可以使用
+每升一级您将会有一个技能点可以增加你的技能等级
+按下键盘上的1、2、3键来升级所对应的技能(当然您有权利保留您的技能点)
+使用技能时你可按下键盘上的QWR键并根据技能说明来使用您的技能
+E技能为闪现技能
+
+3.在您的游戏界面左方显示当前您所拥有的金币值，
+在其上方的金币按钮可以让您进入商城进行购买与卖出物品
+
+4.在您的游戏界面右下方显示了您当前所拥有的物品，右上方显示当前游戏进行的时间
+
+5.杀死敌方英雄、小兵、推塔均可获得游戏经验与游戏金币
+
+6.攻击请勿暴击屏幕，这样您将不会拥有最佳的游戏体验
+
+人机模式：
+您可以从亚瑟、妲己、后羿三个英雄中任选一个作为您的英雄出战，
+敌人将随机派出这三名角色中的一名与您对战。
+由于团队能力有限，本项目是初学C++所编写，有所不足，敬请谅解！
+*/
 
 #include "GameScene.h"
 
@@ -28,7 +53,7 @@ void Game::initwithRole(string HeroName)
 	_collidable = _tileMap->getLayer("collidable");
 	_collidable->setVisible(false);
 
-
+	_heroname = HeroName;
 
 	
 	//获取地图上英雄的出生点
@@ -46,14 +71,15 @@ void Game::initwithRole(string HeroName)
 	if (HeroName == string("HbHouYi"))
 	{
 		hero1 = HouYi::create();
-		((HouYi*)hero1)->initwithRole(HeroName,_tileMap, hero1, Vec2(bluex, bluey),(&unitsOnMap), _ammoLayer);
+		static_cast<HouYi*>(hero1)->initwithRole(HeroName, _tileMap, hero1, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
+		hero1->setAnchorPoint(Vec2(0.5, 0.5));
 		addToMap(hero1, 0, 100);
 		MyUnit.pushBack(hero1);
 	}
 	else if (HeroName == string("HbDaJi"))
 	{
 		hero1 = DaJi::create();
-		((DaJi*)hero1)->initwithRole(HeroName,_tileMap, hero1, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
+		static_cast<DaJi*>(hero1)->initwithRole(HeroName,_tileMap, hero1, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
 		addToMap(hero1, 0, 200);
 		MyUnit.pushBack(hero1);
 
@@ -61,7 +87,7 @@ void Game::initwithRole(string HeroName)
 	else if (HeroName == string("HbYaSe"))
 	{
 		hero1 = YaSe::create();
-		((YaSe*)hero1)->initwithRole(HeroName, _tileMap, hero1, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
+		static_cast<YaSe*>(hero1)->initwithRole(HeroName, _tileMap, hero1, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
 		addToMap(hero1, 0, 300);
 		MyUnit.pushBack(hero1);
 	}
@@ -91,6 +117,7 @@ void Game::initwithRole(string HeroName)
 		hero2 = YaSe::create();
 		((YaSe*)hero2)->initwithRole(string("HrYaSe"), _tileMap, hero2, Vec2(redx, redy), (&unitsOnMap), _ammoLayer);
 		hero2->setPosition(500, 500);
+		addToMap(hero2, 0, 200);
 		EnemeyUnit.pushBack(hero2);
 	}
 
@@ -114,7 +141,7 @@ void Game::initwithRole(string HeroName)
 	EnemeyTower3->InitWithRole(string("Tr3"), _tileMap,(&unitsOnMap), _ammoLayer);
 	addToMap(EnemeyTower3, 0, 200); MyTower.pushBack(MyTower3);
 	//由于在逻辑上，我们先判断一塔的可攻击情况，所以顺序不可改
-	MyTower.pushBack(MyTower3);
+	MyUnit.pushBack(MyTower3);
 	MyUnit.pushBack(MyTower2);
 	MyUnit.pushBack(MyTower1);
 	EnemeyUnit.pushBack(EnemeyTower3);
@@ -125,13 +152,13 @@ void Game::initwithRole(string HeroName)
 	//监听器初始化
 	listener = MouseController::create();
 	if (hero1->getid()[2] == 'H') {
-		listener->initListener(((HouYi*)hero1), getUnits());
+		listener->initListener(static_cast<HouYi*>(hero1), getUnits());
 	}
 	if (hero1->getid()[2] == 'D') {
-		listener->initListener(hero1, getUnits());
+		listener->initListener(static_cast<DaJi*>(hero1), getUnits());
 	}
 	if (hero1->getid()[2] == 'Y') {
-		listener->initListener(hero1, getUnits());
+		listener->initListener(static_cast<YaSe*>(hero1), getUnits());
 	}
 	listener->changeOffset(Vec2::ZERO);
 	//战绩页面初始化
@@ -143,8 +170,8 @@ void Game::initwithRole(string HeroName)
 	/*
 
 	auto hp2 = Sprite::create("/HP/bloodrect.png");
-	auto hp3 = Sprite::create("/HP/GreenBlood.png");
-	_tileMap->addChild(hp3, 10);
+	auto hp3 = Sprite::create("/HP/Green
+
 	_tileMap->addChild(hp2, 9);
 	hp3->setScale(20);
 	hp2->setScale(10);
@@ -195,6 +222,7 @@ void Game::initwithRole(string HeroName)
 	this->schedule(schedule_selector(Game::mapupdate), 1.0f / 45);
 	this->schedule(schedule_selector(Game::TimeRecorder), 1.0f);
 	this->schedule(schedule_selector(Game::GoldRecorder), 1.0f / 45);
+	this->schedule(schedule_selector(Game::LevelUpdate), 1.0f/10);
 }
 bool Game::init()
 {
@@ -202,6 +230,9 @@ bool Game::init()
 	{
 		return false;
 	}
+	
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+
 	return true;
 }
 void Game::InitMiniMapListner(){
@@ -335,14 +366,11 @@ void Game::InitSkillButton(string HeroName)
 	Skill2Button->setPosition(430, Skill2Button->getContentSize().height / 2);
 	Skill3Button->setPosition(530, Skill3Button->getContentSize().height / 2);
 	Skill4Button->setPosition(630, Skill4Button->getContentSize().height / 2);
-	auto Skill1Lock = Sprite::create("button/lock.png");
-	auto Skill2Lock = Sprite::create("button/lock.png");
-	auto Skill3Lock = Sprite::create("button/lock.png");
-	Skill1Lock->setPosition(Skill1Button->getPosition()+Vec2(20,20));
-	Skill2Lock->setPosition(Skill2Button->getPosition() + Vec2(20, 20));
-	Skill3Lock->setPosition(Skill3Button->getPosition() + Vec2(20, 20));
-	this->addChild(Skill1Button); this->addChild(Skill2Button); this->addChild(Skill3Button); this->addChild(Skill4Button);
-	this->addChild(Skill1Lock, 0, 0001); this->addChild(Skill2Lock, 0, 0002); this->addChild(Skill3Lock, 0, 0003);
+	Skill1Button->setOpacity(80);
+	Skill2Button->setOpacity(80);
+	Skill3Button->setOpacity(80);
+	Skill4Button->setOpacity(80);
+	this->addChild(Skill1Button,0,1); this->addChild(Skill2Button,0,2); this->addChild(Skill3Button,0,3); this->addChild(Skill4Button,0,4);
 }
 
 
@@ -661,44 +689,64 @@ void Game::TimeRecorder(float dt)
 			((ammo*)*it)->changeTargetPosition(Vec2(-2000, -2000));
 		}
 	}//暂时修复有时子弹无法消失的bug
+
+	if (Time == 3)
+	{
+		if (_heroname == "HbHouYi")
+		{
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/HouYi.mp3");
+		}
+		else if (_heroname == "HbDaJi")
+		{
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/Daji.wav");
+		}
+		else
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/Yase.mp3");
+
+	}
+	if ((hero1->getPosition() - Vec2(160, 96)).length() < 300)
+	{
+		hero1->changeCurHp(hero1->getMaxHp()/5);
+	}
+
 	if (Time==5)
 	{
 		auto Br1_1 = Soldier::create();
 		Br1_1->Soldierinit("Br1",1, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Br1_1, 0, 233); EnemeySoldier.pushBack(Br1_1); EnemeyUnit.pushBack(Br1_1);
+		addToMap(Br1_1, 0,Time+10001); EnemeySoldier.pushBack(Br1_1); EnemeyUnit.pushBack(Br1_1);
 		auto Br2_1 = Soldier::create();
 		Br2_1->Soldierinit("Br2",1, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Br2_1, 0, 234); EnemeySoldier.pushBack(Br2_1); EnemeyUnit.pushBack(Br2_1);
+		addToMap(Br2_1, 0,Time+10002); EnemeySoldier.pushBack(Br2_1); EnemeyUnit.pushBack(Br2_1);
 		auto Br3_1 = Soldier::create();
 		Br3_1->Soldierinit("Br3",1, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Br3_1, 0, 235); EnemeySoldier.pushBack(Br3_1); EnemeyUnit.pushBack(Br3_1);
+		addToMap(Br3_1, 0, Time + 10003); EnemeySoldier.pushBack(Br3_1); EnemeyUnit.pushBack(Br3_1);
 		auto Br1_2 = Soldier::create();
 		Br1_2->Soldierinit("Br1", 2, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Br1_2, 0, 236); EnemeySoldier.pushBack(Br1_2); EnemeyUnit.pushBack(Br1_2);
+		addToMap(Br1_2, 0, Time + 10004); EnemeySoldier.pushBack(Br1_2); EnemeyUnit.pushBack(Br1_2);
 		auto Br2_2 = Soldier::create();
 		Br2_2->Soldierinit("Br2", 2, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Br2_2, 0, 237); EnemeySoldier.pushBack(Br2_2); EnemeyUnit.pushBack(Br2_2);
+		addToMap(Br2_2, 0, Time + 10005); EnemeySoldier.pushBack(Br2_2); EnemeyUnit.pushBack(Br2_2);
 		auto Br3_2 = Soldier::create();
 		Br3_2->Soldierinit("Br3", 2, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Br3_2, 0, 238); EnemeySoldier.pushBack(Br3_2); EnemeyUnit.pushBack(Br3_2);
+		addToMap(Br3_2, 0, Time + 10006); EnemeySoldier.pushBack(Br3_2); EnemeyUnit.pushBack(Br3_2);
 		auto Bb1_1 = Soldier::create();
 		Bb1_1->Soldierinit("Bb1", 1, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Bb1_1, 0, 239); MySoldier.pushBack(Bb1_1); MyUnit.pushBack(Bb1_1);
+		addToMap(Bb1_1, 0, Time + 10007); MySoldier.pushBack(Bb1_1); MyUnit.pushBack(Bb1_1);
 		auto Bb2_1 = Soldier::create();
 		Bb2_1->Soldierinit("Bb2", 1, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Bb2_1, 0, 240); MySoldier.pushBack(Bb2_1); MyUnit.pushBack(Bb2_1);
+		addToMap(Bb2_1, 0, Time + 10008); MySoldier.pushBack(Bb2_1); MyUnit.pushBack(Bb2_1);
 		auto Bb3_1 = Soldier::create();
 		Bb3_1->Soldierinit("Bb3", 1, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Bb3_1, 0, 241); MySoldier.pushBack(Bb3_1); MyUnit.pushBack(Bb3_1);
+		addToMap(Bb3_1, 0, Time + 10009); MySoldier.pushBack(Bb3_1); MyUnit.pushBack(Bb3_1);
 		auto Bb1_2 = Soldier::create();
 		Bb1_2->Soldierinit("Bb1", 2, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Bb1_2, 0, 239); MySoldier.pushBack(Bb1_2); MyUnit.pushBack(Bb1_2);
+		addToMap(Bb1_2, 0, Time + 10010); MySoldier.pushBack(Bb1_2); MyUnit.pushBack(Bb1_2);
 		auto Bb2_2 = Soldier::create();
 		Bb2_2->Soldierinit("Bb2", 2, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Bb2_2, 0, 240); MySoldier.pushBack(Bb2_2); MyUnit.pushBack(Bb2_2);
+		addToMap(Bb2_2, 0, Time + 10011); MySoldier.pushBack(Bb2_2); MyUnit.pushBack(Bb2_2);
 		auto Bb3_2 = Soldier::create();
 		Bb3_2->Soldierinit("Bb3", 2, _tileMap, (&unitsOnMap), _ammoLayer);
-		addToMap(Bb3_2, 0, 241); MySoldier.pushBack(Bb3_2); MyUnit.pushBack(Bb3_2);
+		addToMap(Bb3_2, 0, Time + 10012); MySoldier.pushBack(Bb3_2); MyUnit.pushBack(Bb3_2);
 	}
 	if (!MySoldier.empty())
 	{
@@ -741,30 +789,188 @@ void Game::GoldRecorder(float dt)
 	goldLabel->setPosition(Vec2(10,250));
 	goldLabel->setAnchorPoint(Vec2(0, 0.5f));
 	this->addChild(goldLabel, 3);
-
-	//暂时添加的技能方面
-	switch ((hero1->getid())[2]) {
-	case 'H': {
-		if (((HouYi*)hero1)->getSk1Level() > 0) {
-			if (this->getChildByTag(0001)) {this->removeChildByTag(0001);}
-		}
-		if (((HouYi*)hero1)->getSk2Level() > 0) {
-			if (this->getChildByTag(0002)) { this->removeChildByTag(0002); }
-		}
-		if (((HouYi*)hero1)->getSk3Level() > 0) {
-			if (this->getChildByTag(0003)) { this->removeChildByTag(0003); }
-		}
-	};
-	case 'D': {
-
-	};
-	case 'Y': {
-
-	};
-	}
 	return;
 }
-
+void Game::LevelUpdate(float dt)
+{
+	switch ((hero1->getid())[2]) {
+	case 'H': {
+		auto hero = static_cast<HouYi*>(hero1);
+		if (hero->getSk1Level() > 0) {
+			(this->getChildByTag(1))->setOpacity(255);
+			if (hero->getSk1CdLeft() > 0) {
+				(this->getChildByTag(1))->setOpacity(140);
+			}
+			if ((this->getChildByTag(11)) != nullptr)this->removeChildByTag(11);
+			auto Label1 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk1Level()), "Arial", 20);
+			Label1->enableGlow(Color4B::BLACK);
+			Label1->setPosition(Vec2(310, 20));
+			this->addChild(Label1, 0, 11);
+		}
+		if (hero->getSk2Level() > 0) {
+			(this->getChildByTag(2))->setOpacity(255);
+			if (hero->getSk2CdLeft() > 0) {
+				(this->getChildByTag(2))->setOpacity(140);
+			}
+			if ((this->getChildByTag(22)) != nullptr)this->removeChildByTag(22);
+			auto Label2 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk2Level()), "Arial", 20);
+			Label2->setPosition(Vec2(410, 20));
+			Label2->enableGlow(Color4B::BLACK);
+			this->addChild(Label2, 0, 22);
+		}
+		if (hero->getSk3Level() > 0) {
+			(this->getChildByTag(3))->setOpacity(255);
+			if (hero->getSk3CdLeft() > 0) {
+				(this->getChildByTag(3))->setOpacity(140);
+			}
+			if ((this->getChildByTag(33)) != nullptr)this->removeChildByTag(33);
+			auto Label3 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk3Level()), "Arial", 20);
+			Label3->setPosition(Vec2(510, 20));
+			Label3->enableGlow(Color4B::BLACK);
+			this->addChild(Label3, 0, 33);
+		}
+		if (hero->getSkillPoint() == 0) {
+			if (this->getChildByTag(1111) != nullptr) { this->removeChildByTag(1111); }
+			if (this->getChildByTag(2222) != nullptr) { this->removeChildByTag(2222); }
+			if (this->getChildByTag(3333) != nullptr) { this->removeChildByTag(3333); }
+		}
+		else {
+			if (this->getChildByTag(1111) == nullptr&&hero->getSk1Level()<3) {
+				auto Skill1Lock = Sprite::create("button/lock.png");
+				Skill1Lock->setPosition(Vec2(350, 40));
+				this->addChild(Skill1Lock, 0, 1111);
+			}
+			if (this->getChildByTag(2222) == nullptr&&hero->getSk2Level() < 3) {
+				auto Skill2Lock = Sprite::create("button/lock.png");
+				Skill2Lock->setPosition(Vec2(450, 40));
+				this->addChild(Skill2Lock, 0, 2222);
+			}
+			if (this->getChildByTag(3333) == nullptr&&hero->getSk3Level() < 2) {
+				auto Skill3Lock = Sprite::create("button/lock.png");
+				Skill3Lock->setPosition(Vec2(550, 40));
+				this->addChild(Skill3Lock, 0, 3333);
+			}
+		}
+	}; break;
+	case 'D': {
+		auto hero = static_cast<DaJi*>(hero1);
+		if (hero->getSk1Level() > 0) {
+			(this->getChildByTag(1))->setOpacity(255);
+			if (hero->getSk1CdLeft() > 0) {
+				(this->getChildByTag(1))->setOpacity(140);
+			}
+			if ((this->getChildByTag(11)) != nullptr)this->removeChildByTag(11);
+			auto Label1 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk1Level()), "Arial", 20);
+			Label1->enableGlow(Color4B::BLACK);
+			Label1->setPosition(Vec2(310, 20));
+			this->addChild(Label1, 0, 11);
+		}
+		if (hero->getSk2Level() > 0) {
+			(this->getChildByTag(2))->setOpacity(255);
+			if (hero->getSk2CdLeft() > 0) {
+				(this->getChildByTag(2))->setOpacity(140);
+			}
+			if ((this->getChildByTag(22)) != nullptr)this->removeChildByTag(22);
+			auto Label2 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk2Level()), "Arial", 20);
+			Label2->setPosition(Vec2(410, 20));
+			Label2->enableGlow(Color4B::BLACK);
+			this->addChild(Label2, 0, 22);
+		}
+		if (hero->getSk3Level() > 0) {
+			(this->getChildByTag(3))->setOpacity(255);
+			if (hero->getSk3CdLeft() > 0) {
+				(this->getChildByTag(3))->setOpacity(140);
+			}
+			if ((this->getChildByTag(33)) != nullptr)this->removeChildByTag(33);
+			auto Label3 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk3Level()), "Arial", 20);
+			Label3->setPosition(Vec2(510, 20));
+			Label3->enableGlow(Color4B::BLACK);
+			this->addChild(Label3, 0, 33);
+		}
+		if (hero->getSkillPoint() == 0) {
+			if (this->getChildByTag(1111) != nullptr) { this->removeChildByTag(1111); }
+			if (this->getChildByTag(2222) != nullptr) { this->removeChildByTag(2222); }
+			if (this->getChildByTag(3333) != nullptr) { this->removeChildByTag(3333); }
+		}
+		else {
+			if (this->getChildByTag(1111) == nullptr&&hero->getSk1Level() < 3) {
+				auto Skill1Lock = Sprite::create("button/lock.png");
+				Skill1Lock->setPosition(Vec2(350, 40));
+				this->addChild(Skill1Lock, 0, 1111);
+			}
+			if (this->getChildByTag(2222) == nullptr&&hero->getSk2Level() < 3) {
+				auto Skill2Lock = Sprite::create("button/lock.png");
+				Skill2Lock->setPosition(Vec2(450, 40));
+				this->addChild(Skill2Lock, 0, 2222);
+			}
+			if (this->getChildByTag(3333) == nullptr&&hero->getSk3Level() < 2) {
+				auto Skill3Lock = Sprite::create("button/lock.png");
+				Skill3Lock->setPosition(Vec2(550, 40));
+				this->addChild(Skill3Lock, 0, 3333);
+			}
+		}
+	}; break;
+	case 'Y': {
+		auto hero = static_cast<YaSe*>(hero1);
+		if (hero->getSk1Level() > 0) {
+			(this->getChildByTag(1))->setOpacity(255);
+			if (hero->getSk1CdLeft() > 0) {
+				(this->getChildByTag(1))->setOpacity(140);
+			}
+			if ((this->getChildByTag(11)) != nullptr)this->removeChildByTag(11);
+			auto Label1 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk1Level()), "Arial", 20);
+			Label1->enableGlow(Color4B::BLACK);
+			Label1->setPosition(Vec2(310, 20));
+			this->addChild(Label1, 0, 11);
+		}
+		if (hero->getSk2Level() > 0) {
+			(this->getChildByTag(2))->setOpacity(255);
+			if (hero->getSk2CdLeft() > 0) {
+				(this->getChildByTag(2))->setOpacity(140);
+			}
+			if ((this->getChildByTag(22)) != nullptr)this->removeChildByTag(22);
+			auto Label2 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk2Level()), "Arial", 20);
+			Label2->setPosition(Vec2(410, 20));
+			Label2->enableGlow(Color4B::BLACK);
+			this->addChild(Label2, 0, 22);
+		}
+		if (hero->getSk3Level() > 0) {
+			(this->getChildByTag(3))->setOpacity(255);
+			if (hero->getSk3CdLeft() > 0) {
+				(this->getChildByTag(3))->setOpacity(140);
+			}
+			if ((this->getChildByTag(33)) != nullptr)this->removeChildByTag(33);
+			auto Label3 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk3Level()), "Arial", 20);
+			Label3->setPosition(Vec2(510, 20));
+			Label3->enableGlow(Color4B::BLACK);
+			this->addChild(Label3, 0, 33);
+		}
+		if (hero->getSkillPoint() == 0) {
+			if (this->getChildByTag(1111) != nullptr) { this->removeChildByTag(1111); }
+			if (this->getChildByTag(2222) != nullptr) { this->removeChildByTag(2222); }
+			if (this->getChildByTag(3333) != nullptr) { this->removeChildByTag(3333); }
+		}
+		else {
+			if (this->getChildByTag(1111) == nullptr&&hero->getSk1Level() < 3) {
+				auto Skill1Lock = Sprite::create("button/lock.png");
+				Skill1Lock->setPosition(Vec2(350, 40));
+				this->addChild(Skill1Lock, 0, 1111);
+			}
+			if (this->getChildByTag(2222) == nullptr&&hero->getSk2Level() < 3) {
+				auto Skill2Lock = Sprite::create("button/lock.png");
+				Skill2Lock->setPosition(Vec2(450, 40));
+				this->addChild(Skill2Lock, 0, 2222);
+			}
+			if (this->getChildByTag(3333) == nullptr&&hero->getSk3Level() < 2) {
+				auto Skill3Lock = Sprite::create("button/lock.png");
+				Skill3Lock->setPosition(Vec2(550, 40));
+				this->addChild(Skill3Lock, 0, 3333);
+			}
+		}
+	}; break;
+	}
+	
+}
 cocos2d::Vec2 Game::tileCoordFromPosition(cocos2d::Vec2 pos)
 {
 	int x = pos.x / _tileMap->getTileSize().width;

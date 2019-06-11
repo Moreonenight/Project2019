@@ -77,12 +77,12 @@ public:
 					killUnit->changeGold(this->getGold());
 					killUnit->addCurExp(30);
 					killUnit->changeKillSoldiers(1);
-
-					
 				}
 			}
+			//getHp()->dieHp();
+			//getHp()->deleteHp();
+			//removeFromParent();
 			if (getid()[1] == 'r') {
-
 				this->setPosition(Vec2(2000, 2000));
 
 			}

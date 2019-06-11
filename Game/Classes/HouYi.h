@@ -1,6 +1,6 @@
 #pragma once
 #include "unit.h"
-
+#include "SimpleAudioEngine.h"
 class HouYi :public unit
 {
 private:
@@ -15,8 +15,8 @@ private:
 	int sk1Cd[6] = { 8,7,6,5,5,4 };
 	int sk2Damage[6] = { 300,350,400,450,500,550 };
 	int sk2Cd[6] = { 8,7,6,5,5,4 };
-	int sk3Damage[3] = { 7000,875,1050 };
-	int sk3Cd[3] = { 8,40,35 };
+	int sk3Damage[3] = { 700,875,1050 };
+	int sk3Cd[3] = { 30,20,15 };
 	//表示技能是否开启
 	bool sk1 = false;
 	bool sk2 = false;
@@ -42,6 +42,9 @@ public:
 	inline bool getSk1() { return sk1; }
 	inline bool getSk2() { return sk2; }
 	inline bool getSk3() { return sk3; }
+	inline int getSk1CdLeft() { return sk1Cd_left; }
+	inline int getSk2CdLeft() { return sk2Cd_left; }
+	inline int getSk3CdLeft() { return sk3Cd_left; }
 	inline int getSk1Level() { return skill_1Level; }
 	inline int getSk2Level() { return skill_2Level; }
 	inline int getSk3Level() { return skill_3Level; }
@@ -57,6 +60,35 @@ public:
 		if (hp->getCur() <= 1) die();
 		hp->follow(getPosition());
 		exp->follow(getPosition());
+		if (exp->getLevel() > level)
+		{
+			level = exp->getLevel();
+			auto Upgrade = Sprite::create("Upgrade/gg-tx-025-0013.png");
+			Vector<SpriteFrame*> animFrames;
+			animFrames.reserve(13);
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0001.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0002.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0003.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0004.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0005.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0006.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0007.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0008.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0009.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0010.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0011.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0012.png", Rect(0, 0, 850, 800)));
+			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0013.png", Rect(0, 0, 850, 800)));
+			Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.1f);
+			Animate* animate = Animate::create(animation);
+			Upgrade->setScale(0.5f); Upgrade->setPosition(houyi->getPosition());
+			map->addChild(Upgrade); auto Playit = Repeat::create(animate, 1.0f);
+			auto callback = CallFunc::create([this, Upgrade]() {
+				Upgrade->removeFromParent();
+			});
+			auto seq = Sequence::create(Playit, callback, nullptr);
+			houyi->runAction(seq);
+		}
 		auto it = ammosOnWay.begin();
 		for (; it < ammosOnWay.end(); it++) {
 			auto Dis = (this->getPosition() - (*it)->getPosition()).length();
@@ -74,13 +106,20 @@ public:
 				(*it)->changeTargetPosition(getPosition());
 			}
 		}
+		//回城回血
+		if ((getPosition() - getSpawnPoint()).length() <= 200) {
+			fullHp();
+		}
+
 		if (this->canAttack == 1)return;
 		else { this->canAttack = 1; return; }
+
 	}
 	virtual int getDamage(int delta, std::string fromId) {
 		if (hp->getCur() < delta) {
 			die();
 			//得到击杀者unit*添加奖励
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/kill.mp3");
 			changeDeath(1);
 			if (fromId[0] == 'H') {
 				unit* killUnit = getUnitWithId(fromId);
@@ -91,7 +130,6 @@ public:
 				}
 			}
 			this->setPosition(Vec2(270, 90));
-			hp->changeCur(60000);
 		}
 		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
 		return hp->getCur();

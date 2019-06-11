@@ -11,9 +11,9 @@ initLvl
 initGold
 300
 attackRange
-550
+200
 ammoSpeed
-15
+10
 moveSpeed
 200
 recoverOfHp

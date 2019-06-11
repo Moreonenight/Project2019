@@ -33,7 +33,7 @@ bool HelloWorld::init()
     this->addChild(menu, 1);
 	MenuItemFont::setFontName("Times New Roman");
 	MenuItemFont::setFontSize(24);
-    
+	CocosDenshion::SimpleAudioEngine::getInstance()->playBackgroundMusic("music/roomScene2.mp3");
 	auto bg = Sprite::create("/bg/StartScene.jpg");
 	bg->setPosition(Vec2(
 		origin.x + visibleSize.width / 2,
