@@ -194,7 +194,7 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	if (canAttack == false) return NULL;
 	canAttack = false;
 /*<<<<<<< HEAD
-	stopAllActions();
+	
 	ammo *amo = ammo::create();
 	switch (getDir(getPosition(), target->getPosition())) {
 
@@ -222,7 +222,8 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	//((Layer *)(this->getParent()->getParent()))->schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
 =======*/
 	if(getid()[0]!='T'){
-	
+		stopAllActions();
+		auto aniCache = pAC;
 		switch (getDir(getPosition(), target->getPosition())) {
 		case Direction::RIGHT:runAction(Animate::create(aniCache->getAnimation(id + "right_attack")))->setTag(20); break;
 		case Direction::LEFT:runAction(Animate::create(aniCache->getAnimation(id + "left_attack")))->setTag(21); break;

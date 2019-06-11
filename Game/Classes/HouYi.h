@@ -65,7 +65,7 @@ public:
 				auto Damage = (*it)->getDamage();
 				this->getDamage(Damage,(*it)->getid());
 				(*it)->removeFromParentAndCleanup(1);
-				//(*it)->setVisible(0);
+				//
 				//(*it)->setPosition(-200.0, -200.0);
 				if (it == (ammosOnWay.end() - 1)) { ammosOnWay.clear(); break; }
 				else it = ammosOnWay.erase(it);

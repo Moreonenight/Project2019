@@ -55,6 +55,7 @@ public:
 	Vector<Node*> *selectFromMap(Vec2 pos);
 	Vector<unit*> *getUnits();
 	void InitTabListener(string Hero1Name,string Hero2Name);
+	void Game::InitMiniMapListner();
 
 	// a selector callback
 	void menuItem1Callback(cocos2d::Ref* pSender);
