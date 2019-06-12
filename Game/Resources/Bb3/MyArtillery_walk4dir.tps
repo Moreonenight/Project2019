@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.8.0</string>
+        <string>5.0.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -187,38 +187,38 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-10.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-100.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-102.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-104.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-106.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-108.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-110.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-112.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-12.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-14.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-16.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-2.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-34.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-36.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-38.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-4.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-40.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-42.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-44.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-46.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-48.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-6.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-66.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-68.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-70.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-72.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-74.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-76.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-78.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-8.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-80.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/2走动/2562-98.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-10.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-100.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-102.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-104.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-106.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-108.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-110.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-112.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-12.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-14.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-16.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-2.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-34.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-36.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-38.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-4.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-40.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-42.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-44.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-46.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-48.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-6.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-66.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-68.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-70.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-72.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-74.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-76.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-78.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-8.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-80.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/2走动/2562-98.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

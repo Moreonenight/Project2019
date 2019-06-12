@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.8.0</string>
+        <string>5.0.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -187,38 +187,38 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-1.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-101.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-103.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-105.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-11.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-13.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-15.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-3.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-31.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-33.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-35.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-37.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-39.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-41.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-43.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-45.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-5.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-61.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-63.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-65.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-67.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-69.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-7.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-71.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-73.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-75.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-9.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-91.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-93.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-95.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-97.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（绿）/4死亡/2836-99.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-1.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-101.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-103.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-105.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-11.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-13.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-15.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-3.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-31.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-33.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-35.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-37.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-39.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-41.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-43.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-45.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-5.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-61.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-63.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-65.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-67.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-69.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-7.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-71.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-73.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-75.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-9.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-91.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-93.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-95.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-97.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（绿）/4死亡/2836-99.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

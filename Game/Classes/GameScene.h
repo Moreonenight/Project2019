@@ -23,19 +23,19 @@ class Game : public cocos2d::Layer
 	MouseController *listener;
 	MouseController *skillListener;
 	cocos2d::TMXTiledMap* _tileMap;
-	cocos2d::Sprite* _player;
 	cocos2d::TMXLayer* _collidable;
 	cocos2d::Label* TimerLabel;
 	cocos2d::Label* goldLabel;
 	cocos2d::ui::Button* Moneybutton;
+	cocos2d::Layer* _ammoLayer = nullptr;
 	cocos2d::Layer* _shopLayer = nullptr;
 	cocos2d::Layer* _skillLayer = nullptr;
+	cocos2d::Layer* _equipmentlLayer = nullptr;
 	int Time;
 	unit* hero1;
 	unit* hero2;
+	string _heroname;
 	Vector<unit*> unitsOnMap;
-	Vector<unit*> MyUnit;
-	Vector<unit*> EnemeyUnit;
 	Vector<Soldier*> EnemeySoldier;
 	Vector<Soldier*> MySoldier;
 	Vector<Tower*> MyTower;
@@ -45,17 +45,19 @@ public:
 	void initwithRole(string HeroName);
 
 	virtual bool init();
-	void GoldRecorder(float dt);
 	void setViewpointCenter(cocos2d::Vec2 position);
+	void GoldRecorder(float dt);
 	void mapupdate(float dt);
 	void TimeRecorder(float dt);
+	void LevelUpdate(float dt);
 	void InitSkillButton(string HeroName);
 
-	void addToMap(unit* unit, int zorder, int Tag);
+	void addToMap(unit* unit, int zorder, int Tag,string id);
 	Vector<Node*> *selectFromMap(Vec2 pos);
 	Vector<unit*> *getUnits();
 	void InitTabListener(string Hero1Name,string Hero2Name);
-	char* FontToUTF8(const char* font);
+	void Game::InitMiniMapListner();
+
 	// a selector callback
 	void menuItem1Callback(cocos2d::Ref* pSender);
 	void createShopCallBack(cocos2d::Ref* pSender);
@@ -67,6 +69,13 @@ public:
 	void buyShoeCallBack(cocos2d::Ref* pSender);
 	void buyHatCallBack(cocos2d::Ref* pSender);
 	void buySwordCallBack(cocos2d::Ref* pSender);
+	void sell1CallBack(cocos2d::Ref* pSender);
+	void sell2CallBack(cocos2d::Ref* pSender);
+	void sell3CallBack(cocos2d::Ref* pSender);
+	void sell4CallBack(cocos2d::Ref* pSender);
+	void sell5CallBack(cocos2d::Ref* pSender);
+	void sell6CallBack(cocos2d::Ref* pSender);
+
 	// implement the "static create()" method manually
 
 	//ת�����ص���Ƭ����

@@ -10,18 +10,11 @@ private:
 	bool CanAttackTower;
 	bool CanAttackSoldier;
 	bool CanAttackHero;
-	bool Alreadydead;
+	Layer* _ammolayer;
 	unit* AttackingTarget;
 	int Destination;
 public:
-	inline void ChangeAlreadydead(bool dead)
-	{
-		Alreadydead = dead;
-	}
-	inline bool GetAlreadydead()
-	{
-		return Alreadydead;
-	}
+	
 	inline bool ifAttacking()
 	{
 		return Attacking;
@@ -71,11 +64,12 @@ public:
 	}
 	bool AttackingJudgeAI();
 
-	bool Soldierinit(string Soldiername, int number, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits);
+	bool Soldierinit(string Soldiername, int number, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits, Layer* ammoLayer);
 
 	virtual int getDamage(int delta, std::string fromId) {
 		if (hp->getCur() < delta) {
 			die();
+			ChangeAlreadydead(true);
 			changeDeath(1);
 			if (fromId[0] == 'H') {
 				unit* killUnit = getUnitWithId(fromId);
@@ -85,32 +79,35 @@ public:
 					killUnit->changeKillSoldiers(1);
 				}
 			}
-			this->setPosition(getSpawnPoint());
-			fullHp();
+			//getHp()->dieHp();
+			//getHp()->deleteHp();
+			//removeFromParent();
+			if (getid()[1] == 'r') {
+				this->setPosition(Vec2(2000, 2000));
+
+			}
+			else if ((getid()[1] == 'b'))
+			{
+				this->setPosition(Vec2(-200, -200));
+
+			}
+			hp->changeCur(3000000);
 		}
 		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
 		return hp->getCur();
 	}
-
 	void update(float dt) {
 		//hp->update();
 		hp->follow(getPosition());
-
 		auto it = ammosOnWay.begin();
 		for (; it < ammosOnWay.end(); it++) {
-			int MinDis;
+
 			auto Dis = (this->getPosition() - (*it)->getPosition()).length();
 			auto id1 = this->getid(); auto id2 = (*it)->getid();
-			if (getid()[2] == '1') { MinDis = 5000; }
-			else if (getid()[2] == '2') { MinDis = 350; }
-			else if (getid()[2] == '3') { MinDis = 350; }
-			
-			if (Dis < MinDis && id1[1] != id2[1]) {
+			if (Dis < 200 && id1[1] != id2[1]) {
 				auto Damage = (*it)->getDamage();
-				this->getDamage(Damage,(*it)->getid());
+				this->getDamage(Damage, (*it)->getid());
 				(*it)->removeFromParentAndCleanup(1);
-				//(*it)->setVisible(0);
-				//(*it)->setPosition(-200.0, -200.0);
 				if (it == (ammosOnWay.end() - 1)) { ammosOnWay.clear(); break; }
 				else it = ammosOnWay.erase(it);
 			}
@@ -121,6 +118,7 @@ public:
 		if (this->canAttack == 1)return;
 		else { this->canAttack = 1; return; }
 	}
+
 	CREATE_FUNC(Soldier);
 };
 

@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.8.0</string>
+        <string>5.0.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -187,38 +187,38 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-10.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-100.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-102.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-104.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-106.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-108.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-110.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-112.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-12.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-14.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-16.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-2.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-34.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-36.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-38.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-4.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-40.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-42.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-44.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-46.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-48.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-6.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-66.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-68.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-70.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-72.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-74.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-76.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-78.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-8.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-80.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-98.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-10.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-100.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-102.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-104.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-106.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-108.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-110.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-112.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-12.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-14.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-16.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-2.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-34.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-36.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-38.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-4.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-40.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-42.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-44.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-46.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-48.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-6.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-66.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-68.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-70.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-72.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-74.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-76.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-78.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-8.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-80.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/3-2攻击/1956-98.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

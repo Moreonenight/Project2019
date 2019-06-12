@@ -1,11 +1,45 @@
 #pragma once
+/*游戏说明：
+1.鼠标不区分左右键，点击地图上空位或己方单位可以让人物走动，
+点击敌方单位则攻击。
+
+2.您可以用TAB键查看当前您与敌方的杀敌数/死亡数/补兵数/攻击力与最大生命值/等级
+您的初始等级为1级，当您升级时会显示升级特效提示您的升级成功，
+1级时所有技能均不可以使用
+每升一级您将会有一个技能点可以增加你的技能等级
+按下键盘上的1、2、3键来升级所对应的技能(当然您有权利保留您的技能点)
+使用技能时你可按下键盘上的QE键并根据技能说明来使用您的技能
+W技能为闪现技能
+
+3.在您的游戏界面左方显示当前您所拥有的金币值，
+在其上方的金币按钮可以让您进入商城进行购买与卖出物品
+
+4.在您的游戏界面右下方显示了您当前所拥有的物品，右上方显示当前游戏进行的时间
+
+5.杀死敌方英雄、小兵、推塔均可获得游戏经验与游戏金币
+
+6.攻击请勿暴击屏幕，这样您将不会拥有最佳的游戏体验
+
+人机模式：
+您可以从亚瑟、妲己、后羿三个英雄中任选一个作为您的英雄出战，
+敌人将随机派出这三名角色中的一名与您对战。
+由于团队能力有限，本项目是初学C++所编写，有所不足，敬请谅解！
+
+界面元素Z-order顺序：
+0-主地图层(小兵、塔、英雄均加载在地图层中)
+1-弹道层(用于即时清理子弹)
+2-UI层(其中包括计时label、金币图标、金币label、技能图标、装备栏、退出按钮)
+3-战绩层
+主地图层上的单位TAG值如下所示：
 
 
+*/
 #include "GameScene.h"
-
 USING_NS_CC;
-
+#define MINI_MAP_TAG 155
 #define IS_SHOP_OPEN this->getChildByTag(133)
+#define VisibleSize Director::getInstance()->getVisibleSize()
+#define OriginSize Director::getInstance()->getVisibleOrigin()
 Scene* Game::createScene(string HeroName)
 {
 	auto scene = Scene::create();
@@ -17,14 +51,19 @@ Scene* Game::createScene(string HeroName)
 
 void Game::initwithRole(string HeroName)
 {
-	auto visibleSize = Director::getInstance()->getVisibleSize();
-	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	//初始化私有成员
+	_heroname = HeroName;
 	Time = 0;
-	//初始化地图
+
+	//初始化地图层
 	_tileMap = TMXTiledMap::create("map/map1.tmx");
 	addChild(_tileMap, 0, 100);
 
-	//获取碰撞层
+	//初始化弹道层
+	_ammoLayer = Layer::create();
+	_tileMap->addChild(_ammoLayer, 1);
+
+	//获取地图上的碰撞层
 	_collidable = _tileMap->getLayer("collidable");
 	_collidable->setVisible(false);
 
@@ -36,182 +75,192 @@ void Game::initwithRole(string HeroName)
 	float bluey = blueSpawnPoint["y"].asFloat();
 	float redx = redSpawnPoint["x"].asFloat();
 	float redy = redSpawnPoint["y"].asFloat();
-
+	
 	//我方英雄根据选择进行初始化
 	if (HeroName == string("HbHouYi"))
 	{
 		hero1 = HouYi::create();
-		((HouYi*)hero1)->initwithRole(HeroName, _tileMap, hero1,Vec2(bluex, bluey),(&unitsOnMap));
-		addToMap(hero1, 0, 100);
-		MyUnit.pushBack(hero1);
+		static_cast<HouYi*>(hero1)->initwithRole(HeroName, _tileMap,Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
+		hero1->setAnchorPoint(Vec2(0.5, 0.5));
+		addToMap(hero1, 0, 100, "HbHouYi");
 	}
 	else if (HeroName == string("HbDaJi"))
 	{
 		hero1 = DaJi::create();
-		((DaJi*)hero1)->initwithRole(HeroName, _tileMap, hero1, Vec2(bluex, bluey), (&unitsOnMap));
-		addToMap(hero1, 0, 200);
-		MyUnit.pushBack(hero1);
-
+		static_cast<DaJi*>(hero1)->initwithRole(HeroName,_tileMap,Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
+		addToMap(hero1, 0, 200, "HbDaJi");
 	}
 	else if (HeroName == string("HbYaSe"))
 	{
 		hero1 = YaSe::create();
-		((YaSe*)hero1)->initwithRole(HeroName, _tileMap, hero1, Vec2(bluex, bluey), (&unitsOnMap));
-		addToMap(hero1, 0, 300);
-		MyUnit.pushBack(hero1);
+		static_cast<YaSe*>(hero1)->initwithRole(HeroName, _tileMap,Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
+		addToMap(hero1, 0, 300, "HbYaSe");
 	}
-	//我方英雄技能图标初始化
-	InitSkillButton(HeroName);
+
 	//随机产生一名敌方AI英雄并初始化
 	srand(time(NULL));
 	int RandNumber = rand() % 100;
 	if (RandNumber >= 0 && RandNumber <= 33)
 	{
 		hero2 = HouYi::create();
-        ((HouYi*)hero2)->initwithRole(string("HrHouYi"), _tileMap, hero2,Vec2(redx, redy), (&unitsOnMap));
+		static_cast<HouYi*>(hero2)->initwithRole(string("HrHouYi"), _tileMap,Vec2(redx, redy), (&unitsOnMap), _ammoLayer);
         hero2->setPosition(500, 500);
-        addToMap(hero2, 0, 200);
-        EnemeyUnit.pushBack(hero2);
+        addToMap(hero2, 0, 200, "HrHouYi");
 	}
 	else if (RandNumber <= 66)
 	{
 		hero2 = DaJi::create();
-		((DaJi*)hero2)->initwithRole(string("HrDaJi"), _tileMap, hero2, Vec2(redx, redy), (&unitsOnMap));
+		static_cast<DaJi*>(hero2)->initwithRole(string("HrDaJi"), _tileMap,Vec2(redx, redy), (&unitsOnMap), _ammoLayer);
 		hero2->setPosition(500, 500);
-		addToMap(hero2, 0, 200);
-		EnemeyUnit.pushBack(hero2);
+		addToMap(hero2, 0, 200, "HrDaJi");
 	}
 	else if (RandNumber <= 99)
 	{
 		hero2 = YaSe::create();
-		((YaSe*)hero2)->initwithRole(string("HrYaSe"),_tileMap, hero2, Vec2(redx, redy), (&unitsOnMap));
+		static_cast<YaSe*>(hero2)->initwithRole(string("HrYaSe"), _tileMap,Vec2(redx, redy), (&unitsOnMap), _ammoLayer);
 		hero2->setPosition(500, 500);
-		addToMap(hero2, 0, 200);
-		EnemeyUnit.pushBack(hero2);
+		addToMap(hero2, 0, 200, "HrYaSe");
 	}
 
-	//我方塔敌方塔初始化
-	auto MyTower1 = Tower::create();
-	MyTower1->InitWithRole(string("Tb1"), _tileMap, (&unitsOnMap));
-	addToMap(MyTower1, 0, 200); MyTower.pushBack(MyTower1); MyUnit.pushBack(MyTower1);
-	auto MyTower2 = Tower::create();
-	MyTower2->InitWithRole(string("Tb2"), _tileMap, (&unitsOnMap));
-	addToMap(MyTower2, 0, 200); MyTower.pushBack(MyTower2); MyUnit.pushBack(MyTower2);
+
+	//战绩页面初始化
+	InitTabListener(hero1->getid(), hero2->getid());
+
+	//我方英雄技能图标初始化
+	InitSkillButton(HeroName);
+
+	//我方塔敌方塔初始化,请按倒序初始化
 	auto MyTower3 = Tower::create();
-	MyTower3->InitWithRole(string("Tb3"), _tileMap, (&unitsOnMap));
-	addToMap(MyTower3, 0, 200); MyTower.pushBack(MyTower3);
-	auto EnemeyTower1 = Tower::create();
-	EnemeyTower1->InitWithRole(string("Tr1"), _tileMap, (&unitsOnMap));
-	addToMap(EnemeyTower1, 0, 200); EnemeyTower.pushBack(EnemeyTower1); EnemeyUnit.pushBack(EnemeyTower1);
-	auto EnemeyTower2 = Tower::create();
-	EnemeyTower2->InitWithRole(string("Tr2"), _tileMap, (&unitsOnMap));
-	addToMap(EnemeyTower2, 0, 200); EnemeyTower.pushBack(EnemeyTower2); EnemeyUnit.pushBack(EnemeyTower2);
+	MyTower3->InitWithRole(string("Tb3"), _tileMap, (&unitsOnMap), _ammoLayer); addToMap(MyTower3, 0, 200,"Tb3");
+	auto MyTower2 = Tower::create();
+	MyTower2->InitWithRole(string("Tb2"), _tileMap, (&unitsOnMap), _ammoLayer);	addToMap(MyTower2, 0, 200, "Tb2");
+	auto MyTower1 = Tower::create();
+	MyTower1->InitWithRole(string("Tb1"), _tileMap, (&unitsOnMap), _ammoLayer); addToMap(MyTower1, 0, 200, "Tb1");
 	auto EnemeyTower3 = Tower::create();
-	EnemeyTower3->InitWithRole(string("Tr3"), _tileMap,(&unitsOnMap));
-	addToMap(EnemeyTower3, 0, 200);EnemeyUnit.pushBack(EnemeyTower3);
+	EnemeyTower3->InitWithRole(string("Tr3"), _tileMap, (&unitsOnMap), _ammoLayer); addToMap(EnemeyTower3, 0, 200, "Tr3");
+	auto EnemeyTower2 = Tower::create();
+	EnemeyTower2->InitWithRole(string("Tr2"), _tileMap, (&unitsOnMap), _ammoLayer); addToMap(EnemeyTower2, 0, 200, "Tr2");
+	auto EnemeyTower1 = Tower::create();
+	EnemeyTower1->InitWithRole(string("Tr1"), _tileMap, (&unitsOnMap), _ammoLayer); addToMap(EnemeyTower1, 0, 200, "Tr1");
+	
 
 	//监听器初始化
 	listener = MouseController::create();
 	if (hero1->getid()[2] == 'H') {
-		listener->initListener(((HouYi*)hero1), getUnits());
+		listener->initListener(static_cast<HouYi*>(hero1), getUnits());
 	}
 	if (hero1->getid()[2] == 'D') {
-		listener->initListener(hero1, getUnits());
+		listener->initListener(static_cast<DaJi*>(hero1), getUnits());
 	}
 	if (hero1->getid()[2] == 'Y') {
-		listener->initListener(hero1, getUnits());
+		listener->initListener(static_cast<YaSe*>(hero1), getUnits());
 	}
 	listener->changeOffset(Vec2::ZERO);
-	//战绩页面初始化
+
 	InitTabListener(hero1->getid(),hero2->getid());
+	//小地图初始化
+	InitMiniMapListner();
 
-	//////////////////////////
-	/*
-
-	auto hp2 = Sprite::create("/HP/bloodrect.png");
-	auto hp3 = Sprite::create("/HP/GreenBlood.png");
-	_tileMap->addChild(hp3, 10);
-	_tileMap->addChild(hp2, 9);
-	hp3->setScale(20);
-	hp2->setScale(10);
-	hp2->setPosition(x, y);
-	hp3->setPosition(x + 200, y + 250);*/
-
-	/////////////////////////
-
-
-	/*
-	auto hero2data = new(unitdata);
-	hero2data->initial(string("HrHouYi"));
-	auto act2 = Animate::create(AnimationCache::getInstance()->getAnimation("HrHouYiup_stand"));
-	auto hero2 = HouYi::create(); hero2->initwithRole(hero2data, _tileMap);
-	hero2->setPosition(Vec2(x + 600, y + 500));	// + 200, y + 200));
-	addToMap(hero2, 2, 202);
-	hero2->setScale(0.5);
-	hero2->runAction(act2);*/
-	/*auto fileUtiles = FileUtils::getInstance();
-	auto fragmentGrayFullPath = fileUtiles->fullPathForFilename("gray.fsh");
-	auto fragSource = fileUtiles->getStringFromFile(fragmentGrayFullPath);
-	auto glprogram = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource.c_str());
-	auto grayGLProgrameState = GLProgramState::getOrCreateWithGLProgram(glprogram);
-	grayGLProgrameState->retain();
-
-	auto fragmentColorFullPath = fileUtiles->fullPathForFilename("color.fsh");
-	auto fragColorSource = fileUtiles->getStringFromFile(fragmentColorFullPath);
-	auto Colorglprogram = GLProgram::createWithByteArrays(ccPositionTextureColor_noMVP_vert, fragSource.c_str());
-	auto ColorGLProgrameState = GLProgramState::getOrCreateWithGLProgram(glprogram);
-	ColorGLProgrameState->retain();*/
-	//Skill1Button->setGLProgramState(ColorGLProgrameState);
-
-
-	
+	//初始化计时器
 	TimerLabel = Label::createWithSystemFont("00:00", "Arial", 30);
+	TimerLabel->setPosition(VisibleSize.width - 50, VisibleSize.height - 15);
 	this->addChild(TimerLabel, 3);
 
+	//初始化装备栏
+	_equipmentlLayer = Layer::create();
+	this->addChild(_equipmentlLayer, 0, 138);
+	auto Equipmentbg = Sprite::create("bg/Equipment.png");
+	Equipmentbg->setAnchorPoint(Vec2(1, 0));
+	Equipmentbg->setScale(0.85f);
+	Equipmentbg->setPosition(960, 0);
+	_equipmentlLayer->addChild(Equipmentbg);
 
-	
+	//初始化商城按钮
+	auto shopButton = MenuItemImage::create(
+		"/button/Money.png",
+		"/button/Money.png",
+		CC_CALLBACK_1(Game::createShopCallBack, this));
+	shopButton->setPosition(30, VisibleSize.height / 2 + 25);
+	shopButton->setScale(0.8f);
+
+	//初始化退出按钮
 	auto closeItem = MenuItemImage::create(
 		"/button/closetoupper.png",
 		"/button/closetoupper_selected.png",
 		CC_CALLBACK_1(Game::menuItem1Callback, this));
 
 	closeItem->setPosition(Vec2(
-		origin.x + closeItem->getContentSize().width / 2,
-		origin.y + visibleSize.height - closeItem->getContentSize().height / 2
+		OriginSize.x + closeItem->getContentSize().width / 2,
+		OriginSize.y + VisibleSize.height - closeItem->getContentSize().height / 2
 	));
-
-
-	
-	auto shopButton = MenuItemImage::create(
-		"/button/Money.png",
-		"/button/Money.png",
-		CC_CALLBACK_1(Game::createShopCallBack, this));
-
-	shopButton->setPosition(30, visibleSize.height / 2 + 25);
-	shopButton->setScale(0.8f);
-
-
 	auto menu = Menu::create(closeItem, shopButton, NULL);
 	menu->setPosition(Vec2::ZERO);
 	this->addChild(menu, 1);
 
-	
-	this->schedule(schedule_selector(Game::mapupdate), 1.0f / 60);
+	//启用计时器
+	this->schedule(schedule_selector(Game::mapupdate), 1.0f / 45);
+	this->schedule(schedule_selector(Game::GoldRecorder), 1.0f / 45);
+	this->schedule(schedule_selector(Game::LevelUpdate), 1.0f / 10);
 	this->schedule(schedule_selector(Game::TimeRecorder), 1.0f);
-	this->schedule(schedule_selector(Game::GoldRecorder), 1.0f / 60);
 }
+
 bool Game::init()
 {
 	if (!Layer::init())
 	{
 		return false;
 	}
+	//背景音乐暂停
+	CocosDenshion::SimpleAudioEngine::getInstance()->stopBackgroundMusic();
+
 	return true;
+}
+
+void Game::InitMiniMapListner(){
+	auto MiniMapLayer = Layer::create();
+	this->addChild(MiniMapLayer, 7, MINI_MAP_TAG);
+	MiniMapLayer->setVisible(0);
+	int index = 0;
+	auto TabListener = EventListenerKeyboard::create();
+	auto units = &unitsOnMap;
+	TabListener->onKeyPressed = [this, MiniMapLayer,units,index](EventKeyboard::KeyCode keyCode, Event * event) {
+		if (keyCode == EventKeyboard::KeyCode::KEY_F1)
+		{
+			MiniMapLayer->setVisible(true);
+			auto MiniMap = Sprite::create("miniMap/miniMap.png");
+			MiniMap->setPosition(Director::getInstance()->getVisibleSize().width / 2, Director::getInstance()->getVisibleSize().height / 2);
+			MiniMapLayer->addChild(MiniMap, 0);
+			MiniMap->setScale(1.5);
+			MiniMapLayer->setVisible(1);
+			Vector<unit*>::iterator it = (*units).begin();
+			for (; it < (*units).end(); it++) {
+				string path = ((*it)->getid()).substr(0, 2);
+				auto image = Sprite::create("miniMap/" + path + ".png");
+				MiniMapLayer->addChild(image, 1);
+				image->setPosition((*it)->getPosition() / (3.05) + Vec2(125.0, 10.0));
+				switch (path[0]) {
+				case 'H':image->setScale(0.8); break;
+				case'B':image->setScale(0.5); break;
+				case'T':image->setScale(0.6); break;
+				}
+			}
+		}
+
+	};
+	TabListener->onKeyReleased = [this, MiniMapLayer,index](EventKeyboard::KeyCode keyCode, Event * event) {
+		if (keyCode == EventKeyboard::KeyCode::KEY_F1)
+		{
+			MiniMapLayer->setVisible(false);
+			MiniMapLayer->removeAllChildren();
+		}
+	};
+	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(TabListener, this);
+
 }
 void Game::InitTabListener(string Hero1Name,string Hero2Name)
 {
 	auto GradeLayer = Layer::create();
-	this->addChild(GradeLayer,3,138);
+	this->addChild(GradeLayer,7,138);
 	auto Gradebg = Sprite::create("bg/GradeScene.jpg");
 	Gradebg->setPosition(Director::getInstance()->getVisibleSize().width / 2, Director::getInstance()->getVisibleSize().height / 2);
 	GradeLayer->addChild(Gradebg, 0); Gradebg->setScale(0.5f); GradeLayer->setVisible(false);
@@ -299,24 +348,16 @@ void Game::InitSkillButton(string HeroName)
 	Skill2Button->setPosition(430, Skill2Button->getContentSize().height / 2);
 	Skill3Button->setPosition(530, Skill3Button->getContentSize().height / 2);
 	Skill4Button->setPosition(630, Skill4Button->getContentSize().height / 2);
-	auto Skill1Lock = Sprite::create("button/lock.png");
-	auto Skill2Lock = Sprite::create("button/lock.png");
-	auto Skill3Lock = Sprite::create("button/lock.png");
-	Skill1Lock->setPosition(Skill1Button->getPosition()+Vec2(20,20));
-	Skill2Lock->setPosition(Skill2Button->getPosition() + Vec2(20, 20));
-	Skill3Lock->setPosition(Skill3Button->getPosition() + Vec2(20, 20));
-	this->addChild(Skill1Button); this->addChild(Skill2Button); this->addChild(Skill3Button); this->addChild(Skill4Button);
-	this->addChild(Skill1Lock, 0, 0001); this->addChild(Skill2Lock, 0, 0002); this->addChild(Skill3Lock, 0, 0003);
+	Skill1Button->setOpacity(80);
+	Skill2Button->setOpacity(80);
+	Skill3Button->setOpacity(80);
+	Skill4Button->setOpacity(80);
+	this->addChild(Skill1Button,0,1); this->addChild(Skill2Button,0,2); this->addChild(Skill3Button,0,3); this->addChild(Skill4Button,0,4);
 }
 
 
-//返回主页面
-void Game::menuItem1Callback(cocos2d::Ref* pSender)
-{
-	SpriteFrameCache::getInstance()->removeSpriteFrames();
-	unscheduleAllSelectors();
-	Director::getInstance()->popScene();
-}
+
+
 
 //////////   滚动地图    //////////
 void Game::setViewpointCenter(Vec2 position)
@@ -328,7 +369,6 @@ void Game::setViewpointCenter(Vec2 position)
 	//获得地图大小
 	auto MapWidth = _tileMap->getMapSize().width*_tileMap->getTileSize().width;
 	auto MapHeight = _tileMap->getMapSize().height*_tileMap->getTileSize().height;
-	//_tileMap->
 	//当前中心点
 	Vec2 pointA = Vec2(visibleSize.width / 2, visibleSize.height / 2);
 	//得到精灵走后地图移动的目标位置
@@ -339,15 +379,11 @@ void Game::setViewpointCenter(Vec2 position)
 	Vec2 offset = pointA - pointB;
 	_tileMap->setPosition(offset);
 	listener->changeOffset(offset);
-	///skillListener->changeOffset(offset);
-	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width-50, Director::getInstance()->getVisibleSize().height - 15);
-
 }
 
 void Game::mapupdate(float dt)
 {
-	//auto sprite = this->getChildByTag(200);
-	//auto sprite = _tileMap->getChildByTag(200);
+
 	auto pos = hero1->getPosition();
 	setViewpointCenter(pos);
 
@@ -368,63 +404,62 @@ void Game::mapupdate(float dt)
 	{
 		for (auto it = EnemeySoldier.begin(); it != EnemeySoldier.end(); it++)
 		{
-			for (auto it2 = MyUnit.begin(); it2 != MyUnit.end(); it2++)
+			for (auto it2 = MySoldier.begin(); it2 != MySoldier.end(); it2++)
 			{
-				auto ID = (*it2)->getid();
-				if (ID[0] == 'T')
+				auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+				if (DIS < 300 && (*it2)->GetAlreadydead() == false)
 				{
-					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-					if (DIS < 200)
-					{
-						(*it)->ChangeCanAttackTower(true);
-					}
-					else
-					{
-						(*it)->ChangeCanAttackTower(false);
-					}
-					if ((*it)->GetCanAttackTower() == true)
+					(*it)->ChangeCanAttackSoldier(true);
+					if ((*it)->GetCanAttackSoldier() == true)
 					{
 						(*it)->changeAttackingTarget(*it2);
 					}
 				}
-				if (ID[0] == 'H')
-				{
-					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-					if (DIS < 200)
-					{
-						(*it)->ChangeCanAttackHero(true);
-					}
-					else
-					{
-						(*it)->ChangeCanAttackHero(false);
-					}
-					if ((*it)->GetCanAttackTower() == false&&(*it)->GetCanAttackHero() == true)
-					{
-						(*it)->changeAttackingTarget(*it2);
-					}
-				}
-				if (ID[0] == 'B')
-				{
-					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-					if (DIS < 200)
-					{
-						(*it)->ChangeCanAttackSoldier(true);
-					}
-					else
-					{
-						(*it)->ChangeCanAttackSoldier(false);
-					}
-					if ((*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == true)
-					{
-						(*it)->changeAttackingTarget(*it2);
-					}
-				}
-				if ((*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == false)
+				if ((*it2)->GetAlreadydead() == true && (*it)->getAttackingTarget() == (*it2))
 				{
 					(*it)->changeAttackingTarget(nullptr);
 				}
-
-
+				if (it2 == MySoldier.end() - 1 && (*it)->getAttackingTarget() == nullptr)
+				{
+					(*it)->ChangeCanAttackTower(false);
+				}
+			}
+			for (auto it2 = MyTower.begin(); it2 != MyTower.end(); it2++)
+			{
+				auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+				if (DIS < 350 && (*it2)->GetAlreadydead() == false)
+				{
+					(*it)->ChangeCanAttackTower(true);
+					if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackTower() == true)
+					{
+						(*it)->changeAttackingTarget(*it2);
+					}
+				}
+				if ((*it2)->GetAlreadydead() == true && (*it)->getAttackingTarget() == (*it2))
+				{
+					(*it)->changeAttackingTarget(nullptr);
+				}
+				if (it2 == MyTower.end() - 1 && (*it)->getAttackingTarget() == nullptr)
+				{
+					(*it)->ChangeCanAttackTower(false);
+				}
+			}
+			auto DIS = ((*it)->getPosition() - hero1->getPosition()).length();
+			if (DIS < 200)
+			{
+				(*it)->ChangeCanAttackHero(true);
+				if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == true)
+				{
+					(*it)->changeAttackingTarget(hero1);
+				}
+			}
+			else
+			{
+				(*it)->ChangeCanAttackHero(false);
+			}
+			if ((*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == false)
+			{
+				(*it)->changeAttackingTarget(nullptr);
 			}
 		}
 	}
@@ -432,61 +467,62 @@ void Game::mapupdate(float dt)
 	{
 		for (auto it = MySoldier.begin(); it != MySoldier.end(); it++)
 		{
-			for (auto it2 = EnemeyUnit.begin(); it2 != EnemeyUnit.end(); it2++)
+			for (auto it2 = EnemeySoldier.begin(); it2 != EnemeySoldier.end(); it2++)
 			{
-				auto ID = (*it2)->getid();
-				if (ID[0] == 'T')
+				auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+				if (DIS < 300 && (*it2)->GetAlreadydead() == false)
 				{
-					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-					if (DIS < 200)
-					{
-						(*it)->ChangeCanAttackTower(true);
-					}
-					else
-					{
-						(*it)->ChangeCanAttackTower(false);
-					}
-					if ((*it)->GetCanAttackTower() == true)
+					(*it)->ChangeCanAttackSoldier(true);
+					if ((*it)->GetCanAttackSoldier() == true)
 					{
 						(*it)->changeAttackingTarget(*it2);
 					}
 				}
-				if (ID[0] == 'H')
-				{
-					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-					if (DIS < 200)
-					{
-						(*it)->ChangeCanAttackHero(true);
-					}
-					else
-					{
-						(*it)->ChangeCanAttackHero(false);
-					}
-					if ((*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == true)
-					{
-						(*it)->changeAttackingTarget(*it2);
-					}
-				}
-				if (ID[0] == 'B')
-				{
-					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-					if (DIS < 200)
-					{
-						(*it)->ChangeCanAttackSoldier(true);
-					}
-					else
-					{
-						(*it)->ChangeCanAttackSoldier(false);
-					}
-					if ((*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == true)
-					{
-						(*it)->changeAttackingTarget(*it2);
-					}
-				}
-				if ((*it)->GetCanAttackTower() == true && (*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == true)
+				if ((*it2)->GetAlreadydead() == true && (*it)->getAttackingTarget() == (*it2))
 				{
 					(*it)->changeAttackingTarget(nullptr);
 				}
+				if (it2 == EnemeySoldier.end()-1 && (*it)->getAttackingTarget() == nullptr)
+				{
+					(*it)->ChangeCanAttackSoldier(false);
+				}
+			}
+			for (auto it2 = EnemeyTower.begin(); it2 != EnemeyTower.end(); it2++)
+			{
+				auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+				if (DIS < 350 && (*it2)->GetAlreadydead() == false)
+				{
+					(*it)->ChangeCanAttackTower(true);
+					if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackTower() == true)
+					{
+						(*it)->changeAttackingTarget(*it2);
+					}
+				}
+				if ((*it2)->GetAlreadydead() == true && (*it)->getAttackingTarget() == (*it2))
+				{
+					(*it)->changeAttackingTarget(nullptr);
+				}
+				if (it2 == EnemeyTower.end()-1&& (*it)->getAttackingTarget() == nullptr)
+				{
+					(*it)->ChangeCanAttackTower(false);
+				}
+			}
+			auto DIS = ((*it)->getPosition() - hero2->getPosition()).length();
+			if (DIS < 200)
+			{
+				(*it)->ChangeCanAttackHero(true);
+				if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == true)
+				{
+					(*it)->changeAttackingTarget(hero2);
+				}
+			}
+			else
+			{
+				(*it)->ChangeCanAttackHero(false);
+			}
+			if ((*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == false)
+			{
+				(*it)->changeAttackingTarget(nullptr);
 			}
 		}
 	}
@@ -494,99 +530,91 @@ void Game::mapupdate(float dt)
 	{
 		for (auto it = EnemeyTower.begin(); it != EnemeyTower.end(); it++)
 		{
-			for (auto it2 = MyUnit.begin(); it2 != MyUnit.end(); it2++)
+			for (auto it2 = MySoldier.begin(); it2 != MySoldier.end(); it2++)
 			{
-				auto ID = (*it2)->getid();
-				if (ID[0] == 'B')
+				auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+				if (DIS < 450 && (*it2)->GetAlreadydead() == false)
 				{
-					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-					if (DIS < 500)
-					{
-						(*it)->ChangeCanAttackSoldier(true);
-					}
-					else
-					{
-						(*it)->ChangeCanAttackSoldier(false);
-					}
+					(*it)->ChangeCanAttackSoldier(true);
 					if ((*it)->GetCanAttackSoldier() == true)
 					{
 						(*it)->changeAttackingTarget(*it2);
 					}
 				}
-				if (ID[0] == 'H')
-				{
-					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-					if (DIS < 500)
-					{
-						(*it)->ChangeCanAttackHero(true);
-					}
-					else
-					{
-						(*it)->ChangeCanAttackHero(false);
-					}
-					if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackHero() == true)
-					{
-						(*it)->changeAttackingTarget(*it2);
-					}
-				}
-				if ((*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == false)
+				if ((*it2)->GetAlreadydead() == true && (*it)->getAttackingTarget() == (*it2))
 				{
 					(*it)->changeAttackingTarget(nullptr);
 				}
+				if (it2 == MySoldier.end() - 1 && (*it)->getAttackingTarget() == nullptr)
+				{
+					(*it)->ChangeCanAttackSoldier(false);
 				}
 			}
+			auto DIS = ((*it)->getPosition() - hero1->getPosition()).length();
+			if (DIS < 450)
+			{
+				(*it)->ChangeCanAttackHero(true);
+				if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackHero() == true)
+				{
+					(*it)->changeAttackingTarget(hero1);
+				}
+			}
+			else
+			{
+				(*it)->ChangeCanAttackHero(false);
+			}
+			if ((*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == false)
+			{
+				(*it)->changeAttackingTarget(nullptr);
+			}
 		}
+	}
 	if (!MyTower.empty())
 	{
 		for (auto it = MyTower.begin(); it != MyTower.end(); it++)
 		{
-			for (auto it2 = EnemeyUnit.begin(); it2 != EnemeyUnit.end(); it2++)
+			for (auto it2 = EnemeySoldier.begin(); it2 != EnemeySoldier.end(); it2++)
 			{
-				auto ID = (*it2)->getid();
-				if (ID[0] == 'B')
+				auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+				if (DIS < 450 && (*it2)->GetAlreadydead() == false)
 				{
-					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-					if (DIS < 200)
-					{
-						(*it)->ChangeCanAttackSoldier(true);
-					}
-					else
-					{
-						(*it)->ChangeCanAttackSoldier(false);
-					}
+					(*it)->ChangeCanAttackSoldier(true);
 					if ((*it)->GetCanAttackSoldier() == true)
 					{
 						(*it)->changeAttackingTarget(*it2);
 					}
 				}
-				if (ID[0] == 'H')
-				{
-					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-					if (DIS < 200)
-					{
-						(*it)->ChangeCanAttackHero(true);
-					}
-					else
-					{
-						(*it)->ChangeCanAttackHero(false);
-					}
-					if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackHero() == true)
-					{
-						(*it)->changeAttackingTarget(*it2);
-					}
-				}
-				if ((*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == false)
+				if ((*it2)->GetAlreadydead() == true && (*it)->getAttackingTarget() == (*it2))
 				{
 					(*it)->changeAttackingTarget(nullptr);
 				}
+				if (it2 == EnemeySoldier.end() - 1 && (*it)->getAttackingTarget() == nullptr)
+				{
+					(*it)->ChangeCanAttackSoldier(false);
+				}
+			}
+			auto DIS = ((*it)->getPosition() - hero2->getPosition()).length();
+			if (DIS < 450)
+			{
+				(*it)->ChangeCanAttackHero(true);
+				if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackHero() == true)
+				{
+					(*it)->changeAttackingTarget(hero2);
+				}
+			}
+			else
+			{
+				(*it)->ChangeCanAttackHero(false);
+			}
+			if ((*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == false)
+			{
+				(*it)->changeAttackingTarget(nullptr);
 			}
 		}
 	}
 }
-
 void Game::TimeRecorder(float dt)
 {
-
 	TimerLabel->removeFromParentAndCleanup(true);
 	Time++;
 	hero1->changeGold(1);
@@ -611,52 +639,78 @@ void Game::TimeRecorder(float dt)
 		Minute_str = minute_str;
 	std::string str = Minute_str + ':' + Second_str;
 	TimerLabel = Label::createWithSystemFont(str, "Arial", 30);
-	
-	this->addChild(TimerLabel, 3);
+	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width - 50, Director::getInstance()->getVisibleSize().height - 15);
+	this->addChild(TimerLabel, 2);
+	if (Time % 2 == 0)
+	{
+		for (auto it = _ammoLayer->getChildren().begin(); it!=_ammoLayer->getChildren().end(); it++)
+		{
+			//(*it)->removeFromParent();
+			(*it)->setVisible(0);
+			(*it)->setPosition(-2000, -2000);
+			((ammo*)*it)->changeTargetPosition(Vec2(-2000, -2000));
+		}
+	}//暂时修复有时子弹无法消失的bug
 
-	if (Time == 2)
+	if (Time == 1)
+	{
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("/music/Welcome.mp3");
+	}
+	if (Time == 5)
+	{
+		if (_heroname == "HbHouYi")
+		{
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/HouYi.mp3");
+		}
+		else if (_heroname == "HbDaJi")
+		{
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/Daji.wav");
+		}
+		else
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/Yase.mp3");
+	}
+	if (Time == 13)
+	{
+		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/5Secondtostart.mp3"); 
+	}
+	if (Time==20||(Time>20&&Time%40==0))
 	{
 		auto Br1_1 = Soldier::create();
-		Br1_1->Soldierinit("Br1",1, _tileMap, (&unitsOnMap));
-		addToMap(Br1_1, 0, 233); EnemeySoldier.pushBack(Br1_1); EnemeyUnit.pushBack(Br1_1);
+		Br1_1->Soldierinit("Br1",1, _tileMap, (&unitsOnMap), _ammoLayer);
+		addToMap(Br1_1, 0,Time+10001,"Br1");
 		auto Br2_1 = Soldier::create();
-		Br2_1->Soldierinit("Br2",1, _tileMap, (&unitsOnMap));
-		addToMap(Br2_1, 0, 234); EnemeySoldier.pushBack(Br2_1); EnemeyUnit.pushBack(Br2_1);
+		Br2_1->Soldierinit("Br2",1, _tileMap, (&unitsOnMap), _ammoLayer);
+		addToMap(Br2_1, 0,Time+10002, "Br2");
 		auto Br3_1 = Soldier::create();
-		Br3_1->Soldierinit("Br3",1, _tileMap, (&unitsOnMap));
-		addToMap(Br3_1, 0, 235); EnemeySoldier.pushBack(Br3_1); EnemeyUnit.pushBack(Br3_1);
+		Br3_1->Soldierinit("Br3",1, _tileMap, (&unitsOnMap), _ammoLayer);
+		addToMap(Br3_1, 0, Time + 10003, "Br3");
 		auto Br1_2 = Soldier::create();
-		Br1_2->Soldierinit("Br1", 2, _tileMap, (&unitsOnMap));
-		addToMap(Br1_2, 0, 236); EnemeySoldier.pushBack(Br1_2); EnemeyUnit.pushBack(Br1_2);
+		Br1_2->Soldierinit("Br1", 2, _tileMap, (&unitsOnMap), _ammoLayer);
+		addToMap(Br1_2, 0, Time + 10004, "Br1");
 		auto Br2_2 = Soldier::create();
-		Br2_2->Soldierinit("Br2", 2, _tileMap, (&unitsOnMap));
-		addToMap(Br2_2, 0, 237); EnemeySoldier.pushBack(Br2_2); EnemeyUnit.pushBack(Br2_2);
+		Br2_2->Soldierinit("Br2", 2, _tileMap, (&unitsOnMap), _ammoLayer);
+		addToMap(Br2_2, 0, Time + 10005, "Br2");
 		auto Br3_2 = Soldier::create();
-		Br3_2->Soldierinit("Br3", 2, _tileMap, (&unitsOnMap));
-		addToMap(Br3_2, 0, 238); EnemeySoldier.pushBack(Br3_2); EnemeyUnit.pushBack(Br3_2);
+		Br3_2->Soldierinit("Br3", 2, _tileMap, (&unitsOnMap), _ammoLayer);
+		addToMap(Br3_2, 0, Time + 10006, "Br3");
 		auto Bb1_1 = Soldier::create();
-		Bb1_1->Soldierinit("Bb1", 1, _tileMap, (&unitsOnMap));
-		addToMap(Bb1_1, 0, 239); MySoldier.pushBack(Bb1_1); MyUnit.pushBack(Bb1_1);
+		Bb1_1->Soldierinit("Bb1", 1, _tileMap, (&unitsOnMap), _ammoLayer);
+		addToMap(Bb1_1, 0, Time + 10007, "Bb1");
 		auto Bb2_1 = Soldier::create();
-		Bb2_1->Soldierinit("Bb2", 1, _tileMap, (&unitsOnMap));
-		addToMap(Bb2_1, 0, 240); MySoldier.pushBack(Bb2_1); MyUnit.pushBack(Bb2_1);
+		Bb2_1->Soldierinit("Bb2", 1, _tileMap, (&unitsOnMap), _ammoLayer);
+		addToMap(Bb2_1, 0, Time + 10008, "Bb2");
 		auto Bb3_1 = Soldier::create();
-		Bb3_1->Soldierinit("Bb3", 1, _tileMap, (&unitsOnMap));
-		addToMap(Bb3_1, 0, 241); MySoldier.pushBack(Bb3_1); MyUnit.pushBack(Bb3_1);
+		Bb3_1->Soldierinit("Bb3", 1, _tileMap, (&unitsOnMap), _ammoLayer);
+		addToMap(Bb3_1, 0, Time + 10009, "Bb3");
 		auto Bb1_2 = Soldier::create();
-		Bb1_2->Soldierinit("Bb1", 2, _tileMap, (&unitsOnMap));
-		addToMap(Bb1_2, 0, 239); MySoldier.pushBack(Bb1_2); MyUnit.pushBack(Bb1_2);
+		Bb1_2->Soldierinit("Bb1", 2, _tileMap, (&unitsOnMap), _ammoLayer);
+		addToMap(Bb1_2, 0, Time + 10010, "Bb1");
 		auto Bb2_2 = Soldier::create();
-		Bb2_2->Soldierinit("Bb2", 2, _tileMap, (&unitsOnMap));
-		addToMap(Bb2_2, 0, 240); MySoldier.pushBack(Bb2_2); MyUnit.pushBack(Bb2_2);
+		Bb2_2->Soldierinit("Bb2", 2, _tileMap, (&unitsOnMap), _ammoLayer);
+		addToMap(Bb2_2, 0, Time + 10011, "Bb2"); 
 		auto Bb3_2 = Soldier::create();
-		Bb3_2->Soldierinit("Bb3", 2, _tileMap, (&unitsOnMap));
-		addToMap(Bb3_2, 0, 241); MySoldier.pushBack(Bb3_2); MyUnit.pushBack(Bb3_2);
-		//Br1->moveDirectionByKey(Br1->getDir(Br1->getPosition(), Vec2(1000, 1000)), Vec2(1000, 1000));
-
-		//Bb1->moveDirectionByKey(Bb1->getDir(Bb1->getPosition(), Vec2(0, 0)), Vec2(0, 0));
-		//Bb2->moveDirectionByKey(Bb2->getDir(Bb2->getPosition(), Vec2(0, 0)), Vec2(0, 0));
-		//Bb3->moveDirectionByKey(Bb3->getDir(Bb3->getPosition(), Vec2(0, 0)), Vec2(0, 0));
+		Bb3_2->Soldierinit("Bb3", 2, _tileMap, (&unitsOnMap), _ammoLayer);
+		addToMap(Bb3_2, 0, Time + 10012, "Bb3"); 
 	}
 	if (!MySoldier.empty())
 	{
@@ -681,7 +735,7 @@ void Game::TimeRecorder(float dt)
 	}
 	if (!MyTower.empty())
 	{
-		for (auto it = EnemeySoldier.begin(); it != EnemeySoldier.end(); it++)
+		for (auto it = MyTower.begin(); it != MyTower.end(); it++)
 		{
 			(*it)->AttackingJudgeAI();
 		}
@@ -699,30 +753,188 @@ void Game::GoldRecorder(float dt)
 	goldLabel->setPosition(Vec2(10,250));
 	goldLabel->setAnchorPoint(Vec2(0, 0.5f));
 	this->addChild(goldLabel, 3);
-
-	//暂时添加的技能方面
-	switch ((hero1->getid())[2]) {
-	case 'H': {
-		if (((HouYi*)hero1)->getSk1Level() > 0) {
-			if (this->getChildByTag(0001)) {this->removeChildByTag(0001);}
-		}
-		if (((HouYi*)hero1)->getSk2Level() > 0) {
-			if (this->getChildByTag(0002)) { this->removeChildByTag(0002); }
-		}
-		if (((HouYi*)hero1)->getSk3Level() > 0) {
-			if (this->getChildByTag(0003)) { this->removeChildByTag(0003); }
-		}
-	};
-	case 'D': {
-
-	};
-	case 'Y': {
-
-	};
-	}
 	return;
 }
-
+void Game::LevelUpdate(float dt)
+{
+	switch ((hero1->getid())[2]) {
+	case 'H': {
+		auto hero = static_cast<HouYi*>(hero1);
+		if (hero->getSk1Level() > 0) {
+			(this->getChildByTag(1))->setOpacity(255);
+			if (hero->getSk1CdLeft() > 0) {
+				(this->getChildByTag(1))->setOpacity(140);
+			}
+			if ((this->getChildByTag(11)) != nullptr)this->removeChildByTag(11);
+			auto Label1 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk1Level()), "Arial", 20);
+			Label1->enableGlow(Color4B::BLACK);
+			Label1->setPosition(Vec2(310, 20));
+			this->addChild(Label1, 0, 11);
+		}
+		if (hero->getSk2Level() > 0) {
+			(this->getChildByTag(2))->setOpacity(255);
+			if (hero->getSk2CdLeft() > 0) {
+				(this->getChildByTag(2))->setOpacity(140);
+			}
+			if ((this->getChildByTag(22)) != nullptr)this->removeChildByTag(22);
+			auto Label2 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk2Level()), "Arial", 20);
+			Label2->setPosition(Vec2(410, 20));
+			Label2->enableGlow(Color4B::BLACK);
+			this->addChild(Label2, 0, 22);
+		}
+		if (hero->getSk3Level() > 0) {
+			(this->getChildByTag(3))->setOpacity(255);
+			if (hero->getSk3CdLeft() > 0) {
+				(this->getChildByTag(3))->setOpacity(140);
+			}
+			if ((this->getChildByTag(33)) != nullptr)this->removeChildByTag(33);
+			auto Label3 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk3Level()), "Arial", 20);
+			Label3->setPosition(Vec2(510, 20));
+			Label3->enableGlow(Color4B::BLACK);
+			this->addChild(Label3, 0, 33);
+		}
+		if (hero->getSkillPoint() == 0) {
+			if (this->getChildByTag(1111) != nullptr) { this->removeChildByTag(1111); }
+			if (this->getChildByTag(2222) != nullptr) { this->removeChildByTag(2222); }
+			if (this->getChildByTag(3333) != nullptr) { this->removeChildByTag(3333); }
+		}
+		else {
+			if (this->getChildByTag(1111) == nullptr&&hero->getSk1Level()<3) {
+				auto Skill1Lock = Sprite::create("button/lock.png");
+				Skill1Lock->setPosition(Vec2(350, 40));
+				this->addChild(Skill1Lock, 0, 1111);
+			}
+			if (this->getChildByTag(2222) == nullptr&&hero->getSk2Level() < 3) {
+				auto Skill2Lock = Sprite::create("button/lock.png");
+				Skill2Lock->setPosition(Vec2(450, 40));
+				this->addChild(Skill2Lock, 0, 2222);
+			}
+			if (this->getChildByTag(3333) == nullptr&&hero->getSk3Level() < 2) {
+				auto Skill3Lock = Sprite::create("button/lock.png");
+				Skill3Lock->setPosition(Vec2(550, 40));
+				this->addChild(Skill3Lock, 0, 3333);
+			}
+		}
+	}; break;
+	case 'D': {
+		auto hero = static_cast<DaJi*>(hero1);
+		if (hero->getSk1Level() > 0) {
+			(this->getChildByTag(1))->setOpacity(255);
+			if (hero->getSk1CdLeft() > 0) {
+				(this->getChildByTag(1))->setOpacity(140);
+			}
+			if ((this->getChildByTag(11)) != nullptr)this->removeChildByTag(11);
+			auto Label1 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk1Level()), "Arial", 20);
+			Label1->enableGlow(Color4B::BLACK);
+			Label1->setPosition(Vec2(310, 20));
+			this->addChild(Label1, 0, 11);
+		}
+		if (hero->getSk2Level() > 0) {
+			(this->getChildByTag(2))->setOpacity(255);
+			if (hero->getSk2CdLeft() > 0) {
+				(this->getChildByTag(2))->setOpacity(140);
+			}
+			if ((this->getChildByTag(22)) != nullptr)this->removeChildByTag(22);
+			auto Label2 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk2Level()), "Arial", 20);
+			Label2->setPosition(Vec2(410, 20));
+			Label2->enableGlow(Color4B::BLACK);
+			this->addChild(Label2, 0, 22);
+		}
+		if (hero->getSk3Level() > 0) {
+			(this->getChildByTag(3))->setOpacity(255);
+			if (hero->getSk3CdLeft() > 0) {
+				(this->getChildByTag(3))->setOpacity(140);
+			}
+			if ((this->getChildByTag(33)) != nullptr)this->removeChildByTag(33);
+			auto Label3 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk3Level()), "Arial", 20);
+			Label3->setPosition(Vec2(510, 20));
+			Label3->enableGlow(Color4B::BLACK);
+			this->addChild(Label3, 0, 33);
+		}
+		if (hero->getSkillPoint() == 0) {
+			if (this->getChildByTag(1111) != nullptr) { this->removeChildByTag(1111); }
+			if (this->getChildByTag(2222) != nullptr) { this->removeChildByTag(2222); }
+			if (this->getChildByTag(3333) != nullptr) { this->removeChildByTag(3333); }
+		}
+		else {
+			if (this->getChildByTag(1111) == nullptr&&hero->getSk1Level() < 3) {
+				auto Skill1Lock = Sprite::create("button/lock.png");
+				Skill1Lock->setPosition(Vec2(350, 40));
+				this->addChild(Skill1Lock, 0, 1111);
+			}
+			if (this->getChildByTag(2222) == nullptr&&hero->getSk2Level() < 3) {
+				auto Skill2Lock = Sprite::create("button/lock.png");
+				Skill2Lock->setPosition(Vec2(450, 40));
+				this->addChild(Skill2Lock, 0, 2222);
+			}
+			if (this->getChildByTag(3333) == nullptr&&hero->getSk3Level() < 2) {
+				auto Skill3Lock = Sprite::create("button/lock.png");
+				Skill3Lock->setPosition(Vec2(550, 40));
+				this->addChild(Skill3Lock, 0, 3333);
+			}
+		}
+	}; break;
+	case 'Y': {
+		auto hero = static_cast<YaSe*>(hero1);
+		if (hero->getSk1Level() > 0) {
+			(this->getChildByTag(1))->setOpacity(255);
+			if (hero->getSk1CdLeft() > 0) {
+				(this->getChildByTag(1))->setOpacity(140);
+			}
+			if ((this->getChildByTag(11)) != nullptr)this->removeChildByTag(11);
+			auto Label1 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk1Level()), "Arial", 20);
+			Label1->enableGlow(Color4B::BLACK);
+			Label1->setPosition(Vec2(310, 20));
+			this->addChild(Label1, 0, 11);
+		}
+		if (hero->getSk2Level() > 0) {
+			(this->getChildByTag(2))->setOpacity(255);
+			if (hero->getSk2CdLeft() > 0) {
+				(this->getChildByTag(2))->setOpacity(140);
+			}
+			if ((this->getChildByTag(22)) != nullptr)this->removeChildByTag(22);
+			auto Label2 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk2Level()), "Arial", 20);
+			Label2->setPosition(Vec2(410, 20));
+			Label2->enableGlow(Color4B::BLACK);
+			this->addChild(Label2, 0, 22);
+		}
+		if (hero->getSk3Level() > 0) {
+			(this->getChildByTag(3))->setOpacity(255);
+			if (hero->getSk3CdLeft() > 0) {
+				(this->getChildByTag(3))->setOpacity(140);
+			}
+			if ((this->getChildByTag(33)) != nullptr)this->removeChildByTag(33);
+			auto Label3 = Label::createWithSystemFont("Lv." + std::to_string(hero->getSk3Level()), "Arial", 20);
+			Label3->setPosition(Vec2(510, 20));
+			Label3->enableGlow(Color4B::BLACK);
+			this->addChild(Label3, 0, 33);
+		}
+		if (hero->getSkillPoint() == 0) {
+			if (this->getChildByTag(1111) != nullptr) { this->removeChildByTag(1111); }
+			if (this->getChildByTag(2222) != nullptr) { this->removeChildByTag(2222); }
+			if (this->getChildByTag(3333) != nullptr) { this->removeChildByTag(3333); }
+		}
+		else {
+			if (this->getChildByTag(1111) == nullptr&&hero->getSk1Level() < 3) {
+				auto Skill1Lock = Sprite::create("button/lock.png");
+				Skill1Lock->setPosition(Vec2(350, 40));
+				this->addChild(Skill1Lock, 0, 1111);
+			}
+			if (this->getChildByTag(2222) == nullptr&&hero->getSk2Level() < 3) {
+				auto Skill2Lock = Sprite::create("button/lock.png");
+				Skill2Lock->setPosition(Vec2(450, 40));
+				this->addChild(Skill2Lock, 0, 2222);
+			}
+			if (this->getChildByTag(3333) == nullptr&&hero->getSk3Level() < 2) {
+				auto Skill3Lock = Sprite::create("button/lock.png");
+				Skill3Lock->setPosition(Vec2(550, 40));
+				this->addChild(Skill3Lock, 0, 3333);
+			}
+		}
+	}; break;
+	}
+	
+}
 cocos2d::Vec2 Game::tileCoordFromPosition(cocos2d::Vec2 pos)
 {
 	int x = pos.x / _tileMap->getTileSize().width;
@@ -735,8 +947,16 @@ Vector<unit*>* Game::getUnits()
 	return &unitsOnMap;
 }
 
-void Game::addToMap(unit* unit, int zorder, int tag) {
+void Game::addToMap(unit* unit, int zorder, int tag,string id) {
 	unitsOnMap.pushBack(unit);
+	if (id[0] == 'B'&&id[1] == 'b')
+		MySoldier.pushBack(static_cast<Soldier*>(unit));
+	else if((id[0] == 'B'&&id[1] == 'r'))
+		EnemeySoldier.pushBack(static_cast<Soldier*>(unit));
+	else if(id[0] == 'T'&&id[1] == 'b')
+		MyTower.pushBack(static_cast<Tower*>(unit));
+	else if (id[0] == 'T'&&id[1] == 'r')
+		EnemeyTower.pushBack(static_cast<Tower*>(unit));
 	_tileMap->addChild(unit, zorder, tag);
 }
 
@@ -744,7 +964,7 @@ void Game::createShopCallBack(cocos2d::Ref* pSender) {
 	hero1->stopAllActions();
 	auto visibleSize = Director::getInstance()->getVisibleSize();
 	if (IS_SHOP_OPEN) { return; }
-	auto _shopLayer = Layer::create();
+	_shopLayer = Layer::create();
 	auto shopbg = Sprite::create("bg/shop.png");
 	shopbg->setPosition(Vec2(
 		visibleSize.width / 2,
@@ -757,30 +977,69 @@ void Game::createShopCallBack(cocos2d::Ref* pSender) {
 		CC_CALLBACK_1(Game::closeShopCallBack, this)
 	);
 	closeShopButton->setPosition(shopbg->getPosition() + Vec2(250, -200));
-
+	
 	//item
 	auto itemShoe = MenuItemImage::create(
 		"/item/shoe_normal.png",
 		"/item/shoe_selected.png",
 		CC_CALLBACK_1(Game::buyShoeCallBack, this)
 	);
-	itemShoe->setPosition(shopbg->getPosition() + Vec2(-200, 0));
+	//shoe
+	auto ShoeLabel1 = Label::createWithSystemFont("FastShoe:$200", "Arial", 20);
+	auto ShoeLabel2 = Label::createWithSystemFont("Speed+100", "Arial", 20);
+	ShoeLabel1->setPosition(Vec2(37, -15));
+	ShoeLabel2->setPosition(Vec2(37, -38));
+	itemShoe->addChild(ShoeLabel1);
+	itemShoe->addChild(ShoeLabel2);
+	itemShoe->setPosition(shopbg->getPosition() + Vec2(-200, 100));
+	//hat
 	auto itemHat = MenuItemImage::create(
 		"item/helmet_normal.png",
 		"item/helmet_selected.png",
 		CC_CALLBACK_1(Game::buyHatCallBack, this)
 	);
-	itemHat->setPosition(shopbg->getPosition() + Vec2(0, 0));
+	auto HatLabel1 = Label::createWithSystemFont("TankHat:$200", "Arial", 20);
+	auto HatLabel2 = Label::createWithSystemFont("MaxHp+10000", "Arial", 20);
+	HatLabel1->setPosition(Vec2(37, -15));
+	HatLabel2->setPosition(Vec2(37, -38));
+	itemHat->addChild(HatLabel1);
+	itemHat->addChild(HatLabel2);
+	itemHat->setPosition(shopbg->getPosition() + Vec2(0, 100));
+	//sword
 	auto itemSword = MenuItemImage::create(
 		"item/sword_nomal.jpg",
 		"item/sword_selected.jpg",
 		CC_CALLBACK_1(Game::buySwordCallBack, this)
 	);
-	itemSword->setPosition(shopbg->getPosition() + Vec2(200, 0));
+	auto SwordLabel1 = Label::createWithSystemFont("UglySword:$200", "Arial", 20);
+	auto SwordLabel2 = Label::createWithSystemFont("Damage+400", "Arial", 20);
+	SwordLabel1->setPosition(Vec2(37, -15));
+	SwordLabel2->setPosition(Vec2(37, -38));
+	itemSword->addChild(SwordLabel1);
+	itemSword->addChild(SwordLabel2);
+	itemSword->setPosition(shopbg->getPosition() + Vec2(200, 100));
 
-
-	auto mn = Menu::create(closeShopButton, itemShoe,itemHat,itemSword,NULL);
-
+	
+	auto eqbg1 = Sprite::create("bg/EquipmentChoose.png");
+	eqbg1->setScale(0.8f);
+	eqbg1->setPosition(290,150);
+	_shopLayer->addChild(eqbg1,1);
+	auto Notice = Label::create("You can sell your equipment here,\nbut it will be sold at half the purchase price", "fonts/Arial.ttf",20);
+	Notice->enableGlow(Color4B::BLACK); Notice->setPosition(350, 60);
+	_shopLayer->addChild(Notice, 1);
+	auto Sell1 = MenuItemImage::create("bg/Sell1.png","bg/Sell11.png",CC_CALLBACK_1(Game::sell1CallBack, this));
+	Sell1->setPosition(460, 200);
+	auto Sell2 = MenuItemImage::create("bg/Sell2.png", "bg/Sell22.png", CC_CALLBACK_1(Game::sell2CallBack, this));
+	Sell2->setPosition(560, 200);
+	auto Sell3 = MenuItemImage::create("bg/Sell3.png", "bg/Sell33.png", CC_CALLBACK_1(Game::sell3CallBack, this));
+	Sell3->setPosition(460, 150);
+	auto Sell4 = MenuItemImage::create("bg/Sell4.png", "bg/Sell44.png", CC_CALLBACK_1(Game::sell4CallBack, this));
+	Sell4->setPosition(560, 150);
+	auto Sell5 = MenuItemImage::create("bg/Sell5.png", "bg/Sell55.png", CC_CALLBACK_1(Game::sell5CallBack, this));
+	Sell5->setPosition(460, 100);
+	auto Sell6 = MenuItemImage::create("bg/Sell6.png", "bg/Sell66.png", CC_CALLBACK_1(Game::sell6CallBack, this));
+	Sell6->setPosition(560, 100);
+	auto mn = Menu::create(closeShopButton, itemShoe,itemHat,itemSword,Sell1, Sell2,Sell3,Sell4,Sell5,Sell6,NULL);
 	mn->setPosition(Vec2::ZERO);
 	_shopLayer->addChild(mn,1);
 	_shopLayer->addChild(shopbg);
@@ -808,11 +1067,14 @@ void Game::createSkillLayerCallBack(cocos2d::Ref * pSender)
 		CC_CALLBACK_1(Game::undoSkillCallBack, this)
 	);
 	undoSkillButton->setPosition(shopbg->getPosition() + Vec2(300, 250));
-	///skillListener = MouseController::create();
-	///skillListener->initListener(unit* hero1);
-	///skillListener->changeOffset(Vec2::ZERO);
 }
-
+//返回主页面
+void Game::menuItem1Callback(cocos2d::Ref* pSender)
+{
+	SpriteFrameCache::getInstance()->removeSpriteFrames();
+	unscheduleAllSelectors();
+	Director::getInstance()->popScene();
+}
 void Game::undoSkillCallBack(cocos2d::Ref * pSender)
 {
 	_skillLayer->removeFromParent();
@@ -820,27 +1082,43 @@ void Game::undoSkillCallBack(cocos2d::Ref * pSender)
 
 void Game::buyShoeCallBack(cocos2d::Ref* pSender) { 
 	if (!IS_SHOP_OPEN) { return; }
-	hero1->addEquipment("Shoe"); 
+	hero1->addEquipment("Shoe", _equipmentlLayer,_shopLayer);
 }
 void Game::buyHatCallBack(cocos2d::Ref* pSender) { 
 	if (!IS_SHOP_OPEN) { return; }
-	hero1->addEquipment("Helmet");
-	hero1->getHp()->changeCur(600000);
+	hero1->addEquipment("Hat", _equipmentlLayer, _shopLayer);
 }
 void Game::buySwordCallBack(cocos2d::Ref* pSender) {
 	if (!IS_SHOP_OPEN) { return; }
-	hero1->addEquipment("Sword");
+	hero1->addEquipment("Sword",_equipmentlLayer, _shopLayer);
 }
-
-char * Game::FontToUTF8(const char* font) {
-	int len = MultiByteToWideChar(CP_ACP, 0, font, -1, NULL, 0);
-	wchar_t *wstr = new wchar_t[len + 1];
-	memset(wstr, 0, len + 1);
-	MultiByteToWideChar(CP_ACP, 0, font, -1, wstr, len);
-	len = WideCharToMultiByte(CP_UTF8, 0, wstr, -1, NULL, 0, NULL, NULL);
-	char *str = new char[len + 1];
-	memset(str, 0, len + 1);
-	WideCharToMultiByte(CP_UTF8, 0, wstr, -1, str, len, NULL, NULL);
-	if (wstr)delete[] wstr;
-	return str;
+void Game::sell1CallBack(cocos2d::Ref* pSender)
+{
+	if (!IS_SHOP_OPEN) { return; }
+	hero1->sellEquipment(0, _equipmentlLayer, _shopLayer);
+}
+void Game::sell2CallBack(cocos2d::Ref* pSender)
+{
+	if (!IS_SHOP_OPEN) { return; }
+	hero1->sellEquipment(1, _equipmentlLayer, _shopLayer);
+}
+void Game::sell3CallBack(cocos2d::Ref* pSender)
+{
+	if (!IS_SHOP_OPEN) { return; }
+	hero1->sellEquipment(2, _equipmentlLayer, _shopLayer);
+}
+void Game::sell4CallBack(cocos2d::Ref* pSender)
+{
+	if (!IS_SHOP_OPEN) { return; }
+	hero1->sellEquipment(3, _equipmentlLayer, _shopLayer);
+}
+void Game::sell5CallBack(cocos2d::Ref* pSender)
+{
+	if (!IS_SHOP_OPEN) { return; }
+	hero1->sellEquipment(4, _equipmentlLayer, _shopLayer);
+}
+void Game::sell6CallBack(cocos2d::Ref* pSender)
+{
+	if (!IS_SHOP_OPEN) { return; }
+	hero1->sellEquipment(5, _equipmentlLayer, _shopLayer);
 }

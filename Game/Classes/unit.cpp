@@ -5,16 +5,42 @@ void unit::stop()
 	;
 }
 
-void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits)
+/*Action��ǩ�����¹涨:
+�ܶ�������
+runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation
+		  (getid()+		"up_walk"		))))->
+		  setTag(1�����ϣ�	2�����£�	3������	4�����ң�  );
+�ƶ���վ��������
+runAction(Sequence::create(
+		 MoveTo::create(Distance / moveSpeed, e),Animate::create(AnimationCache::getInstance()->getAnimation
+		 (getid() +    "up_stand"      ), nullptr))->
+		 setTag(	5�����ϣ����£�6������7�����ң�8��);
+վ��������
+runAction(Animate::create(AnimationCache::getInstance()->getAnimation
+		(getid() +		"up_stand"		)))->
+		setTag(9������վ����10������վ����11������վ����12������վ��.)
+����������
+	13: ���Ϲ���	14�����¹���	15�����󹥻�	16�����ҹ���
+*/
+
+
+void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits,Layer* ammoLayer)
+
 {
 	level = 1;
 	_map = Map;
 	data = unitdata;
+
 	unitsOnMap = mapUnits;
+	AmmoLayer = ammoLayer;
+	myMenu = Menu::create();
+	CanAttack = true;
+	EquipmentPostion[0] = Vec2(793, 104); EquipmentPostion[1] = Vec2(858, 104); EquipmentPostion[2] = Vec2(923, 104);
+	EquipmentPostion[3] = Vec2(793, 39); EquipmentPostion[4] = Vec2(858, 39); EquipmentPostion[5] = Vec2(923, 39);
 	bool EnemeyorAlley;
 	//addChild(hp, 3);
 	id = data->getUnitid();
-	
+	Equipment("FALSE");
 	//idδȷ��
 	//Velocity = data->getVelocity();
 	moveSpeed = data->getMoveSpeed();
@@ -44,6 +70,10 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 		exp = Exp::create();
 		exp->initial(1, _map);
 		_map->addChild(exp, 5);
+		mana = Mana::create();
+		mana->changeID(id);
+		mana->initial(Mana::ManainitialData(data->getMaxMana(), getPosition(), Map));
+		_map->addChild(mana, 5);
 	}
 	//scheduleUpdate();
 	
@@ -59,7 +89,7 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e)
 	Vec2 a = getPosition() - e; //Ӣ�۵�ǰλ����Ŀ��λ�����ɵ�����
 	float Distance = a.length();//���������ĳ��ȼ�Ϊ��Ҫ���ߵľ���
 	///double moveSpeed = 200;//�����ٶ�
-	auto Singleton = AnimationCache::getInstance();//ͨ�����������ȡ��������
+	auto Singleton = AnimationCache::getInstance();//ͨ�����������ȡ��������?
 	/*�����߶�����*/
 	Animation* up_walk= Singleton->getAnimation(getid()+"up_walk");
 	Animation* down_walk = Singleton->getAnimation(getid() + "down_walk");
@@ -71,28 +101,23 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e)
 	Animate* animate_right = Animate::create(right_walk);
 	
 	auto Moving = MoveTo::create(Distance / moveSpeed, e);//�����ƶ���������һ������Ϊʱ��
-	/*�����ƶ���ɵĻص�����*/
+	/*�����ƶ���ɵĻص�����?/
 	auto CallBackLeft = CallFunc::create([this,Singleton]() {
 		stopAllActions();
-		runAction(Animate::create(Singleton->getAnimation(getid() + "left_stand")));
+		runAction(Animate::create(Singleton->getAnimation(getid() + "left_stand")))->setTag(11);
 	});
 	auto CallBackRight = CallFunc::create([this, Singleton]() {
 		stopAllActions();
-		runAction(Animate::create(Singleton->getAnimation(getid() + "right_stand")));
+		runAction(Animate::create(Singleton->getAnimation(getid() + "right_stand")))->setTag(12);
 	});
 	auto CallBackUp = CallFunc::create([this, Singleton]() {
 		stopAllActions();
-		runAction(Animate::create(Singleton->getAnimation(getid() + "up_stand")));
+		runAction(Animate::create(Singleton->getAnimation(getid() + "up_stand")))->setTag(9);
 	});
 	auto CallBackDown = CallFunc::create([this, Singleton]() {
 		stopAllActions();
-		runAction(Animate::create(Singleton->getAnimation(getid() + "down_stand")));
+		runAction(Animate::create(Singleton->getAnimation(getid() + "down_stand")))->setTag(10);
 	});
-	/*Action��ǩ�����¹涨��
-	�����ܶ�������1�������ܶ�������2�������ܶ�������3�������ܶ�������4��
-	�����߶���5�������߶���6�������߶���7�������߶���8��
-	����ս����9������ս����10������ս����11������ս����12.
-	*/
 	switch (direction)
 	{
 	case unit::Direction::UP:
@@ -152,12 +177,54 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e)
 }
 Sprite* unit::attack(unit *target)//���ع��������ĵ�������ָ�룬���԰����ӵ�layer��ȥ��
 {
+	auto pAC = AnimationCache::getInstance();
+	auto CallBackLeft = CallFunc::create([this, pAC]() {
+		stopAllActions();
+		runAction(Animate::create(pAC->getAnimation(getid() + "left_stand")))->setTag(11);
+	});
+	auto CallBackRight = CallFunc::create([this, pAC]() {
+		stopAllActions();
+		runAction(Animate::create(pAC->getAnimation(getid() + "right_stand")))->setTag(12);
+	});
+	auto CallBackUp = CallFunc::create([this, pAC]() {
+		stopAllActions();
+		runAction(Animate::create(pAC->getAnimation(getid() + "up_stand")))->setTag(9);
+	});
+	auto CallBackDown = CallFunc::create([this, pAC]() {
+		stopAllActions();
+		runAction(Animate::create(pAC->getAnimation(getid() + "down_stand")))->setTag(10);
+	});
 	if (canAttack == false) return NULL;
-	this->stopAllActions();
-	auto aniCache = AnimationCache::getInstance();
 	canAttack = false;
-	if(getid()[0]!='T'){
-	
+	/*<<<<<<< HEAD
+
+		ammo *amo = ammo::create();
+		switch (getDir(getPosition(), target->getPosition())) {
+		case Direction::
+		RIGHT:runAction(Animate::create(pAC->getAnimation(id + "right_attack")))->setTag(16);
+			amo->initial(this->getAmmoFrameName(), getPosition() + Vec2(0.0, 30.5), getDamage(), getAmmoSpeed()); break;
+		case Direction::
+		LEFT:runAction(Animate::create(pAC->getAnimation(id + "left_attack")))->setTag(15);
+			amo->initial(this->getAmmoFrameName(), getPosition() + Vec2(0.0, 30.5), getDamage(), getAmmoSpeed());
+			break;
+		case Direction::
+		UP:runAction(Animate::create(pAC->getAnimation(id + "up_attack")))->setTag(13);
+			amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
+			break;
+		case Direction::
+		DOWN:runAction(Animate::create(pAC->getAnimation(id + "down_attack")))->setTag(14);
+			amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
+			break;
+		}
+
+		target->getAttacked(amo);
+		schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 0, 0);
+		_map->addChild(amo, 6);
+		//((Layer *)(this->getParent()->getParent()))->schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
+	=======*/
+	if (getid()[0] != 'T') {
+		stopAllActions();
+		auto aniCache = pAC;
 		switch (getDir(getPosition(), target->getPosition())) {
 		case Direction::RIGHT:runAction(Animate::create(aniCache->getAnimation(id + "right_attack")))->setTag(20); break;
 		case Direction::LEFT:runAction(Animate::create(aniCache->getAnimation(id + "left_attack")))->setTag(21); break;
@@ -167,18 +234,18 @@ Sprite* unit::attack(unit *target)//���ع��������ĵ���
 	}
 
 	ammo *amo = ammo::create();
-	amo->initial(this->getAmmoFrameName(),this->getid(),getPosition(), getDamage(), getAmmoSpeed());
-	if (getid()[2] == '1') { amo->setVisible(0); }
-	auto id1 = target->getid(); auto id2 = amo->getid();
+	amo->initial(this->getAmmoFrameName(), this->getid(), getPosition(), getDamage(), getAmmoSpeed());
+	if (getid()[0] == 'B'&&getid()[2] == '1') { amo->setVisible(0); }
+	auto id1 = this->getid(); auto id2 = target->getid();
 	if (id1[1] != id2[1]) {
-		_map->addChild(amo, 6);
+		AmmoLayer->addChild(amo, 6);
 		target->getAttacked(amo);
 	}
 	//schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
+
+	
 	return amo;
 }
-
-
 void unit::attackTo(unit * target)
 {
 	Vec2 destination = target->getPosition();
@@ -194,13 +261,10 @@ void unit::attackTo(unit * target)
 	
 	else attack(target);
 }
-
-
 void unit::attackTo(Vec2 destination)
 {	
 	
 }
-
 unit* unit::getUnitWithId(std::string id)
 {
 	auto it = unitsOnMap->begin();
@@ -212,34 +276,102 @@ unit* unit::getUnitWithId(std::string id)
 	}
 	return nullptr;
 }
-
-inline void unit::changeMaxHp(int delta) { hp->changeMax(delta); }
-inline int unit::getMaxHp() { return hp->getMax(); }
-
-unit::~unit()
+bool unit::addEquipment(std::string itemId,Layer* equipmentlayer,Layer* shoplayer)
 {
-//	hp->~HP();
-//	delete(this);
-}
-
-//���๦�ܺ���
-bool unit::addEquipment(std::string itemName)
-{
-	auto item = Equipment(itemName);
-	if (this->getGold() < item.Price) { return false; }
-	for (int count = 0; count < 7; ++count) {
+	if (shoplayer->getChildByTag(887) != nullptr) { shoplayer->removeChildByTag(887); }
+	if (shoplayer->getChildByTag(888) != nullptr) { shoplayer->removeChildByTag(888); }
+	if (shoplayer->getChildByTag(889) != nullptr) { shoplayer->removeChildByTag(889); }
+	if (shoplayer->getChildByTag(890) != nullptr) { shoplayer->removeChildByTag(890); }
+	if (shoplayer->getChildByTag(891) != nullptr) { shoplayer->removeChildByTag(891); }
+	auto item = Equipment(itemId);
+	if (this->getGold() < item.Price) { 
+		auto Money = Label::create("Your Money is not enough", "fonts/Arial.ttf", 20);
+		Money->enableGlow(Color4B::MAGENTA);
+		Money->setPosition(Director::getInstance()->getVisibleSize().width / 2, 250);
+		shoplayer->addChild(Money, 0, 887);
+		return false; }
+	for (int count = 0; count < 6; ++count) {
 		if (!equip[count].isOccupied) {
+			
+			if (itemId == "Shoe")
+			{
+				auto shoe = Sprite::create("item/shoe_normal.png");
+				shoe->setPosition(EquipmentPostion[count]);
+				equipmentlayer->addChild(shoe,1,count);
+				auto Label_1 = Label::create("Congratulations on the success of your purchase.\nYour speed has increased a lot.", "fonts/Arial.ttf", 20);
+				Label_1->enableGlow(Color4B::MAGENTA);
+				Label_1->setPosition(Director::getInstance()->getVisibleSize().width / 2, 250);
+				shoplayer->addChild(Label_1,0,888);
+			}
+			else if (itemId == "Hat")
+			{
+				auto hat = Sprite::create("item/hat_normal.png");
+				hat->setPosition(EquipmentPostion[count]);
+				equipmentlayer->addChild(hat, 1, count);
+				auto Label_2 = Label::create("Congratulations on the success of your purchase.\nYour HP has increased a lot.", "fonts/Arial.ttf", 20);
+				Label_2->enableGlow(Color4B::MAGENTA);
+				Label_2->setPosition(Director::getInstance()->getVisibleSize().width / 2, 250);
+				shoplayer->addChild(Label_2, 0, 889);
+			}
+			else
+			{
+				auto sword = Sprite::create("item/shield_normal.png");
+				sword->setPosition(EquipmentPostion[count]);
+				equipmentlayer->addChild(sword, 1, count);
+				auto Label_3 = Label::create("Congratulations on the success of your purchase.\nYour Damage has increased a lot.", "fonts/Arial.ttf", 20);
+				Label_3->enableGlow(Color4B::MAGENTA);
+				Label_3->setPosition(Director::getInstance()->getVisibleSize().width / 2, 250);
+				shoplayer->addChild(Label_3, 0, 890);
+			}
 			equip[count] = item;
+			equip[count].isOccupied = true;
 			this->changeGold(-item.Price);
 			this->changeDamage(equip[count].plusDamage);
 			this->changeMaxHp(equip[count].plusMaxHp);
 			this->changeMoveSpeed(equip[count].plusMoveSpeed);
 			return true;
 		}
+		if(count==5){
+			auto Label_4 = Label::create("You have already have 6 equipments.\nYou can't buy more.", "fonts/Arial.ttf", 20);
+			Label_4->enableGlow(Color4B::MAGENTA);
+			Label_4->setPosition(Director::getInstance()->getVisibleSize().width / 2, 250);
+			shoplayer->addChild(Label_4, 0, 891);
+		}
 	}
 	return false;
 }
-
+bool unit::sellEquipment(int number, Layer* equipmentlayer, Layer* shoplayer)
+{
+	if (shoplayer->getChildByTag(887) != nullptr) { shoplayer->removeChildByTag(887); }
+	if (shoplayer->getChildByTag(888) != nullptr) { shoplayer->removeChildByTag(888); }
+	if (shoplayer->getChildByTag(889) != nullptr) { shoplayer->removeChildByTag(889); }
+	if (shoplayer->getChildByTag(890) != nullptr) { shoplayer->removeChildByTag(890); }
+	if (shoplayer->getChildByTag(891) != nullptr) { shoplayer->removeChildByTag(891); }
+	if (shoplayer->getChildByTag(892) != nullptr) { shoplayer->removeChildByTag(892); }
+	if (shoplayer->getChildByTag(893) != nullptr) { shoplayer->removeChildByTag(893); }
+	if (equip[number].isOccupied)
+	{
+		auto Label_5 = Label::create("Sold successfully!", "fonts/Arial.ttf", 20);
+		Label_5->enableGlow(Color4B::BLACK);
+		Label_5->setPosition(700, 150);
+		shoplayer->addChild(Label_5, 0, 892);
+		equip[number].isOccupied = false;
+		this->changeGold(equip[number].Price / 2);
+		this->changeDamage(-equip[number].plusDamage);
+		this->changeMoveSpeed(-equip[number].plusMoveSpeed);
+		this->changeMaxHp(-equip[number].plusMaxHp);
+		equipmentlayer->removeChildByTag(number);
+		return true;
+	}
+	else
+	{
+		auto Label_6 = Label::create("There is nothing!", "fonts/Arial.ttf", 20);
+		Label_6->enableGlow(Color4B::BLACK);
+		Label_6->setPosition(700, 150);
+		shoplayer->addChild(Label_6, 0, 893);
+	}
+	return true;
+}
 Vec2 unit::getSpawnPoint() {
 	auto group = _map->getObjectGroup("hero");
 	auto blueSpawnPoint = group->getObject("BlueSpawnpoint");
@@ -255,7 +387,6 @@ Vec2 unit::getSpawnPoint() {
 		return Vec2(bluex, bluey);
 	}
 }
-
 unit::~unit()
 {
 //	hp->~HP();

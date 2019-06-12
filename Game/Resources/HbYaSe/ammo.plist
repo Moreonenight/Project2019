@@ -4,18 +4,18 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>ammo.png</key>
+            <key>HbYaSeammo.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{243,48}</string>
+                <string>{242,240}</string>
                 <key>spriteSourceSize</key>
-                <string>{243,50}</string>
+                <string>{242,240}</string>
                 <key>textureRect</key>
-                <string>{{1,1},{243,48}}</string>
+                <string>{{0,0},{242,240}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -29,13 +29,13 @@
             <key>premultiplyAlpha</key>
             <false/>
             <key>realTextureFileName</key>
-            <string>ammo.png</string>
+            <string>HbYaSeammo.png</string>
             <key>size</key>
-            <string>{245,50}</string>
+            <string>{242,240}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:7093efa5d12e325ded8bab3335e63f82:eb35631d5a635d170a3ecb140569bda6:34654e768e66b5ac2ec2f311e830279b$</string>
+            <string>$TexturePacker:SmartUpdate:f1e0ec57a6e7fccaeeba843a164263aa:f94f53320535d013ba1b831c683e50ef:cfb5873e7180a3f41d89cb14bac93040$</string>
             <key>textureFileName</key>
-            <string>ammo.png</string>
+            <string>HbYaSeammo.png</string>
         </dict>
     </dict>
 </plist>

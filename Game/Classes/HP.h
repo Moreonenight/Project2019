@@ -5,8 +5,8 @@ USING_NS_CC;
 
 class HP :public Sprite {
 private:
-
 	std::string HpId;
+	bool isDied = false;
 	int velocity;
 	//unit *u;
 	Sprite *bloodrect;
@@ -73,6 +73,10 @@ public:
 	void changeCur(int delta);
 	void changeMax(int delta);
 	void initial(HpinitialData data);
+	inline void dieHp() { isDied = true; }
+	void deleteHp() {
+
+	}
 	void update(float dt);
 
 	~HP();

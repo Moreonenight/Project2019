@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.8.0</string>
+        <string>5.0.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -187,38 +187,38 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-1.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-101.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-103.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-105.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-107.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-109.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-11.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-111.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-13.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-15.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-3.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-33.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-35.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-37.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-39.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-41.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-43.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-45.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-47.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-5.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-65.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-67.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-69.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-7.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-71.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-73.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-75.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-77.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-79.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-9.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-97.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-99.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-1.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-101.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-103.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-105.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-107.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-109.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-11.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-111.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-13.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-15.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-3.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-33.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-35.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-37.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-39.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-41.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-43.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-45.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-47.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-5.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-65.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-67.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-69.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-7.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-71.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-73.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-75.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-77.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-79.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-9.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-97.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/1站立/5392-99.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

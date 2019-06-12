@@ -9,7 +9,6 @@ public:
 		plusDamage,
 		plusMoveSpeed,
 		plusMaxHp;
-
-	Equipment() {isOccupied = false;}
+	Equipment() { isOccupied = false;}
 	Equipment(std::string name);
 };

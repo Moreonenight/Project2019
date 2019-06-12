@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.8.0</string>
+        <string>5.0.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -187,38 +187,38 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-10.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-100.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-102.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-104.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-106.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-108.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-110.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-112.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-12.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-14.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-16.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-2.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-34.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-36.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-38.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-4.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-40.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-42.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-44.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-46.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-48.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-6.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-66.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-68.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-70.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-72.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-74.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-76.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-78.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-8.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-80.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-98.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-10.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-100.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-102.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-104.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-106.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-108.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-110.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-112.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-12.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-14.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-16.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-2.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-34.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-36.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-38.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-4.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-40.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-42.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-44.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-46.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-48.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-6.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-66.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-68.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-70.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-72.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-74.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-76.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-78.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-8.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-80.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/4攻击/4187-98.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

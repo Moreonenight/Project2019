@@ -26,7 +26,7 @@ unit * MouseController::selectFromSprites(Vec2 pos)
 			minlength = curlength;
 		}
 	}
-	if (minlength <= 200.0)
+	if (minlength <= 150.0)
 		return ans;
 	else return nullptr;
 }
@@ -43,6 +43,7 @@ void MouseController::initListener(unit* Hero,Vector<unit*>* children) {
 		auto a = selectFromSprites(endPos);
 		if (a != nullptr) { 
 				Hero->attackTo(a);
+				
 			return true;
 		}
 		else {
@@ -59,22 +60,23 @@ void MouseController::initListener(unit* Hero,Vector<unit*>* children) {
 		return true;
 	};
 }
-void MouseController::initListener(HouYi * houyi, Vector<unit*>* children)
+void MouseController::initListener(HouYi * Houyi, Vector<unit*>* children)
 {
 	isPaused = 0;
 
 	listener = EventListenerMouse::create();//建立鼠标监听器
-	listener->onMouseDown = [this, houyi, children](EventMouse *e) {//用lamda表达式更加简洁，中括号内可以捕获外部变量
+	listener->onMouseDown = [this, Houyi, children](EventMouse *e) {//用lamda表达式更加简洁，中括号内可以捕获外部变量
 		Vec2 endPos = e->getLocationInView() - offset;
 		sprites = children;
-		if(((HouYi*)houyi)->isReleasing()){
-			if (((HouYi*)houyi)->getSk2()) {
-				((HouYi*)houyi)->useSkill_2(endPos);
+		auto houyi = static_cast<HouYi*>(Houyi);
+		if(houyi->isReleasing()){
+			if (houyi->getSk2()) {
+				houyi->useSkill_2(endPos);
 			}
-			else if (((HouYi*)houyi)->getSk3()) {
+			else if (houyi->getSk3()) {
 				auto a = selectFromSprites(endPos);
-				if (a != nullptr) {((HouYi*)houyi)->useSkill_3(a);}
-				else{ ((HouYi*)houyi)->sk3End(); }
+				if (a != nullptr) {houyi->useSkill_3(a); houyi->sk3End();}
+				else{ houyi->sk3End(e->getLocationInView() - offset); }
 			}
 		}
 		else {
@@ -92,17 +94,95 @@ void MouseController::initListener(HouYi * houyi, Vector<unit*>* children)
 			}
 		}
 	};
-	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, houyi);
+	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, Houyi);
 	listener->onMouseMove = [this](EventMouse *e)
 	{
 		return true;
 	};
 }
-void MouseController::initListener(YaSe * yase)
+void MouseController::initListener(YaSe * Yase, Vector<unit*>* children)
 {
+	isPaused = 0;
+
+	listener = EventListenerMouse::create();//建立鼠标监听器
+	listener->onMouseDown = [this, Yase, children](EventMouse *e) {//用lamda表达式更加简洁，中括号内可以捕获外部变量
+		Vec2 endPos = e->getLocationInView() - offset;
+		sprites = children;
+		auto yase = static_cast<YaSe*>(Yase);
+		if (yase->isReleasing()) {
+			if (yase->getSk1()) {
+				auto a = selectFromSprites(endPos);
+				if (a != nullptr) {
+					yase->useSkill_1(yase->getBeforePos(), a);
+				}
+				else { yase->sk1End(); }
+			}
+			else if (yase->getSk2()) {
+				yase->useSkill_2(endPos);
+			}
+		}
+		else {
+			auto a = selectFromSprites(endPos);
+			if (a != nullptr) {
+				yase->attackTo(a);
+				return true;
+			}
+			else {
+				if (isPaused) {
+					return true;
+				}
+				yase->moveDirectionByKey(yase->getDir(yase->getPosition(), endPos), endPos);
+				return true;
+			}
+		}
+	};
+	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, Yase);
+	listener->onMouseMove = [this](EventMouse *e)
+	{
+		return true;
+	};
 }
-void MouseController::initListener(DaJi * daji)
+void MouseController::initListener(DaJi * Daji, Vector<unit*>* children)
 {
+
+	isPaused = 0;
+
+	listener = EventListenerMouse::create();//建立鼠标监听器
+	listener->onMouseDown = [this, Daji, children](EventMouse *e) {//用lamda表达式更加简洁，中括号内可以捕获外部变量
+		Vec2 endPos = e->getLocationInView() - offset;
+		sprites = children;
+		auto daji = static_cast<DaJi*>(Daji);
+		if (daji->isReleasing()) {
+			if (daji->getSk1()) {
+				auto a = selectFromSprites(endPos);
+				if (a != nullptr) {
+					daji->useSkill_1(a);
+				}
+			}
+			else if (daji->getSk2()) {
+				daji->useSkill_2(endPos);
+			}
+		}
+		else {
+			auto a = selectFromSprites(endPos);
+			if (a != nullptr) {
+				daji->attackTo(a);
+				return true;
+			}
+			else {
+				if (isPaused) {
+					return true;
+				}
+				daji->moveDirectionByKey(daji->getDir(daji->getPosition(), endPos), endPos);
+				return true;
+			}
+		}
+	};
+	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, Daji);
+	listener->onMouseMove = [this](EventMouse *e)
+	{
+		return true;
+	};
 }
 ;
 

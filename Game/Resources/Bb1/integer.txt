@@ -11,13 +11,13 @@ initLvl
 initGold
 300
 attackRange
-50
+100
 ammoSpeed
 15
 moveSpeed
 50
 recoverOfHp
-5
+0
 defenceOfPhysical
 15
 defenceOfMagic

@@ -7,8 +7,6 @@ void ammo::initial(std::string fileName,std::string fromid,Vec2 currentPosition,
 	fromId = fromid;
 	Frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(fileName);
 	setSpriteFrame(Frame);
-	auto a = getContentSize();
-	//setAnchorPoint(getPosition()+(a/2));
 	scheduleUpdate();
 	setScale(0.5);
 	return ;

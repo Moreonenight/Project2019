@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.8.0</string>
+        <string>5.0.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -187,38 +187,38 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-1.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-19.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-2.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-20.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-21.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-22.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-23.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-24.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-25.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-26.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-3.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-37.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-38.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-39.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-4.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-40.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-41.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-42.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-43.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-44.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-5.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-6.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-64.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-65.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-66.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-67.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-68.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-69.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-7.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-70.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-71.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/3攻击/5270-8.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-1.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-19.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-2.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-20.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-21.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-22.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-23.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-24.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-25.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-26.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-3.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-37.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-38.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-39.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-4.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-40.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-41.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-42.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-43.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-44.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-5.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-6.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-64.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-65.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-66.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-67.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-68.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-69.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-7.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-70.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-71.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/3攻击/5270-8.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

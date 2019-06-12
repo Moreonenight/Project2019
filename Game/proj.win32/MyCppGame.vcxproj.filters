@@ -1,50 +1,154 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\Classes\ammo.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
-    <ClCompile Include="..\Classes\Equipment.cpp" />
-    <ClCompile Include="..\Classes\Exp.cpp" />
-    <ClCompile Include="..\Classes\Game1v1Scene.cpp" />
-    <ClCompile Include="..\Classes\GameModeScene.cpp" />
-    <ClCompile Include="..\Classes\GameScene.cpp" />
-    <ClCompile Include="..\Classes\HelloWorldScene.cpp" />
-    <ClCompile Include="..\Classes\HouYi.cpp" />
-    <ClCompile Include="..\Classes\HP.cpp" />
-    <ClCompile Include="..\Classes\MouseController.cpp" />
-    <ClCompile Include="..\Classes\SettingScene.cpp" />
-    <ClCompile Include="..\Classes\Soldier.cpp" />
-    <ClCompile Include="..\Classes\Tower.cpp" />
-    <ClCompile Include="..\Classes\unit.cpp" />
-    <ClCompile Include="..\Classes\unitdata.cpp" />
-    <ClCompile Include="..\Classes\Yase.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="..\Classes\ChooseHeroScene.cpp" />
-    <ClCompile Include="..\Classes\DaJi.cpp" />
+    <ClCompile Include="..\Classes\DaJi.cpp">
+      <Filter>res\hero</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HouYi.cpp">
+      <Filter>res\hero</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Yase.cpp">
+      <Filter>res\hero</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\unitdata.cpp">
+      <Filter>res\data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MouseController.cpp">
+      <Filter>res\controller</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ChooseHeroScene.cpp">
+      <Filter>res\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Game1v1Scene.cpp">
+      <Filter>res\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameModeScene.cpp">
+      <Filter>res\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameOverScene.cpp">
+      <Filter>res\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\GameScene.cpp">
+      <Filter>res\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HelloWorldScene.cpp">
+      <Filter>res\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SettingScene.cpp">
+      <Filter>res\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ammo.cpp">
+      <Filter>res\unit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Equipment.cpp">
+      <Filter>res\unit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Exp.cpp">
+      <Filter>res\unit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\HP.cpp">
+      <Filter>res\unit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Mana.cpp">
+      <Filter>res\unit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Soldier.cpp">
+      <Filter>res\unit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Tower.cpp">
+      <Filter>res\unit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\unit.cpp">
+      <Filter>res\unit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Classes\ammo.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
-    <ClInclude Include="..\Classes\ChooseHeroScene.h" />
-    <ClInclude Include="..\Classes\DaJi.h" />
-    <ClInclude Include="..\Classes\Equipment.h" />
-    <ClInclude Include="..\Classes\Exp.h" />
-    <ClInclude Include="..\Classes\Game1v1Scene.h" />
-    <ClInclude Include="..\Classes\GameModeScene.h" />
-    <ClInclude Include="..\Classes\GameScene.h" />
-    <ClInclude Include="..\Classes\HelloWorldScene.h" />
-    <ClInclude Include="..\Classes\HouYi.h" />
-    <ClInclude Include="..\Classes\HP.h" />
-    <ClInclude Include="..\Classes\MouseController.h" />
-    <ClInclude Include="..\Classes\SettingScene.h" />
-    <ClInclude Include="..\Classes\Soldier.h" />
-    <ClInclude Include="..\Classes\Tower.h" />
-    <ClInclude Include="..\Classes\unit.h" />
-    <ClInclude Include="..\Classes\unitdata.h" />
-    <ClInclude Include="..\Classes\YaSe.h" />
     <ClInclude Include="main.h" />
+    <ClInclude Include="..\Classes\DaJi.h">
+      <Filter>res\hero</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HouYi.h">
+      <Filter>res\hero</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\YaSe.h">
+      <Filter>res\hero</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\unitdata.h">
+      <Filter>res\data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MouseController.h">
+      <Filter>res\controller</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ChooseHeroScene.h">
+      <Filter>res\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Game1v1Scene.h">
+      <Filter>res\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameModeScene.h">
+      <Filter>res\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameOverScene.h">
+      <Filter>res\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GameScene.h">
+      <Filter>res\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HelloWorldScene.h">
+      <Filter>res\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SettingScene.h">
+      <Filter>res\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ammo.h">
+      <Filter>res\unit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Equipment.h">
+      <Filter>res\unit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Exp.h">
+      <Filter>res\unit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\HP.h">
+      <Filter>res\unit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Mana.h">
+      <Filter>res\unit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Soldier.h">
+      <Filter>res\unit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Tower.h">
+      <Filter>res\unit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\unit.h">
+      <Filter>res\unit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="game.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="res">
+      <UniqueIdentifier>{959f6352-d726-406a-b063-0d27ef52ba1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res\unit">
+      <UniqueIdentifier>{913c8c48-264d-4380-b6cc-6dba6fe0308e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res\hero">
+      <UniqueIdentifier>{2037d8de-3174-4c17-b3be-4ff5600903bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res\data">
+      <UniqueIdentifier>{1714b22d-fd20-4e40-a083-78484b10f609}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res\controller">
+      <UniqueIdentifier>{8e7ff37a-f2dd-45a2-ae1f-cf23b36add54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res\Scene">
+      <UniqueIdentifier>{15209782-0ffb-410e-8a88-b9b5580c11da}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

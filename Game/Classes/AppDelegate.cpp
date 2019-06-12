@@ -104,7 +104,22 @@ bool AppDelegate::applicationDidFinishLaunching() {
 
 	//music
 	CocosDenshion::SimpleAudioEngine::getInstance()->preloadBackgroundMusic("/music/roomScene.mp3");
-
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/roomScene2.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/Daji.wav");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/Yase.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/HouYi.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/5Secondtostart.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/Click.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/Defeat.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/EnemeyHeroDie.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/EnemeyTowerDie.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/HeroDieByothers.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/MyHeroDie.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/MyTowerDie.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/SkillUpLevel.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/UpLevel.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/Victory.mp3");
+	CocosDenshion::SimpleAudioEngine::getInstance()->preloadEffect("/music/Welcome.mp3");
     return true;
 }
 
