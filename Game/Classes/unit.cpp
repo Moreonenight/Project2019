@@ -101,7 +101,7 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e)
 	Animate* animate_right = Animate::create(right_walk);
 	
 	auto Moving = MoveTo::create(Distance / moveSpeed, e);//�����ƶ���������һ������Ϊʱ��
-	/*�����ƶ���ɵĻص�����?/
+	/*�����ƶ���ɵĻص�����?*/
 	auto CallBackLeft = CallFunc::create([this,Singleton]() {
 		stopAllActions();
 		runAction(Animate::create(Singleton->getAnimation(getid() + "left_stand")))->setTag(11);
@@ -196,32 +196,6 @@ Sprite* unit::attack(unit *target)//���ع��������ĵ���
 	});
 	if (canAttack == false) return NULL;
 	canAttack = false;
-	/*<<<<<<< HEAD
-
-		ammo *amo = ammo::create();
-		switch (getDir(getPosition(), target->getPosition())) {
-		case Direction::
-		RIGHT:runAction(Animate::create(pAC->getAnimation(id + "right_attack")))->setTag(16);
-			amo->initial(this->getAmmoFrameName(), getPosition() + Vec2(0.0, 30.5), getDamage(), getAmmoSpeed()); break;
-		case Direction::
-		LEFT:runAction(Animate::create(pAC->getAnimation(id + "left_attack")))->setTag(15);
-			amo->initial(this->getAmmoFrameName(), getPosition() + Vec2(0.0, 30.5), getDamage(), getAmmoSpeed());
-			break;
-		case Direction::
-		UP:runAction(Animate::create(pAC->getAnimation(id + "up_attack")))->setTag(13);
-			amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
-			break;
-		case Direction::
-		DOWN:runAction(Animate::create(pAC->getAnimation(id + "down_attack")))->setTag(14);
-			amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
-			break;
-		}
-
-		target->getAttacked(amo);
-		schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 0, 0);
-		_map->addChild(amo, 6);
-		//((Layer *)(this->getParent()->getParent()))->schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
-	=======*/
 	if (getid()[0] != 'T') {
 		stopAllActions();
 		auto aniCache = pAC;
@@ -243,8 +217,6 @@ Sprite* unit::attack(unit *target)//���ع��������ĵ���
 	}
 	//schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
 
-	
-	return amo;
 }
 void unit::attackTo(unit * target)
 {
