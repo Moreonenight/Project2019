@@ -36,6 +36,7 @@ W技能为闪现技能
 */
 #include "GameScene.h"
 USING_NS_CC;
+#define MINI_MAP_TAG 155
 #define IS_SHOP_OPEN this->getChildByTag(133)
 #define VisibleSize Director::getInstance()->getVisibleSize()
 #define OriginSize Director::getInstance()->getVisibleOrigin()
@@ -156,6 +157,10 @@ void Game::initwithRole(string HeroName)
 	}
 	listener->changeOffset(Vec2::ZERO);
 
+	InitTabListener(hero1->getid(),hero2->getid());
+	//小地图初始化
+	InitMiniMapListner();
+
 	//初始化计时器
 	TimerLabel = Label::createWithSystemFont("00:00", "Arial", 30);
 	TimerLabel->setPosition(VisibleSize.width - 50, VisibleSize.height - 15);
@@ -211,10 +216,50 @@ bool Game::init()
 	return true;
 }
 
+void Game::InitMiniMapListner(){
+	auto MiniMapLayer = Layer::create();
+	this->addChild(MiniMapLayer, 7, MINI_MAP_TAG);
+	MiniMapLayer->setVisible(0);
+	int index = 0;
+	auto TabListener = EventListenerKeyboard::create();
+	auto units = &unitsOnMap;
+	TabListener->onKeyPressed = [this, MiniMapLayer,units,index](EventKeyboard::KeyCode keyCode, Event * event) {
+		if (keyCode == EventKeyboard::KeyCode::KEY_F1)
+		{
+			MiniMapLayer->setVisible(true);
+		}
+		auto MiniMap = Sprite::create("miniMap/miniMap.png");
+		MiniMap->setPosition(Director::getInstance()->getVisibleSize().width / 2, Director::getInstance()->getVisibleSize().height / 2);
+		MiniMapLayer->addChild(MiniMap, 0);
+		MiniMap->setScale(1.5);
+		MiniMapLayer->setVisible(1);
+		Vector<unit*>::iterator it = (*units).begin();
+		for (; it < (*units).end(); it++) {
+			string path = ((*it)->getid()).substr(0, 2);
+			auto image = Sprite::create("miniMap/" + path + ".png");
+			MiniMapLayer->addChild(image, 1);
+			image->setPosition((*it)->getPosition()/(3.05)+Vec2(125.0,10.0));
+			switch (path[0]) {
+			case 'H':image->setScale(0.8); break;
+			case'B':image->setScale(0.5); break;
+			case'T':image->setScale(0.6); break;
+			}
+		}
+	};
+	TabListener->onKeyReleased = [this, MiniMapLayer,index](EventKeyboard::KeyCode keyCode, Event * event) {
+		if (keyCode == EventKeyboard::KeyCode::KEY_F1)
+		{
+			MiniMapLayer->setVisible(false);
+			MiniMapLayer->removeAllChildren();
+		}
+	};
+	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(TabListener, this);
+
+}
 void Game::InitTabListener(string Hero1Name,string Hero2Name)
 {
 	auto GradeLayer = Layer::create();
-	this->addChild(GradeLayer,3,138);
+	this->addChild(GradeLayer,7,138);
 	auto Gradebg = Sprite::create("bg/GradeScene.jpg");
 	Gradebg->setPosition(Director::getInstance()->getVisibleSize().width / 2, Director::getInstance()->getVisibleSize().height / 2);
 	GradeLayer->addChild(Gradebg, 0); Gradebg->setScale(0.5f); GradeLayer->setVisible(false);
@@ -599,6 +644,8 @@ void Game::TimeRecorder(float dt)
 	{
 		for (auto it = _ammoLayer->getChildren().begin(); it!=_ammoLayer->getChildren().end(); it++)
 		{
+			//(*it)->removeFromParent();
+			(*it)->setVisible(0);
 			(*it)->setPosition(-2000, -2000);
 			((ammo*)*it)->changeTargetPosition(Vec2(-2000, -2000));
 		}

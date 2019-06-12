@@ -8,7 +8,7 @@
 #include "ui/CocosGUI.h"
 
 USING_NS_CC;
-//³öÉúµã×ø±ê
+//å‡ºç”Ÿç‚¹åæ ‡
 
 
 class HP;
@@ -154,7 +154,7 @@ public:
 	virtual int getDamage(int delta,std::string fromId) {
 		if (hp->getCur() < delta) {
 			die();
-			//µÃµ½»÷É±Õßunit*Ìí¼Ó½±Àø
+			//å¾—åˆ°å‡»æ€è€…unit*æ·»åŠ å¥–åŠ±
 			if (fromId[0] == 'H') {
 				unit* killUnit = getUnitWithId(fromId);
 				if (killUnit != nullptr) {
@@ -193,11 +193,9 @@ public:
 	}//when get damaged*/
 	void die(){}
 	
-	/*
 	void freshASPD(float dt) {
 		if (this->canAttack == 1)return;
 		else { this->canAttack = 1; return; }
-	}*/
 	unit* getUnitWithId(std::string id);
 	bool addEquipment(std::string itemId, Layer* equipmentlayer,Layer* shoplayer);
 	bool sellEquipment(int number, Layer* equipmentlayer, Layer* shoplayer);

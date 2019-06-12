@@ -101,16 +101,8 @@ void HP::update(float dt) {
 	if(isDied)return;
 	curBlood->setScaleX(((float)cur_Hp / max_HP)*(bloodrect->getContentSize().width / curBlood->getContentSize().width));
 	changeCur(velocity);
-
-	/*auto a = curBlood->getContentSize();
-	auto b = bloodrect->getPosition();
-	auto c = bloodrect->getContentSize();
-	auto e = curBlood->getPosition();
-	auto d = Vec2(((float)cur_Hp / max_HP)*(bloodrect->getContentSize().width / curBlood->getContentSize().width)bloodrect->getContentSize().width, 0);
-	curBlood->setPosition(b - c + d);Vec2(((float)cur_Hp / max_HP)*(bloodrect->getContentSize().width / curBlood->getContentSize().width)*curBlood->getContentSize().width, curBlood->getContentSize().height));*/
 	return;
 }
 HP::~HP() {
-	//delete(this);
 }
 
