@@ -1,0 +1,2 @@
+Tb2/ammo.plist
+ammo.png

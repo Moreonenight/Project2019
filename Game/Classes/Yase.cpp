@@ -1,7 +1,7 @@
 ﻿#include "YaSe.h"
 
 
-void YaSe::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1, Vec2 bornpoint, Vector<unit*>* mapUnits,Layer* ammoLayer)
+void YaSe::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint, Vector<unit*>* mapUnits,Layer* ammoLayer)
 
 {
 	map = Map;
@@ -9,8 +9,6 @@ void YaSe::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1,
 	auto hero1data = new(unitdata);
 	hero1data->initial(HeroName);
 	initial(hero1data, Map, mapUnits, ammoLayer);
-	yase = hero1;
-	yase->changeid(HeroName);
 	auto Act = Animate::create(AnimationCache::getInstance()->getAnimation(HeroName + "up_stand"));
 	setPosition(bornpoint);
 	setScale(0.6);
@@ -47,6 +45,7 @@ void YaSe::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1,
 				if (getSkillPoint() == 0) { return true; }
 				if (skill_1Level + 1 <= 3)
 				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/SkillUpLevel.mp3");
 					skill_1Level += 1;
 					changeSkillPoint(-1);
 				}
@@ -55,6 +54,7 @@ void YaSe::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1,
 				if (getSkillPoint() == 0) { return true; }
 				if (skill_2Level + 1 <= 3)
 				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/SkillUpLevel.mp3");
 					skill_2Level += 1;
 					changeSkillPoint(-1);
 				}
@@ -63,6 +63,7 @@ void YaSe::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1,
 				if (getSkillPoint() == 0) { return true; }
 				if (skill_3Level + 1 <= 2)
 				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/SkillUpLevel.mp3");
 					skill_3Level += 1;
 					changeSkillPoint(-1);
 				}
@@ -87,18 +88,21 @@ void YaSe::useSkill_1(Vec2 startPoint, unit* target)
 		MoveTo::create(0.2f, startPoint))
 	);
 	target->changeCurHp(-sk1Damage[skill_1Level - 1]);
+	mana->changeCurMana(-100);
 	sk1End();
 }
 void YaSe::useSkill_2(Vec2 pos)
 {
-	yase->setPosition(pos);
+	setPosition(pos);
 	sk2Cd_left = sk2Cd[skill_2Level - 1];
+	mana->changeCurMana(-100);
 	sk2End();
 }
 void YaSe::useSkill_3()
 {
 	sk3Cd_left = sk3Cd[skill_3Level - 1];
 	runAction(RotateBy::create(0.2f, 360));
+	mana->changeCurMana(-100);
 	sk3 = false;
 }
 
@@ -119,7 +123,7 @@ void YaSe::sk3End() {
 void YaSe::cdUpdate(float dt)
 {
 	//因为亚瑟要旋转
-	if(yase->getRotation()!=0)yase->setRotation(0);
+	if(this->getRotation()!=0) setRotation(0);
 	if (sk1Cd_left > 0) {
 		sk1Cd_left -= 1;
 		if (sk1Cd_left <= 0) {

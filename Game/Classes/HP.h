@@ -5,7 +5,6 @@ USING_NS_CC;
 
 class HP :public Sprite {
 private:
-
 	std::string HpId;
 	bool isDied = false;
 	int velocity;

@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.8.0</string>
+        <string>5.0.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -187,38 +187,38 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-1.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-17.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-18.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-19.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-2.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-20.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-21.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-22.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-23.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-24.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-3.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-33.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-34.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-35.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-36.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-37.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-38.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-39.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-4.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-40.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-49.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-5.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-50.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-51.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-52.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-53.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-54.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-55.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-56.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-6.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-7.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/1站立/3076-8.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-1.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-17.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-18.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-19.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-2.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-20.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-21.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-22.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-23.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-24.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-3.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-33.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-34.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-35.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-36.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-37.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-38.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-39.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-4.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-40.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-49.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-5.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-50.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-51.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-52.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-53.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-54.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-55.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-56.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-6.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-7.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/1站立/3076-8.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

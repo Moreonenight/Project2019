@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.8.0</string>
+        <string>5.0.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -187,38 +187,38 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-10.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-100.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-102.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-104.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-106.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-108.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-110.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-112.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-12.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-14.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-16.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-2.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-34.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-36.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-38.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-4.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-40.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-42.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-44.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-46.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-48.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-6.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-66.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-68.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-70.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-72.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-74.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-76.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-78.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-8.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-80.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/2走动/3909-98.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-10.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-100.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-102.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-104.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-106.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-108.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-110.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-112.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-12.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-14.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-16.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-2.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-34.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-36.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-38.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-4.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-40.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-42.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-44.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-46.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-48.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-6.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-66.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-68.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-70.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-72.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-74.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-76.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-78.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-8.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-80.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/2走动/3909-98.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

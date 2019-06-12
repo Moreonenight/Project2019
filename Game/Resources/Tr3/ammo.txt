@@ -1,0 +1,2 @@
+Tr3/ammo.plist
+ammo.png

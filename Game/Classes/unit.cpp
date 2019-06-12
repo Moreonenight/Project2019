@@ -13,7 +13,7 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 	unitsOnMap = mapUnits;
 	AmmoLayer = ammoLayer;
 	myMenu = Menu::create();
-
+	CanAttack = true;
 	EquipmentPostion[0] = Vec2(793, 104); EquipmentPostion[1] = Vec2(858, 104); EquipmentPostion[2] = Vec2(923, 104);
 	EquipmentPostion[3] = Vec2(793, 39); EquipmentPostion[4] = Vec2(858, 39); EquipmentPostion[5] = Vec2(923, 39);
 	bool EnemeyorAlley;
@@ -49,6 +49,10 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 		exp = Exp::create();
 		exp->initial(1, _map);
 		_map->addChild(exp, 5);
+		mana = Mana::create();
+		mana->changeID(id);
+		mana->initial(Mana::ManainitialData(data->getMaxMana(), getPosition(), Map));
+		_map->addChild(mana, 5);
 	}
 	//scheduleUpdate();
 	
@@ -223,7 +227,7 @@ bool unit::addEquipment(std::string itemId,Layer* equipmentlayer,Layer* shoplaye
 	if (this->getGold() < item.Price) { 
 		auto Money = Label::create("Your Money is not enough", "fonts/Arial.ttf", 20);
 		Money->enableGlow(Color4B::MAGENTA);
-		Money->setPosition(Director::getInstance()->getVisibleSize().width / 2, 150);
+		Money->setPosition(Director::getInstance()->getVisibleSize().width / 2, 250);
 		shoplayer->addChild(Money, 0, 887);
 		return false; }
 	for (int count = 0; count < 6; ++count) {

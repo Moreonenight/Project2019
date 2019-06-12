@@ -1,13 +1,11 @@
 #include "HouYi.h"
 
-void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1,Vec2 bornpoint,Vector<unit*>* mapUnits,Layer* ammoLayer)
+void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map,Vec2 bornpoint,Vector<unit*>* mapUnits,Layer* ammoLayer)
 {
 	auto hero1data = new(unitdata);
 	hero1data->initial(HeroName);
 	initial(hero1data, Map, mapUnits, ammoLayer);
 	map = Map;
-	houyi = hero1;
-	houyi->changeid(HeroName);
 	auto Act = Animate::create(AnimationCache::getInstance()->getAnimation(HeroName + "up_stand"));
 	setPosition(bornpoint);
 	setScale(0.6);
@@ -44,6 +42,7 @@ void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1
 				if (getSkillPoint() == 0) { return true; }
 				if (skill_1Level + 1 <= 3)
 				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/SkillUpLevel.mp3");
 					skill_1Level += 1;
 					changeSkillPoint(-1);
 				}
@@ -52,6 +51,7 @@ void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1
 				if (getSkillPoint() == 0) { return true; }
 				if (skill_2Level + 1 <= 3)
 				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/SkillUpLevel.mp3");
 					skill_2Level += 1;
 					changeSkillPoint(-1);
 				}
@@ -60,6 +60,7 @@ void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1
 				if (getSkillPoint() == 0) { return true; }
 				if (skill_3Level + 1 <= 2)
 				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/SkillUpLevel.mp3");
 					skill_3Level += 1;
 					changeSkillPoint(-1);
 				}
@@ -80,24 +81,25 @@ void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1
 void HouYi::useSkill_1()
 {
 	sk1Cd_left = sk1Cd[skill_1Level-1];
-
-	houyi->changeDamage(sk1Damage[skill_1Level - 1]);
+	changeDamage(sk1Damage[skill_1Level - 1]);
+	mana->changeCurMana(-100);
 	sk1 = false;
 }
 void HouYi::useSkill_2(Vec2 pos)
 {
-	houyi->setPosition(pos);
+	setPosition(pos);
 	sk2Cd_left = sk2Cd[skill_2Level-1];
+	mana->changeCurMana(-100);
 	sk2End();
 }
 void HouYi::useSkill_3(unit* target)
 {
 	sk3Cd_left = sk3Cd[skill_3Level-1];
+	mana->changeCurMana(-100);
 
 	/*auto hitImage = Sprite::create("/button/hitImage.png");
 	hitImage->setPosition(target->getPosition()+Vec2(0,10));
 	_map->addChild(hitImage, 4,0415);*/
-
 	auto Bird = Sprite::create("Skills/HouYiR1.png");
 	Vector<SpriteFrame*> animFrames;
 	animFrames.reserve(15);
@@ -119,7 +121,7 @@ void HouYi::useSkill_3(unit* target)
 	// create the animation out of the frames
 	Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.1f);
 	Animate* animate = Animate::create(animation);
-	Bird->setScale(0.4f); Bird->setPosition(houyi->getPosition());
+	Bird->setScale(0.4f); Bird->setPosition(getPosition());
 	map->addChild(Bird);
 	Bird->runAction(RepeatForever::create(animate));
 	auto Moving = MoveTo::create(0.5f, target->getPosition());
@@ -130,10 +132,9 @@ void HouYi::useSkill_3(unit* target)
 	});
 	auto seq = Sequence::create(Moving, callbackMove, nullptr);
 	Bird->runAction(seq);
-
+	
 	
 }
-
 void HouYi::sk1End() {
 	sk1 = false;
 	return;
@@ -170,7 +171,7 @@ void HouYi::sk3End(Vec2 Target) {
 	// create the animation out of the frames
 	Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.1f);
 	Animate* animate = Animate::create(animation);
-	Bird->setScale(0.4f); Bird->setPosition(houyi->getPosition());
+	Bird->setScale(0.4f); Bird->setPosition(getPosition());
 	map->addChild(Bird);
 	Bird->runAction(RepeatForever::create(animate));
 	auto Moving = MoveTo::create(0.5f, Target);
@@ -193,7 +194,7 @@ void HouYi::cdUpdate(float dt)
 {
 	if (sk1Cd_left > 0) { 
 		sk1Cd_left -= 1; 
-		if (sk1Cd_left == 3) { houyi->changeDamage((-1)*sk1Damage[skill_1Level - 1]); sk1End(); }
+		if (sk1Cd_left == 3) { changeDamage((-1)*sk1Damage[skill_1Level - 1]); sk1End(); }
 		if (sk1Cd_left <= 0) {
 			sk1Cd_left = 0;
 		}

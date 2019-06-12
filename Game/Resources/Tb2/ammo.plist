@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>Tb1ammo.png</key>
+            <key>Tb2ammo.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -33,7 +33,7 @@
             <key>size</key>
             <string>{247,50}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:333cc0fdc1996fce069eaf766a1c6f5d:09b528dc9d2c8d1690f6f3e6cc6445ab:34654e768e66b5ac2ec2f311e830279b$</string>
+            <string>$TexturePacker:SmartUpdate:6717c903271989b9700101b2d42a6980:09b528dc9d2c8d1690f6f3e6cc6445ab:34654e768e66b5ac2ec2f311e830279b$</string>
             <key>textureFileName</key>
             <string>ammo.png</string>
         </dict>

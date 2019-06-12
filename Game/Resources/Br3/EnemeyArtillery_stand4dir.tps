@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.8.0</string>
+        <string>5.0.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -56,7 +56,7 @@
         <key>jxrCompressionLevel</key>
         <uint>0</uint>
         <key>ditherType</key>
-        <enum type="SettingsBase::DitherType">NearestNeighbour</enum>
+        <enum type="SettingsBase::DitherType">PngQuantLow</enum>
         <key>backgroundColor</key>
         <uint>0</uint>
         <key>libGdx</key>
@@ -82,7 +82,7 @@
         <key>atfFormats</key>
         <string></string>
         <key>textureFormat</key>
-        <enum type="SettingsBase::TextureFormat">png</enum>
+        <enum type="SettingsBase::TextureFormat">png8</enum>
         <key>borderPadding</key>
         <uint>0</uint>
         <key>maxTextureSize</key>
@@ -187,38 +187,38 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-10.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-100.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-102.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-104.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-106.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-108.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-110.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-112.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-12.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-14.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-16.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-2.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-34.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-36.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-38.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-4.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-40.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-42.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-44.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-46.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-48.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-6.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-66.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-68.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-70.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-72.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-74.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-76.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-78.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-8.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-80.png</key>
-            <key type="filename">../../../../../小兵/特：投弹兵（青）/1站立/167-98.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-10.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-100.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-102.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-104.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-106.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-108.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-110.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-112.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-12.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-14.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-16.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-2.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-34.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-36.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-38.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-4.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-40.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-42.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-44.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-46.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-48.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-6.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-66.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-68.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-70.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-72.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-74.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-76.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-78.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-8.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-80.png</key>
+            <key type="filename">../../../../小兵/特：投弹兵（青）/1站立/167-98.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

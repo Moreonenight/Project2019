@@ -3,6 +3,7 @@
 #include "ammo.h"
 #include "HP.h"
 #include "Exp.h"
+#include "Mana.h"
 #include "Equipment.h"
 #include "ui/CocosGUI.h"
 
@@ -38,10 +39,11 @@ private:
 		Menu* myMenu;
 		int KillHero, KillSoldiers, deathnumber;
 		bool Alreadydead;
-
+		bool CanAttack;
 public:
-	HP *hp;//MP maxMana;
+	HP *hp;
 	Exp *exp=nullptr;
+	Mana *mana;
 	bool canAttack;
 	vector<ammo*> ammosOnWay;
 	cocos2d::TMXTiledMap* _map;
@@ -69,7 +71,14 @@ public:
 	{
 		return Alreadydead;
 	}
-
+	inline void ChangeCanAttack(bool dead)
+	{
+		Alreadydead = dead;
+	}
+	inline bool GetCanAttack()
+	{
+		return Alreadydead;
+	}
 	Direction getDir(Vec2 v) { return getDir(CC_RADIANS_TO_DEGREES(v.getAngle()));  };
 	Direction getDir(float angle) {
 		Direction dir; 
@@ -90,6 +99,7 @@ public:
 	int getDefenceOfPhysical() {
 		return defenceOfPhysical;
 	}
+	inline void changeDefencePhysical(int delta) { defenceOfPhysical += delta; }
 	int getDefencOfMagic() {
 		return defenceOfMagic;
 	}
@@ -99,6 +109,7 @@ public:
 	HP* getHp() { return hp; }
 	unitdata* getdata() { return data; }
 	Exp* getExp(){ return exp; }
+	Mana* getMana() { return mana; }
 	int getRecoverOfMana() { return recoverOfMana; }
 	int getGold() { return gold; }int changeGold(int delta) { if (gold + delta <= 0)gold = 0; else gold += delta; return gold; }
 	inline int getKillHero() { return KillHero; }
@@ -111,7 +122,7 @@ public:
 	inline int getDamage() { return damage; }/*when want to know how much the unit damage is*/
 	int getAmmoSpeed() { return ammoSpeed; }
 	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
-	inline void changeMaxHp(int delta) { hp->changeMax(delta); }
+	
 	inline int getMaxHp() { return hp->getMax(); }
 
 	inline int getSkillPoint() { return skillPoint; }
@@ -129,9 +140,10 @@ public:
 	inline void changeKillSoldiers(int delta) { KillSoldiers += delta; }
 	inline void changeDeath(int delta) { deathnumber += delta; }
 	inline void fullHp() { hp->changeCur(hp->getMax()); }
-
+	inline void changeMaxHp(int delta) { hp->changeMax(delta); }
+	inline void changeAmmoSpeed(int delta) { ammoSpeed += delta; }
 	inline void changeSkillPoint(int num) { if ((skillPoint + num) < 0)skillPoint = 0; else skillPoint += num; }
-
+	inline void fullMana() { mana->changeCurMana(mana->getMaxMana()); }
 	//otherFunc
 	void getAttacked(ammo* amo) {
 		ammosOnWay.push_back(amo);
@@ -165,9 +177,6 @@ public:
 	inline Vec2 getBeforePos() { return beforePos; }
 	//int getAmmoSpeed() { return ammoSpeed; }
 
-
-
-
 	void stop();
 	void moveDirectionByKey(unit::Direction direction, Vec2 e);
 	
@@ -184,29 +193,7 @@ public:
 	}//when get damaged*/
 	void die(){}
 	
-	/*void update(float dt) {
-		//hp->update();
-		if (hp->getCur() <= 1) die();
-		hp->follow(getPosition());
-
-		auto it = ammosOnWay.begin(); 
-			for (; it < ammosOnWay.end(); it++){
-				auto Dis = (this->getPosition() - (*it)->getPosition()).length();
-
-				if (Dis<100) {
-					auto Damage = (*it)->getDamage();
-					this->getDamage(Damage,(*it)->getid());
-					(*it)->removeFromParentAndCleanup(1);
-					//(*it)->setVisible(0);
-					//(*it)->setPosition(200.0, 200.0);
-					if (it == (ammosOnWay.end() - 1)) { ammosOnWay.clear(); break; }
-					else it = ammosOnWay.erase(it);
-				}
-				else {
-					(*it)->changeTargetPosition(getPosition());
-				}
-		}
-	}
+	/*
 	void freshASPD(float dt) {
 		if (this->canAttack == 1)return;
 		else { this->canAttack = 1; return; }
