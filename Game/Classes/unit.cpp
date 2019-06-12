@@ -197,35 +197,33 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	});
 	if (canAttack == false) return NULL;
 	canAttack = false;
-/*<<<<<<< HEAD
-	
-	ammo *amo = ammo::create();
-	switch (getDir(getPosition(), target->getPosition())) {
+	/*<<<<<<< HEAD
 
-	case Direction::
-	RIGHT:runAction(Animate::create(pAC->getAnimation(id + "right_attack")))->setTag(16);
-		amo->initial(this->getAmmoFrameName(), getPosition() + Vec2(0.0, 30.5), getDamage(), getAmmoSpeed()); break;
-	case Direction::
-	LEFT:runAction(Animate::create(pAC->getAnimation(id + "left_attack")))->setTag(15);
-		amo->initial(this->getAmmoFrameName(), getPosition() + Vec2(0.0, 30.5), getDamage(), getAmmoSpeed());
-		break;
-	case Direction::
-	UP:runAction(Animate::create(pAC->getAnimation(id + "up_attack")))->setTag(13);
-		amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
-		break;
-	case Direction::
-	DOWN:runAction(Animate::create(pAC->getAnimation(id + "down_attack")))->setTag(14);
-		amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
-		break;
-	}
-	
+		ammo *amo = ammo::create();
+		switch (getDir(getPosition(), target->getPosition())) {
+		case Direction::
+		RIGHT:runAction(Animate::create(pAC->getAnimation(id + "right_attack")))->setTag(16);
+			amo->initial(this->getAmmoFrameName(), getPosition() + Vec2(0.0, 30.5), getDamage(), getAmmoSpeed()); break;
+		case Direction::
+		LEFT:runAction(Animate::create(pAC->getAnimation(id + "left_attack")))->setTag(15);
+			amo->initial(this->getAmmoFrameName(), getPosition() + Vec2(0.0, 30.5), getDamage(), getAmmoSpeed());
+			break;
+		case Direction::
+		UP:runAction(Animate::create(pAC->getAnimation(id + "up_attack")))->setTag(13);
+			amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
+			break;
+		case Direction::
+		DOWN:runAction(Animate::create(pAC->getAnimation(id + "down_attack")))->setTag(14);
+			amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
+			break;
+		}
 
-	target->getAttacked(amo);
-	schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 0, 0);
-	_map->addChild(amo, 6);
-	//((Layer *)(this->getParent()->getParent()))->schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
-=======*/
-	if(getid()[0]!='T'){
+		target->getAttacked(amo);
+		schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 0, 0);
+		_map->addChild(amo, 6);
+		//((Layer *)(this->getParent()->getParent()))->schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
+	=======*/
+	if (getid()[0] != 'T') {
 		stopAllActions();
 		auto aniCache = pAC;
 		switch (getDir(getPosition(), target->getPosition())) {
@@ -237,7 +235,7 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	}
 
 	ammo *amo = ammo::create();
-	amo->initial(this->getAmmoFrameName(),this->getid(),getPosition(), getDamage(), getAmmoSpeed());
+	amo->initial(this->getAmmoFrameName(), this->getid(), getPosition(), getDamage(), getAmmoSpeed());
 	if (getid()[0] == 'B'&&getid()[2] == '1') { amo->setVisible(0); }
 	auto id1 = this->getid(); auto id2 = target->getid();
 	if (id1[1] != id2[1]) {
@@ -246,6 +244,7 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	}
 	//schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
 
+	
 	return amo;
 }
 void unit::attackTo(unit * target)

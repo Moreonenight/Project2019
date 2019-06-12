@@ -227,24 +227,25 @@ void Game::InitMiniMapListner(){
 		if (keyCode == EventKeyboard::KeyCode::KEY_F1)
 		{
 			MiniMapLayer->setVisible(true);
-		}
-		auto MiniMap = Sprite::create("miniMap/miniMap.png");
-		MiniMap->setPosition(Director::getInstance()->getVisibleSize().width / 2, Director::getInstance()->getVisibleSize().height / 2);
-		MiniMapLayer->addChild(MiniMap, 0);
-		MiniMap->setScale(1.5);
-		MiniMapLayer->setVisible(1);
-		Vector<unit*>::iterator it = (*units).begin();
-		for (; it < (*units).end(); it++) {
-			string path = ((*it)->getid()).substr(0, 2);
-			auto image = Sprite::create("miniMap/" + path + ".png");
-			MiniMapLayer->addChild(image, 1);
-			image->setPosition((*it)->getPosition()/(3.05)+Vec2(125.0,10.0));
-			switch (path[0]) {
-			case 'H':image->setScale(0.8); break;
-			case'B':image->setScale(0.5); break;
-			case'T':image->setScale(0.6); break;
+			auto MiniMap = Sprite::create("miniMap/miniMap.png");
+			MiniMap->setPosition(Director::getInstance()->getVisibleSize().width / 2, Director::getInstance()->getVisibleSize().height / 2);
+			MiniMapLayer->addChild(MiniMap, 0);
+			MiniMap->setScale(1.5);
+			MiniMapLayer->setVisible(1);
+			Vector<unit*>::iterator it = (*units).begin();
+			for (; it < (*units).end(); it++) {
+				string path = ((*it)->getid()).substr(0, 2);
+				auto image = Sprite::create("miniMap/" + path + ".png");
+				MiniMapLayer->addChild(image, 1);
+				image->setPosition((*it)->getPosition() / (3.05) + Vec2(125.0, 10.0));
+				switch (path[0]) {
+				case 'H':image->setScale(0.8); break;
+				case'B':image->setScale(0.5); break;
+				case'T':image->setScale(0.6); break;
+				}
 			}
 		}
+
 	};
 	TabListener->onKeyReleased = [this, MiniMapLayer,index](EventKeyboard::KeyCode keyCode, Event * event) {
 		if (keyCode == EventKeyboard::KeyCode::KEY_F1)

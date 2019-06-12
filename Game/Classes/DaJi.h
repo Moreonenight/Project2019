@@ -33,7 +33,6 @@ private:
 	//表示当前能否释放其他技能
 	bool canReleaseSkill = true;
 public:
-
 	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer);
 	unit* getUnit() { return this; }
 
