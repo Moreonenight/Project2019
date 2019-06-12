@@ -34,7 +34,7 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 	unitsOnMap = mapUnits;
 	AmmoLayer = ammoLayer;
 	myMenu = Menu::create();
-
+	CanAttack = true;
 	EquipmentPostion[0] = Vec2(793, 104); EquipmentPostion[1] = Vec2(858, 104); EquipmentPostion[2] = Vec2(923, 104);
 	EquipmentPostion[3] = Vec2(793, 39); EquipmentPostion[4] = Vec2(858, 39); EquipmentPostion[5] = Vec2(923, 39);
 	bool EnemeyorAlley;
@@ -70,6 +70,10 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 		exp = Exp::create();
 		exp->initial(1, _map);
 		_map->addChild(exp, 5);
+		mana = Mana::create();
+		mana->changeID(id);
+		mana->initial(Mana::ManainitialData(data->getMaxMana(), getPosition(), Map));
+		_map->addChild(mana, 5);
 	}
 	//scheduleUpdate();
 	
@@ -193,35 +197,33 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	});
 	if (canAttack == false) return NULL;
 	canAttack = false;
-/*<<<<<<< HEAD
-	
-	ammo *amo = ammo::create();
-	switch (getDir(getPosition(), target->getPosition())) {
+	/*<<<<<<< HEAD
 
-	case Direction::
-	RIGHT:runAction(Animate::create(pAC->getAnimation(id + "right_attack")))->setTag(16);
-		amo->initial(this->getAmmoFrameName(), getPosition() + Vec2(0.0, 30.5), getDamage(), getAmmoSpeed()); break;
-	case Direction::
-	LEFT:runAction(Animate::create(pAC->getAnimation(id + "left_attack")))->setTag(15);
-		amo->initial(this->getAmmoFrameName(), getPosition() + Vec2(0.0, 30.5), getDamage(), getAmmoSpeed());
-		break;
-	case Direction::
-	UP:runAction(Animate::create(pAC->getAnimation(id + "up_attack")))->setTag(13);
-		amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
-		break;
-	case Direction::
-	DOWN:runAction(Animate::create(pAC->getAnimation(id + "down_attack")))->setTag(14);
-		amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
-		break;
-	}
-	
+		ammo *amo = ammo::create();
+		switch (getDir(getPosition(), target->getPosition())) {
+		case Direction::
+		RIGHT:runAction(Animate::create(pAC->getAnimation(id + "right_attack")))->setTag(16);
+			amo->initial(this->getAmmoFrameName(), getPosition() + Vec2(0.0, 30.5), getDamage(), getAmmoSpeed()); break;
+		case Direction::
+		LEFT:runAction(Animate::create(pAC->getAnimation(id + "left_attack")))->setTag(15);
+			amo->initial(this->getAmmoFrameName(), getPosition() + Vec2(0.0, 30.5), getDamage(), getAmmoSpeed());
+			break;
+		case Direction::
+		UP:runAction(Animate::create(pAC->getAnimation(id + "up_attack")))->setTag(13);
+			amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
+			break;
+		case Direction::
+		DOWN:runAction(Animate::create(pAC->getAnimation(id + "down_attack")))->setTag(14);
+			amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
+			break;
+		}
 
-	target->getAttacked(amo);
-	schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 0, 0);
-	_map->addChild(amo, 6);
-	//((Layer *)(this->getParent()->getParent()))->schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
-=======*/
-	if(getid()[0]!='T'){
+		target->getAttacked(amo);
+		schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 0, 0);
+		_map->addChild(amo, 6);
+		//((Layer *)(this->getParent()->getParent()))->schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
+	=======*/
+	if (getid()[0] != 'T') {
 		stopAllActions();
 		auto aniCache = pAC;
 		switch (getDir(getPosition(), target->getPosition())) {
@@ -233,7 +235,7 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	}
 
 	ammo *amo = ammo::create();
-	amo->initial(this->getAmmoFrameName(),this->getid(),getPosition(), getDamage(), getAmmoSpeed());
+	amo->initial(this->getAmmoFrameName(), this->getid(), getPosition(), getDamage(), getAmmoSpeed());
 	if (getid()[0] == 'B'&&getid()[2] == '1') { amo->setVisible(0); }
 	auto id1 = this->getid(); auto id2 = target->getid();
 	if (id1[1] != id2[1]) {
@@ -242,6 +244,7 @@ Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到laye
 	}
 	//schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
 
+	
 	return amo;
 }
 void unit::attackTo(unit * target)
@@ -285,7 +288,7 @@ bool unit::addEquipment(std::string itemId,Layer* equipmentlayer,Layer* shoplaye
 	if (this->getGold() < item.Price) { 
 		auto Money = Label::create("Your Money is not enough", "fonts/Arial.ttf", 20);
 		Money->enableGlow(Color4B::MAGENTA);
-		Money->setPosition(Director::getInstance()->getVisibleSize().width / 2, 150);
+		Money->setPosition(Director::getInstance()->getVisibleSize().width / 2, 250);
 		shoplayer->addChild(Money, 0, 887);
 		return false; }
 	for (int count = 0; count < 6; ++count) {

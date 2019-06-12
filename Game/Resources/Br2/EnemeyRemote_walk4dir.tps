@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.8.0</string>
+        <string>5.0.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -187,38 +187,38 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-10.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-100.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-102.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-104.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-106.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-108.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-110.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-112.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-12.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-14.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-16.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-2.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-34.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-36.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-38.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-4.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-40.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-42.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-44.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-46.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-48.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-6.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-66.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-68.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-70.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-72.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-74.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-76.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-78.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-8.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-80.png</key>
-            <key type="filename">../../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-98.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-10.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-100.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-102.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-104.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-106.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-108.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-110.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-112.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-12.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-14.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-16.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-2.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-34.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-36.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-38.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-4.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-40.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-42.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-44.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-46.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-48.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-6.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-66.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-68.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-70.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-72.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-74.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-76.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-78.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-8.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-80.png</key>
+            <key type="filename">../../../../小兵/弩：强弩弩兵（褐）/3跑动/4335-98.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

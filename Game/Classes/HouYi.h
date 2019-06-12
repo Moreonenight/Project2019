@@ -4,19 +4,23 @@
 class HouYi :public unit
 {
 private:
-	unit* houyi;
 	unitdata* houyiData;
 	cocos2d::TMXTiledMap* map;
-	int level=1;
-	int skill_1Level=0;
-	int skill_2Level=0;
-	int skill_3Level=0;
+	int level = 1;
+	int skill_1Level = 0;
+	int skill_2Level = 0;
+	int skill_3Level = 0;
 	int sk1Damage[6] = { 200,240,280,320,360,400 };
 	int sk1Cd[6] = { 8,7,6,5,5,4 };
 	int sk2Damage[6] = { 300,350,400,450,500,550 };
 	int sk2Cd[6] = { 8,7,6,5,5,4 };
 	int sk3Damage[3] = { 700,875,1050 };
 	int sk3Cd[3] = { 30,20,15 };
+	int ChangeDamage[7] = {100,100, 100, 100, 100, 100, 100 };
+	int ChangeMana[7] = { 100,110, 120, 130, 140, 150, 160 };
+	int ChangeAmmoSpeed[7] = {1,1,1,1,1,1,1};
+	int ChangeDefence[7] = { 1,1,1,1,1,1,1};
+	int ChangeMaxHp[7] = { 1000,1500,2000,2000,2000,2000,2000 };
 	//表示技能是否开启
 	bool sk1 = false;
 	bool sk2 = false;
@@ -27,8 +31,8 @@ private:
 	//表示当前能否释放其他技能
 	bool canReleaseSkill = true;
 public:
-	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1,Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer);
-	unit* getUnit() { return houyi; }
+	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map,Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer);
+	unit* getUnit() { return this; }
 	void useSkill_1();
 	void useSkill_2(Vec2 pos);
 	void useSkill_3(unit* target);
@@ -60,8 +64,10 @@ public:
 		if (hp->getCur() <= 1) die();
 		hp->follow(getPosition());
 		exp->follow(getPosition());
+		mana->follow(getPosition());
 		if (exp->getLevel() > level)
 		{
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/UpLevel.mp3");
 			level = exp->getLevel();
 			auto Upgrade = Sprite::create("Upgrade/gg-tx-025-0013.png");
 			Vector<SpriteFrame*> animFrames;
@@ -81,19 +87,24 @@ public:
 			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0013.png", Rect(0, 0, 850, 800)));
 			Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.1f);
 			Animate* animate = Animate::create(animation);
-			Upgrade->setScale(0.5f); Upgrade->setPosition(houyi->getPosition());
+			Upgrade->setScale(0.5f); Upgrade->setPosition(getPosition());
 			map->addChild(Upgrade); auto Playit = Repeat::create(animate, 1.0f);
 			auto callback = CallFunc::create([this, Upgrade]() {
 				Upgrade->removeFromParent();
 			});
 			auto seq = Sequence::create(Playit, callback, nullptr);
-			houyi->runAction(seq);
+			runAction(seq);
+			changeDamage(ChangeDamage[level - 2]);
+			changeAmmoSpeed(ChangeAmmoSpeed[level - 2]);
+			changeMaxHp(ChangeMaxHp[level - 2]); fullHp();
+			changeDefencePhysical(ChangeDefence[level - 2]);
+			mana->changeMaxMana(ChangeMana[level - 2]); fullMana();
 		}
 		auto it = ammosOnWay.begin();
 		for (; it < ammosOnWay.end(); it++) {
 			auto Dis = (this->getPosition() - (*it)->getPosition()).length();
 			auto id1 = this->getid(); auto id2 = (*it)->getid();
-			if (Dis < 150 && id1[1] != id2[1]) {
+			if (Dis < 120 && id1[1] != id2[1]) {
 				auto Damage = (*it)->getDamage();
 				this->getDamage(Damage,(*it)->getid());
 				(*it)->removeFromParentAndCleanup(1);
@@ -119,7 +130,7 @@ public:
 		if (hp->getCur() < delta) {
 			die();
 			//得到击杀者unit*添加奖励
-			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/kill.mp3");
+			
 			changeDeath(1);
 			if (fromId[0] == 'H') {
 				unit* killUnit = getUnitWithId(fromId);
@@ -129,7 +140,22 @@ public:
 					killUnit->changeKillHero(1);
 				}
 			}
-			this->setPosition(Vec2(270, 90));
+			if (getid()[1] == 'b')
+			{
+				if (fromId[0] == 'B'|| fromId[0] == 'T')
+				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/HeroDieByothers.mp3"); 
+				}
+				else
+				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/MyHeroDie.mp3");
+				}
+			}
+			if (getid()[1] == 'r')
+			{
+				CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/EnemeyHeroDie.mp3");
+			}
+			this->setPosition(getSpawnPoint());
 		}
 		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
 		return hp->getCur();

@@ -3,19 +3,20 @@
 #include "ammo.h"
 #include "HP.h"
 #include "Exp.h"
+#include "Mana.h"
 #include "Equipment.h"
 #include "ui/CocosGUI.h"
 
 USING_NS_CC;
-//≥ˆ…˙µ„◊¯±Í
+//Âá∫ÁîüÁÇπÂùêÊ†á
 
 
 class HP;
-class unit:public Sprite
+class unit :public Sprite
 {
 private:
 	unitdata *data;
-	
+
 	std::string id;
 	int level,
 		gold,
@@ -30,18 +31,19 @@ private:
 		recoverOfMana;
 	int skillPoint;
 
-		Animate* AnimateLeft;
-		Vec2 beforePos;
-		Equipment equip[6];
-		Vec2 EquipmentPostion[6];
-		Layer* AmmoLayer;
-		Menu* myMenu;
-		int KillHero, KillSoldiers, deathnumber;
-		bool Alreadydead;
-
+	Animate* AnimateLeft;
+	Vec2 beforePos;
+	Equipment equip[6];
+	Vec2 EquipmentPostion[6];
+	Layer* AmmoLayer;
+	Menu* myMenu;
+	int KillHero, KillSoldiers, deathnumber;
+	bool Alreadydead;
+	bool CanAttack;
 public:
-	HP *hp;//MP maxMana;
-	Exp *exp=nullptr;
+	HP *hp;
+	Exp *exp = nullptr;
+	Mana *mana;
 	bool canAttack;
 	vector<ammo*> ammosOnWay;
 	cocos2d::TMXTiledMap* _map;
@@ -54,7 +56,7 @@ public:
 		RIGHT,
 		NONE
 	};
-	int* getDamagepointer(){
+	int* getDamagepointer() {
 
 
 		return &damage;
@@ -69,10 +71,17 @@ public:
 	{
 		return Alreadydead;
 	}
-
-	Direction getDir(Vec2 v) { return getDir(CC_RADIANS_TO_DEGREES(v.getAngle()));  };
+	inline void ChangeCanAttack(bool dead)
+	{
+		Alreadydead = dead;
+	}
+	inline bool GetCanAttack()
+	{
+		return Alreadydead;
+	}
+	Direction getDir(Vec2 v) { return getDir(CC_RADIANS_TO_DEGREES(v.getAngle())); };
 	Direction getDir(float angle) {
-		Direction dir; 
+		Direction dir;
 		if (angle <= 45.0&&angle > -45.0) dir = Direction::RIGHT;
 		else if (angle > 45.0&&angle <= 135.0) dir = Direction::UP;
 		else if (angle > 135.0 || angle <= -135.0) dir = Direction::LEFT;
@@ -83,13 +92,14 @@ public:
 
 	void initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits, Layer* ammoLayer);
 	CREATE_FUNC(unit);
-	
-	
+
+
 	~unit();
 	inline int getInitDamage() { return InitDamage; }
 	int getDefenceOfPhysical() {
 		return defenceOfPhysical;
 	}
+	inline void changeDefencePhysical(int delta) { defenceOfPhysical += delta; }
 	int getDefencOfMagic() {
 		return defenceOfMagic;
 	}
@@ -98,7 +108,8 @@ public:
 	//int getMaxMana() { return maxMana; }
 	HP* getHp() { return hp; }
 	unitdata* getdata() { return data; }
-	Exp* getExp(){ return exp; }
+	Exp* getExp() { return exp; }
+	Mana* getMana() { return mana; }
 	int getRecoverOfMana() { return recoverOfMana; }
 	int getGold() { return gold; }int changeGold(int delta) { if (gold + delta <= 0)gold = 0; else gold += delta; return gold; }
 	inline int getKillHero() { return KillHero; }
@@ -107,15 +118,15 @@ public:
 	inline string getid() { return id; }
 
 
-	inline int getMoveSpeed() {		return moveSpeed;	}
+	inline int getMoveSpeed() { return moveSpeed; }
 	inline int getDamage() { return damage; }/*when want to know how much the unit damage is*/
 	int getAmmoSpeed() { return ammoSpeed; }
 	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
-	inline void changeMaxHp(int delta) { hp->changeMax(delta); }
+
 	inline int getMaxHp() { return hp->getMax(); }
 
 	inline int getSkillPoint() { return skillPoint; }
-	
+
 
 	//change Func
 	inline std::string changeid(string newid) { id = newid; return id; }
@@ -124,14 +135,17 @@ public:
 	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
 	inline void setDamage(int num) { if (num > 0)damage = num; }
 	inline void changeCurHp(int delta) { hp->changeCur(delta); }
-	void addCurExp(int delta) { exp->changeCurExp(delta); changeLevel(exp->getLevel() - level);}
+	void addCurExp(int delta) { exp->changeCurExp(delta); changeLevel(exp->getLevel() - level); }
 	inline void changeKillHero(int delta) { KillHero += delta; }
 	inline void changeKillSoldiers(int delta) { KillSoldiers += delta; }
 	inline void changeDeath(int delta) { deathnumber += delta; }
 	inline void fullHp() { hp->changeCur(hp->getMax()); }
-
+	inline void changeMaxHp(int delta) { hp->changeMax(delta); }
+	inline void changeAmmoSpeed(int delta) { ammoSpeed += delta; }
 	inline void changeSkillPoint(int num) { if ((skillPoint + num) < 0)skillPoint = 0; else skillPoint += num; }
-
+	inline void fullMana() { mana->changeCurMana(mana->getMaxMana()); }
+	bool addEquipment(std::string itemId, Layer* equipmentlayer, Layer* shoplayer);
+	bool sellEquipment(int number, Layer* equipmentlayer, Layer* shoplayer);
 	//otherFunc
 	void getAttacked(ammo* amo) {
 		ammosOnWay.push_back(amo);
@@ -139,10 +153,10 @@ public:
 		return;
 	}
 
-	virtual int getDamage(int delta,std::string fromId) {
+	virtual int getDamage(int delta, std::string fromId) {
 		if (hp->getCur() < delta) {
 			die();
-			//µ√µΩª˜…±’ﬂunit*ÃÌº”Ω±¿¯
+			//ÂæóÂà∞ÂáªÊùÄËÄÖunit*Ê∑ªÂä†Â•ñÂä±
 			if (fromId[0] == 'H') {
 				unit* killUnit = getUnitWithId(fromId);
 				if (killUnit != nullptr) {
@@ -154,10 +168,10 @@ public:
 			fullHp();
 			this->stopAllActions();
 		}
-		hp->changeCur((-delta)*(float)((100.0-defenceOfPhysical) / 100.0));
+		hp->changeCur((-delta)*(float)((100.0 - defenceOfPhysical) / 100.0));
 		return hp->getCur();
 	}
-
+	unit* getUnitWithId(std::string id);
 	//inline int getDamage() { return damage; }/*when want to know how much the unit damage is*/ 
 //	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
 //	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
@@ -165,12 +179,9 @@ public:
 	inline Vec2 getBeforePos() { return beforePos; }
 	//int getAmmoSpeed() { return ammoSpeed; }
 
-
-
-
 	void stop();
 	void moveDirectionByKey(unit::Direction direction, Vec2 e);
-	
+
 	Sprite *attack(unit *target);
 	void attackTo(unit *target);
 	void attackTo(Vec2 destination);
@@ -182,37 +193,14 @@ public:
 		float i = damage * dpm.x;
 		hp->changeCur((int)i);
 	}//when get damaged*/
-	void die(){}
-	
-	/*void update(float dt) {
-		//hp->update();
-		if (hp->getCur() <= 1) die();
-		hp->follow(getPosition());
+	void die() {}
 
-		auto it = ammosOnWay.begin(); 
-			for (; it < ammosOnWay.end(); it++){
-				auto Dis = (this->getPosition() - (*it)->getPosition()).length();
-
-				if (Dis<100) {
-					auto Damage = (*it)->getDamage();
-					this->getDamage(Damage,(*it)->getid());
-					(*it)->removeFromParentAndCleanup(1);
-					//(*it)->setVisible(0);
-					//(*it)->setPosition(200.0, 200.0);
-					if (it == (ammosOnWay.end() - 1)) { ammosOnWay.clear(); break; }
-					else it = ammosOnWay.erase(it);
-				}
-				else {
-					(*it)->changeTargetPosition(getPosition());
-				}
-}
-}
 	void freshASPD(float dt) {
 		if (this->canAttack == 1)return;
 		else { this->canAttack = 1; return; }
-*/
-	unit* getUnitWithId(std::string id);
-	bool addEquipment(std::string itemId, Layer* equipmentlayer,Layer* shoplayer);
-	bool sellEquipment(int number, Layer* equipmentlayer, Layer* shoplayer);
-};
+		unit* getUnitWithId(std::string id);
+		bool addEquipment(std::string itemId, Layer* equipmentlayer, Layer* shoplayer);
+		bool sellEquipment(int number, Layer* equipmentlayer, Layer* shoplayer);
+	};
 
+};

@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.8.0</string>
+        <string>5.0.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -187,38 +187,38 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-10.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-100.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-102.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-104.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-106.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-108.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-110.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-112.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-12.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-14.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-16.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-2.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-34.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-36.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-38.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-4.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-40.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-42.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-44.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-46.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-48.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-6.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-66.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-68.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-70.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-72.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-74.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-76.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-78.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-8.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-80.png</key>
-            <key type="filename">../../../../../小兵/矛：长矛步兵（白）/4死亡/4013-98.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-10.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-100.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-102.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-104.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-106.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-108.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-110.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-112.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-12.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-14.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-16.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-2.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-34.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-36.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-38.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-4.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-40.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-42.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-44.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-46.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-48.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-6.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-66.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-68.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-70.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-72.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-74.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-76.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-78.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-8.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-80.png</key>
+            <key type="filename">../../../../小兵/矛：长矛步兵（白）/4死亡/4013-98.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

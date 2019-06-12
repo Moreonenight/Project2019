@@ -1,6 +1,8 @@
 #pragma once
 #include "cocos2d.h"
 #include "unit.h"
+#include "SimpleAudioEngine.h"
+#include "GameOverScene.h"
 USING_NS_CC;
 class Tower:public unit
 {
@@ -8,18 +10,9 @@ private:
 	bool Attacking;
 	bool CanAttackSoldier;
 	bool CanAttackHero;
-	bool Alreadydead;
 	unit* AttackingTarget;
 	unit* LastAttackingTarget;
 public:
-	inline void ChangeAlreadydead(bool dead)
-	{
-		Alreadydead = dead;
-	}
-	inline bool GetAlreadydead()
-	{
-		return Alreadydead;
-	}
 	inline bool ifAttacking()
 	{
 		return Attacking;
@@ -62,6 +55,7 @@ public:
 	virtual int getDamage(int delta, std::string fromId) {
 		if (hp->getCur() < delta) {
 			die();
+			ChangeAlreadydead(true);
 			//得到击杀者unit*添加奖励
 			if (fromId[0] == 'H') {
 				unit* killUnit = getUnitWithId(fromId);
@@ -70,15 +64,35 @@ public:
 					killUnit->addCurExp(50);
 				}
 			}
-			if (getid()[1] == 'r') {
-
+			if (getid()[1] == 'r') 
+			{
 				this->setPosition(Vec2(2000, 2000));
+				if (getid()[2] == '3')
+				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/Victory.mp3");
+					auto GameOverScene = GameOverScene::createScene(true);
+					Director::getInstance()->pushScene(GameOverScene);
+				}
+				else
+				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/EnemeyTowerDie.mp3");
+				}
 
 			}
-			else if ((getid()[1] == 'b'))
+			if (getid()[1] == 'b')
 			{
 				this->setPosition(Vec2(-200, -200));
+				if (getid()[2] == '3')
+				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/Defeat.mp3");
+					auto GameOverScene = GameOverScene::createScene(false);
+					Director::getInstance()->pushScene(GameOverScene);
+				}
+				else
+				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/MyTowerDie.mp3");
 
+				}
 			}
 			this->stopAllActions();
 		}

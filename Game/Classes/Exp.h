@@ -12,6 +12,7 @@ private:
 	
 	cocos2d::TMXTiledMap* _map;
 public:
+
 	//初始化
 	void initial(int level, cocos2d::TMXTiledMap* map);
 	//常量

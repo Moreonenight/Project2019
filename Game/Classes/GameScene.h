@@ -21,7 +21,6 @@ class Game : public cocos2d::Layer
 	MouseController *listener;
 	MouseController *skillListener;
 	cocos2d::TMXTiledMap* _tileMap;
-	cocos2d::Sprite* _player;
 	cocos2d::TMXLayer* _collidable;
 	cocos2d::Label* TimerLabel;
 	cocos2d::Label* goldLabel;
@@ -35,8 +34,6 @@ class Game : public cocos2d::Layer
 	unit* hero2;
 	string _heroname;
 	Vector<unit*> unitsOnMap;
-	Vector<unit*> MyUnit;
-	Vector<unit*> EnemeyUnit;
 	Vector<Soldier*> EnemeySoldier;
 	Vector<Soldier*> MySoldier;
 	Vector<Tower*> MyTower;
@@ -53,7 +50,7 @@ public:
 	void LevelUpdate(float dt);
 	void InitSkillButton(string HeroName);
 
-	void addToMap(unit* unit, int zorder, int Tag);
+	void addToMap(unit* unit, int zorder, int Tag,string id);
 	Vector<Node*> *selectFromMap(Vec2 pos);
 	Vector<unit*> *getUnits();
 	void InitTabListener(string Hero1Name,string Hero2Name);

@@ -1,7 +1,7 @@
 maxHp
 15000
 damage
-900
+500
 maxMana
 440
 ASPD
@@ -9,13 +9,13 @@ ASPD
 initLvl
 1
 initGold
-300
+10
 attackRange
-550
+300
 ammoSpeed
-15
+10
 moveSpeed
-200
+150
 recoverOfHp
 2
 defenceOfPhysical

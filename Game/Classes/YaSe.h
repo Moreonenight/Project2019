@@ -4,7 +4,6 @@
 class YaSe:public unit
 {
 private:
-	unit* yase;
 	unitdata* yaseData;
 	cocos2d::TMXTiledMap* map;
 	Vector<unit*>* unitsOnMap;
@@ -18,6 +17,11 @@ private:
 	int sk2Cd[6] = { 8,7,6,6,5,5 };
 	int sk3Damage[3] = { 2000,875,1050 };
 	int sk3Cd[3] = { 5,40,35 };
+	int ChangeDamage[7] = { 100,100, 100, 100, 100, 100, 100 };
+	int ChangeMana[7] = { 100,110, 120, 130, 140, 150, 160 };
+	int ChangeAmmoSpeed[7] = { 1,1,1,1,1,1,1 };
+	int ChangeDefence[7] = { 1,1,1,1,1,1,1 };
+	int ChangeMaxHp[7] = { 1500,1500,2500,3000,3500,4000,4500 };
 	//表示技能是否开启
 	bool sk1 = false;
 	bool sk2 = false;
@@ -28,8 +32,8 @@ private:
 	//表示当前能否释放其他技能
 	bool canReleaseSkill = true;
 public:
-	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit* hero1, Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer);
-	unit* getUnit() { return yase; }
+	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer);
+	unit* getUnit() { return this; }
 	void useSkill_1(Vec2 startPoint, unit* target);
 	void useSkill_2(Vec2 pos);
 	void useSkill_3();
@@ -60,9 +64,11 @@ public:
 		if (hp->getCur() <= 1) die();
 		hp->follow(getPosition());
 		exp->follow(getPosition());
+		mana->follow(getPosition());
 		if (exp->getLevel() > level)
 		{
 			level = exp->getLevel();
+			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/UpLevel.mp3");
 			auto Upgrade = Sprite::create("Upgrade/gg-tx-025-0013.png");
 			Vector<SpriteFrame*> animFrames;
 			animFrames.reserve(13);
@@ -81,13 +87,18 @@ public:
 			animFrames.pushBack(SpriteFrame::create("Upgrade/gg-tx-025-0013.png", Rect(0, 0, 850, 800)));
 			Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.1f);
 			Animate* animate = Animate::create(animation);
-			Upgrade->setScale(0.5f); Upgrade->setPosition(yase->getPosition());
+			Upgrade->setScale(0.5f); Upgrade->setPosition(getPosition());
 			map->addChild(Upgrade); auto Playit = Repeat::create(animate, 1.0f);
 			auto callback = CallFunc::create([this, Upgrade]() {
 				Upgrade->removeFromParent();
 			});
 			auto seq = Sequence::create(Playit, callback, nullptr);
-			yase->runAction(seq);
+			runAction(seq);
+			changeDamage(ChangeDamage[level - 2]);
+			changeAmmoSpeed(ChangeAmmoSpeed[level - 2]);
+			changeMaxHp(ChangeMaxHp[level - 2]); fullHp();
+			changeDefencePhysical(ChangeDefence[level - 2]);
+			mana->changeMaxMana(ChangeMana[level - 2]); fullMana();
 		}
 		auto it = ammosOnWay.begin();
 		for (; it < ammosOnWay.end(); it++) {
@@ -120,7 +131,6 @@ public:
 		if (hp->getCur() < delta) {
 			die();
 			//得到击杀者unit*添加奖励
-			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/kill.mp3");
 			changeDeath(1);
 			if (fromId[0] == 'H') {
 				unit* killUnit = getUnitWithId(fromId);
@@ -130,7 +140,22 @@ public:
 					killUnit->changeKillHero(1);
 				}
 			}
-			this->setPosition(Vec2(270, 90));
+			if (getid()[1] == 'b')
+			{
+				if (fromId[0] == 'B' || fromId[0] == 'T')
+				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/HeroDieByothers.mp3");
+				}
+				else
+				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/MyHeroDie.mp3");
+				}
+			}
+			if (getid()[1] == 'r')
+			{
+				CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/EnemeyHeroDie.mp3");
+			}
+			this->setPosition(getSpawnPoint());
 		}
 		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
 		return hp->getCur();

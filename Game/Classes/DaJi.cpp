@@ -1,21 +1,18 @@
 ﻿#include "DaJi.h"
 
 
-void DaJi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit*hero1, Vec2 bornpoint,Vector<unit*>* mapUnits,Layer* ammoLayer)
+void DaJi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint,Vector<unit*>* mapUnits,Layer* ammoLayer)
 {
 	map = Map;
 	unitsOnMap = mapUnits;
 	auto hero1data = new(unitdata);
 	hero1data->initial(HeroName);
 	initial(hero1data, Map, mapUnits, ammoLayer);
-    daji = hero1;
-	daji->changeid(HeroName);
 	auto Act = Animate::create(AnimationCache::getInstance()->getAnimation(HeroName + "up_stand"));
 	setPosition(bornpoint);
 	setScale(0.6);
 	runAction(Act);
 	if (getid()[1] == 'b') {
-		//³õÊ¼»¯¼üÅÌ¼àÌýÆ÷
 		auto skillListener = EventListenerKeyboard::create();
 		skillListener->onKeyPressed = [this](EventKeyboard::KeyCode keyCode, Event * event)
 		{
@@ -46,6 +43,7 @@ void DaJi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit*hero1, 
 				if (getSkillPoint() == 0) { return true; }
 				if (skill_1Level + 1 <= 3)
 				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/SkillUpLevel.mp3");
 					skill_1Level += 1;
 					changeSkillPoint(-1);
 				}
@@ -54,6 +52,7 @@ void DaJi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit*hero1, 
 				if (getSkillPoint() == 0) { return true; }
 				if (skill_2Level + 1 <= 3)
 				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/SkillUpLevel.mp3");
 					skill_2Level += 1;
 					changeSkillPoint(-1);
 				}
@@ -62,6 +61,7 @@ void DaJi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, unit*hero1, 
 				if (getSkillPoint() == 0) { return true; }
 				if (skill_3Level + 1 <= 2)
 				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/SkillUpLevel.mp3");
 					skill_3Level += 1;
 					changeSkillPoint(-1);
 				}
@@ -108,7 +108,7 @@ void DaJi::useSkill_1(unit* target)
 	// create the animation out of the frames
 	Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.1f);
 	Animate* animate = Animate::create(animation);
-	Bird->setScale(0.4f); Bird->setPosition(daji->getPosition());
+	Bird->setScale(0.4f); Bird->setPosition(getPosition());
 	map->addChild(Bird);
 	Bird->runAction(RepeatForever::create(animate));
 	auto Moving = MoveTo::create(0.5f, target->getPosition());
