@@ -119,7 +119,7 @@ public:
 
 
 	inline int getMoveSpeed() { return moveSpeed; }
-	inline int getDamage() { return damage; }/*when want to know how much the unit damage is*/
+	inline int getCurDamage() { return damage; }/*when want to know how much the unit damage is*/
 	int getAmmoSpeed() { return ammoSpeed; }
 	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
 

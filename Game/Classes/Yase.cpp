@@ -87,7 +87,7 @@ void YaSe::useSkill_1(Vec2 startPoint, unit* target)
 		MoveTo::create(0.2f, target->getPosition()),
 		MoveTo::create(0.2f, startPoint))
 	);
-	target->changeCurHp(-sk1Damage[skill_1Level - 1]);
+	target->getDamage(sk1Damage[skill_1Level - 1]+getCurDamage()/10,getid());
 	mana->changeCurMana(-100);
 	sk1End();
 }
@@ -145,7 +145,7 @@ void YaSe::cdUpdate(float dt)
 				if (((*it)->getid())[1]!= getid()[1]) {
 					float dis = ((*it)->getPosition() - this->getPosition()).length();
 					if (dis <= 300) {
-						(*it)->changeCurHp(-sk3Damage[skill_3Level - 1]);
+						(*it)->getDamage(sk3Damage[skill_3Level - 1] + getCurDamage() / 15,getid());
 					}
 				}
 			}

@@ -126,7 +126,7 @@ void HouYi::useSkill_3(unit* target)
 	Bird->runAction(RepeatForever::create(animate));
 	auto Moving = MoveTo::create(0.5f, target->getPosition());
 	auto callbackMove = CallFunc::create([this, Bird, target]() {
-		target->changeCurHp(-sk3Damage[skill_3Level - 1]);
+		target->getDamage(sk3Damage[skill_3Level - 1]+ getCurDamage()/10,getid());
 		Bird->removeFromParent();
 		sk3End();
 	});
