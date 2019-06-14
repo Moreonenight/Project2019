@@ -40,6 +40,10 @@ void DaJi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoi
 				useSkill_3();
 			}
 			}
+			else if (keyCode == EventKeyboard::KeyCode::KEY_B) {
+				if (backCd_left > 0) { return true; }
+				else { backCd_left = 3; }
+			}
 			else if (keyCode == EventKeyboard::KeyCode::KEY_1) {
 			if (getSkillPoint() == 0) { return true; }
 			if (skill_1Level + 1 <= 3)
@@ -83,6 +87,7 @@ void DaJi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoi
 
 void DaJi::AIFunc(float dt) {
 	if (isAI() == false) return;
+	if (deathCd_left > 0)return;
 	float blood = (getHp()->getCur()) / (float)(getHp()->getMax());
 	auto aow = &ammosOnWay;
 	if (blood <= 0.1) {
@@ -296,6 +301,10 @@ void DaJi::cdUpdate(float dt)
 	}
 	if (deathCd_left > 0) {
 		deathCd_left -= 1;
+	}
+	if (backCd_left > 0) {
+		if (backCd_left == 1) { setPosition(getSpawnPoint()); }
+		backCd_left -= 1;
 	}
 }
 
