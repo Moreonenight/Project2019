@@ -5,6 +5,7 @@ void ammo::initial(std::string fileName,std::string fromid,Vec2 currentPosition,
 	this->setPosition(currentPosition);
 	damage = damge; ammoSpeed = ammSpeed;
 	fromId = fromid;
+	auto a = SpriteFrameCache::getInstance();
 	Frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(fileName);
 	setSpriteFrame(Frame);
 	scheduleUpdate();

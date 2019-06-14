@@ -30,7 +30,7 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 	level = 1;
 	_map = Map;
 	data = unitdata;
-
+	AI = 1;
 	unitsOnMap = mapUnits;
 	AmmoLayer = ammoLayer;
 	myMenu = Menu::create();
@@ -38,6 +38,7 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 	EquipmentPostion[0] = Vec2(793, 104); EquipmentPostion[1] = Vec2(858, 104); EquipmentPostion[2] = Vec2(923, 104);
 	EquipmentPostion[3] = Vec2(793, 39); EquipmentPostion[4] = Vec2(858, 39); EquipmentPostion[5] = Vec2(923, 39);
 	bool EnemeyorAlley;
+	GettingAttack = false;
 	//addChild(hp, 3);
 	id = data->getUnitid();
 	Equipment("FALSE");
@@ -176,75 +177,50 @@ void unit::moveDirectionByKey(unit::Direction direction, Vec2 e)
 		break;
 	}
 }
-Sprite* unit::attack(unit *target)//返回攻击产生的弹道对象指针，可以把它加到layer中去。
+Sprite* unit::attack(unit *target)
 {
-	auto pAC = AnimationCache::getInstance();
-	auto CallBackLeft = CallFunc::create([this, pAC]() {
-		stopAllActions();
-		runAction(Animate::create(pAC->getAnimation(getid() + "left_stand")))->setTag(11);
-	});
-	auto CallBackRight = CallFunc::create([this, pAC]() {
-		stopAllActions();
-		runAction(Animate::create(pAC->getAnimation(getid() + "right_stand")))->setTag(12);
-	});
-	auto CallBackUp = CallFunc::create([this, pAC]() {
-		stopAllActions();
-		runAction(Animate::create(pAC->getAnimation(getid() + "up_stand")))->setTag(9);
-	});
-	auto CallBackDown = CallFunc::create([this, pAC]() {
-		stopAllActions();
-		runAction(Animate::create(pAC->getAnimation(getid() + "down_stand")))->setTag(10);
-	});
+	
+	auto id1 = this->getid(); auto id2 = target->getid(); 
+	if (id1[1] == id2[1]) {
+		return NULL;
+	}
 	if (canAttack == false) return NULL;
 	canAttack = false;
-	/*<<<<<<< HEAD
-
-		ammo *amo = ammo::create();
-		switch (getDir(getPosition(), target->getPosition())) {
-		case Direction::
-		RIGHT:runAction(Animate::create(pAC->getAnimation(id + "right_attack")))->setTag(16);
-			amo->initial(this->getAmmoFrameName(), getPosition() + Vec2(0.0, 30.5), getDamage(), getAmmoSpeed()); break;
-		case Direction::
-		LEFT:runAction(Animate::create(pAC->getAnimation(id + "left_attack")))->setTag(15);
-			amo->initial(this->getAmmoFrameName(), getPosition() + Vec2(0.0, 30.5), getDamage(), getAmmoSpeed());
-			break;
-		case Direction::
-		UP:runAction(Animate::create(pAC->getAnimation(id + "up_attack")))->setTag(13);
-			amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
-			break;
-		case Direction::
-		DOWN:runAction(Animate::create(pAC->getAnimation(id + "down_attack")))->setTag(14);
-			amo->initial(this->getAmmoFrameName(), getPosition(), getDamage(), getAmmoSpeed());
-			break;
-		}
-
-		target->getAttacked(amo);
-		schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 0, 0);
-		_map->addChild(amo, 6);
-		//((Layer *)(this->getParent()->getParent()))->schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
-	=======*/
 	if (getid()[0] != 'T') {
-		stopAllActions();
-		auto aniCache = pAC;
+		auto aniCache = AnimationCache::getInstance();
 		switch (getDir(getPosition(), target->getPosition())) {
-		case Direction::RIGHT:runAction(Animate::create(aniCache->getAnimation(id + "right_attack")))->setTag(20); break;
-		case Direction::LEFT:runAction(Animate::create(aniCache->getAnimation(id + "left_attack")))->setTag(21); break;
-		case Direction::UP:runAction(Animate::create(aniCache->getAnimation(id + "up_attack")))->setTag(22); break;
-		case Direction::DOWN:runAction(Animate::create(aniCache->getAnimation(id + "down_attack")))->setTag(23); break;
+		case Direction::RIGHT:
+			if (getChildByTag(20) != nullptr) {}
+			else {
+				stopAllActions();
+				runAction(Animate::create(aniCache->getAnimation(id + "right_attack")))->setTag(20); break;
+			}
+		case Direction::LEFT:			
+			if (getChildByTag(21) != nullptr) {}
+			else {
+				stopAllActions();
+				runAction(Animate::create(aniCache->getAnimation(id + "left_attack")))->setTag(21); break;
+			}
+		case Direction::UP:
+			if (getChildByTag(21) != nullptr) {}
+			else {
+				stopAllActions();
+				runAction(Animate::create(aniCache->getAnimation(id + "up_attack")))->setTag(22); break;
+			}
+		case Direction::DOWN:
+			if (getChildByTag(21) != nullptr) {}
+			else {
+				stopAllActions(); runAction(Animate::create(aniCache->getAnimation(id + "down_attack")))->setTag(23); break;
+			}
 		}
 	}
 
 	ammo *amo = ammo::create();
-	amo->initial(this->getAmmoFrameName(), this->getid(), getPosition(), getDamage(), getAmmoSpeed());
-	if (getid()[0] == 'B'&&getid()[2] == '1') { amo->setVisible(0); }
-	auto id1 = this->getid(); auto id2 = target->getid();
-	if (id1[1] != id2[1]) {
-		AmmoLayer->addChild(amo, 6);
-		target->getAttacked(amo);
-	}
-	//schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);
-
-	
+	amo->initial(this->getAmmoFrameName(), this->getid(), getPosition(), getCurDamage(), getAmmoSpeed());
+	if (getid()[0] == 'B'&&getid()[2] == '1') { amo->setVisible(0); }	
+	AmmoLayer->addChild(amo, 6);
+	target->getAttacked(amo);
+	schedule(schedule_selector(unit::freshASPD), 0, 1, 1.0 / ASPD);	
 	return amo;
 }
 void unit::attackTo(unit * target)
@@ -266,6 +242,7 @@ void unit::attackTo(Vec2 destination)
 {	
 	
 }
+
 unit* unit::getUnitWithId(std::string id)
 {
 	auto it = unitsOnMap->begin();

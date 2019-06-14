@@ -10,6 +10,7 @@ private:
 	bool Attacking;
 	bool CanAttackSoldier;
 	bool CanAttackHero;
+	bool GettingAttack;
 	unit* AttackingTarget;
 	unit* LastAttackingTarget;
 public:
@@ -50,6 +51,7 @@ public:
 		return CanAttackHero;
 
 	}
+	bool IsGettingAttacked() { return GettingAttack; }
 	bool Tower::InitWithRole(string Towername, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits, Layer* ammoLayer);
 	bool AttackingJudgeAI();
 	virtual int getDamage(int delta, std::string fromId) {
@@ -95,6 +97,7 @@ public:
 				}
 			}
 			this->stopAllActions();
+			DeleteUnit();
 		}
 		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
 		return hp->getCur();
@@ -105,6 +108,12 @@ public:
 		hp->follow(getPosition());
 
 		auto it = ammosOnWay.begin();
+		if (ammosOnWay.size() == 0) {
+			GettingAttack = false;
+		}
+		else {
+			GettingAttack = true;
+		}
 		for (; it < ammosOnWay.end(); it++) {
 			auto Dis = (this->getPosition() - (*it)->getPosition()).length();
 			auto id1 = this->getid(); auto id2 = (*it)->getid();

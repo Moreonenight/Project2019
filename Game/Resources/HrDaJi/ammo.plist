@@ -4,7 +4,7 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>HrDajiammo.png</key>
+            <key>HrDaJiammo.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -29,13 +29,13 @@
             <key>premultiplyAlpha</key>
             <false/>
             <key>realTextureFileName</key>
-            <string>ammo.png</string>
+            <string>HrDaJiammo.png</string>
             <key>size</key>
             <string>{245,50}</string>
             <key>smartupdate</key>
             <string>$TexturePacker:SmartUpdate:ab0b93ef8234c5f765adbc10ae09ce1c:0e34d51dfbaae63c1b895dd2d0851479:34654e768e66b5ac2ec2f311e830279b$</string>
             <key>textureFileName</key>
-            <string>ammo.png</string>
+            <string>HrDaJiammo.png</string>
         </dict>
     </dict>
 </plist>

@@ -48,11 +48,10 @@ void HP::initial(HpinitialData data)
 	Size size = Size(Vec2(200.0, 10.0)); //data.size;
 	Vec2 position = data.position;
 	this->setPosition(position);
-	//Î»ÖÃÐÅÏ¢ÒªÖØÐÂÐÞ¸Ä£¬¿¼ÂÇÊµ¼ÊÍ¼Æ¬ÏñËØÎÊÌâ
+	//ä½ç½®ä¿¡æ¯è¦é‡æ–°ä¿®æ”¹ï¼Œè€ƒè™‘å®žé™…å›¾ç‰‡åƒç´ é—®é¢˜
 	bloodrect = Sprite::create("HP/bloodrect.png");
 	bloodrect->setPosition(position.x, position.y + 100);
 	if (HpId[0] == 'B') {
-		
 		bloodrect->setScaleY(10.0/bloodrect->getContentSize().height);
 	}
 	/*else {

@@ -29,8 +29,10 @@ W技能为闪现技能
 0-主地图层(小兵、塔、英雄均加载在地图层中)
 1-弹道层(用于即时清理子弹)
 2-UI层(其中包括计时label、金币图标、金币label、技能图标、装备栏、退出按钮)
-3-战绩层
+7-战绩层
 主地图层上的单位TAG值如下所示：
+
+
 
 
 */
@@ -38,6 +40,7 @@ W技能为闪现技能
 USING_NS_CC;
 #define MINI_MAP_TAG 155
 #define IS_SHOP_OPEN this->getChildByTag(133)
+#define IS_MINIMAP_ON this->getChildByTag(155)->isVisable()
 #define VisibleSize Director::getInstance()->getVisibleSize()
 #define OriginSize Director::getInstance()->getVisibleOrigin()
 Scene* Game::createScene(string HeroName)
@@ -121,7 +124,7 @@ void Game::initwithRole(string HeroName)
 		hero2->setPosition(500, 500);
 		addToMap(hero2, 0, 200, "HrYaSe");
 	}
-
+	
 
 	//战绩页面初始化
 	InitTabListener(hero1->getid(), hero2->getid());
