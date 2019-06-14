@@ -157,7 +157,6 @@ void Game::initwithRole(string HeroName)
 	}
 	listener->changeOffset(Vec2::ZERO);
 
-	InitTabListener(hero1->getid(),hero2->getid());
 	//小地图初始化
 	InitMiniMapListner();
 
@@ -257,6 +256,7 @@ void Game::InitMiniMapListner(){
 	Director::getInstance()->getEventDispatcher()->addEventListenerWithSceneGraphPriority(TabListener, this);
 
 }
+
 void Game::InitTabListener(string Hero1Name,string Hero2Name)
 {
 	auto GradeLayer = Layer::create();
@@ -281,51 +281,50 @@ void Game::InitTabListener(string Hero1Name,string Hero2Name)
 	TabListener->onKeyPressed = [this,Gradebg, GradeLayer](EventKeyboard::KeyCode keyCode, Event * event) {
 		if (keyCode == EventKeyboard::KeyCode::KEY_TAB)
 		{
+			if (GradeLayer->getChildByTag(312) != nullptr) { GradeLayer->removeChildByTag(312); }
+			if (GradeLayer->getChildByTag(313) != nullptr) { GradeLayer->removeChildByTag(313); }
+			if (GradeLayer->getChildByTag(314) != nullptr) { GradeLayer->removeChildByTag(314); }
+			if (GradeLayer->getChildByTag(315) != nullptr) { GradeLayer->removeChildByTag(315); }
+			if (GradeLayer->getChildByTag(316) != nullptr) { GradeLayer->removeChildByTag(316); }
+			if (GradeLayer->getChildByTag(317) != nullptr) { GradeLayer->removeChildByTag(317); }
+			if (GradeLayer->getChildByTag(318) != nullptr) { GradeLayer->removeChildByTag(318); }
+			if (GradeLayer->getChildByTag(319) != nullptr) { GradeLayer->removeChildByTag(319); }
+			if (GradeLayer->getChildByTag(320) != nullptr) { GradeLayer->removeChildByTag(320); }
+			if (GradeLayer->getChildByTag(321) != nullptr) { GradeLayer->removeChildByTag(321); }
+			if (GradeLayer->getChildByTag(322) != nullptr) { GradeLayer->removeChildByTag(322); }
+			if (GradeLayer->getChildByTag(323) != nullptr) { GradeLayer->removeChildByTag(323); }
+			auto LabelLevel = Label::create("LV" + to_string(hero1->getExp()->getLevel()), "fonts/arial.ttf", 50);
+			LabelLevel->setPosition(650, 330); LabelLevel->setAnchorPoint(Vec2(0, 0)); LabelLevel->enableGlow(Color4B::GREEN);
+			auto LabelKill = Label::create("Number of kills:" + to_string(hero1->getKillHero()), "fonts/arial.ttf", 25);
+			LabelKill->setPosition(340, 390); LabelKill->setAnchorPoint(Vec2(0, 0)); LabelKill->enableGlow(Color4B::GREEN);
+			auto LabelDead = Label::create("Number of deaths:" + to_string(hero1->getDeath()), "fonts/arial.ttf", 25);
+			LabelDead->setPosition(340, 360); LabelDead->setAnchorPoint(Vec2(0, 0)); LabelDead->enableGlow(Color4B::GREEN);
+			auto LabelKillSoldier = Label::create("Number of killsoldiers:" + to_string(hero1->getKillSoldiers()), "fonts/arial.ttf", 25);
+			LabelKillSoldier->setPosition(340, 330); LabelKillSoldier->setAnchorPoint(Vec2(0, 0)); LabelKillSoldier->enableGlow(Color4B::GREEN);
+			auto Labeldamage = Label::create("Current Damage:" + to_string(hero1->getDamage()), "fonts/arial.ttf", 25);
+			Labeldamage->setPosition(340, 300); Labeldamage->setAnchorPoint(Vec2(0, 0)); Labeldamage->enableGlow(Color4B::GREEN);
+			auto LabelBlood = Label::create("Current Max HP:" + to_string(hero1->getMaxHp()), "fonts/arial.ttf", 25);
+			LabelBlood->setPosition(340, 270); LabelBlood->setAnchorPoint(Vec2(0, 0)); LabelBlood->enableGlow(Color4B::GREEN);
+			auto LabelLevel2 = Label::create("LV" + to_string(hero2->getExp()->getLevel()), "fonts/arial.ttf", 50);
+			LabelLevel2->setPosition(650, 180); LabelLevel2->setAnchorPoint(Vec2(0, 0));
+			auto LabelKill2 = Label::create("Number of kills:" + to_string(hero2->getKillHero()), "fonts/arial.ttf", 25); LabelLevel2->enableGlow(Color4B::RED);
+			LabelKill2->setPosition(340, 240); LabelKill2->setAnchorPoint(Vec2(0, 0)); LabelKill2->enableGlow(Color4B::RED);
+			auto LabelDead2 = Label::create("Number of deaths:" + to_string(hero2->getDeath()), "fonts/arial.ttf", 25);
+			LabelDead2->setPosition(340, 210); LabelDead2->setAnchorPoint(Vec2(0, 0)); LabelDead2->enableGlow(Color4B::RED);
+			auto LabelKillSoldier2 = Label::create("Number of killsoldiers:" + to_string(hero2->getKillSoldiers()), "fonts/arial.ttf", 25);
+			LabelKillSoldier2->setPosition(340, 180); LabelKillSoldier2->setAnchorPoint(Vec2(0, 0)); LabelKillSoldier2->enableGlow(Color4B::RED);
+			auto Labeldamage2 = Label::create("Current Damage:" + to_string(hero2->getDamage()), "fonts/arial.ttf", 25);
+			Labeldamage2->setPosition(340, 150); Labeldamage2->setAnchorPoint(Vec2(0, 0)); Labeldamage2->enableGlow(Color4B::RED);
+			auto LabelBlood2 = Label::create("Current Max HP:" + to_string(hero2->getMaxHp()), "fonts/arial.ttf", 25);
+			LabelBlood2->setPosition(340, 120); LabelBlood2->setAnchorPoint(Vec2(0, 0)); LabelBlood2->enableGlow(Color4B::RED);
+			GradeLayer->addChild(LabelKill, 1, 312); GradeLayer->addChild(LabelDead, 1, 313); GradeLayer->addChild(LabelKillSoldier, 1, 314);
+			GradeLayer->addChild(Labeldamage, 1, 315); GradeLayer->addChild(LabelBlood, 1, 316);
+			GradeLayer->addChild(LabelLevel, 1, 317);
+			GradeLayer->addChild(LabelKill2, 1, 318); GradeLayer->addChild(LabelDead2, 1, 319); GradeLayer->addChild(LabelKillSoldier2, 1, 320);
+			GradeLayer->addChild(Labeldamage2, 1, 321); GradeLayer->addChild(LabelBlood2, 1, 322);
+			GradeLayer->addChild(LabelLevel2, 1, 323);
 			GradeLayer->setVisible(true);
 		}
-		if (GradeLayer->getChildByTag(312) != nullptr) { GradeLayer->removeChildByTag(312); }
-		if (GradeLayer->getChildByTag(313) != nullptr) { GradeLayer->removeChildByTag(313); }
-		if (GradeLayer->getChildByTag(314) != nullptr) { GradeLayer->removeChildByTag(314); }
-		if (GradeLayer->getChildByTag(315) != nullptr) { GradeLayer->removeChildByTag(315); }
-		if (GradeLayer->getChildByTag(316) != nullptr) { GradeLayer->removeChildByTag(316); }
-		if (GradeLayer->getChildByTag(317) != nullptr) { GradeLayer->removeChildByTag(317); }
-		if (GradeLayer->getChildByTag(318) != nullptr) { GradeLayer->removeChildByTag(318); }
-		if (GradeLayer->getChildByTag(319) != nullptr) { GradeLayer->removeChildByTag(319); }
-		if (GradeLayer->getChildByTag(320) != nullptr) { GradeLayer->removeChildByTag(320); }
-		if (GradeLayer->getChildByTag(321) != nullptr) { GradeLayer->removeChildByTag(321); }
-		if (GradeLayer->getChildByTag(322) != nullptr) { GradeLayer->removeChildByTag(322); }
-		if (GradeLayer->getChildByTag(323) != nullptr) { GradeLayer->removeChildByTag(323); }
-		auto LabelLevel = Label::create("LV"+to_string(hero1->getExp()->getLevel()), "fonts/arial.ttf", 50);
-		LabelLevel->setPosition(650, 330); LabelLevel->setAnchorPoint(Vec2(0, 0)); LabelLevel->enableGlow(Color4B::GREEN);
-		auto LabelKill = Label::create("Number of kills:" + to_string(hero1->getKillHero()), "fonts/arial.ttf", 25);
-		LabelKill->setPosition(340, 390); LabelKill->setAnchorPoint(Vec2(0, 0)); LabelKill->enableGlow(Color4B::GREEN);
-		auto LabelDead = Label::create("Number of deaths:" + to_string(hero1->getDeath()) , "fonts/arial.ttf", 25);
-		LabelDead->setPosition(340, 360); LabelDead->setAnchorPoint(Vec2(0, 0)); LabelDead->enableGlow(Color4B::GREEN);
-		auto LabelKillSoldier = Label::create("Number of killsoldiers:" + to_string(hero1->getKillSoldiers()), "fonts/arial.ttf", 25);
-		LabelKillSoldier->setPosition(340, 330); LabelKillSoldier->setAnchorPoint(Vec2(0, 0)); LabelKillSoldier->enableGlow(Color4B::GREEN);
-		auto Labeldamage = Label::create("Current Damage:"+ to_string(hero1->getDamage()), "fonts/arial.ttf", 25);
-		Labeldamage->setPosition(340, 300); Labeldamage->setAnchorPoint(Vec2(0, 0)); Labeldamage->enableGlow(Color4B::GREEN);
-		auto LabelBlood = Label::create("Current Max HP:" + to_string(hero1->getMaxHp()), "fonts/arial.ttf", 25);
-		LabelBlood->setPosition(340, 270); LabelBlood->setAnchorPoint(Vec2(0, 0)); LabelBlood->enableGlow(Color4B::GREEN);
-		auto LabelLevel2 = Label::create("LV"+to_string(hero2->getExp()->getLevel()), "fonts/arial.ttf", 50);
-		LabelLevel2->setPosition(650, 180); LabelLevel2->setAnchorPoint(Vec2(0, 0));
-		auto LabelKill2 = Label::create("Number of kills:" + to_string(hero2->getKillHero()), "fonts/arial.ttf", 25);LabelLevel2->enableGlow(Color4B::RED);
-		LabelKill2->setPosition(340, 240); LabelKill2->setAnchorPoint(Vec2(0, 0)); LabelKill2->enableGlow(Color4B::RED);
-		auto LabelDead2 = Label::create("Number of deaths:" + to_string(hero2->getDeath()), "fonts/arial.ttf", 25);
-		LabelDead2->setPosition(340, 210); LabelDead2->setAnchorPoint(Vec2(0, 0)); LabelDead2->enableGlow(Color4B::RED);
-		auto LabelKillSoldier2 = Label::create("Number of killsoldiers:" + to_string(hero2->getKillSoldiers()), "fonts/arial.ttf", 25);
-		LabelKillSoldier2->setPosition(340, 180); LabelKillSoldier2->setAnchorPoint(Vec2(0, 0)); LabelKillSoldier2->enableGlow(Color4B::RED);
-		auto Labeldamage2 = Label::create("Current Damage:"+to_string(hero2->getDamage()), "fonts/arial.ttf", 25);
-		Labeldamage2->setPosition(340, 150); Labeldamage2->setAnchorPoint(Vec2(0, 0)); Labeldamage2->enableGlow(Color4B::RED);
-		auto LabelBlood2 = Label::create("Current Max HP:" + to_string(hero2->getMaxHp()), "fonts/arial.ttf", 25);
-		LabelBlood2->setPosition(340, 120); LabelBlood2->setAnchorPoint(Vec2(0, 0)); LabelBlood2->enableGlow(Color4B::RED);
-		GradeLayer->addChild(LabelKill, 1,312); GradeLayer->addChild(LabelDead, 1, 313); GradeLayer->addChild(LabelKillSoldier, 1, 314);
-		GradeLayer->addChild(Labeldamage, 1, 315); GradeLayer->addChild(LabelBlood, 1, 316);
-		GradeLayer->addChild(LabelLevel, 1, 317);
-		GradeLayer->addChild(LabelKill2, 1, 318); GradeLayer->addChild(LabelDead2, 1, 319); GradeLayer->addChild(LabelKillSoldier2, 1, 320);
-		GradeLayer->addChild(Labeldamage2, 1, 321); GradeLayer->addChild(LabelBlood2,1, 322);
-		GradeLayer->addChild(LabelLevel2, 1, 323);
-
 	};
 	TabListener->onKeyReleased = [this, Gradebg, GradeLayer](EventKeyboard::KeyCode keyCode, Event * event) {
 		if (keyCode == EventKeyboard::KeyCode::KEY_TAB)
@@ -354,10 +353,6 @@ void Game::InitSkillButton(string HeroName)
 	Skill4Button->setOpacity(80);
 	this->addChild(Skill1Button,0,1); this->addChild(Skill2Button,0,2); this->addChild(Skill3Button,0,3); this->addChild(Skill4Button,0,4);
 }
-
-
-
-
 
 //////////   滚动地图    //////////
 void Game::setViewpointCenter(Vec2 position)
@@ -404,69 +399,77 @@ void Game::mapupdate(float dt)
 	{
 		for (auto it = EnemeySoldier.begin(); it != EnemeySoldier.end(); it++)
 		{
-			for (auto it2 = MySoldier.begin(); it2 != MySoldier.end(); it2++)
+			if ((*it)->GetAlreadydead() == true)
 			{
-				auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-				if (DIS < 300 && (*it2)->GetAlreadydead() == false)
+				continue;
+			}
+				for (auto it2 = MySoldier.begin(); it2 != MySoldier.end(); it2++)
 				{
-					(*it)->ChangeCanAttackSoldier(true);
-					if ((*it)->GetCanAttackSoldier() == true)
+					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+					if (DIS < 300 && (*it2)->GetAlreadydead() == false)
 					{
-						(*it)->changeAttackingTarget(*it2);
+						(*it)->ChangeCanAttackSoldier(true);
+						if ((*it)->GetCanAttackSoldier() == true)
+						{
+							(*it)->changeAttackingTarget(*it2);
+						}
+					}
+					if ((*it2)->GetAlreadydead() == true && (*it)->getAttackingTarget() == (*it2))
+					{
+						(*it)->changeAttackingTarget(nullptr);
+					}
+					if (it2 == MySoldier.end() - 1 && (*it)->getAttackingTarget() == nullptr)
+					{
+						(*it)->ChangeCanAttackSoldier(false);
 					}
 				}
-				if ((*it2)->GetAlreadydead() == true && (*it)->getAttackingTarget() == (*it2))
+				for (auto it2 = MyTower.begin(); it2 != MyTower.end(); it2++)
+				{
+					auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
+					if (DIS < 350 && (*it2)->GetAlreadydead() == false)
+					{
+						(*it)->ChangeCanAttackTower(true);
+						if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackTower() == true)
+						{
+							(*it)->changeAttackingTarget(*it2);
+						}
+					}
+					if ((*it2)->GetAlreadydead() == true && (*it)->getAttackingTarget() == (*it2))
+					{
+						(*it)->changeAttackingTarget(nullptr);
+					}
+					if (it2 == MyTower.end() - 1 && (*it)->getAttackingTarget() == nullptr)
+					{
+						(*it)->ChangeCanAttackTower(false);
+					}
+				}
+				auto DIS = ((*it)->getPosition() - hero1->getPosition()).length();
+				if (DIS < 200)
+				{
+					(*it)->ChangeCanAttackHero(true);
+					if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == true)
+					{
+						(*it)->changeAttackingTarget(hero1);
+					}
+				}
+				else
+				{
+					(*it)->ChangeCanAttackHero(false);
+				}
+				if ((*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == false)
 				{
 					(*it)->changeAttackingTarget(nullptr);
 				}
-				if (it2 == MySoldier.end() - 1 && (*it)->getAttackingTarget() == nullptr)
-				{
-					(*it)->ChangeCanAttackTower(false);
-				}
-			}
-			for (auto it2 = MyTower.begin(); it2 != MyTower.end(); it2++)
-			{
-				auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-				if (DIS < 350 && (*it2)->GetAlreadydead() == false)
-				{
-					(*it)->ChangeCanAttackTower(true);
-					if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackTower() == true)
-					{
-						(*it)->changeAttackingTarget(*it2);
-					}
-				}
-				if ((*it2)->GetAlreadydead() == true && (*it)->getAttackingTarget() == (*it2))
-				{
-					(*it)->changeAttackingTarget(nullptr);
-				}
-				if (it2 == MyTower.end() - 1 && (*it)->getAttackingTarget() == nullptr)
-				{
-					(*it)->ChangeCanAttackTower(false);
-				}
-			}
-			auto DIS = ((*it)->getPosition() - hero1->getPosition()).length();
-			if (DIS < 200)
-			{
-				(*it)->ChangeCanAttackHero(true);
-				if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == true)
-				{
-					(*it)->changeAttackingTarget(hero1);
-				}
-			}
-			else
-			{
-				(*it)->ChangeCanAttackHero(false);
-			}
-			if ((*it)->GetCanAttackTower() == false && (*it)->GetCanAttackHero() == false && (*it)->GetCanAttackSoldier() == false)
-			{
-				(*it)->changeAttackingTarget(nullptr);
-			}
 		}
 	}
 	if (!MySoldier.empty())
 	{
 		for (auto it = MySoldier.begin(); it != MySoldier.end(); it++)
 		{
+			if ((*it)->GetAlreadydead() == true)
+			{
+				continue;
+			}
 			for (auto it2 = EnemeySoldier.begin(); it2 != EnemeySoldier.end(); it2++)
 			{
 				auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
@@ -530,10 +533,14 @@ void Game::mapupdate(float dt)
 	{
 		for (auto it = EnemeyTower.begin(); it != EnemeyTower.end(); it++)
 		{
+			if ((*it)->GetAlreadydead() == true)
+			{
+				continue;
+			}
 			for (auto it2 = MySoldier.begin(); it2 != MySoldier.end(); it2++)
 			{
 				auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-				if (DIS < 450 && (*it2)->GetAlreadydead() == false)
+				if (DIS < 300 && (*it2)->GetAlreadydead() == false)
 				{
 					(*it)->ChangeCanAttackSoldier(true);
 					if ((*it)->GetCanAttackSoldier() == true)
@@ -551,7 +558,7 @@ void Game::mapupdate(float dt)
 				}
 			}
 			auto DIS = ((*it)->getPosition() - hero1->getPosition()).length();
-			if (DIS < 450)
+			if (DIS < 300)
 			{
 				(*it)->ChangeCanAttackHero(true);
 				if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackHero() == true)
@@ -573,10 +580,14 @@ void Game::mapupdate(float dt)
 	{
 		for (auto it = MyTower.begin(); it != MyTower.end(); it++)
 		{
+			if ((*it)->GetAlreadydead() == true)
+			{
+				continue;
+			}
 			for (auto it2 = EnemeySoldier.begin(); it2 != EnemeySoldier.end(); it2++)
 			{
 				auto DIS = ((*it)->getPosition() - (*it2)->getPosition()).length();
-				if (DIS < 450 && (*it2)->GetAlreadydead() == false)
+				if (DIS < 300 && (*it2)->GetAlreadydead() == false)
 				{
 					(*it)->ChangeCanAttackSoldier(true);
 					if ((*it)->GetCanAttackSoldier() == true)
@@ -594,7 +605,7 @@ void Game::mapupdate(float dt)
 				}
 			}
 			auto DIS = ((*it)->getPosition() - hero2->getPosition()).length();
-			if (DIS < 450)
+			if (DIS < 300)
 			{
 				(*it)->ChangeCanAttackHero(true);
 				if ((*it)->GetCanAttackSoldier() == false && (*it)->GetCanAttackHero() == true)
@@ -641,7 +652,7 @@ void Game::TimeRecorder(float dt)
 	TimerLabel = Label::createWithSystemFont(str, "Arial", 30);
 	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width - 50, Director::getInstance()->getVisibleSize().height - 15);
 	this->addChild(TimerLabel, 2);
-	if (Time % 2 == 0)
+	/*if (Time % 2 == 0)
 	{
 		for (auto it = _ammoLayer->getChildren().begin(); it!=_ammoLayer->getChildren().end(); it++)
 		{
@@ -650,7 +661,7 @@ void Game::TimeRecorder(float dt)
 			(*it)->setPosition(-2000, -2000);
 			((ammo*)*it)->changeTargetPosition(Vec2(-2000, -2000));
 		}
-	}//暂时修复有时子弹无法消失的bug
+	}//暂时修复有时子弹无法消失的bug*/
 
 	if (Time == 1)
 	{
@@ -673,71 +684,80 @@ void Game::TimeRecorder(float dt)
 	{
 		CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/5Secondtostart.mp3"); 
 	}
-	if (Time==20||(Time>20&&Time%40==0))
+	if (Time==20||(Time>50&&Time%40==0))
 	{
 		auto Br1_1 = Soldier::create();
-		Br1_1->Soldierinit("Br1",1, _tileMap, (&unitsOnMap), _ammoLayer);
+		Br1_1->Soldierinit("Br1",1, _tileMap, (&unitsOnMap),(&EnemeySoldier),_ammoLayer);
 		addToMap(Br1_1, 0,Time+10001,"Br1");
 		auto Br2_1 = Soldier::create();
-		Br2_1->Soldierinit("Br2",1, _tileMap, (&unitsOnMap), _ammoLayer);
+		Br2_1->Soldierinit("Br2",1, _tileMap, (&unitsOnMap), (&EnemeySoldier),_ammoLayer);
 		addToMap(Br2_1, 0,Time+10002, "Br2");
 		auto Br3_1 = Soldier::create();
-		Br3_1->Soldierinit("Br3",1, _tileMap, (&unitsOnMap), _ammoLayer);
+		Br3_1->Soldierinit("Br3",1, _tileMap, (&unitsOnMap),  (&EnemeySoldier), _ammoLayer);
 		addToMap(Br3_1, 0, Time + 10003, "Br3");
 		auto Br1_2 = Soldier::create();
-		Br1_2->Soldierinit("Br1", 2, _tileMap, (&unitsOnMap), _ammoLayer);
+		Br1_2->Soldierinit("Br1", 2, _tileMap, (&unitsOnMap),(&EnemeySoldier), _ammoLayer);
 		addToMap(Br1_2, 0, Time + 10004, "Br1");
 		auto Br2_2 = Soldier::create();
-		Br2_2->Soldierinit("Br2", 2, _tileMap, (&unitsOnMap), _ammoLayer);
+		Br2_2->Soldierinit("Br2", 2, _tileMap, (&unitsOnMap),(&EnemeySoldier), _ammoLayer);
 		addToMap(Br2_2, 0, Time + 10005, "Br2");
 		auto Br3_2 = Soldier::create();
-		Br3_2->Soldierinit("Br3", 2, _tileMap, (&unitsOnMap), _ammoLayer);
+		Br3_2->Soldierinit("Br3", 2, _tileMap, (&unitsOnMap), (&EnemeySoldier), _ammoLayer);
 		addToMap(Br3_2, 0, Time + 10006, "Br3");
 		auto Bb1_1 = Soldier::create();
-		Bb1_1->Soldierinit("Bb1", 1, _tileMap, (&unitsOnMap), _ammoLayer);
+		Bb1_1->Soldierinit("Bb1", 1, _tileMap, (&unitsOnMap), (&MySoldier) , _ammoLayer);
 		addToMap(Bb1_1, 0, Time + 10007, "Bb1");
 		auto Bb2_1 = Soldier::create();
-		Bb2_1->Soldierinit("Bb2", 1, _tileMap, (&unitsOnMap), _ammoLayer);
+		Bb2_1->Soldierinit("Bb2", 1, _tileMap, (&unitsOnMap), (&MySoldier), _ammoLayer);
 		addToMap(Bb2_1, 0, Time + 10008, "Bb2");
 		auto Bb3_1 = Soldier::create();
-		Bb3_1->Soldierinit("Bb3", 1, _tileMap, (&unitsOnMap), _ammoLayer);
+		Bb3_1->Soldierinit("Bb3", 1, _tileMap, (&unitsOnMap), (&MySoldier), _ammoLayer);
 		addToMap(Bb3_1, 0, Time + 10009, "Bb3");
 		auto Bb1_2 = Soldier::create();
-		Bb1_2->Soldierinit("Bb1", 2, _tileMap, (&unitsOnMap), _ammoLayer);
+		Bb1_2->Soldierinit("Bb1", 2, _tileMap, (&unitsOnMap), (&MySoldier), _ammoLayer);
 		addToMap(Bb1_2, 0, Time + 10010, "Bb1");
 		auto Bb2_2 = Soldier::create();
-		Bb2_2->Soldierinit("Bb2", 2, _tileMap, (&unitsOnMap), _ammoLayer);
+		Bb2_2->Soldierinit("Bb2", 2, _tileMap, (&unitsOnMap), (&MySoldier), _ammoLayer);
 		addToMap(Bb2_2, 0, Time + 10011, "Bb2"); 
 		auto Bb3_2 = Soldier::create();
-		Bb3_2->Soldierinit("Bb3", 2, _tileMap, (&unitsOnMap), _ammoLayer);
+		Bb3_2->Soldierinit("Bb3", 2, _tileMap, (&unitsOnMap), (&MySoldier), _ammoLayer);
 		addToMap(Bb3_2, 0, Time + 10012, "Bb3"); 
 	}
 	if (!MySoldier.empty())
 	{
 		for (auto it = MySoldier.begin(); it != MySoldier.end(); it++)
 		{
-			(*it)->AttackingJudgeAI();
+			if ((*it)->GetAlreadydead() == false) {
+				(*it)->AttackingJudgeAI();
+			}
+			
 		}
 	}
 	if (!EnemeySoldier.empty())
 	{
 		for (auto it = EnemeySoldier.begin(); it != EnemeySoldier.end(); it++)
 		{
-			(*it)->AttackingJudgeAI();
+			if ((*it)->GetAlreadydead() == false) {
+				(*it)->AttackingJudgeAI();
+			}
 		}
 	}
 	if (!EnemeyTower.empty())
 	{
 		for (auto it = EnemeyTower.begin(); it != EnemeyTower.end(); it++)
 		{
-			(*it)->AttackingJudgeAI();
+			if ((*it)->GetAlreadydead() == false) {
+				(*it)->AttackingJudgeAI();
+			}
 		}
 	}
 	if (!MyTower.empty())
 	{
 		for (auto it = MyTower.begin(); it != MyTower.end(); it++)
 		{
-			(*it)->AttackingJudgeAI();
+			if ((*it)->GetAlreadydead() == false) {
+				(*it)->AttackingJudgeAI();
+			}
 		}
 	}
 	return;

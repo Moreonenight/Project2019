@@ -16,6 +16,7 @@
 #include<time.h>
 
 USING_NS_CC;
+
 class Game : public cocos2d::Layer
 {
 	MouseController *listener;
@@ -29,6 +30,8 @@ class Game : public cocos2d::Layer
 	cocos2d::Layer* _shopLayer = nullptr;
 	cocos2d::Layer* _skillLayer = nullptr;
 	cocos2d::Layer* _equipmentlLayer = nullptr;
+	cocos2d::Layer*  MiniMapLayer = nullptr;
+
 	int Time;
 	unit* hero1;
 	unit* hero2;
@@ -54,7 +57,7 @@ public:
 	Vector<Node*> *selectFromMap(Vec2 pos);
 	Vector<unit*> *getUnits();
 	void InitTabListener(string Hero1Name,string Hero2Name);
-	void Game::InitMiniMapListner();
+	void InitMiniMapListner();
 
 	// a selector callback
 	void menuItem1Callback(cocos2d::Ref* pSender);

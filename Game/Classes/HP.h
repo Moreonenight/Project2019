@@ -9,15 +9,16 @@ private:
 	bool isDied = false;
 	int velocity;
 	//unit *u;
-	Sprite *bloodrect;
+	
 	int max_HP;
 	//Sprite *Hp1000;
 
 	int cur_Hp;
-	Sprite *curBlood;
 
-	Sprite *emptyBlood;
 public:
+	Sprite *curBlood;
+	Sprite *bloodrect;
+	Sprite *emptyBlood;
 	struct HpinitialData {
 		int max;
 		int velocity;
@@ -65,6 +66,9 @@ public:
 		
 		return;
 	}
+
+
+
 
 	void changeID(std::string id) {
 

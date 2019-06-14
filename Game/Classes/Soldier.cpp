@@ -4,8 +4,9 @@
 #define CENTERY origin.y+visibleSize.height/2
 USING_NS_CC;
 
-bool Soldier::Soldierinit(string Soldiername,int number,cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits,Layer* ammoLayer)
+bool Soldier::Soldierinit(string Soldiername,int number,cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits, Vector<Soldier*>* _MyTeam,Layer* ammoLayer)
 {
+	MyTeam = _MyTeam;
 	_ammolayer = ammoLayer;
 	auto data = new(unitdata);
 	data->initial(Soldiername);
@@ -98,4 +99,87 @@ bool Soldier::AttackingJudgeAI()
 	
 		}
 	return true;
+}
+
+int Soldier::getDamage(int delta, std::string fromId) {
+	if (hp->getCur() < delta) {
+		die(fromId);
+	}
+	if (GetAlreadydead() == false) {
+		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
+		return hp->getCur();
+	}
+
+}
+void Soldier::die(std::string fromId)
+{
+	ChangeAlreadydead(true);
+	changeDeath(1);
+	if (fromId[0] == 'H') {
+		unit* killUnit = getUnitWithId(fromId);
+		if (killUnit != nullptr) {
+			killUnit->changeGold(this->getGold());
+			killUnit->addCurExp(30);
+			killUnit->changeKillSoldiers(1);
+		}
+	}
+	if (!DeleteFlag)
+	{
+		for (auto it = unitsOnMap->begin(); it < unitsOnMap->end(); it++)
+		{
+			if (static_cast<Soldier*>(*it) == this)
+			{
+				if (unitsOnMap->size() == 1) { unitsOnMap->clear(); break; }
+				else
+				{
+					it = unitsOnMap->erase(it);
+					if (it == unitsOnMap->end())
+					{
+						break;
+					}
+				}
+			}
+		}
+		//this->setPosition(-1000, -1000);//remove后英雄还可选中地图上不存在的单位？
+		this->getHp()->curBlood->removeFromParent();
+		this->getHp()->emptyBlood->removeFromParent();
+		this->getHp()->bloodrect->removeFromParent();
+		this->unscheduleUpdate();
+		this->getHp()->unscheduleUpdate();
+		this->removeFromParent();
+		DeleteFlag = true;
+	}
+}
+
+void Soldier::update(float dt) {
+	hp->follow(getPosition());
+	auto it = ammosOnWay.begin();
+	if (!ammosOnWay.empty()) {
+		for (; it < ammosOnWay.end(); it++) {
+			auto Dis = (this->getPosition() - (*it)->getPosition()).length();
+			auto id1 = this->getid(); auto id2 = (*it)->getid();
+			if (Dis < 100 && id1[1] != id2[1])
+			{
+				auto Damage = (*it)->getDamage();
+				this->getDamage(Damage, (*it)->getid());
+				(*it)->removeFromParentAndCleanup(1);
+				//if (it == (ammosOnWay.end() - 1)) { ammosOnWay.clear(); break; }
+				if (ammosOnWay.size() == 1) { ammosOnWay.clear(); break; }
+				else
+				{
+					it = ammosOnWay.erase(it);
+					if (it == ammosOnWay.end())
+					{
+						break;
+					}
+				}
+			}
+			else {
+				(*it)->changeTargetPosition(getPosition());
+			}
+		}
+	}
+	
+	if (this->canAttack == 1)return;
+	else { this->canAttack = 1; return; }
 }

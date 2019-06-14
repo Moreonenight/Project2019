@@ -122,6 +122,7 @@ public:
 		//»Ø³Ç»ØÑª
 		if ((getPosition() - getSpawnPoint()).length() <= 200) {
 			fullHp();
+			fullMana();
 		}
 
 		if (this->canAttack == 1)return;
