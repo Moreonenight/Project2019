@@ -152,23 +152,28 @@ public:
 	inline void fullMana() { mana->changeCurMana(mana->getMaxMana()); }
 	bool addEquipment(std::string itemId, Layer* equipmentlayer, Layer* shoplayer);
 	bool sellEquipment(int number, Layer* equipmentlayer, Layer* shoplayer);
-
-	void DeleteUnitWithId(std::string id) {
+	void DeleteUnit() {
 		auto it = unitsOnMap->begin();
 		for (; it < unitsOnMap->end(); ++it) {
-			if ((*it)->getid() == id) {
-				if (it == (unitsOnMap->end() - 1))
+			if ((*it) == this) {
+				if (unitsOnMap->size()==1)
 				{
-					unitsOnMap->clear(); break;
+					unitsOnMap->clear(); 
+					break;
 				}
 				else
 				{
 					it = unitsOnMap->erase(it);
+					if (it == unitsOnMap->end())
+					{
+						break;
+					}
 				}
 				return;
 			}
 		}
-	}
+	}	
+
 	//otherFunc
 	void getAttacked(ammo* amo) {
 		ammosOnWay.push_back(amo);

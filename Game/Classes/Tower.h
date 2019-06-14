@@ -97,7 +97,7 @@ public:
 				}
 			}
 			this->stopAllActions();
-			DeleteUnitWithId(getid());
+			DeleteUnit();
 		}
 		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
 		return hp->getCur();

@@ -79,6 +79,7 @@ void YaSe::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoi
 	scheduleUpdate();
 	schedule(schedule_selector(YaSe::cdUpdate), 1.0f);
 	schedule(schedule_selector(YaSe::skillFreshUpdate), 1.0f / 45);
+	schedule(schedule_selector(YaSe::AIFunc), 0.1f);
 }
 
 void YaSe::useSkill_1(Vec2 startPoint, unit* target)

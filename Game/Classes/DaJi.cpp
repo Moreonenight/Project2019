@@ -22,7 +22,7 @@ void DaJi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoi
 				if (sk1Cd_left > 0) { return true; }
 				else if (skill_1Level == 0) { return true; }
 				else {
-sk1 = true;
+				sk1 = true;
 				}
 			}
 			else if (keyCode == EventKeyboard::KeyCode::KEY_W) {

@@ -76,6 +76,8 @@ void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map,Vec2 bornpoi
 	scheduleUpdate();
 	schedule(schedule_selector(HouYi::cdUpdate), 1.0f);
 	schedule(schedule_selector(HouYi::skillFreshUpdate), 1.0f/45);
+	schedule(schedule_selector(HouYi::AIFunc), 0.1f);
+
 }
 
 
