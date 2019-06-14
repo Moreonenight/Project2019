@@ -30,6 +30,7 @@ private:
 	int sk2Cd_left = 0;
 	int	sk3Cd_left = 0;
 	int deathCd_left = 0;
+	int backCd_left = 0;
 	//表示当前能否释放其他技能
 	bool canReleaseSkill = true;
 public:
@@ -57,13 +58,15 @@ public:
 	inline int getSk3Level() { return skill_3Level; }
 	inline bool canRelease() { return canReleaseSkill; }
 	inline void changeCanRelease(bool now) { canReleaseSkill = now; }
+	inline void backEnd() { backCd_left = 0; }
 
 	//游戏刷新
 	void cdUpdate(float dt);
 	void skillFreshUpdate(float dt);
 	void AIFunc(float dt) {
 		if (isAI() == false) return;
-		float blood = (getHp()->getCur()) / (float)(getHp()->getMax());	
+		if (deathCd_left > 0)return;
+		float blood = (getHp()->getCur()) / (float)(getHp()->getMax());
 		auto aow = &ammosOnWay;
 		if (getSkillPoint() != 0) {
 			if (skill_1Level < 3)
@@ -248,10 +251,6 @@ public:
 		if ((getPosition() - getSpawnPoint()).length() <= 200) {
 			fullHp();
 		}
-/*
-		if (this->canAttack == 1)return;
-		else { this->canAttack = 1; return; }
-*/
 	}
 
 	virtual int getDamage(int delta, std::string fromId) {
