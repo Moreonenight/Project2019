@@ -40,6 +40,8 @@ private:
 	int KillHero, KillSoldiers, deathnumber;
 	bool Alreadydead;
 	bool CanAttack;
+	bool AI;
+	bool GettingAttack;
 public:
 	HP *hp;
 	Exp *exp = nullptr;
@@ -116,8 +118,8 @@ public:
 	inline int getDeath() { return deathnumber; }
 	inline int getKillSoldiers() { return KillSoldiers; }
 	inline string getid() { return id; }
-
-
+	bool isAI() { return AI; }
+	int getAttackRange() { return attackRange; }
 	inline int getMoveSpeed() { return moveSpeed; }
 	inline int getCurDamage() { return damage; }/*when want to know how much the unit damage is*/
 	int getAmmoSpeed() { return ammoSpeed; }
@@ -127,6 +129,9 @@ public:
 
 	inline int getSkillPoint() { return skillPoint; }
 
+	bool IsGettingAttack(){
+	return	GettingAttack;
+	}
 
 	//change Func
 	inline std::string changeid(string newid) { id = newid; return id; }
@@ -135,6 +140,7 @@ public:
 	inline int changeDamage(int delta) { if (damage + delta > 0) damage += delta; else damage = 0; return damage; }
 	inline void setDamage(int num) { if (num > 0)damage = num; }
 	inline void changeCurHp(int delta) { hp->changeCur(delta); }
+	void AIClose() { AI = 0; return; }
 	void addCurExp(int delta) { exp->changeCurExp(delta); changeLevel(exp->getLevel() - level); }
 	inline void changeKillHero(int delta) { KillHero += delta; }
 	inline void changeKillSoldiers(int delta) { KillSoldiers += delta; }
@@ -146,6 +152,23 @@ public:
 	inline void fullMana() { mana->changeCurMana(mana->getMaxMana()); }
 	bool addEquipment(std::string itemId, Layer* equipmentlayer, Layer* shoplayer);
 	bool sellEquipment(int number, Layer* equipmentlayer, Layer* shoplayer);
+
+	void DeleteUnitWithId(std::string id) {
+		auto it = unitsOnMap->begin();
+		for (; it < unitsOnMap->end(); ++it) {
+			if ((*it)->getid() == id) {
+				if (it == (unitsOnMap->end() - 1))
+				{
+					unitsOnMap->clear(); break;
+				}
+				else
+				{
+					it = unitsOnMap->erase(it);
+				}
+				return;
+			}
+		}
+	}
 	//otherFunc
 	void getAttacked(ammo* amo) {
 		ammosOnWay.push_back(amo);
@@ -198,9 +221,6 @@ public:
 	void freshASPD(float dt) {
 		if (this->canAttack == 1)return;
 		else { this->canAttack = 1; return; }
-		unit* getUnitWithId(std::string id);
-		bool addEquipment(std::string itemId, Layer* equipmentlayer, Layer* shoplayer);
-		bool sellEquipment(int number, Layer* equipmentlayer, Layer* shoplayer);
 	};
 
 };

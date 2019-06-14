@@ -91,6 +91,7 @@ public:
 				this->setPosition(Vec2(-200, -200));
 
 			}
+			DeleteUnitWithId(getid());
 			hp->changeCur(3000000);
 		}
 		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));

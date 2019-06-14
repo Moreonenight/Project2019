@@ -63,7 +63,7 @@ public:
 	//游戏刷新
 	void cdUpdate(float dt);
 	void skillFreshUpdate(float dt);
-
+	void AIFunc(float dt);
 	void update(float dt) {
 		if (deathCd_left > 0) { setOpacity(150); }
 		else { setOpacity(255); }
@@ -133,6 +133,7 @@ public:
 
 	}
 	virtual int getDamage(int delta, std::string fromId) {
+		
 		if (hp->getCur() < delta) {
 			die();
 			//得到击杀者unit*添加奖励
