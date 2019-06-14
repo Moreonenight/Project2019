@@ -127,10 +127,10 @@ public:
 		if ((getPosition() - getSpawnPoint()).length() <= 200) {
 			fullHp();
 		}
-
+/*
 		if (this->canAttack == 1)return;
 		else { this->canAttack = 1; return; }
-
+*/
 	}
 	virtual int getDamage(int delta, std::string fromId) {
 		

@@ -63,14 +63,30 @@ public:
 	void skillFreshUpdate(float dt);
 	void AIFunc(float dt) {
 		if (isAI() == false) return;
-		float blood = (getHp()->getCur()) / (float)(getHp()->getMax());
+		float blood = (getHp()->getCur()) / (float)(getHp()->getMax());	
 		auto aow = &ammosOnWay;
+		if (getSkillPoint() != 0) {
+			if (skill_1Level < 3)
+			{
+				skill_1Level++;
+				changeSkillPoint(-1);
+			}
+			else if (skill_2Level < 3) {
+				skill_2Level++;
+				changeSkillPoint(-1);
+			}
+			else if (skill_3Level < 2) {
+				skill_3Level++;
+				changeSkillPoint(-1);
+			}
+		}
+
 		if (blood <= 0.1) {
-			if (getid()[1] == 'b') {
-				moveDirectionByKey(getDir(getPosition(), Vec2(0.0, 0.0)), Vec2(0.0, 0.0));
+			if (sk2Cd_left == 0 && skill_2Level) {
+				useSkill_2(getPosition() + (getSpawnPoint() - getPosition()).getNormalized() * 350);
 			}
 			else {
-				moveDirectionByKey(getDir(getPosition(), Vec2(2200, 1600)), Vec2(2200, 1600));
+				moveDirectionByKey(getDir(getPosition(), getSpawnPoint()), getSpawnPoint());
 			}
 		}
 		else {
@@ -78,7 +94,7 @@ public:
 			unit* target = NULL;
 			float minlength = 65535.0;
 			vector<ammo*>::iterator ait = (*aow).begin();
-			for (; ait < aow->end(); ait++) {//先看有没有敌方英雄攻击自己
+			for (; ait < aow->end(); ait++) {//先看有没有敌方单位攻击自己
 				if ((*ait)->getid()[0] == 'T') {//看有没被塔砸
 					if (getid()[1] == 'b') {
 						moveDirectionByKey(getDir(getPosition(), Vec2(0.0, 0.0)), Vec2(0.0, 0.0));
@@ -92,18 +108,20 @@ public:
 					break;
 				}
 			}
-			Vector<unit*>::iterator uit = (*unitsOnMap).begin();
+			auto units = *unitsOnMap;
+			Vector<unit*>::iterator uit = units.begin();
 
-			for (; uit < (*unitsOnMap).end(); uit++) {
-				auto a = unitsOnMap->end();
-				auto b = unitsOnMap->begin();
+			for (; uit < units.end(); uit++) {
 				if ((*uit)->getid()[0] == 'H')//先判断英雄
 				{
 					if ((*uit)->getid()[1] != this->getid()[1]) {//敌方英雄
-						if (targetid == (*uit)->getid()) {//假如有地方英雄那么有1技能就用
+						if (targetid == (*uit)->getid()) {//假如受到敌方英雄攻击那么有1技能就用
 							if (sk1Cd_left == 0) {
 								useSkill_1(getPosition(),(*uit));
 								return;
+							}
+							else if (sk3Cd_left == 0&&((*uit)->getPosition()-getPosition()).length() < 300) {
+								useSkill_3();
 							}
 							else//没技能就打
 							{
@@ -230,10 +248,10 @@ public:
 		if ((getPosition() - getSpawnPoint()).length() <= 200) {
 			fullHp();
 		}
-
+/*
 		if (this->canAttack == 1)return;
 		else { this->canAttack = 1; return; }
-
+*/
 	}
 
 	virtual int getDamage(int delta, std::string fromId) {
