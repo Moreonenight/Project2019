@@ -52,8 +52,8 @@ void HP::initial(HpinitialData data)
 	bloodrect = Sprite::create("HP/bloodrect.png");
 	bloodrect->setPosition(position.x, position.y + 100);
 	if (HpId[0] == 'B') {
-		setScaleX(((float)(size.width)) / (size.width)/2);
-		setScaleY(10.0 / bloodrect->getContentSize().height/2);
+		bloodrect->setScaleX(((float)(size.width)) / (size.width)/2);
+		bloodrect->setScaleY(10.0 / bloodrect->getContentSize().height/2);
 	}
 	else {
 		setScaleX(((float)(size.width)) / (size.width));
