@@ -304,7 +304,7 @@ void Game::InitTabListener(string Hero1Name,string Hero2Name)
 			LabelDead->setPosition(340, 360); LabelDead->setAnchorPoint(Vec2(0, 0)); LabelDead->enableGlow(Color4B::GREEN);
 			auto LabelKillSoldier = Label::create("Number of killsoldiers:" + to_string(hero1->getKillSoldiers()), "fonts/arial.ttf", 25);
 			LabelKillSoldier->setPosition(340, 330); LabelKillSoldier->setAnchorPoint(Vec2(0, 0)); LabelKillSoldier->enableGlow(Color4B::GREEN);
-			auto Labeldamage = Label::create("Current Damage:" + to_string(hero1->getDamage()), "fonts/arial.ttf", 25);
+			auto Labeldamage = Label::create("Current Damage:" + to_string(hero1->getCurDamage()), "fonts/arial.ttf", 25);
 			Labeldamage->setPosition(340, 300); Labeldamage->setAnchorPoint(Vec2(0, 0)); Labeldamage->enableGlow(Color4B::GREEN);
 			auto LabelBlood = Label::create("Current Max HP:" + to_string(hero1->getMaxHp()), "fonts/arial.ttf", 25);
 			LabelBlood->setPosition(340, 270); LabelBlood->setAnchorPoint(Vec2(0, 0)); LabelBlood->enableGlow(Color4B::GREEN);
@@ -316,7 +316,7 @@ void Game::InitTabListener(string Hero1Name,string Hero2Name)
 			LabelDead2->setPosition(340, 210); LabelDead2->setAnchorPoint(Vec2(0, 0)); LabelDead2->enableGlow(Color4B::RED);
 			auto LabelKillSoldier2 = Label::create("Number of killsoldiers:" + to_string(hero2->getKillSoldiers()), "fonts/arial.ttf", 25);
 			LabelKillSoldier2->setPosition(340, 180); LabelKillSoldier2->setAnchorPoint(Vec2(0, 0)); LabelKillSoldier2->enableGlow(Color4B::RED);
-			auto Labeldamage2 = Label::create("Current Damage:" + to_string(hero2->getDamage()), "fonts/arial.ttf", 25);
+			auto Labeldamage2 = Label::create("Current Damage:" + to_string(hero2->getCurDamage()), "fonts/arial.ttf", 25);
 			Labeldamage2->setPosition(340, 150); Labeldamage2->setAnchorPoint(Vec2(0, 0)); Labeldamage2->enableGlow(Color4B::RED);
 			auto LabelBlood2 = Label::create("Current Max HP:" + to_string(hero2->getMaxHp()), "fonts/arial.ttf", 25);
 			LabelBlood2->setPosition(340, 120); LabelBlood2->setAnchorPoint(Vec2(0, 0)); LabelBlood2->enableGlow(Color4B::RED);
@@ -402,6 +402,7 @@ void Game::mapupdate(float dt)
 	{
 		for (auto it = EnemeySoldier.begin(); it != EnemeySoldier.end(); it++)
 		{
+			float MinDis = 5000;
 			if ((*it)->GetAlreadydead() == true)
 			{
 				continue;
@@ -412,8 +413,9 @@ void Game::mapupdate(float dt)
 					if (DIS < 300 && (*it2)->GetAlreadydead() == false)
 					{
 						(*it)->ChangeCanAttackSoldier(true);
-						if ((*it)->GetCanAttackSoldier() == true)
+						if ((*it)->GetCanAttackSoldier() == true && DIS <= MinDis)
 						{
+							MinDis = DIS;
 							(*it)->changeAttackingTarget(*it2);
 						}
 					}
@@ -469,6 +471,7 @@ void Game::mapupdate(float dt)
 	{
 		for (auto it = MySoldier.begin(); it != MySoldier.end(); it++)
 		{
+			float MinDis = 5000;
 			if ((*it)->GetAlreadydead() == true)
 			{
 				continue;
@@ -479,8 +482,9 @@ void Game::mapupdate(float dt)
 				if (DIS < 300 && (*it2)->GetAlreadydead() == false)
 				{
 					(*it)->ChangeCanAttackSoldier(true);
-					if ((*it)->GetCanAttackSoldier() == true)
+					if ((*it)->GetCanAttackSoldier() == true && DIS <= MinDis)
 					{
+						MinDis = DIS;
 						(*it)->changeAttackingTarget(*it2);
 					}
 				}
@@ -583,6 +587,7 @@ void Game::mapupdate(float dt)
 	{
 		for (auto it = MyTower.begin(); it != MyTower.end(); it++)
 		{
+			float MinDis = 5000;
 			if ((*it)->GetAlreadydead() == true)
 			{
 				continue;
@@ -655,7 +660,7 @@ void Game::TimeRecorder(float dt)
 	TimerLabel = Label::createWithSystemFont(str, "Arial", 30);
 	TimerLabel->setPosition(Director::getInstance()->getVisibleSize().width - 50, Director::getInstance()->getVisibleSize().height - 15);
 	this->addChild(TimerLabel, 2);
-	/*if (Time % 2 == 0)
+	if (Time % 2 == 0)
 	{
 		for (auto it = _ammoLayer->getChildren().begin(); it!=_ammoLayer->getChildren().end(); it++)
 		{
@@ -664,7 +669,7 @@ void Game::TimeRecorder(float dt)
 			(*it)->setPosition(-2000, -2000);
 			((ammo*)*it)->changeTargetPosition(Vec2(-2000, -2000));
 		}
-	}//暂时修复有时子弹无法消失的bug*/
+	}
 
 	if (Time == 1)
 	{
@@ -690,40 +695,40 @@ void Game::TimeRecorder(float dt)
 	if (Time==20||(Time>50&&Time%40==0))
 	{
 		auto Br1_1 = Soldier::create();
-		Br1_1->Soldierinit("Br1",1, _tileMap, (&unitsOnMap),(&EnemeySoldier),_ammoLayer);
+		Br1_1->Soldierinit("Br1",1, _tileMap, (&unitsOnMap),_ammoLayer);
 		addToMap(Br1_1, 0,Time+10001,"Br1");
 		auto Br2_1 = Soldier::create();
-		Br2_1->Soldierinit("Br2",1, _tileMap, (&unitsOnMap), (&EnemeySoldier),_ammoLayer);
+		Br2_1->Soldierinit("Br2",1, _tileMap, (&unitsOnMap),_ammoLayer);
 		addToMap(Br2_1, 0,Time+10002, "Br2");
 		auto Br3_1 = Soldier::create();
-		Br3_1->Soldierinit("Br3",1, _tileMap, (&unitsOnMap),  (&EnemeySoldier), _ammoLayer);
+		Br3_1->Soldierinit("Br3",1, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Br3_1, 0, Time + 10003, "Br3");
 		auto Br1_2 = Soldier::create();
-		Br1_2->Soldierinit("Br1", 2, _tileMap, (&unitsOnMap),(&EnemeySoldier), _ammoLayer);
+		Br1_2->Soldierinit("Br1", 2, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Br1_2, 0, Time + 10004, "Br1");
 		auto Br2_2 = Soldier::create();
-		Br2_2->Soldierinit("Br2", 2, _tileMap, (&unitsOnMap),(&EnemeySoldier), _ammoLayer);
+		Br2_2->Soldierinit("Br2", 2, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Br2_2, 0, Time + 10005, "Br2");
 		auto Br3_2 = Soldier::create();
-		Br3_2->Soldierinit("Br3", 2, _tileMap, (&unitsOnMap), (&EnemeySoldier), _ammoLayer);
+		Br3_2->Soldierinit("Br3", 2, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Br3_2, 0, Time + 10006, "Br3");
 		auto Bb1_1 = Soldier::create();
-		Bb1_1->Soldierinit("Bb1", 1, _tileMap, (&unitsOnMap), (&MySoldier) , _ammoLayer);
+		Bb1_1->Soldierinit("Bb1", 1, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Bb1_1, 0, Time + 10007, "Bb1");
 		auto Bb2_1 = Soldier::create();
-		Bb2_1->Soldierinit("Bb2", 1, _tileMap, (&unitsOnMap), (&MySoldier), _ammoLayer);
+		Bb2_1->Soldierinit("Bb2", 1, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Bb2_1, 0, Time + 10008, "Bb2");
 		auto Bb3_1 = Soldier::create();
-		Bb3_1->Soldierinit("Bb3", 1, _tileMap, (&unitsOnMap), (&MySoldier), _ammoLayer);
+		Bb3_1->Soldierinit("Bb3", 1, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Bb3_1, 0, Time + 10009, "Bb3");
 		auto Bb1_2 = Soldier::create();
-		Bb1_2->Soldierinit("Bb1", 2, _tileMap, (&unitsOnMap), (&MySoldier), _ammoLayer);
+		Bb1_2->Soldierinit("Bb1", 2, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Bb1_2, 0, Time + 10010, "Bb1");
 		auto Bb2_2 = Soldier::create();
-		Bb2_2->Soldierinit("Bb2", 2, _tileMap, (&unitsOnMap), (&MySoldier), _ammoLayer);
+		Bb2_2->Soldierinit("Bb2", 2, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Bb2_2, 0, Time + 10011, "Bb2"); 
 		auto Bb3_2 = Soldier::create();
-		Bb3_2->Soldierinit("Bb3", 2, _tileMap, (&unitsOnMap), (&MySoldier), _ammoLayer);
+		Bb3_2->Soldierinit("Bb3", 2, _tileMap, (&unitsOnMap), _ammoLayer);
 		addToMap(Bb3_2, 0, Time + 10012, "Bb3"); 
 	}
 	if (!MySoldier.empty())

@@ -4,9 +4,9 @@
 #define CENTERY origin.y+visibleSize.height/2
 USING_NS_CC;
 
-bool Soldier::Soldierinit(string Soldiername,int number,cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits, Vector<Soldier*>* _MyTeam,Layer* ammoLayer)
+bool Soldier::Soldierinit(string Soldiername,int number,cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits,Layer* ammoLayer)
 {
-	MyTeam = _MyTeam;
+	
 	_ammolayer = ammoLayer;
 	auto data = new(unitdata);
 	data->initial(Soldiername);
@@ -109,7 +109,6 @@ int Soldier::getDamage(int delta, std::string fromId) {
 		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
 		return hp->getCur();
 	}
-
 }
 void Soldier::die(std::string fromId)
 {
@@ -125,22 +124,7 @@ void Soldier::die(std::string fromId)
 	}
 	if (!DeleteFlag)
 	{
-		for (auto it = unitsOnMap->begin(); it < unitsOnMap->end(); it++)
-		{
-			if (static_cast<Soldier*>(*it) == this)
-			{
-				if (unitsOnMap->size() == 1) { unitsOnMap->clear(); break; }
-				else
-				{
-					it = unitsOnMap->erase(it);
-					if (it == unitsOnMap->end())
-					{
-						break;
-					}
-				}
-			}
-		}
-		//this->setPosition(-1000, -1000);//remove后英雄还可选中地图上不存在的单位？
+		DeleteUnit();
 		this->getHp()->curBlood->removeFromParent();
 		this->getHp()->emptyBlood->removeFromParent();
 		this->getHp()->bloodrect->removeFromParent();
@@ -163,7 +147,6 @@ void Soldier::update(float dt) {
 				auto Damage = (*it)->getDamage();
 				this->getDamage(Damage, (*it)->getid());
 				(*it)->removeFromParentAndCleanup(1);
-				//if (it == (ammosOnWay.end() - 1)) { ammosOnWay.clear(); break; }
 				if (ammosOnWay.size() == 1) { ammosOnWay.clear(); break; }
 				else
 				{

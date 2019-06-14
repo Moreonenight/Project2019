@@ -105,6 +105,7 @@ public:
 			changeMaxHp(ChangeMaxHp[level - 2]); fullHp();
 			changeDefencePhysical(ChangeDefence[level - 2]);
 			mana->changeMaxMana(ChangeMana[level - 2]); fullMana();
+			
 		}
 		auto it = ammosOnWay.begin();
 		for (; it < ammosOnWay.end(); it++) {
@@ -114,10 +115,15 @@ public:
 				auto Damage = (*it)->getDamage();
 				this->getDamage(Damage, (*it)->getid());
 				(*it)->removeFromParentAndCleanup(1);
-				//(*it)->setVisible(0);
-				//(*it)->setPosition(-200.0, -200.0);
-				if (it == (ammosOnWay.end() - 1)) { ammosOnWay.clear(); break; }
-				else it = ammosOnWay.erase(it);
+				if (ammosOnWay.size() == 1) { ammosOnWay.clear(); break; }
+				else
+				{
+					it = ammosOnWay.erase(it);
+					if (it == ammosOnWay.end())
+					{
+						break;
+					}
+				}
 			}
 			else {
 				(*it)->changeTargetPosition(getPosition());
@@ -129,8 +135,8 @@ public:
 			fullMana();
 		}
 
-		if (this->canAttack == 1)return;
-		else { this->canAttack = 1; return; }
+		/*if (this->canAttack == 1)return;
+		else { this->canAttack = 1; return; }*/
 
 	}
 	virtual int getDamage(int delta, std::string fromId) {

@@ -217,10 +217,15 @@ public:
 				auto Damage = (*it)->getDamage();
 				this->getDamage(Damage, (*it)->getid());
 				(*it)->removeFromParentAndCleanup(1);
-				//(*it)->setVisible(0);
-				//(*it)->setPosition(-200.0, -200.0);
-				if (it == (ammosOnWay.end() - 1)) { ammosOnWay.clear(); break; }
-				else it = ammosOnWay.erase(it);
+				if (ammosOnWay.size() == 1) { ammosOnWay.clear(); break; }
+				else
+				{
+					it = ammosOnWay.erase(it);
+					if (it == ammosOnWay.end())
+					{
+						break;
+					}
+				}
 			}
 			else {
 				(*it)->changeTargetPosition(getPosition());
@@ -231,8 +236,8 @@ public:
 			fullHp();
 		}
 
-		if (this->canAttack == 1)return;
-		else { this->canAttack = 1; return; }
+		/*if (this->canAttack == 1)return;
+		else { this->canAttack = 1; return; }*/
 
 	}
 
