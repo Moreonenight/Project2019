@@ -22,7 +22,7 @@ private:
 	int ChangeAmmoSpeed[7] = { 1,1,1,1,1,1,1 };
 	int ChangeDefence[7] = { 1,1,1,1,1,1,1 };
 	int ChangeMaxHp[7] = { 1500,1500,2500,3000,3500,4000,4500 };
-	//±íÊ¾¼¼ÄÜÊÇ·ñ¿ªÆô
+	//è¡¨ç¤ºæŠ€èƒ½æ˜¯å¦å¼€å¯
 	bool sk1 = false;
 	bool sk2 = false;
 	bool sk3 = false;
@@ -30,7 +30,8 @@ private:
 	int sk2Cd_left = 0;
 	int	sk3Cd_left = 0;
 	int deathCd_left = 0;
-	//±íÊ¾µ±Ç°ÄÜ·ñÊÍ·ÅÆäËû¼¼ÄÜ
+	int backCd_left = 0;
+	//è¡¨ç¤ºå½“å‰èƒ½å¦é‡Šæ”¾å…¶ä»–æŠ€èƒ½
 	bool canReleaseSkill = true;
 public:
 	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer);
@@ -43,7 +44,7 @@ public:
 	void sk3End();
 	void sk3End(Vec2 Target);
 	void useAlti();
-	//¼¼ÄÜÏà¹Ø
+	//æŠ€èƒ½ç›¸å…³
 	inline bool isReleasing() { return sk1 || sk2 || sk3; }
 	inline bool getSk1() { return sk1; }
 	inline bool getSk2() { return sk2; }
@@ -57,20 +58,38 @@ public:
 	inline int getSk3Level() { return skill_3Level; }
 	inline bool canRelease() { return canReleaseSkill; }
 	inline void changeCanRelease(bool now) { canReleaseSkill = now; }
+	inline void backEnd() { backCd_left = 0; }
 
-	//ÓÎÏ·Ë¢ĞÂ
+	//æ¸¸æˆåˆ·æ–°
 	void cdUpdate(float dt);
 	void skillFreshUpdate(float dt);
 	void AIFunc(float dt) {
 		if (isAI() == false) return;
+		if (deathCd_left > 0)return;
 		float blood = (getHp()->getCur()) / (float)(getHp()->getMax());
 		auto aow = &ammosOnWay;
+		if (getSkillPoint() != 0) {
+			if (skill_1Level < 3)
+			{
+				skill_1Level++;
+				changeSkillPoint(-1);
+			}
+			else if (skill_2Level < 3) {
+				skill_2Level++;
+				changeSkillPoint(-1);
+			}
+			else if (skill_3Level < 2) {
+				skill_3Level++;
+				changeSkillPoint(-1);
+			}
+		}
+
 		if (blood <= 0.1) {
-			if (getid()[1] == 'b') {
-				moveDirectionByKey(getDir(getPosition(), Vec2(0.0, 0.0)), Vec2(0.0, 0.0));
+			if (sk2Cd_left == 0 && skill_2Level) {
+				useSkill_2(getPosition() + (getSpawnPoint() - getPosition()).getNormalized() * 350);
 			}
 			else {
-				moveDirectionByKey(getDir(getPosition(), Vec2(2200, 1600)), Vec2(2200, 1600));
+				moveDirectionByKey(getDir(getPosition(), getSpawnPoint()), getSpawnPoint());
 			}
 		}
 		else {
@@ -78,8 +97,8 @@ public:
 			unit* target = NULL;
 			float minlength = 65535.0;
 			vector<ammo*>::iterator ait = (*aow).begin();
-			for (; ait < aow->end(); ait++) {//ÏÈ¿´ÓĞÃ»ÓĞµĞ·½Ó¢ĞÛ¹¥»÷×Ô¼º
-				if ((*ait)->getid()[0] == 'T') {//¿´ÓĞÃ»±»ËşÔÒ
+			for (; ait < aow->end(); ait++) {//å…ˆçœ‹æœ‰æ²¡æœ‰æ•Œæ–¹å•ä½æ”»å‡»è‡ªå·±
+				if ((*ait)->getid()[0] == 'T') {//çœ‹æœ‰æ²¡è¢«å¡”ç ¸
 					if (getid()[1] == 'b') {
 						moveDirectionByKey(getDir(getPosition(), Vec2(0.0, 0.0)), Vec2(0.0, 0.0));
 					}
@@ -92,38 +111,40 @@ public:
 					break;
 				}
 			}
-			Vector<unit*>::iterator uit = (*unitsOnMap).begin();
+			auto units = *unitsOnMap;
+			Vector<unit*>::iterator uit = units.begin();
 
-			for (; uit < (*unitsOnMap).end(); uit++) {
-				auto a = unitsOnMap->end();
-				auto b = unitsOnMap->begin();
-				if ((*uit)->getid()[0] == 'H')//ÏÈÅĞ¶ÏÓ¢ĞÛ
+			for (; uit < units.end(); uit++) {
+				if ((*uit)->getid()[0] == 'H')//å…ˆåˆ¤æ–­è‹±é›„
 				{
-					if ((*uit)->getid()[1] != this->getid()[1]) {//µĞ·½Ó¢ĞÛ
-						if (targetid == (*uit)->getid()) {//¼ÙÈçÓĞµØ·½Ó¢ĞÛÄÇÃ´ÓĞ1¼¼ÄÜ¾ÍÓÃ
+					if ((*uit)->getid()[1] != this->getid()[1]) {//æ•Œæ–¹è‹±é›„
+						if (targetid == (*uit)->getid()) {//å‡å¦‚å—åˆ°æ•Œæ–¹è‹±é›„æ”»å‡»é‚£ä¹ˆæœ‰1æŠ€èƒ½å°±ç”¨
 							if (sk1Cd_left == 0) {
 								useSkill_1(getPosition(),(*uit));
 								return;
 							}
-							else//Ã»¼¼ÄÜ¾Í´ò
+							else if (sk3Cd_left == 0&&((*uit)->getPosition()-getPosition()).length() < 300) {
+								useSkill_3();
+							}
+							else//æ²¡æŠ€èƒ½å°±æ‰“
 							{
 								attackTo((*uit));
 								return;
 							}
 						}
-						else if (((*uit)->getPosition() - this->getPosition()).length() <= getAttackRange() - 100)//ÅĞ¶ÏÉí±ßÓĞµØ·½Ó¢ĞÛ¾Í´ò
+						else if (((*uit)->getPosition() - this->getPosition()).length() <= getAttackRange() - 100)//åˆ¤æ–­èº«è¾¹æœ‰åœ°æ–¹è‹±é›„å°±æ‰“
 						{
 							attackTo((*uit));
 							return;
 						}
 					}
-					else {//ÓÑ·½Ó¢ĞÛ
+					else {//å‹æ–¹è‹±é›„
 						/*if (((*uit)->getHp()->getCur()) / (float)(*uit)->getHp()->getMax() <= 0.3) {
-							if (((*uit)->getPosition() - getPosition()).length() <= 150) {//ÑªÁ¿Ğ¡¾ÍÈ¥ÄÌ
+							if (((*uit)->getPosition() - getPosition()).length() <= 150) {//è¡€é‡å°å°±å»å¥¶
 								useSkill_3();
 								return;
 							}
-							else if (((*uit)->getPosition() - getPosition()).length() <= 600) {//ÄÌ²»µ½ÓÖ²»Ì«Ô¶¾Í¿¿¹ıÈ¥
+							else if (((*uit)->getPosition() - getPosition()).length() <= 600) {//å¥¶ä¸åˆ°åˆä¸å¤ªè¿œå°±é è¿‡å»
 								moveDirectionByKey(getDir(getPosition(), (*uit)->getPosition()), (*uit)->getPosition());
 								return;
 							}
@@ -131,23 +152,23 @@ public:
 						;
 					}
 				}
-				else if ((*uit)->getid()[0] == 'B') {//Ğ¡±ø
-					if ((*uit)->getid()[1] != this->getid()[1]) {//µĞ·½Ğ¡±ø ÅĞ¶Ï×î½üµÄĞ¡±ø£¬´ò¹ıÈ¥
+				else if ((*uit)->getid()[0] == 'B') {//å°å…µ
+					if ((*uit)->getid()[1] != this->getid()[1]) {//æ•Œæ–¹å°å…µ åˆ¤æ–­æœ€è¿‘çš„å°å…µï¼Œæ‰“è¿‡å»
 						if (((*uit)->getPosition() - this->getPosition()).length() <= minlength) {
 							target = (*uit);
 						}
 					}
-					else {//ÓÑ·½Ğ¡±ø
+					else {//å‹æ–¹å°å…µ
 						;
 					}
 				}
-				else if ((*uit)->getid()[0] == 'T') {//Ëş
-					if ((*uit)->getid()[1] != getid()[1]) {//µĞ·½Ëş
+				else if ((*uit)->getid()[0] == 'T') {//å¡”
+					if ((*uit)->getid()[1] != getid()[1]) {//æ•Œæ–¹å¡”
 						if (((*uit)->getPosition() - getPosition()).length() < minlength) {
 							target = *uit;
 						}
 					}
-					else {//ÓÑ·½Ëş
+					else {//å‹æ–¹å¡”
 						if ((*uit)->IsGettingAttack()) {
 							moveDirectionByKey(getDir(getPosition(), (*uit)->getPosition()), (*uit)->getPosition());
 							return;
@@ -231,20 +252,16 @@ public:
 				(*it)->changeTargetPosition(getPosition());
 			}
 		}
-		//»Ø³Ç»ØÑª
+		//å›åŸå›è¡€
 		if ((getPosition() - getSpawnPoint()).length() <= 200) {
 			fullHp();
 		}
-
-		/*if (this->canAttack == 1)return;
-		else { this->canAttack = 1; return; }*/
-
 	}
 
 	virtual int getDamage(int delta, std::string fromId) {
 		if (hp->getCur() < delta) {
 			die();
-			//µÃµ½»÷É±Õßunit*Ìí¼Ó½±Àø
+			//å¾—åˆ°å‡»æ€è€…unit*æ·»åŠ å¥–åŠ±
 			changeDeath(1);
 			if (fromId[0] == 'H') {
 				unit* killUnit = getUnitWithId(fromId);

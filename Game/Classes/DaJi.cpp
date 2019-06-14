@@ -40,6 +40,10 @@ void DaJi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoi
 				useSkill_3();
 			}
 			}
+			else if (keyCode == EventKeyboard::KeyCode::KEY_B) {
+				if (backCd_left > 0) { return true; }
+				else { backCd_left = 3; }
+			}
 			else if (keyCode == EventKeyboard::KeyCode::KEY_1) {
 			if (getSkillPoint() == 0) { return true; }
 			if (skill_1Level + 1 <= 3)
@@ -83,8 +87,33 @@ void DaJi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoi
 
 void DaJi::AIFunc(float dt) {
 	if (isAI() == false) return;
+	if (deathCd_left > 0)return;
 	float blood = (getHp()->getCur()) / (float)(getHp()->getMax());
 	auto aow = &ammosOnWay;
+	if (getSkillPoint() != 0) {
+		if (skill_1Level < 3)
+		{
+			skill_1Level++;
+			changeSkillPoint(-1);
+		}
+		else if (skill_2Level < 3) {
+			skill_2Level++;
+			changeSkillPoint(-1);
+		}
+		else if (skill_3Level < 2) {
+			skill_3Level++;
+			changeSkillPoint(-1);
+		}
+	}
+
+	if (blood <= 0.1) {
+		if (sk2Cd_left == 0 && skill_2Level) {
+			useSkill_2(getPosition() + (getSpawnPoint() - getPosition()).getNormalized() * 350);
+		}
+		else {
+			moveDirectionByKey(getDir(getPosition(), getSpawnPoint()), getSpawnPoint());
+		}
+	}
 	if (blood <= 0.1) {
 		if (getid()[1] == 'b') {
 			moveDirectionByKey(getDir(getPosition(), Vec2(0.0, 0.0)), Vec2(0.0, 0.0));
@@ -97,6 +126,7 @@ void DaJi::AIFunc(float dt) {
 		string targetid = "\0";
 		unit* target  = NULL;
 		float minlength = 65535.0;
+
 		vector<ammo*>::iterator ait = (*aow).begin();
 		for (; ait < aow->end(); ait++) {//先看有没有敌方英雄攻击自己
 			 if((*ait)->getid()[0] == 'T') {//看有没被塔砸
@@ -112,11 +142,10 @@ void DaJi::AIFunc(float dt) {
 				break;
 			}
 		}
-		Vector<unit*>::iterator uit = (*unitsOnMap).begin();
+		auto units = *unitsOnMap;
+		Vector<unit*>::iterator uit = units.begin();
 
-		for (; uit < (*unitsOnMap).end(); uit++) {
-			auto a = unitsOnMap->end();
-			auto b = unitsOnMap->begin();
+		for (; uit < units.end(); uit++) {
 			if ((*uit)->getid()[0] == 'H')//先判断英雄
 			{
 				if ((*uit)->getid()[1] != this->getid()[1]) {//敌方英雄
@@ -296,6 +325,10 @@ void DaJi::cdUpdate(float dt)
 	}
 	if (deathCd_left > 0) {
 		deathCd_left -= 1;
+	}
+	if (backCd_left > 0) {
+		if (backCd_left == 1) { setPosition(getSpawnPoint()); }
+		backCd_left -= 1;
 	}
 }
 

@@ -107,21 +107,21 @@ void Game::initwithRole(string HeroName)
 	{
 		hero2 = HouYi::create();
 		static_cast<HouYi*>(hero2)->initwithRole(string("HrHouYi"), _tileMap,Vec2(redx, redy), (&unitsOnMap), _ammoLayer);
-        hero2->setPosition(500, 500);
+		hero2->setPosition(Vec2(redx,redy));
         addToMap(hero2, 0, 200, "HrHouYi");
 	}
 	else if (RandNumber <= 66)
 	{
 		hero2 = DaJi::create();
 		static_cast<DaJi*>(hero2)->initwithRole(string("HrDaJi"), _tileMap,Vec2(redx, redy), (&unitsOnMap), _ammoLayer);
-		hero2->setPosition(500, 500);
+		hero2->setPosition(Vec2(redx, redy));
 		addToMap(hero2, 0, 200, "HrDaJi");
 	}
 	else if (RandNumber <= 99)
 	{
 		hero2 = YaSe::create();
 		static_cast<YaSe*>(hero2)->initwithRole(string("HrYaSe"), _tileMap,Vec2(redx, redy), (&unitsOnMap), _ammoLayer);
-		hero2->setPosition(500, 500);
+		hero2->setPosition(Vec2(redx, redy));
 		addToMap(hero2, 0, 200, "HrYaSe");
 	}
 	
