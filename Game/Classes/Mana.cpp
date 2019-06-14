@@ -24,7 +24,13 @@ void Mana::initial(ManainitialData data)
 void Mana::update(float dt)
 {
 	ManaLine->setScaleX(((float)cur_Mana / Max_Mana)*(ManaRect->getContentSize().width / ManaLine->getContentSize().width));
-	changeCurMana(30);
+	Timer++;
+	if (Timer == 45)
+	{
+		changeCurMana(15);
+		Timer = 0;
+	}
+	
 }
 void Mana::follow(Vec2 pos) {
 	ManaLine->setPosition(pos.x - 78, pos.y+90);

@@ -13,7 +13,7 @@ bool unitdata::initial(string &datapath)
 	FILE *data;
 	unitid = datapath;
 	for (order = 0; order < NUM_OF_KINDS; order++) {
-		currentPath = "../Resources/" + datapath + "/" + kind[order] + ".txt";
+		currentPath = /*"../Resources/" + */datapath + "/" + kind[order] + ".txt";
 		data = fopen(currentPath.c_str(), "r");
 		if (data == NULL) {
 			//cocos2d::CCLog((kind[order] + ".txtFailed").c_str());

@@ -11,6 +11,7 @@ private:
 	bool CanAttackSoldier;
 	bool CanAttackHero;
 	bool GettingAttack;
+	bool DeleteFlag;
 	unit* AttackingTarget;
 	unit* LastAttackingTarget;
 public:
@@ -96,14 +97,25 @@ public:
 
 				}
 			}
-			this->stopAllActions();
-			DeleteUnit();
+			if (!DeleteFlag)
+			{
+				DeleteUnit();
+				this->getHp()->curBlood->removeFromParent();
+				this->getHp()->emptyBlood->removeFromParent();
+				this->getHp()->bloodrect->removeFromParent();
+				this->unscheduleUpdate();
+				this->getHp()->unscheduleUpdate();
+				this->removeFromParent();
+				DeleteFlag = true;
+			}
 		}
-		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
-		return hp->getCur();
+		if (GetAlreadydead() == false)
+		{
+			hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
+			return hp->getCur();
+		}
 	}
 	void update(float dt) {
-		//hp->update();
 		if (hp->getCur() <= 1) die();
 		hp->follow(getPosition());
 
@@ -121,10 +133,15 @@ public:
 				auto Damage = (*it)->getDamage();
 				this->getDamage(Damage, (*it)->getid());
 				(*it)->removeFromParentAndCleanup(1);
-				//(*it)->setVisible(0);
-				//(*it)->setPosition(-200.0, -200.0);
-				if (it == (ammosOnWay.end() - 1)) { ammosOnWay.clear(); break; }
-				else it = ammosOnWay.erase(it);
+				if (ammosOnWay.size() == 1) { ammosOnWay.clear(); break; }
+				else
+				{
+					it = ammosOnWay.erase(it);
+					if (it == ammosOnWay.end())
+					{
+						break;
+					}
+				}
 			}
 			else {
 				(*it)->changeTargetPosition(getPosition());

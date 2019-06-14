@@ -48,17 +48,16 @@ void HP::initial(HpinitialData data)
 	Size size = Size(Vec2(200.0, 10.0)); //data.size;
 	Vec2 position = data.position;
 	this->setPosition(position);
-	//Î»ÖÃÐÅÏ¢ÒªÖØÐÂÐÞ¸Ä£¬¿¼ÂÇÊµ¼ÊÍ¼Æ¬ÏñËØÎÊÌâ
+	//ä½ç½®ä¿¡æ¯è¦é‡æ–°ä¿®æ”¹ï¼Œè€ƒè™‘å®žé™…å›¾ç‰‡åƒç´ é—®é¢˜
 	bloodrect = Sprite::create("HP/bloodrect.png");
 	bloodrect->setPosition(position.x, position.y + 100);
 	if (HpId[0] == 'B') {
-		bloodrect->setScaleX(((float)(size.width)) / (size.width)/2);
-		bloodrect->setScaleY(10.0 / bloodrect->getContentSize().height/2);
+		bloodrect->setScaleY(10.0/bloodrect->getContentSize().height);
 	}
-	else {
-		setScaleX(((float)(size.width)) / (size.width));
-		setScaleY(10.0 / bloodrect->getContentSize().height);
-	}
+	/*else {
+		bloodrect->setScaleX(((float)(size.width)) / (size.width));
+		bloodrect->setScaleY(10.0 / bloodrect->getContentSize().height);
+	}*/
 	data._map->addChild(bloodrect, 6);
 	
 	if (enemyOrAlly)
@@ -69,7 +68,7 @@ void HP::initial(HpinitialData data)
 	curBlood->setPosition(bloodrect->getPositionX(), bloodrect->getPositionY());
 	if (HpId[0] == 'B') {
 		curBlood->setScaleY((float)bloodrect->getContentSize().height / curBlood->getContentSize().height/2);
-		curBlood->setScaleX((float)bloodrect->getContentSize().width / curBlood->getContentSize().width/2);
+		curBlood->setScaleX((float)bloodrect->getContentSize().width / curBlood->getContentSize().width);
 	}
 	else{
 		curBlood->setScaleY((float)bloodrect->getContentSize().height / curBlood->getContentSize().height);
@@ -81,7 +80,7 @@ void HP::initial(HpinitialData data)
 	emptyBlood->setPosition(bloodrect->getPositionX() /*+ bloodrect->getContentSize().width - emptyBlood->getContentSize().width*/
 		, bloodrect->getPositionY());
 	if (HpId[0] == 'B') {
-		emptyBlood->setScaleX(bloodrect->getContentSize().width / emptyBlood->getContentSize().width/2);
+		emptyBlood->setScaleX(bloodrect->getContentSize().width / emptyBlood->getContentSize().width);
 		emptyBlood->setScaleY(bloodrect->getContentSize().height / emptyBlood->getContentSize().height/2);
 	}
 	else {

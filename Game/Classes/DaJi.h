@@ -23,7 +23,7 @@ private:
 	int ChangeAmmoSpeed[7] = { 1,1,1,1,1,1,1 };
 	int ChangeDefence[7] = { 1,1,1,1,1,1,1 };
 	int ChangeMaxHp[7] = { 1000,1500,2000,2000,2000,2000,2000 };
-	//±íÊ¾¼¼ÄÜÊÇ·ñ¿ªÆô
+	//è¡¨ç¤ºæŠ€èƒ½æ˜¯å¦å¼€å¯
 	bool sk1 = false;
 	bool sk2 = false;
 	bool sk3 = false;
@@ -32,7 +32,7 @@ private:
 	int	sk3Cd_left = 0;
 	int deathCd_left = 0;
 	int backCd_left = 0;
-	//±íÊ¾µ±Ç°ÄÜ·ñÊÍ·ÅÆäËû¼¼ÄÜ
+	//è¡¨ç¤ºå½“å‰èƒ½å¦é‡Šæ”¾å…¶ä»–æŠ€èƒ½
 	bool canReleaseSkill = true;
 public:
 	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer);
@@ -46,7 +46,7 @@ public:
 	void sk3End();
 	void sk3End(Vec2 Target);
 	void useAlti();
-	//¼¼ÄÜÏà¹Ø
+	//æŠ€èƒ½ç›¸å…³
 	inline bool isReleasing() { return sk1 || sk2 || sk3; }
 	inline bool getSk1() { return sk1; }
 	inline bool getSk2() { return sk2; }
@@ -62,7 +62,7 @@ public:
 	inline void changeCanRelease(bool now) { canReleaseSkill = now; }
 	inline void backEnd() { backCd_left = 0; }
 
-	//ÓÎÏ·Ë¢ĞÂ
+	//æ¸¸æˆåˆ·æ–°
 	void cdUpdate(float dt);
 	void skillFreshUpdate(float dt);
 	void AIFunc(float dt);
@@ -107,6 +107,7 @@ public:
 			changeMaxHp(ChangeMaxHp[level - 2]); fullHp();
 			changeDefencePhysical(ChangeDefence[level - 2]);
 			mana->changeMaxMana(ChangeMana[level - 2]); fullMana();
+			
 		}
 		auto it = ammosOnWay.begin();
 		for (; it < ammosOnWay.end(); it++) {
@@ -116,25 +117,31 @@ public:
 				auto Damage = (*it)->getDamage();
 				this->getDamage(Damage, (*it)->getid());
 				(*it)->removeFromParentAndCleanup(1);
-				//(*it)->setVisible(0);
-				//(*it)->setPosition(-200.0, -200.0);
-				if (it == (ammosOnWay.end() - 1)) { ammosOnWay.clear(); break; }
-				else it = ammosOnWay.erase(it);
+				if (ammosOnWay.size() == 1) { ammosOnWay.clear(); break; }
+				else
+				{
+					it = ammosOnWay.erase(it);
+					if (it == ammosOnWay.end())
+					{
+						break;
+					}
+				}
 			}
 			else {
 				(*it)->changeTargetPosition(getPosition());
 			}
 		}
-		//»Ø³Ç»ØÑª
+		//å›åŸå›è¡€
 		if ((getPosition() - getSpawnPoint()).length() <= 200) {
 			fullHp();
+			fullMana();
 		}
 	}
 	virtual int getDamage(int delta, std::string fromId) {
 		
 		if (hp->getCur() < delta) {
 			die();
-			//µÃµ½»÷É±Õßunit*Ìí¼Ó½±Àø
+			//å¾—åˆ°å‡»æ€è€…unit*æ·»åŠ å¥–åŠ±
 			changeDeath(1);
 			if (fromId[0] == 'H') {
 				unit* killUnit = getUnitWithId(fromId);
