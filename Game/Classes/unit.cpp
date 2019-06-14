@@ -220,7 +220,7 @@ Sprite* unit::attack(unit *target)
 	if (getid()[0] == 'B'&&getid()[2] == '1') { amo->setVisible(0); }	
 	AmmoLayer->addChild(amo, 6);
 	target->getAttacked(amo);
-	schedule(schedule_selector(unit::freshASPD), 1.0 / ASPD, 1, 0);	
+	schedule(schedule_selector(unit::freshASPD), 0, 1, 1.0 / ASPD);	
 	return amo;
 }
 void unit::attackTo(unit * target)
