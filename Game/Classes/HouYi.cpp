@@ -15,6 +15,7 @@ void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map,Vec2 bornpoi
 		auto skillListener = EventListenerKeyboard::create();
 		skillListener->onKeyPressed = [this](EventKeyboard::KeyCode keyCode, Event * event) 
 		{
+			if (getDeathCdLeft() > 0) { return true; }
 			if (!canRelease()) { return true; }
 			if (keyCode == EventKeyboard::KeyCode::KEY_Q) {
 				if (sk1Cd_left > 0) { return true; }
@@ -126,7 +127,7 @@ void HouYi::useSkill_3(unit* target)
 	Bird->runAction(RepeatForever::create(animate));
 	auto Moving = MoveTo::create(0.5f, target->getPosition());
 	auto callbackMove = CallFunc::create([this, Bird, target]() {
-		target->changeCurHp(-sk3Damage[skill_3Level - 1]);
+		target->getDamage(sk3Damage[skill_3Level - 1]+ getCurDamage()/10,getid());
 		Bird->removeFromParent();
 		sk3End();
 	});
@@ -212,6 +213,9 @@ void HouYi::cdUpdate(float dt)
 		if (sk3Cd_left <= 0) {
 			sk3Cd_left = 0;
 		}
+	}
+	if (deathCd_left > 0) {
+		deathCd_left -= 1;
 	}
 }
 

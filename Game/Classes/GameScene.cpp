@@ -304,7 +304,7 @@ void Game::InitTabListener(string Hero1Name,string Hero2Name)
 		LabelDead->setPosition(340, 360); LabelDead->setAnchorPoint(Vec2(0, 0)); LabelDead->enableGlow(Color4B::GREEN);
 		auto LabelKillSoldier = Label::create("Number of killsoldiers:" + to_string(hero1->getKillSoldiers()), "fonts/arial.ttf", 25);
 		LabelKillSoldier->setPosition(340, 330); LabelKillSoldier->setAnchorPoint(Vec2(0, 0)); LabelKillSoldier->enableGlow(Color4B::GREEN);
-		auto Labeldamage = Label::create("Current Damage:"+ to_string(hero1->getDamage()), "fonts/arial.ttf", 25);
+		auto Labeldamage = Label::create("Current Damage:"+ to_string(hero1->getCurDamage()), "fonts/arial.ttf", 25);
 		Labeldamage->setPosition(340, 300); Labeldamage->setAnchorPoint(Vec2(0, 0)); Labeldamage->enableGlow(Color4B::GREEN);
 		auto LabelBlood = Label::create("Current Max HP:" + to_string(hero1->getMaxHp()), "fonts/arial.ttf", 25);
 		LabelBlood->setPosition(340, 270); LabelBlood->setAnchorPoint(Vec2(0, 0)); LabelBlood->enableGlow(Color4B::GREEN);
@@ -316,7 +316,7 @@ void Game::InitTabListener(string Hero1Name,string Hero2Name)
 		LabelDead2->setPosition(340, 210); LabelDead2->setAnchorPoint(Vec2(0, 0)); LabelDead2->enableGlow(Color4B::RED);
 		auto LabelKillSoldier2 = Label::create("Number of killsoldiers:" + to_string(hero2->getKillSoldiers()), "fonts/arial.ttf", 25);
 		LabelKillSoldier2->setPosition(340, 180); LabelKillSoldier2->setAnchorPoint(Vec2(0, 0)); LabelKillSoldier2->enableGlow(Color4B::RED);
-		auto Labeldamage2 = Label::create("Current Damage:"+to_string(hero2->getDamage()), "fonts/arial.ttf", 25);
+		auto Labeldamage2 = Label::create("Current Damage:"+to_string(hero2->getCurDamage()), "fonts/arial.ttf", 25);
 		Labeldamage2->setPosition(340, 150); Labeldamage2->setAnchorPoint(Vec2(0, 0)); Labeldamage2->enableGlow(Color4B::RED);
 		auto LabelBlood2 = Label::create("Current Max HP:" + to_string(hero2->getMaxHp()), "fonts/arial.ttf", 25);
 		LabelBlood2->setPosition(340, 120); LabelBlood2->setAnchorPoint(Vec2(0, 0)); LabelBlood2->enableGlow(Color4B::RED);

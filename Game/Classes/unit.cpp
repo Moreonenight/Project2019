@@ -236,7 +236,7 @@ Sprite* unit::attack(unit *target)
 	}
 
 	ammo *amo = ammo::create();
-	amo->initial(this->getAmmoFrameName(), this->getid(), getPosition(), getDamage(), getAmmoSpeed());
+	amo->initial(this->getAmmoFrameName(), this->getid(), getPosition(), getCurDamage(), getAmmoSpeed());
 	if (getid()[0] == 'B'&&getid()[2] == '1') { amo->setVisible(0); }
 	auto id1 = this->getid(); auto id2 = target->getid();
 	if (id1[1] != id2[1]) {

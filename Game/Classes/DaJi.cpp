@@ -16,6 +16,7 @@ void DaJi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoi
 		auto skillListener = EventListenerKeyboard::create();
 		skillListener->onKeyPressed = [this](EventKeyboard::KeyCode keyCode, Event * event)
 		{
+			if (getDeathCdLeft() > 0) { return true; }
 			if (!canRelease()) { return true; }
 			if (keyCode == EventKeyboard::KeyCode::KEY_Q) {
 				if (sk1Cd_left > 0) { return true; }
@@ -193,33 +194,33 @@ void DaJi::useSkill_1(unit* target)
 	hitImage->setPosition(target->getPosition()+Vec2(0,10));
 	_map->addChild(hitImage, 4,0415);*/
 
-	auto Bird = Sprite::create("Skills/HouYiR1.png");
+	auto Bird = Sprite::create("Skills/DaJiQ1.png");
 	Vector<SpriteFrame*> animFrames;
 	animFrames.reserve(15);
-	animFrames.pushBack(SpriteFrame::create("Skills/HouYiR1.png", Rect(0, 0, 1200, 1200)));
-	animFrames.pushBack(SpriteFrame::create("Skills/HouYiR2.png", Rect(0, 0, 1200, 1200)));
-	animFrames.pushBack(SpriteFrame::create("Skills/HouYiR3.png", Rect(0, 0, 1200, 1200)));
-	animFrames.pushBack(SpriteFrame::create("Skills/HouYiR4.png", Rect(0, 0, 1200, 1200)));
-	animFrames.pushBack(SpriteFrame::create("Skills/HouYiR5.png", Rect(0, 0, 1200, 1200)));
-	animFrames.pushBack(SpriteFrame::create("Skills/HouYiR6.png", Rect(0, 0, 1200, 1200)));
-	animFrames.pushBack(SpriteFrame::create("Skills/HouYiR7.png", Rect(0, 0, 1200, 1200)));
-	animFrames.pushBack(SpriteFrame::create("Skills/HouYiR8.png", Rect(0, 0, 1200, 1200)));
-	animFrames.pushBack(SpriteFrame::create("Skills/HouYiR9.png", Rect(0, 0, 1200, 1200)));
-	animFrames.pushBack(SpriteFrame::create("Skills/HouYiR10.png", Rect(0, 0, 1200, 1200)));
-	animFrames.pushBack(SpriteFrame::create("Skills/HouYiR11.png", Rect(0, 0, 1200, 1200)));
-	animFrames.pushBack(SpriteFrame::create("Skills/HouYiR12.png", Rect(0, 0, 1200, 1200)));
-	animFrames.pushBack(SpriteFrame::create("Skills/HouYiR13.png", Rect(0, 0, 1200, 1200)));
-	animFrames.pushBack(SpriteFrame::create("Skills/HouYiR14.png", Rect(0, 0, 1200, 1200)));
-	animFrames.pushBack(SpriteFrame::create("Skills/HouYiR15.png", Rect(0, 0, 1200, 1200)));
+	animFrames.pushBack(SpriteFrame::create("Skills/DaJiQ1.png", Rect(0, 0, 80, 80)));
+	animFrames.pushBack(SpriteFrame::create("Skills/DaJiQ2.png", Rect(0, 0, 80, 80)));
+	animFrames.pushBack(SpriteFrame::create("Skills/DaJiQ3.png", Rect(0, 0, 80, 80)));
+	animFrames.pushBack(SpriteFrame::create("Skills/DaJiQ4.png", Rect(0, 0, 80, 80)));
+	animFrames.pushBack(SpriteFrame::create("Skills/DaJiQ5.png", Rect(0, 0, 80, 80)));
+	animFrames.pushBack(SpriteFrame::create("Skills/DaJiQ6.png", Rect(0, 0, 80, 80)));
+	animFrames.pushBack(SpriteFrame::create("Skills/DaJiQ7.png", Rect(0, 0, 80, 80)));
+	animFrames.pushBack(SpriteFrame::create("Skills/DaJiQ8.png", Rect(0, 0, 80, 80)));
+	animFrames.pushBack(SpriteFrame::create("Skills/DaJiQ9.png", Rect(0, 0, 80, 80)));
+	animFrames.pushBack(SpriteFrame::create("Skills/DaJiQ10.png", Rect(0, 0, 80, 80)));
+	animFrames.pushBack(SpriteFrame::create("Skills/DaJiQ11.png", Rect(0, 0, 80, 80)));
+	animFrames.pushBack(SpriteFrame::create("Skills/DaJiQ12.png", Rect(0, 0, 80, 80)));
+	animFrames.pushBack(SpriteFrame::create("Skills/DaJiQ13.png", Rect(0, 0, 80, 80)));
+	animFrames.pushBack(SpriteFrame::create("Skills/DaJiQ14.png", Rect(0, 0, 80, 80)));
+	animFrames.pushBack(SpriteFrame::create("Skills/DaJiQ15.png", Rect(0, 0, 80, 80)));
 	// create the animation out of the frames
 	Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.1f);
 	Animate* animate = Animate::create(animation);
-	Bird->setScale(0.4f); Bird->setPosition(getPosition());
+	Bird->setScale(1.0f); Bird->setPosition(getPosition()); Bird->setAnchorPoint(Vec2(0.5, 0.5));
 	map->addChild(Bird);
 	Bird->runAction(RepeatForever::create(animate));
 	auto Moving = MoveTo::create(0.5f, target->getPosition());
 	auto callbackMove = CallFunc::create([this, Bird, target]() {
-		target->changeCurHp(-sk1Damage[skill_1Level - 1]);
+		target->getDamage(sk1Damage[skill_1Level - 1]+getCurDamage()/10,getid());
 		Bird->removeFromParent();
 		sk1End();
 	});
@@ -292,6 +293,9 @@ void DaJi::cdUpdate(float dt)
 		if (sk3Cd_left <= 0) {
 			sk3Cd_left = 0;
 		}
+	}
+	if (deathCd_left > 0) {
+		deathCd_left -= 1;
 	}
 }
 

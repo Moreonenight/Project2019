@@ -121,7 +121,7 @@ public:
 	bool isAI() { return AI; }
 	int getAttackRange() { return attackRange; }
 	inline int getMoveSpeed() { return moveSpeed; }
-	inline int getDamage() { return damage; }/*when want to know how much the unit damage is*/
+	inline int getCurDamage() { return damage; }/*when want to know how much the unit damage is*/
 	int getAmmoSpeed() { return ammoSpeed; }
 	inline string getAmmoFrameName() { return data->getAmmoFrameName(); }
 
@@ -216,7 +216,7 @@ public:
 		float i = damage * dpm.x;
 		hp->changeCur((int)i);
 	}//when get damaged*/
-	void die() {}
+	virtual void die() {}
 
 	void freshASPD(float dt) {
 		if (this->canAttack == 1)return;
