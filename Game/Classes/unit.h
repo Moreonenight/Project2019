@@ -168,7 +168,7 @@ public:
 			fullHp();
 			this->stopAllActions();
 		}
-		hp->changeCur((-delta)*(float)((100.0 - defenceOfPhysical) / 100.0));
+		hp->changeCur((-delta));
 		return hp->getCur();
 	}
 	unit* getUnitWithId(std::string id);

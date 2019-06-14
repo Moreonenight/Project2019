@@ -71,7 +71,7 @@ bool GameOverScene::init()
 
 void GameOverScene::menuItem1Callback(cocos2d::Ref* pSender)
 {
-	Director::getInstance()->popScene();
+	Director::getInstance()->popToRootScene();
 }
 
 void GameOverScene::menuStartCallback(cocos2d::Ref* pSender) {

@@ -32,7 +32,7 @@ bool ChooseHeroScene::init()
     this->addChild(label);
 
 
-	auto HouYi = MenuItemImage::create("HrHouYi/Choose.png", "HouYi/Choose.png");
+	auto HouYi = MenuItemImage::create("HrHouYi/Choose.png", "HrHouYi/Choose.png");
 	HouYi->setScale(0.5f);
 	HouYi->setPosition(Vec2(210,290));
 	this->addChild(HouYi);
@@ -50,7 +50,7 @@ bool ChooseHeroScene::init()
 	HouYiMenu->setPosition(Vec2::ZERO);
 	this->addChild(HouYiMenu, 2);
 
-	auto Yase = MenuItemImage::create("HrYase/Choose.png","Yase/Choose.png");
+	auto Yase = MenuItemImage::create("HrYase/Choose.png","HrYase/Choose.png");
 	Yase->setScale(0.5f);
 	Yase->setPosition(Vec2(450,300));
 	this->addChild(Yase);
@@ -69,7 +69,7 @@ bool ChooseHeroScene::init()
 	this->addChild(YaseMenu, 2);
 
 
-	auto Daji = MenuItemImage::create("HrDaji/Choose.png", "Daji/Choose.png");
+	auto Daji = MenuItemImage::create("HrDaji/Choose.png", "HrDaji/Choose.png");
 	Daji->setScale(0.5f);
 	Daji->setPosition(Vec2(710, 290));
 	this->addChild(Daji);
