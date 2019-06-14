@@ -193,7 +193,7 @@ public:
 		float i = damage * dpm.x;
 		hp->changeCur((int)i);
 	}//when get damaged*/
-	void die() {}
+	virtual void die() {}
 
 	void freshASPD(float dt) {
 		if (this->canAttack == 1)return;

@@ -28,6 +28,7 @@ private:
 	int sk1Cd_left = 0;
 	int sk2Cd_left = 0;
 	int	sk3Cd_left = 0;
+	int deathCd_left = 0;
 	//表示当前能否释放其他技能
 	bool canReleaseSkill = true;
 public:
@@ -49,6 +50,7 @@ public:
 	inline int getSk1CdLeft() { return sk1Cd_left; }
 	inline int getSk2CdLeft() { return sk2Cd_left; }
 	inline int getSk3CdLeft() { return sk3Cd_left; }
+	inline int getDeathCdLeft() { return deathCd_left; }
 	inline int getSk1Level() { return skill_1Level; }
 	inline int getSk2Level() { return skill_2Level; }
 	inline int getSk3Level() { return skill_3Level; }
@@ -61,6 +63,8 @@ public:
 
 	void update(float dt) {
 		//hp->update();
+		if (deathCd_left > 0) { setOpacity(150); }
+		else { setOpacity(255); }
 		if (hp->getCur() <= 1) die();
 		hp->follow(getPosition());
 		exp->follow(getPosition());
@@ -160,5 +164,6 @@ public:
 		hp->changeCur((-delta)*(float)((100.0 - this->getDefenceOfPhysical()) / 100.0));
 		return hp->getCur();
 	}
+	virtual void die() { deathCd_left = 5; }
 	CREATE_FUNC(HouYi);
 };

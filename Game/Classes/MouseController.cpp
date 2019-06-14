@@ -69,6 +69,7 @@ void MouseController::initListener(HouYi * Houyi, Vector<unit*>* children)
 		Vec2 endPos = e->getLocationInView() - offset;
 		sprites = children;
 		auto houyi = static_cast<HouYi*>(Houyi);
+		if (houyi->getDeathCdLeft() > 0) { return true; }
 		if(houyi->isReleasing()){
 			if (houyi->getSk2()) {
 				houyi->useSkill_2(endPos);
@@ -109,6 +110,7 @@ void MouseController::initListener(YaSe * Yase, Vector<unit*>* children)
 		Vec2 endPos = e->getLocationInView() - offset;
 		sprites = children;
 		auto yase = static_cast<YaSe*>(Yase);
+		if (yase->getDeathCdLeft() > 0) { return true; }
 		if (yase->isReleasing()) {
 			if (yase->getSk1()) {
 				auto a = selectFromSprites(endPos);
@@ -152,6 +154,7 @@ void MouseController::initListener(DaJi * Daji, Vector<unit*>* children)
 		Vec2 endPos = e->getLocationInView() - offset;
 		sprites = children;
 		auto daji = static_cast<DaJi*>(Daji);
+		if (daji->getDeathCdLeft() > 0) { return true; }
 		if (daji->isReleasing()) {
 			if (daji->getSk1()) {
 				auto a = selectFromSprites(endPos);
