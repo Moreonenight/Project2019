@@ -61,7 +61,7 @@ public:
 	//游戏刷新
 	void cdUpdate(float dt);
 	void skillFreshUpdate(float dt);
-
+	void AIFunc(float dt);
 	void update(float dt) {
 		if (hp->getCur() <= 1) die();
 		hp->follow(getPosition());
@@ -129,6 +129,7 @@ public:
 
 	}
 	virtual int getDamage(int delta, std::string fromId) {
+		
 		if (hp->getCur() < delta) {
 			die();
 			//得到击杀者unit*添加奖励

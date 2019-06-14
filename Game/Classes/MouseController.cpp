@@ -35,7 +35,7 @@ unit * MouseController::selectFromSprites(Vec2 pos)
 //初始化
 void MouseController::initListener(unit* Hero,Vector<unit*>* children) {
 	isPaused = 0;
-	
+	Hero->AIClose();
 	listener = EventListenerMouse::create();//建立鼠标监听器
 	listener->onMouseDown = [this,Hero,children](EventMouse *e) {//用lamda表达式更加简洁，中括号内可以捕获外部变量
 		Vec2 endPos = e->getLocationInView() - offset;	
@@ -63,6 +63,8 @@ void MouseController::initListener(unit* Hero,Vector<unit*>* children) {
 void MouseController::initListener(HouYi * Houyi, Vector<unit*>* children)
 {
 	isPaused = 0;
+
+	Houyi->AIClose();
 
 	listener = EventListenerMouse::create();//建立鼠标监听器
 	listener->onMouseDown = [this, Houyi, children](EventMouse *e) {//用lamda表达式更加简洁，中括号内可以捕获外部变量
@@ -103,6 +105,8 @@ void MouseController::initListener(HouYi * Houyi, Vector<unit*>* children)
 void MouseController::initListener(YaSe * Yase, Vector<unit*>* children)
 {
 	isPaused = 0;
+	
+	Yase->AIClose();
 
 	listener = EventListenerMouse::create();//建立鼠标监听器
 	listener->onMouseDown = [this, Yase, children](EventMouse *e) {//用lamda表达式更加简洁，中括号内可以捕获外部变量
@@ -146,6 +150,8 @@ void MouseController::initListener(DaJi * Daji, Vector<unit*>* children)
 {
 
 	isPaused = 0;
+
+	Daji->AIClose();
 
 	listener = EventListenerMouse::create();//建立鼠标监听器
 	listener->onMouseDown = [this, Daji, children](EventMouse *e) {//用lamda表达式更加简洁，中括号内可以捕获外部变量
