@@ -63,7 +63,7 @@ bool ChooseHeroScene::init(INT32 playerNumber, SocketClient* socket_client, INT3
 	auto HouYiEnterMenu = MenuItemLabel::create(HouYiEnterLabel, CC_CALLBACK_1(ChooseHeroScene::HouYiEnterCallback, this));
 	HouYiEnterMenu->setPosition(Vec2(200, 160));
 	auto HouYiSkillLabel = Label::create(ChooseHeroScene::FontToUTF8("技能说明"), "fonts/XingKai.TTF", 40);
-	auto HouYiSkillMenu = MenuItemLabel::create(HouYiSkillLabel, CC_CALLBACK_1(ChooseHeroScene::menuItem1Callback, this));
+	auto HouYiSkillMenu = MenuItemLabel::create(HouYiSkillLabel, CC_CALLBACK_1(ChooseHeroScene::HouyiSkillCallback, this));
 	HouYiSkillMenu->setPosition(Vec2(200, 110));
 	auto HouYiMenu = Menu::create(HouYiEnterMenu, HouYiSkillMenu, NULL);
 	HouYiMenu->setPosition(Vec2::ZERO);
@@ -81,7 +81,7 @@ bool ChooseHeroScene::init(INT32 playerNumber, SocketClient* socket_client, INT3
 	auto YaseEnterMenu = MenuItemLabel::create(YaseEnterLabel, CC_CALLBACK_1(ChooseHeroScene::YaseEnterCallback, this));
 	YaseEnterMenu->setPosition(Vec2(450, 160));
 	auto YaseSkillLabel = Label::create(ChooseHeroScene::FontToUTF8("技能说明"), "fonts/XingKai.TTF", 40);
-	auto YaseSkillMenu = MenuItemLabel::create(YaseSkillLabel, CC_CALLBACK_1(ChooseHeroScene::menuItem1Callback, this));
+	auto YaseSkillMenu = MenuItemLabel::create(YaseSkillLabel, CC_CALLBACK_1(ChooseHeroScene::YaseSkillCallback, this));
 	YaseSkillMenu->setPosition(Vec2(450, 110));
 	auto YaseMenu = Menu::create(YaseEnterMenu, YaseSkillMenu, NULL);
 	YaseMenu->setPosition(Vec2::ZERO);
@@ -101,7 +101,7 @@ bool ChooseHeroScene::init(INT32 playerNumber, SocketClient* socket_client, INT3
 	auto DajiEnterMenu = MenuItemLabel::create(DajiEnterLabel, CC_CALLBACK_1(ChooseHeroScene::DajiEnterCallback, this));
 	DajiEnterMenu->setPosition(Vec2(700, 160));
 	auto DajiSkillLabel = Label::create(ChooseHeroScene::FontToUTF8("技能说明"), "fonts/XingKai.TTF", 40);
-	auto DajiSkillMenu = MenuItemLabel::create(DajiSkillLabel, CC_CALLBACK_1(ChooseHeroScene::menuItem1Callback, this));
+	auto DajiSkillMenu = MenuItemLabel::create(DajiSkillLabel, CC_CALLBACK_1(ChooseHeroScene::DajiSkillCallback, this));
 	DajiSkillMenu->setPosition(Vec2(700, 110));
 	auto DajiMenu = Menu::create(DajiEnterMenu, DajiSkillMenu, NULL);
 	DajiMenu->setPosition(Vec2::ZERO);
@@ -173,6 +173,18 @@ void ChooseHeroScene::HouYiEnterCallback(cocos2d::Ref* pSender)
 	}
 }
 
+void ChooseHeroScene::HouyiSkillCallback(cocos2d::Ref* pSender) {
+	auto sc = HouyiSkillScene::createScene();
+	Director::getInstance()->pushScene(sc);
+}
+void ChooseHeroScene::YaseSkillCallback(cocos2d::Ref* pSender) {
+	auto sc = YaseSkillScene::createScene();
+	Director::getInstance()->pushScene(sc);
+}
+void ChooseHeroScene::DajiSkillCallback(cocos2d::Ref* pSender) {
+	auto sc = DajiSkillScene::createScene();
+	Director::getInstance()->pushScene(sc);
+}
 void ChooseHeroScene::menuItem1Callback(cocos2d::Ref* pSender)
 {
 	Director::getInstance()->popScene();
