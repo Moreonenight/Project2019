@@ -14,16 +14,51 @@ MouseController::~MouseController()
 {
 }
 
-unit * MouseController::selectFromSprites(Vec2 pos)
+unit * MouseController::selectFromSprites(Vec2 pos,SocketClient* _socket_client)
 {
 	Vector<unit*>::iterator it;
 	unit* ans;
 	float minlength = 65535.0, curlength;
 	for (it = (*sprites).begin(); it < (*sprites).end(); it++) {
 		curlength = ((*it)->getPosition() - pos).length();
-		if (curlength < minlength && (*it)->getid()[1] == 'r') {
-			ans = *it;
-			minlength = curlength;
+		if (_socket_client != NULL && _socket_client->playerNumber == RED_PLAYER) {
+			if (curlength < minlength && (*it)->getid()[1] == 'b') {
+				ans = *it;
+				minlength = curlength;
+			}
+		}
+		else
+		{
+			if (curlength < minlength && (*it)->getid()[1] == 'r') {
+				ans = *it;
+				minlength = curlength;
+			}
+		}
+	}
+	if (minlength <= 150.0)
+		return ans;
+	else return nullptr;
+}
+
+unit * MouseController::selectSimulatingFromSprites(Vec2 pos, SocketClient* _socket_client)
+{
+	Vector<unit*>::iterator it;
+	unit* ans;
+	float minlength = 65535.0, curlength;
+	for (it = (*sprites).begin(); it < (*sprites).end(); it++) {
+		curlength = ((*it)->getPosition() - pos).length();
+		if (_socket_client != NULL && _socket_client->playerNumber == RED_PLAYER) {
+			if (curlength < minlength && (*it)->getid()[1] == 'r') {
+				ans = *it;
+				minlength = curlength;
+			}
+		}
+		else
+		{
+			if (curlength < minlength && (*it)->getid()[1] == 'b') {
+				ans = *it;
+				minlength = curlength;
+			}
 		}
 	}
 	if (minlength <= 150.0)
@@ -37,10 +72,10 @@ void MouseController::initListener(unit* Hero,Vector<unit*>* children, SocketCli
 	isPaused = 0;
 	Hero->AIClose();
 	listener = EventListenerMouse::create();//建立鼠标监听器
-	listener->onMouseDown = [this,Hero,children](EventMouse *e) {//用lamda表达式更加简洁，中括号内可以捕获外部变量
+	listener->onMouseDown = [this,Hero,children,_socket_client](EventMouse *e) {//用lamda表达式更加简洁，中括号内可以捕获外部变量
 		Vec2 endPos = e->getLocationInView() - offset;	
 		sprites = children;
-		auto a = selectFromSprites(endPos);
+		auto a = selectFromSprites(endPos, _socket_client);
 		if (a != nullptr) { 
 				Hero->attackTo(a);
 				
@@ -90,7 +125,7 @@ void MouseController::initListener(HouYi * Houyi, Vector<unit*>* children,Socket
 				houyi->useSkill_2(endPos);
 			}
 			else if (houyi->getSk3()) {
-				auto a = selectFromSprites(endPos);
+				auto a = selectFromSprites(endPos, _socket_client);
 				if (a != nullptr) {
 					if (_socket_client != NULL) {
 						if (_socket_client->is_sent == false) {
@@ -111,7 +146,7 @@ void MouseController::initListener(HouYi * Houyi, Vector<unit*>* children,Socket
 			}
 		}
 		else {
-			auto a = selectFromSprites(endPos);
+			auto a = selectFromSprites(endPos, _socket_client);
 			if (a != nullptr) {
 				if (_socket_client != NULL) {
 					if (_socket_client->is_sent == false) {
@@ -170,7 +205,7 @@ void MouseController::initListener(YaSe * Yase, Vector<unit*>* children, SocketC
 		if (yase->getDeathCdLeft() > 0) { return true; }
 		if (yase->isReleasing()) {
 			if (yase->getSk1()) {
-				auto a = selectFromSprites(endPos);
+				auto a = selectFromSprites(endPos, _socket_client);
 				if (a != nullptr) {
 					if (_socket_client != NULL) {
 						if (_socket_client->is_sent == false) {
@@ -206,7 +241,7 @@ void MouseController::initListener(YaSe * Yase, Vector<unit*>* children, SocketC
 			}
 		}
 		else {
-			auto a = selectFromSprites(endPos);
+			auto a = selectFromSprites(endPos, _socket_client);
 			if (a != nullptr) {
 				if (_socket_client != NULL) {
 					if (_socket_client->is_sent == false) {
@@ -266,7 +301,7 @@ void MouseController::initListener(DaJi * Daji, Vector<unit*>* children, SocketC
 		if (daji->getDeathCdLeft() > 0) { return true; }
 		if (daji->isReleasing()) {
 			if (daji->getSk1()) {
-				auto a = selectFromSprites(endPos);
+				auto a = selectFromSprites(endPos, _socket_client);
 				if (a != nullptr) {
 					if (_socket_client != NULL) {
 						if (_socket_client->is_sent == false) {
@@ -300,7 +335,7 @@ void MouseController::initListener(DaJi * Daji, Vector<unit*>* children, SocketC
 			}
 		}
 		else {
-			auto a = selectFromSprites(endPos);
+			auto a = selectFromSprites(endPos, _socket_client);
 			if (a != nullptr) {
 				if (_socket_client != NULL) {
 					if (_socket_client->is_sent == false) {

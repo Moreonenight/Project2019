@@ -134,8 +134,14 @@ void ChooseHeroScene::YaseEnterCallback(cocos2d::Ref* pSender)
 		char WelData[24];
 		recv(_socket_client->_socektClient, WelData, 24, 0);
 		_socket_client->HeroMessage();
-		auto GameScene = Game::createScene("HbYaSe", _socket_client->playerNumber, _socket_client, _mode);
-		Director::getInstance()->pushScene(GameScene);
+		if (_socket_client != NULL && _socket_client->playerNumber == RED_PLAYER) {
+			auto GameScene = Game::createScene("HrYaSe", _socket_client->playerNumber, _socket_client, _mode);
+			Director::getInstance()->pushScene(GameScene);
+		}
+		else {
+			auto GameScene = Game::createScene("HbYaSe", _socket_client->playerNumber, _socket_client, _mode);
+			Director::getInstance()->pushScene(GameScene);
+		}
 	}
 	else {
 		auto GameScene = Game::createScene("HbYaSe", 0, NULL, _mode);
@@ -149,8 +155,14 @@ void ChooseHeroScene::DajiEnterCallback(cocos2d::Ref* pSender)
 		char WelData[24];
 		recv(_socket_client->_socektClient, WelData, 24, 0);
 		_socket_client->HeroMessage();
-		auto GameScene = Game::createScene("HbDaJi", _socket_client->playerNumber, _socket_client, _mode);
-		Director::getInstance()->pushScene(GameScene);
+		if (_socket_client != NULL && _socket_client->playerNumber == RED_PLAYER) {
+			auto GameScene = Game::createScene("HrDaJi", _socket_client->playerNumber, _socket_client, _mode);
+			Director::getInstance()->pushScene(GameScene);
+		}
+		else {
+			auto GameScene = Game::createScene("HbDaJi", _socket_client->playerNumber, _socket_client, _mode);
+			Director::getInstance()->pushScene(GameScene);
+		}
 	}
 	else {
 		auto GameScene = Game::createScene("HbDaJi", 0, NULL, _mode);
@@ -164,8 +176,14 @@ void ChooseHeroScene::HouYiEnterCallback(cocos2d::Ref* pSender)
 		char WelData[24];
 		recv(_socket_client->_socektClient, WelData, 24, 0);
 		_socket_client->HeroMessage();
-		auto GameScene = Game::createScene("HbHouYi", _socket_client->playerNumber, _socket_client, _mode);
-		Director::getInstance()->pushScene(GameScene);
+		if (_socket_client != NULL && _socket_client->playerNumber == RED_PLAYER) {
+			auto GameScene = Game::createScene("HrHouYi", _socket_client->playerNumber, _socket_client, _mode);
+			Director::getInstance()->pushScene(GameScene);
+		}
+		else {
+			auto GameScene = Game::createScene("HbHouYi", _socket_client->playerNumber, _socket_client, _mode);
+			Director::getInstance()->pushScene(GameScene);
+		}
 	}
 	else {
 		auto GameScene = Game::createScene("HbHouYi", 0, NULL, _mode);

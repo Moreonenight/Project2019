@@ -59,21 +59,17 @@ bool SocketClient::connectServer(const char* serverIP, unsigned short port)
 
 void SocketClient::CommonMessage()
 {
-	_mutex.lock();
 	if (send(_socektClient, reinterpret_cast <char*>(&wcommand), COMMON_SIZE, 0) <= 0)
 	{
 		closeConnect(_socektClient);
 	}
 	is_sent = true;
-	_mutex.unlock();
 	memset(rclient,0,40);
 	if (recv(_socektClient, rclient, COMMON_SIZE, 0) <= 0)
 	{
 		closeConnect(_socektClient);
 	}
-	_mutex.lock();
 	memcpy(&rcommand,rclient,sizeof(Command));
-	_mutex.unlock();
 }
 
 void SocketClient::HeroMessage()

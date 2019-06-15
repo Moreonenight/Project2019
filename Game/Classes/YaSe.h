@@ -29,6 +29,7 @@ private:
 	//表示当前能否释放其他技能
 	bool canReleaseSkill = true;
 public:
+	SocketClient *_socketClient_;
 	int skill_1Level;
 	int skill_2Level;
 	int skill_3Level;
@@ -258,7 +259,7 @@ public:
 			fullHp();
 		}
 	}
-
+	SocketClient* getSocket(){ return _socketClient_; }
 	virtual int getDamage(int delta, std::string fromId) {
 		if (hp->getCur() < delta) {
 			die();
@@ -272,20 +273,40 @@ public:
 					killUnit->changeKillHero(1);
 				}
 			}
-			if (getid()[1] == 'b')
+			if (getSocket() != NULL && getSocket()->playerNumber == RED_PLAYER)
 			{
-				if (fromId[0] == 'B' || fromId[0] == 'T')
+				if (getid()[1] == 'r')
 				{
-					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/HeroDieByothers.mp3");
+					if (fromId[0] == 'B' || fromId[0] == 'T')
+					{
+						CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/HeroDieByothers.mp3");
+					}
+					else
+					{
+						CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/MyHeroDie.mp3");
+					}
 				}
-				else
+				if (getid()[1] == 'b')
 				{
-					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/MyHeroDie.mp3");
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/EnemeyHeroDie.mp3");
 				}
 			}
-			if (getid()[1] == 'r')
-			{
-				CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/EnemeyHeroDie.mp3");
+			else {
+				if (getid()[1] == 'b')
+				{
+					if (fromId[0] == 'B' || fromId[0] == 'T')
+					{
+						CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/HeroDieByothers.mp3");
+					}
+					else
+					{
+						CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/MyHeroDie.mp3");
+					}
+				}
+				if (getid()[1] == 'r')
+				{
+					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/EnemeyHeroDie.mp3");
+				}
 			}
 			this->setPosition(getSpawnPoint());
 		}

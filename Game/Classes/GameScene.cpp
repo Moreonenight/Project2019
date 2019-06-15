@@ -107,21 +107,21 @@ void Game::initwithRole(string HeroName, INT32 playerNumber, SocketClient* socke
 	
 	//我方英雄根据选择进行初始化
 	if (_socket_client != NULL && _playerNumber == RED_PLAYER) {
-		if (HeroName == string("HbHouYi"))
+		if (HeroName == string("HrHouYi"))
 		{
 			hero2 = HouYi::create();
 			static_cast<HouYi*>(hero2)->initwithRole(string("HrHouYi"), _tileMap, Vec2(redx, redy), (&unitsOnMap), _ammoLayer, _socket_client);
 			hero2->setPosition(Vec2(redx, redy));
 			addToMap(hero2, 0, 200, "HrHouYi");
 		}
-		else if (HeroName == string("HbDaJi"))
+		else if (HeroName == string("HrDaJi"))
 		{
 			hero2 = DaJi::create();
 			static_cast<DaJi*>(hero2)->initwithRole(string("HrDaJi"), _tileMap, Vec2(redx, redy), (&unitsOnMap), _ammoLayer, _socket_client);
 			hero2->setPosition(Vec2(redx, redy));
 			addToMap(hero2, 0, 200, "HrDaJi");
 		}
-		else if (HeroName == string("HbYaSe"))
+		else if (HeroName == string("HrYaSe"))
 		{
 			hero2 = YaSe::create();
 			static_cast<YaSe*>(hero2)->initwithRole(string("HrYaSe"), _tileMap, Vec2(redx, redy), (&unitsOnMap), _ammoLayer, _socket_client);
@@ -232,17 +232,17 @@ void Game::initwithRole(string HeroName, INT32 playerNumber, SocketClient* socke
 
 	//我方塔敌方塔初始化,请按倒序初始化
 	auto MyTower3 = Tower::create();
-	MyTower3->InitWithRole(string("Tb3"), _tileMap, (&unitsOnMap), _ammoLayer); addToMap(MyTower3, 0, 200,"Tb3");
+	MyTower3->InitWithRole(string("Tb3"), _tileMap, (&unitsOnMap), _ammoLayer,_socket_client); addToMap(MyTower3, 0, 200,"Tb3");
 	auto MyTower2 = Tower::create();
-	MyTower2->InitWithRole(string("Tb2"), _tileMap, (&unitsOnMap), _ammoLayer);	addToMap(MyTower2, 0, 200, "Tb2");
+	MyTower2->InitWithRole(string("Tb2"), _tileMap, (&unitsOnMap), _ammoLayer, _socket_client);	addToMap(MyTower2, 0, 200, "Tb2");
 	auto MyTower1 = Tower::create();
-	MyTower1->InitWithRole(string("Tb1"), _tileMap, (&unitsOnMap), _ammoLayer); addToMap(MyTower1, 0, 200, "Tb1");
+	MyTower1->InitWithRole(string("Tb1"), _tileMap, (&unitsOnMap), _ammoLayer, _socket_client); addToMap(MyTower1, 0, 200, "Tb1");
 	auto EnemeyTower3 = Tower::create();
-	EnemeyTower3->InitWithRole(string("Tr3"), _tileMap, (&unitsOnMap), _ammoLayer); addToMap(EnemeyTower3, 0, 200, "Tr3");
+	EnemeyTower3->InitWithRole(string("Tr3"), _tileMap, (&unitsOnMap), _ammoLayer, _socket_client); addToMap(EnemeyTower3, 0, 200, "Tr3");
 	auto EnemeyTower2 = Tower::create();
-	EnemeyTower2->InitWithRole(string("Tr2"), _tileMap, (&unitsOnMap), _ammoLayer); addToMap(EnemeyTower2, 0, 200, "Tr2");
+	EnemeyTower2->InitWithRole(string("Tr2"), _tileMap, (&unitsOnMap), _ammoLayer, _socket_client); addToMap(EnemeyTower2, 0, 200, "Tr2");
 	auto EnemeyTower1 = Tower::create();
-	EnemeyTower1->InitWithRole(string("Tr1"), _tileMap, (&unitsOnMap), _ammoLayer); addToMap(EnemeyTower1, 0, 200, "Tr1");
+	EnemeyTower1->InitWithRole(string("Tr1"), _tileMap, (&unitsOnMap), _ammoLayer, _socket_client); addToMap(EnemeyTower1, 0, 200, "Tr1");
 	
 
 	//监听器初始化
@@ -259,7 +259,7 @@ void Game::initwithRole(string HeroName, INT32 playerNumber, SocketClient* socke
 		}
 		static_cast<HouYi*>(hero1)->AIClose();
 	}
-	else {
+	else if(_socket_client != NULL){
 		if (hero1->getid()[2] == 'H') {
 			listener->initListener(static_cast<HouYi*>(hero1), getUnits(), _socket_client);
 		}
@@ -270,6 +270,17 @@ void Game::initwithRole(string HeroName, INT32 playerNumber, SocketClient* socke
 			listener->initListener(static_cast<YaSe*>(hero1), getUnits(), _socket_client);
 		}
 		static_cast<HouYi*>(hero2)->AIClose();
+	}
+	else {
+		if (hero1->getid()[2] == 'H') {
+			listener->initListener(static_cast<HouYi*>(hero1), getUnits(), _socket_client);
+		}
+		if (hero1->getid()[2] == 'D') {
+			listener->initListener(static_cast<DaJi*>(hero1), getUnits(), _socket_client);
+		}
+		if (hero1->getid()[2] == 'Y') {
+			listener->initListener(static_cast<YaSe*>(hero1), getUnits(), _socket_client);
+		}
 	}
 	listener->changeOffset(Vec2::ZERO);
 
@@ -762,15 +773,18 @@ void Game::mapupdate(float dt)
 	}
 	if (_socket_client != NULL)
 	{
+		_socket_client->_mutex.lock();
 		_socket_client->CommonMessage();
 		RivalUpdate(_socket_client);
+		_socket_client->_mutex.unlock();
 	}
 }
 void Game::TimeRecorder(float dt)
 {
 	TimerLabel->removeFromParentAndCleanup(true);
 	Time++;
-	hero1->changeGold(1);
+	if(_socket_client!=NULL&&_playerNumber==RED_PLAYER){ hero2->changeGold(1); }
+	else { hero1->changeGold(1); }
 	int Minute = Time / 60;
 	int Second = Time % 60;
 	std::string second_str = std::to_string(Second);
@@ -811,11 +825,11 @@ void Game::TimeRecorder(float dt)
 	}
 	if (Time == 5)
 	{
-		if (_heroname == "HbHouYi")
+		if (_heroname == "HbHouYi"|| _heroname == "HrHouYi")
 		{
 			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/HouYi.mp3");
 		}
-		else if (_heroname == "HbDaJi")
+		else if (_heroname == "HbDaJi"|| _heroname == "HrDaJi")
 		{
 			CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/Daji.wav");
 		}
@@ -910,7 +924,13 @@ void Game::GoldRecorder(float dt)
 	if (goldLabel != nullptr) {
 		goldLabel->removeFromParentAndCleanup(true);
 	}
-	std::string gold_str = "$: "+std::to_string(hero1->getGold());
+	std::string gold_str;
+	if (_socket_client != NULL && _playerNumber == RED_PLAYER) {
+		gold_str = "$: " + std::to_string(hero2->getGold());
+	}
+	else {
+		gold_str = "$: " + std::to_string(hero1->getGold());
+	}
 	goldLabel = Label::createWithSystemFont(gold_str, "Arial", 30);
 	goldLabel->setPosition(Vec2(10,250));
 	goldLabel->setAnchorPoint(Vec2(0, 0.5f));
@@ -919,9 +939,16 @@ void Game::GoldRecorder(float dt)
 }
 void Game::LevelUpdate(float dt)
 {
-	switch ((hero1->getid())[2]) {
+	unit *our_hero;
+	if (_socket_client != NULL && _playerNumber == RED_PLAYER) {
+		our_hero = hero2;
+	}
+	else {
+		our_hero = hero1;
+	}
+	switch ((our_hero->getid())[2]) {
 	case 'H': {
-		auto hero = static_cast<HouYi*>(hero1);
+		auto hero = static_cast<HouYi*>(our_hero);
 		if (hero->getSk1Level() > 0) {
 			(this->getChildByTag(1))->setOpacity(255);
 			if (hero->getSk1CdLeft() > 0) {
@@ -979,7 +1006,7 @@ void Game::LevelUpdate(float dt)
 		}
 	}; break;
 	case 'D': {
-		auto hero = static_cast<DaJi*>(hero1);
+		auto hero = static_cast<DaJi*>(our_hero);
 		if (hero->getSk1Level() > 0) {
 			(this->getChildByTag(1))->setOpacity(255);
 			if (hero->getSk1CdLeft() > 0) {
@@ -1037,7 +1064,7 @@ void Game::LevelUpdate(float dt)
 		}
 	}; break;
 	case 'Y': {
-		auto hero = static_cast<YaSe*>(hero1);
+		auto hero = static_cast<YaSe*>(our_hero);
 		if (hero->getSk1Level() > 0) {
 			(this->getChildByTag(1))->setOpacity(255);
 			if (hero->getSk1CdLeft() > 0) {
@@ -1388,7 +1415,6 @@ void Game::sell6CallBack(cocos2d::Ref* pSender)
 }
 
 void Game::RivalUpdate(SocketClient* _socket_client) {
-	_socket_client->_mutex.lock();
 	unit* rival_hero;
 	if (_socket_client == NULL) {
 		return;
@@ -1404,13 +1430,31 @@ void Game::RivalUpdate(SocketClient* _socket_client) {
 	case 0:
 		break;
 	case SHOECALL:
-		rival_hero->addEquipment("Shoe", _equipmentlLayer, _shopLayer);
+		rival_hero->changeMoveSpeed(SHOE_PLUSMOVESPEED);
+		for (int i = 0; i < 6; ++i) {
+			if (rival_equip[i] == NON_EQUIP) {
+				rival_equip[i] = SHOE_EQUIP;
+				break;
+			}
+		}
 		break;
 	case HATCALL:
-		rival_hero->addEquipment("Hat", _equipmentlLayer, _shopLayer);
+		rival_hero->changeMaxHp(HAT_PLUSMAXHP);
+		for (int i = 0; i < 6; ++i) {
+			if (rival_equip[i] == NON_EQUIP) {
+				rival_equip[i] = HAT_EQUIP;
+				break;
+			}
+		}
 		break;
 	case SWORDCALL:
-		rival_hero->addEquipment("Sword", _equipmentlLayer, _shopLayer);
+		rival_hero->changeDamage(SWORD_PLUSDAMAGE);
+		for (int i = 0; i < 6; ++i) {
+			if (rival_equip[i] == NON_EQUIP) {
+				rival_equip[i] = SWORD_EQUIP;
+				break;
+			}
+		}
 		break;
 	}
 	switch (_socket_client->rcommand.sellNumber)
@@ -1418,22 +1462,40 @@ void Game::RivalUpdate(SocketClient* _socket_client) {
 	case 0:
 		break;
 	case 1:
-		rival_hero->sellEquipment(0, _equipmentlLayer, _shopLayer);
+		if (rival_equip[0] == SWORD_EQUIP) {rival_hero->changeDamage(-SWORD_PLUSDAMAGE);}
+		if (rival_equip[0] == HAT_EQUIP) { rival_hero->changeMaxHp(-HAT_PLUSMAXHP); }
+		if (rival_equip[0] == SHOE_EQUIP) { rival_hero->changeMoveSpeed(-SHOE_PLUSMOVESPEED); }
+		rival_equip[0] = NON_EQUIP;
 		break;
 	case 2:
-		rival_hero->sellEquipment(0, _equipmentlLayer, _shopLayer);
+		if (rival_equip[1] == SWORD_EQUIP) { rival_hero->changeDamage(-SWORD_PLUSDAMAGE); }
+		if (rival_equip[1] == HAT_EQUIP) { rival_hero->changeMaxHp(-HAT_PLUSMAXHP); }
+		if (rival_equip[1] == SHOE_EQUIP) { rival_hero->changeMoveSpeed(-SHOE_PLUSMOVESPEED); }
+		rival_equip[1] = NON_EQUIP;
 		break;
 	case 3:
-		rival_hero->sellEquipment(0, _equipmentlLayer, _shopLayer);
+		if (rival_equip[2] == SWORD_EQUIP) { rival_hero->changeDamage(-SWORD_PLUSDAMAGE); }
+		if (rival_equip[2] == HAT_EQUIP) { rival_hero->changeMaxHp(-HAT_PLUSMAXHP); }
+		if (rival_equip[2] == SHOE_EQUIP) { rival_hero->changeMoveSpeed(-SHOE_PLUSMOVESPEED); }
+		rival_equip[2] =NON_EQUIP;
 		break;
 	case 4:
-		rival_hero->sellEquipment(0, _equipmentlLayer, _shopLayer);
+		if (rival_equip[3] == SWORD_EQUIP) { rival_hero->changeDamage(-SWORD_PLUSDAMAGE); }
+		if (rival_equip[3] == HAT_EQUIP) { rival_hero->changeMaxHp(-HAT_PLUSMAXHP); }
+		if (rival_equip[3] == SHOE_EQUIP) { rival_hero->changeMoveSpeed(-SHOE_PLUSMOVESPEED); }
+		rival_equip[3] =NON_EQUIP;
 		break;
 	case 5:
-		rival_hero->sellEquipment(0, _equipmentlLayer, _shopLayer);
+		if (rival_equip[4] == SWORD_EQUIP) { rival_hero->changeDamage(-SWORD_PLUSDAMAGE); }
+		if (rival_equip[4] == HAT_EQUIP) { rival_hero->changeMaxHp(-HAT_PLUSMAXHP); }
+		if (rival_equip[4] == SHOE_EQUIP) { rival_hero->changeMoveSpeed(-SHOE_PLUSMOVESPEED); }
+		rival_equip[4] = NON_EQUIP;
 		break;
 	case 6:
-		rival_hero->sellEquipment(0, _equipmentlLayer, _shopLayer);
+		if (rival_equip[5] == SWORD_EQUIP) { rival_hero->changeDamage(-SWORD_PLUSDAMAGE); }
+		if (rival_equip[5] == HAT_EQUIP) { rival_hero->changeMaxHp(-HAT_PLUSMAXHP); }
+		if (rival_equip[5] == SHOE_EQUIP) { rival_hero->changeMoveSpeed(-SHOE_PLUSMOVESPEED); }
+		rival_equip[5] = NON_EQUIP;
 		break;
 	}
 	if (_socket_client->rcommand.now_move== true)
@@ -1442,7 +1504,7 @@ void Game::RivalUpdate(SocketClient* _socket_client) {
 	}
 	if (_socket_client->rcommand.now_attack == true)
 	{
-		auto a = listener->selectFromSprites(_socket_client->rcommand.CurrentLocation);
+		auto a = listener->selectSimulatingFromSprites(_socket_client->rcommand.CurrentLocation,_socket_client);
 		if (a != NULL) {
 			rival_hero->attackTo(a);
 		}
@@ -1510,7 +1572,7 @@ void Game::RivalUpdate(SocketClient* _socket_client) {
 	case 1:
 		if (_socket_client->rival_hero == DAJI)
 		{
-			auto a = listener->selectFromSprites(_socket_client->rcommand.CurrentLocation);
+			auto a = listener->selectSimulatingFromSprites(_socket_client->rcommand.CurrentLocation,_socket_client);
 			static_cast<DaJi*>(rival_hero)->useSkill_1(a);
 		}
 		if (_socket_client->rival_hero == HOUYI)
@@ -1519,7 +1581,7 @@ void Game::RivalUpdate(SocketClient* _socket_client) {
 		}
 		if (_socket_client->rival_hero == YASE)
 		{
-			auto a = listener->selectFromSprites(_socket_client->rcommand.CurrentLocation);
+			auto a = listener->selectSimulatingFromSprites(_socket_client->rcommand.CurrentLocation,_socket_client);
 			static_cast<YaSe*>(rival_hero)->useSkill_1(_socket_client->rcommand.BeforePos, a);
 		}
 		break;
@@ -1544,7 +1606,7 @@ void Game::RivalUpdate(SocketClient* _socket_client) {
 		}
 		if (_socket_client->rival_hero == HOUYI)
 		{
-			auto a = listener->selectFromSprites(_socket_client->rcommand.CurrentLocation);
+			auto a = listener->selectSimulatingFromSprites(_socket_client->rcommand.CurrentLocation, _socket_client);
 			static_cast<HouYi*>(rival_hero)->useSkill_3(a);
 		}
 		if (_socket_client->rival_hero == YASE)
@@ -1553,10 +1615,8 @@ void Game::RivalUpdate(SocketClient* _socket_client) {
 		}
 		break;
 	}
-	_socket_client->_mutex.unlock();
 	if (_socket_client != NULL)
 	{
-		_socket_client->_mutex.lock();
 		_socket_client->wcommand.CurrentLocation = Vec2(0, 0);
 		_socket_client->wcommand.BeforePos = Vec2(0, 0);
 		_socket_client->wcommand.SkillNumber = 0;
@@ -1565,7 +1625,6 @@ void Game::RivalUpdate(SocketClient* _socket_client) {
 		_socket_client->wcommand.now_move = false;
 		_socket_client->wcommand.buyNumber = 0;
 		_socket_client->wcommand.sellNumber = 0;
-		_socket_client->_mutex.unlock();
 	}
 	return;
 }
