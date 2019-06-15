@@ -43,17 +43,43 @@ USING_NS_CC;
 #define IS_MINIMAP_ON this->getChildByTag(155)->isVisable()
 #define VisibleSize Director::getInstance()->getVisibleSize()
 #define OriginSize Director::getInstance()->getVisibleOrigin()
-Scene* Game::createScene(string HeroName)
+Scene* Game::createScene(string HeroName, INT32 playerNumber, SocketClient* socket_client, INT32 mode)
 {
 	auto scene = Scene::create();
 	auto layer = Game::create();
-	layer->initwithRole(HeroName);
+	layer->initwithRole(HeroName, playerNumber, socket_client, mode);
 	scene->addChild(layer);
 	return scene;
 }
 
-void Game::initwithRole(string HeroName)
+void Game::initwithRole(string HeroName, INT32 playerNumber, SocketClient* socket_client, INT32 mode)
 {
+	//初始化网络端
+	if (mode == CONNECT_TO_INTERNET)
+	{
+		_socket_client = socket_client;
+		_mode = mode;
+		_playerNumber = playerNumber;
+	}
+	if (mode == DISCONNECTED)
+	{
+		_socket_client = NULL;
+		_mode = mode;
+		_playerNumber = playerNumber;
+	}
+	if (_socket_client != NULL)
+	{
+		_socket_client->_mutex.lock();
+		_socket_client->wcommand.CurrentLocation = Vec2(0, 0);
+		_socket_client->wcommand.BeforePos = Vec2(0, 0);
+		_socket_client->wcommand.SkillNumber = 0;
+		_socket_client->wcommand.SkillUpNumber = 0;
+		_socket_client->wcommand.now_attack = false;
+		_socket_client->wcommand.now_move = false;
+		_socket_client->wcommand.buyNumber = 0;
+		_socket_client->wcommand.sellNumber = 0;
+		_socket_client->_mutex.unlock();
+	}
 	//初始化私有成员
 	_heroname = HeroName;
 	Time = 0;
@@ -80,49 +106,121 @@ void Game::initwithRole(string HeroName)
 	float redy = redSpawnPoint["y"].asFloat();
 	
 	//我方英雄根据选择进行初始化
-	if (HeroName == string("HbHouYi"))
-	{
-		hero1 = HouYi::create();
-		static_cast<HouYi*>(hero1)->initwithRole(HeroName, _tileMap,Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
-		hero1->setAnchorPoint(Vec2(0.5, 0.5));
-		addToMap(hero1, 0, 100, "HbHouYi");
+	if (_socket_client != NULL && _playerNumber == RED_PLAYER) {
+		if (HeroName == string("HbHouYi"))
+		{
+			hero2 = HouYi::create();
+			static_cast<HouYi*>(hero2)->initwithRole(string("HrHouYi"), _tileMap, Vec2(redx, redy), (&unitsOnMap), _ammoLayer, _socket_client);
+			hero2->setPosition(Vec2(redx, redy));
+			addToMap(hero2, 0, 200, "HrHouYi");
+		}
+		else if (HeroName == string("HbDaJi"))
+		{
+			hero2 = DaJi::create();
+			static_cast<DaJi*>(hero2)->initwithRole(string("HrDaJi"), _tileMap, Vec2(redx, redy), (&unitsOnMap), _ammoLayer, _socket_client);
+			hero2->setPosition(Vec2(redx, redy));
+			addToMap(hero2, 0, 200, "HrDaJi");
+		}
+		else if (HeroName == string("HbYaSe"))
+		{
+			hero2 = YaSe::create();
+			static_cast<YaSe*>(hero2)->initwithRole(string("HrYaSe"), _tileMap, Vec2(redx, redy), (&unitsOnMap), _ammoLayer, _socket_client);
+			hero2->setPosition(Vec2(redx, redy));
+			addToMap(hero2, 0, 200, "HrYaSe");
+		}
 	}
-	else if (HeroName == string("HbDaJi"))
-	{
-		hero1 = DaJi::create();
-		static_cast<DaJi*>(hero1)->initwithRole(HeroName,_tileMap,Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
-		addToMap(hero1, 0, 200, "HbDaJi");
-	}
-	else if (HeroName == string("HbYaSe"))
-	{
-		hero1 = YaSe::create();
-		static_cast<YaSe*>(hero1)->initwithRole(HeroName, _tileMap,Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer);
-		addToMap(hero1, 0, 300, "HbYaSe");
+	else {
+		if (HeroName == string("HbHouYi"))
+		{
+			hero1 = HouYi::create();
+			static_cast<HouYi*>(hero1)->initwithRole(HeroName, _tileMap, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer, _socket_client);
+			hero1->setAnchorPoint(Vec2(0.5, 0.5));
+			addToMap(hero1, 0, 100, "HbHouYi");
+		}
+		else if (HeroName == string("HbDaJi"))
+		{
+			hero1 = DaJi::create();
+			static_cast<DaJi*>(hero1)->initwithRole(HeroName, _tileMap, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer, _socket_client);
+			addToMap(hero1, 0, 200, "HbDaJi");
+		}
+		else if (HeroName == string("HbYaSe"))
+		{
+			hero1 = YaSe::create();
+			static_cast<YaSe*>(hero1)->initwithRole(HeroName, _tileMap, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer, _socket_client);
+			addToMap(hero1, 0, 300, "HbYaSe");
+		}
 	}
 
 	//随机产生一名敌方AI英雄并初始化
-	srand(time(NULL));
-	int RandNumber = rand() % 100;
-	if (RandNumber >= 0 && RandNumber <= 33)
+	if (_socket_client == NULL)
 	{
-		hero2 = HouYi::create();
-		static_cast<HouYi*>(hero2)->initwithRole(string("HrHouYi"), _tileMap,Vec2(redx, redy), (&unitsOnMap), _ammoLayer);
-		hero2->setPosition(Vec2(redx,redy));
-        addToMap(hero2, 0, 200, "HrHouYi");
+		int RandNumber = rand() % 100;
+		if (RandNumber >= 0 && RandNumber <= 33)
+		{
+			hero2 = HouYi::create();
+			static_cast<HouYi*>(hero2)->initwithRole(string("HrHouYi"), _tileMap, Vec2(redx, redy), (&unitsOnMap), _ammoLayer, _socket_client);
+			hero2->setPosition(Vec2(redx, redy));
+			addToMap(hero2, 0, 200, "HrHouYi");
+		}
+		else if (RandNumber <= 66)
+		{
+			hero2 = DaJi::create();
+			static_cast<DaJi*>(hero2)->initwithRole(string("HrDaJi"), _tileMap, Vec2(redx, redy), (&unitsOnMap), _ammoLayer, _socket_client);
+			hero2->setPosition(Vec2(redx, redy));
+			addToMap(hero2, 0, 200, "HrDaJi");
+		}
+		else if (RandNumber <= 99)
+		{
+			hero2 = YaSe::create();
+			static_cast<YaSe*>(hero2)->initwithRole(string("HrYaSe"), _tileMap, Vec2(redx, redy), (&unitsOnMap), _ammoLayer, _socket_client);
+			hero2->setPosition(Vec2(redx, redy));
+			addToMap(hero2, 0, 200, "HrYaSe");
+		}
 	}
-	else if (RandNumber <= 66)
-	{
-		hero2 = DaJi::create();
-		static_cast<DaJi*>(hero2)->initwithRole(string("HrDaJi"), _tileMap,Vec2(redx, redy), (&unitsOnMap), _ammoLayer);
-		hero2->setPosition(Vec2(redx, redy));
-		addToMap(hero2, 0, 200, "HrDaJi");
+	//初始化对手英雄
+	else if (_playerNumber == RED_PLAYER) {
+		if (_socket_client->rival_hero = HOUYI)
+		{
+			hero1 = HouYi::create();
+			static_cast<HouYi*>(hero1)->initwithRole("HbHouYi", _tileMap, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer, _socket_client);
+			hero1->setAnchorPoint(Vec2(0.5, 0.5));
+			addToMap(hero1, 0, 100, "HbHouYi");
+		}
+		else if (_socket_client->rival_hero = HOUYI)
+		{
+			hero1 = DaJi::create();
+			static_cast<DaJi*>(hero1)->initwithRole("HbDaJi", _tileMap, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer, _socket_client);
+			addToMap(hero1, 0, 200, "HbDaJi");
+		}
+		else if (_socket_client->rival_hero = HOUYI)
+		{
+			hero1 = YaSe::create();
+			static_cast<YaSe*>(hero1)->initwithRole("HbYaSe", _tileMap, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer, _socket_client);
+			addToMap(hero1, 0, 300, "HbYaSe");
+		}
 	}
-	else if (RandNumber <= 99)
-	{
-		hero2 = YaSe::create();
-		static_cast<YaSe*>(hero2)->initwithRole(string("HrYaSe"), _tileMap,Vec2(redx, redy), (&unitsOnMap), _ammoLayer);
-		hero2->setPosition(Vec2(redx, redy));
-		addToMap(hero2, 0, 200, "HrYaSe");
+	else if (_playerNumber == BLUE_PLAYER) {
+		if (_socket_client->rival_hero = HOUYI)
+		{
+			hero2 = HouYi::create();
+			static_cast<HouYi*>(hero2)->initwithRole(string("HrHouYi"), _tileMap, Vec2(redx, redy), (&unitsOnMap), _ammoLayer, _socket_client);
+			hero2->setPosition(Vec2(redx, redy));
+			addToMap(hero2, 0, 200, "HrHouYi");
+		}
+		else if (_socket_client->rival_hero = DAJI)
+		{
+			hero2 = DaJi::create();
+			static_cast<DaJi*>(hero2)->initwithRole(string("HrDaJi"), _tileMap, Vec2(redx, redy), (&unitsOnMap), _ammoLayer, _socket_client);
+			hero2->setPosition(Vec2(redx, redy));
+			addToMap(hero2, 0, 200, "HrDaJi");
+		}
+		else if (_socket_client->rival_hero = YASE)
+		{
+			hero2 = YaSe::create();
+			static_cast<YaSe*>(hero2)->initwithRole(string("HrYaSe"), _tileMap, Vec2(redx, redy), (&unitsOnMap), _ammoLayer, _socket_client);
+			hero2->setPosition(Vec2(redx, redy));
+			addToMap(hero2, 0, 200, "HrYaSe");
+		}
 	}
 	
 
@@ -149,14 +247,29 @@ void Game::initwithRole(string HeroName)
 
 	//监听器初始化
 	listener = MouseController::create();
-	if (hero1->getid()[2] == 'H') {
-		listener->initListener(static_cast<HouYi*>(hero1), getUnits());
+	if (_socket_client != NULL && _playerNumber == RED_PLAYER) {
+		if (hero2->getid()[2] == 'H') {
+			listener->initListener(static_cast<HouYi*>(hero2), getUnits(), _socket_client);
+		}
+		if (hero2->getid()[2] == 'D') {
+			listener->initListener(static_cast<DaJi*>(hero2), getUnits(), _socket_client);
+		}
+		if (hero2->getid()[2] == 'Y') {
+			listener->initListener(static_cast<YaSe*>(hero2), getUnits(), _socket_client);
+		}
+		static_cast<HouYi*>(hero1)->AIClose();
 	}
-	if (hero1->getid()[2] == 'D') {
-		listener->initListener(static_cast<DaJi*>(hero1), getUnits());
-	}
-	if (hero1->getid()[2] == 'Y') {
-		listener->initListener(static_cast<YaSe*>(hero1), getUnits());
+	else {
+		if (hero1->getid()[2] == 'H') {
+			listener->initListener(static_cast<HouYi*>(hero1), getUnits(), _socket_client);
+		}
+		if (hero1->getid()[2] == 'D') {
+			listener->initListener(static_cast<DaJi*>(hero1), getUnits(), _socket_client);
+		}
+		if (hero1->getid()[2] == 'Y') {
+			listener->initListener(static_cast<YaSe*>(hero1), getUnits(), _socket_client);
+		}
+		static_cast<HouYi*>(hero2)->AIClose();
 	}
 	listener->changeOffset(Vec2::ZERO);
 
@@ -381,22 +494,38 @@ void Game::setViewpointCenter(Vec2 position)
 
 void Game::mapupdate(float dt)
 {
-
-	auto pos = hero1->getPosition();
+	Vec2 pos;
+	if (_socket_client != NULL && _playerNumber == RED_PLAYER) {
+		pos = hero2->getPosition();
+	}
+	else {
+		pos = hero1->getPosition();
+	}
 	setViewpointCenter(pos);
-
 	if (IS_SHOP_OPEN) { listener->setPause(1); }
 	else { listener->setPause(0); }
 
 	//check crash
 	Vec2 tileCoord = this->tileCoordFromPosition(pos);
 	int tileGid = _collidable->getTileGIDAt(tileCoord);
-	if (tileGid) {
-		hero1->stopAllActions();
-		hero1->setPosition(hero1->getBeforePos());
+	if (_socket_client != NULL && _playerNumber == RED_PLAYER)
+	{
+		if (tileGid) {
+			hero2->stopAllActions();
+			hero2->setPosition(hero2->getBeforePos());
+		}
+		else {
+			hero2->setBeforePos(pos);
+		}
 	}
 	else {
-		hero1->setBeforePos(pos);
+		if (tileGid) {
+			hero1->stopAllActions();
+			hero1->setPosition(hero1->getBeforePos());
+		}
+		else {
+			hero1->setBeforePos(pos);
+		}
 	}
 	if (!EnemeySoldier.empty())
 	{
@@ -630,6 +759,11 @@ void Game::mapupdate(float dt)
 				(*it)->changeAttackingTarget(nullptr);
 			}
 		}
+	}
+	if (_socket_client != NULL)
+	{
+		_socket_client->CommonMessage();
+		RivalUpdate(_socket_client);
 	}
 }
 void Game::TimeRecorder(float dt)
@@ -1101,7 +1235,7 @@ void Game::menuItem1Callback(cocos2d::Ref* pSender)
 {
 	SpriteFrameCache::getInstance()->removeSpriteFrames();
 	unscheduleAllSelectors();
-	Director::getInstance()->popScene();
+	Director::getInstance()->popToRootScene();
 }
 void Game::undoSkillCallBack(cocos2d::Ref * pSender)
 {
@@ -1111,45 +1245,327 @@ void Game::undoSkillCallBack(cocos2d::Ref * pSender)
 void Game::buyShoeCallBack(cocos2d::Ref* pSender) 
 {
 	if (!IS_SHOP_OPEN) { return; }
+	if (_socket_client != NULL) {
+		if (_socket_client->is_sent == false) {
+			return;
+		}
+		else {
+			_socket_client->_mutex.lock();
+			_socket_client->wcommand.buyNumber = SHOECALL;
+			_socket_client->is_sent = false;
+			_socket_client->_mutex.unlock();
+		}
+	}
 	hero1->addEquipment("Shoe", _equipmentlLayer,_shopLayer);
 }
 void Game::buyHatCallBack(cocos2d::Ref* pSender)
 {
 	if (!IS_SHOP_OPEN) { return; }
+	if (_socket_client != NULL) {
+		if (_socket_client->is_sent == false) {
+			return;
+		}
+		else {
+			_socket_client->_mutex.lock();
+			_socket_client->wcommand.buyNumber = HATCALL;
+			_socket_client->is_sent = false;
+			_socket_client->_mutex.unlock();
+		}
+	}
 	hero1->addEquipment("Hat", _equipmentlLayer, _shopLayer);
 }
 void Game::buySwordCallBack(cocos2d::Ref* pSender)
 {
 	if (!IS_SHOP_OPEN) { return; }
+	if (_socket_client != NULL) {
+		if (_socket_client->is_sent == false) {
+			return;
+		}
+		else {
+			_socket_client->_mutex.lock();
+			_socket_client->wcommand.buyNumber = SWORDCALL;
+			_socket_client->is_sent = false;
+			_socket_client->_mutex.unlock();
+		}
+	}
 	hero1->addEquipment("Sword",_equipmentlLayer, _shopLayer);
 }
 void Game::sell1CallBack(cocos2d::Ref* pSender)
 {
 	if (!IS_SHOP_OPEN) { return; }
+	if (_socket_client != NULL) {
+		if (_socket_client->is_sent == false) {
+			return;
+		}
+		else {
+			_socket_client->_mutex.lock();
+			_socket_client->wcommand.sellNumber = 1;
+			_socket_client->is_sent = false;
+			_socket_client->_mutex.unlock();
+		}
+	}
 	hero1->sellEquipment(0, _equipmentlLayer, _shopLayer);
 }
 void Game::sell2CallBack(cocos2d::Ref* pSender)
 {
 	if (!IS_SHOP_OPEN) { return; }
+	if (_socket_client != NULL) {
+		if (_socket_client->is_sent == false) {
+			return;
+		}
+		else {
+			_socket_client->_mutex.lock();
+			_socket_client->wcommand.sellNumber = 2;
+			_socket_client->is_sent = false;
+			_socket_client->_mutex.unlock();
+		}
+	}
 	hero1->sellEquipment(1, _equipmentlLayer, _shopLayer);
 }
 void Game::sell3CallBack(cocos2d::Ref* pSender)
 {
 	if (!IS_SHOP_OPEN) { return; }
+	if (_socket_client != NULL) {
+		if (_socket_client->is_sent == false) {
+			return;
+		}
+		else {
+			_socket_client->_mutex.lock();
+			_socket_client->wcommand.sellNumber = 3;
+			_socket_client->is_sent = false;
+			_socket_client->_mutex.unlock();
+		}
+	}
 	hero1->sellEquipment(2, _equipmentlLayer, _shopLayer);
 }
 void Game::sell4CallBack(cocos2d::Ref* pSender)
 {
 	if (!IS_SHOP_OPEN) { return; }
+	if (_socket_client != NULL) {
+		if (_socket_client->is_sent == false) {
+			return;
+		}
+		else {
+			_socket_client->_mutex.lock();
+			_socket_client->wcommand.sellNumber = 4;
+			_socket_client->is_sent = false;
+			_socket_client->_mutex.unlock();
+		}
+	}
 	hero1->sellEquipment(3, _equipmentlLayer, _shopLayer);
 }
 void Game::sell5CallBack(cocos2d::Ref* pSender)
 {
 	if (!IS_SHOP_OPEN) { return; }
+	if (_socket_client != NULL) {
+		if (_socket_client->is_sent == false) {
+			return;
+		}
+		else {
+			_socket_client->_mutex.lock();
+			_socket_client->wcommand.sellNumber = 5;
+			_socket_client->is_sent = false;
+			_socket_client->_mutex.unlock();
+		}
+	}
 	hero1->sellEquipment(4, _equipmentlLayer, _shopLayer);
 }
 void Game::sell6CallBack(cocos2d::Ref* pSender)
 {
 	if (!IS_SHOP_OPEN) { return; }
+	if (_socket_client != NULL) {
+		if (_socket_client->is_sent == false) {
+			return;
+		}
+		else {
+			_socket_client->_mutex.lock();
+			_socket_client->wcommand.sellNumber = 6;
+			_socket_client->is_sent = false;
+			_socket_client->_mutex.unlock();
+		}
+	}
 	hero1->sellEquipment(5, _equipmentlLayer, _shopLayer);
+}
+
+void Game::RivalUpdate(SocketClient* _socket_client) {
+	_socket_client->_mutex.lock();
+	unit* rival_hero;
+	if (_socket_client == NULL) {
+		return;
+	}
+	else if (_playerNumber == BLUE_PLAYER) {
+		rival_hero = hero2;
+	}
+	else if (_playerNumber == RED_PLAYER) {
+		rival_hero = hero1;
+	}
+	switch (_socket_client->rcommand.buyNumber) 
+	{
+	case 0:
+		break;
+	case SHOECALL:
+		rival_hero->addEquipment("Shoe", _equipmentlLayer, _shopLayer);
+		break;
+	case HATCALL:
+		rival_hero->addEquipment("Hat", _equipmentlLayer, _shopLayer);
+		break;
+	case SWORDCALL:
+		rival_hero->addEquipment("Sword", _equipmentlLayer, _shopLayer);
+		break;
+	}
+	switch (_socket_client->rcommand.sellNumber)
+	{
+	case 0:
+		break;
+	case 1:
+		rival_hero->sellEquipment(0, _equipmentlLayer, _shopLayer);
+		break;
+	case 2:
+		rival_hero->sellEquipment(0, _equipmentlLayer, _shopLayer);
+		break;
+	case 3:
+		rival_hero->sellEquipment(0, _equipmentlLayer, _shopLayer);
+		break;
+	case 4:
+		rival_hero->sellEquipment(0, _equipmentlLayer, _shopLayer);
+		break;
+	case 5:
+		rival_hero->sellEquipment(0, _equipmentlLayer, _shopLayer);
+		break;
+	case 6:
+		rival_hero->sellEquipment(0, _equipmentlLayer, _shopLayer);
+		break;
+	}
+	if (_socket_client->rcommand.now_move== true)
+	{
+		rival_hero->moveDirectionByKey(rival_hero->getDir(rival_hero->getPosition(), _socket_client->rcommand.CurrentLocation), _socket_client->rcommand.CurrentLocation);
+	}
+	if (_socket_client->rcommand.now_attack == true)
+	{
+		auto a = listener->selectFromSprites(_socket_client->rcommand.CurrentLocation);
+		if (a != NULL) {
+			rival_hero->attackTo(a);
+		}
+	}
+	switch (_socket_client->rcommand.SkillUpNumber)
+	{
+	case 0:
+		break;
+	case 1:
+		if (_socket_client->rival_hero == DAJI)
+		{
+			static_cast<DaJi*>(rival_hero)->skill_1Level += 1;
+			static_cast<DaJi*>(rival_hero)->changeSkillPoint(-1);
+		}
+		if (_socket_client->rival_hero == HOUYI)
+		{
+			static_cast<HouYi*>(rival_hero)->skill_1Level += 1;
+			static_cast<HouYi*>(rival_hero)->changeSkillPoint(-1);
+		}
+		if (_socket_client->rival_hero == YASE)
+		{
+			static_cast<YaSe*>(rival_hero)->skill_1Level += 1;
+			static_cast<YaSe*>(rival_hero)->changeSkillPoint(-1);
+		}
+		break;
+	case 2:
+		if (_socket_client->rival_hero == DAJI)
+		{
+			static_cast<DaJi*>(rival_hero)->skill_2Level += 1;
+			static_cast<DaJi*>(rival_hero)->changeSkillPoint(-1);
+		}
+		if (_socket_client->rival_hero == HOUYI)
+		{
+			static_cast<HouYi*>(rival_hero)->skill_2Level += 1;
+			static_cast<HouYi*>(rival_hero)->changeSkillPoint(-1);
+		}
+		if (_socket_client->rival_hero == YASE)
+		{
+			static_cast<YaSe*>(rival_hero)->skill_2Level += 1;
+			static_cast<YaSe*>(rival_hero)->changeSkillPoint(-1);
+		}
+		break;
+	case 3:
+		if (_socket_client->rival_hero == DAJI)
+		{
+			static_cast<DaJi*>(rival_hero)->skill_3Level += 1;
+			static_cast<DaJi*>(rival_hero)->changeSkillPoint(-1);
+		}
+		if (_socket_client->rival_hero == HOUYI)
+		{
+			static_cast<HouYi*>(rival_hero)->skill_3Level += 1;
+			static_cast<HouYi*>(rival_hero)->changeSkillPoint(-1);
+		}
+		if (_socket_client->rival_hero == YASE)
+		{
+			static_cast<YaSe*>(rival_hero)->skill_3Level += 1;
+			static_cast<YaSe*>(rival_hero)->changeSkillPoint(-1);
+		}
+		break;
+	}
+	switch (_socket_client->rcommand.SkillNumber)
+	{
+	case 0:
+		break;
+	case 1:
+		if (_socket_client->rival_hero == DAJI)
+		{
+			auto a = listener->selectFromSprites(_socket_client->rcommand.CurrentLocation);
+			static_cast<DaJi*>(rival_hero)->useSkill_1(a);
+		}
+		if (_socket_client->rival_hero == HOUYI)
+		{
+			static_cast<HouYi*>(rival_hero)->useSkill_1();
+		}
+		if (_socket_client->rival_hero == YASE)
+		{
+			auto a = listener->selectFromSprites(_socket_client->rcommand.CurrentLocation);
+			static_cast<YaSe*>(rival_hero)->useSkill_1(_socket_client->rcommand.BeforePos, a);
+		}
+		break;
+	case 2:
+		if (_socket_client->rival_hero == DAJI)
+		{
+			static_cast<DaJi*>(rival_hero)->useSkill_2(_socket_client->rcommand.CurrentLocation);
+		}
+		if (_socket_client->rival_hero == HOUYI)
+		{
+			static_cast<HouYi*>(rival_hero)->useSkill_2(_socket_client->rcommand.CurrentLocation);
+		}
+		if (_socket_client->rival_hero == YASE)
+		{
+			static_cast<YaSe*>(rival_hero)->useSkill_2(_socket_client->rcommand.CurrentLocation);
+		}
+		break;
+	case 3:
+		if (_socket_client->rival_hero == DAJI)
+		{
+			static_cast<DaJi*>(rival_hero)->useSkill_3();
+		}
+		if (_socket_client->rival_hero == HOUYI)
+		{
+			auto a = listener->selectFromSprites(_socket_client->rcommand.CurrentLocation);
+			static_cast<HouYi*>(rival_hero)->useSkill_3(a);
+		}
+		if (_socket_client->rival_hero == YASE)
+		{
+			static_cast<YaSe*>(rival_hero)->useSkill_3();
+		}
+		break;
+	}
+	_socket_client->_mutex.unlock();
+	if (_socket_client != NULL)
+	{
+		_socket_client->_mutex.lock();
+		_socket_client->wcommand.CurrentLocation = Vec2(0, 0);
+		_socket_client->wcommand.BeforePos = Vec2(0, 0);
+		_socket_client->wcommand.SkillNumber = 0;
+		_socket_client->wcommand.SkillUpNumber = 0;
+		_socket_client->wcommand.now_attack = false;
+		_socket_client->wcommand.now_move = false;
+		_socket_client->wcommand.buyNumber = 0;
+		_socket_client->wcommand.sellNumber = 0;
+		_socket_client->_mutex.unlock();
+	}
+	return;
 }

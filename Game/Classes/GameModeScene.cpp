@@ -1,7 +1,6 @@
 #include "GameModeScene.h"
 #include "SimpleAudioEngine.h"
 #include "ChooseHeroScene.h"
-#include "Game1v1Scene.h"
 #define CENTERX origin.x+visibleSize.width/2
 #define CENTERY origin.y+visibleSize.height/2
 USING_NS_CC;
@@ -77,11 +76,16 @@ void GameMode::menuItem1Callback(cocos2d::Ref* pSender)
 }
 
 void GameMode::menuStartCallback(cocos2d::Ref* pSender) {
-	auto ChooseHeroScene = ChooseHeroScene::createScene();
+	auto ChooseHeroScene = ChooseHeroScene::create(0, NULL, DISCONNECTED);
 	Director::getInstance()->pushScene(ChooseHeroScene);
+	//auto Game1v1Scene = Game1v1::createScene();
+	//Director::getInstance()->pushScene(Game1v1Scene);
 }
 
 void GameMode::Start1v1Callback(cocos2d::Ref* pSender) {
-	auto Game1v1Scene = Game1v1::createScene();
-	Director::getInstance()->pushScene(Game1v1Scene);
+	SocketClient* _fff = new SocketClient;
+	_fff->connectServer("106.52.125.87", 26543);
+//	_fff->connectServer("127.0.0.1", 26543);
+	auto ChooseHeroScene = ChooseHeroScene::create(0, _fff, CONNECT_TO_INTERNET);
+	Director::getInstance()->pushScene(ChooseHeroScene);
 }

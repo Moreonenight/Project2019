@@ -3,18 +3,22 @@
 
 #include "cocos2d.h"
 #include "GameScene.h"
+#include "SocketClient.h"
 class ChooseHeroScene : public cocos2d::Scene
 {
 private:
 	Game* m_game;
 public:
-	static cocos2d::Scene* createScene();
+	static ChooseHeroScene* ChooseHeroScene::create(INT32 playerNumber, SocketClient* socket_client, INT32 mode);
 	void menuItem1Callback(cocos2d::Ref* pSender);
 	void YaseEnterCallback(cocos2d::Ref* pSender);
 	void HouYiEnterCallback(cocos2d::Ref* pSender);
 	void DajiEnterCallback(cocos2d::Ref* pSender);
-	virtual bool init();
+	virtual bool init(INT32 playerNumber, SocketClient* socket_client, INT32 mode);
 	char*FontToUTF8(const char* font);
-	CREATE_FUNC(ChooseHeroScene);
+	INT32 _playerNumber;
+	SocketClient* _socket_client;
+	INT32 _mode;
+	//	CREATE_FUNC(ChooseHeroScene);
 };
 #endif

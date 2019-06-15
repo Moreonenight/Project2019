@@ -1,15 +1,13 @@
 #pragma once
 #include "unit.h"
 #include "SimpleAudioEngine.h"
+#include "SocketClient.h"
 class HouYi :public unit
 {
 private:
 	unitdata* houyiData;
 	cocos2d::TMXTiledMap* map;
 	int level = 1;
-	int skill_1Level = 0;
-	int skill_2Level = 0;
-	int skill_3Level = 0;
 	int sk1Damage[6] = { 200,240,280,320,360,400 };
 	int sk1Cd[6] = { 8,7,6,5,5,4 };
 	int sk2Damage[6] = { 300,350,400,450,500,550 };
@@ -22,9 +20,6 @@ private:
 	int ChangeDefence[7] = { 1,1,1,1,1,1,1};
 	int ChangeMaxHp[7] = { 1000,1500,2000,2000,2000,2000,2000 };
 	//表示技能是否开启
-	bool sk1 = false;
-	bool sk2 = false;
-	bool sk3=  false;
 	int sk1Cd_left = 0;
 	int sk2Cd_left = 0;
 	int	sk3Cd_left = 0;
@@ -33,7 +28,13 @@ private:
 	//表示当前能否释放其他技能
 	bool canReleaseSkill = true;
 public:
-	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map,Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer);
+	int skill_1Level = 0;
+	int skill_2Level = 0;
+	int skill_3Level = 0;
+	bool sk1 = false;
+	bool sk2 = false;
+	bool sk3 = false;
+	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map,Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer, SocketClient* _socketClient);
 	unit* getUnit() { return this; }
 	void useSkill_1();
 	void useSkill_2(Vec2 pos);

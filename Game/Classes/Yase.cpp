@@ -1,7 +1,7 @@
 ﻿#include "YaSe.h"
 
 
-void YaSe::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint, Vector<unit*>* mapUnits,Layer* ammoLayer)
+void YaSe::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint, Vector<unit*>* mapUnits,Layer* ammoLayer, SocketClient* _socketClient)
 
 {
 	map = Map;
@@ -16,7 +16,7 @@ void YaSe::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoi
 	if (getid()[1] == 'b') {
 		//³õÊ¼»¯¼üÅÌ¼àÌýÆ÷
 		auto skillListener = EventListenerKeyboard::create();
-		skillListener->onKeyPressed = [this](EventKeyboard::KeyCode keyCode, Event * event)
+		skillListener->onKeyPressed = [this,_socketClient](EventKeyboard::KeyCode keyCode, Event * event)
 		{
 			if (getDeathCdLeft() > 0) { return true; }
 			if (!canRelease()) { return true; }
@@ -38,6 +38,17 @@ void YaSe::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoi
 				if (sk3Cd_left > 0) { return true; }
 				else if (skill_3Level == 0) { return true; }
 				else {
+					if (_socketClient != NULL) {
+						if (_socketClient->is_sent == false) {
+							return true;
+						}
+						else {
+							_socketClient->_mutex.lock();
+							_socketClient->wcommand.SkillNumber = 3;
+							_socketClient->is_sent = false;
+							_socketClient->_mutex.unlock();
+						}
+					}
 					sk3 = true;
 					useSkill_3();
 				}
@@ -50,6 +61,17 @@ void YaSe::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoi
 				if (getSkillPoint() == 0) { return true; }
 				if (skill_1Level + 1 <= 3)
 				{
+					if (_socketClient != NULL) {
+						if (_socketClient->is_sent == false) {
+							return true;
+						}
+						else {
+							_socketClient->_mutex.lock();
+							_socketClient->wcommand.SkillUpNumber = 1;
+							_socketClient->is_sent = false;
+							_socketClient->_mutex.unlock();
+						}
+					}
 					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/SkillUpLevel.mp3");
 					skill_1Level += 1;
 					changeSkillPoint(-1);
@@ -59,6 +81,17 @@ void YaSe::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoi
 				if (getSkillPoint() == 0) { return true; }
 				if (skill_2Level + 1 <= 3)
 				{
+					if (_socketClient != NULL) {
+						if (_socketClient->is_sent == false) {
+							return true;
+						}
+						else {
+							_socketClient->_mutex.lock();
+							_socketClient->wcommand.SkillUpNumber = 2;
+							_socketClient->is_sent = false;
+							_socketClient->_mutex.unlock();
+						}
+					}
 					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/SkillUpLevel.mp3");
 					skill_2Level += 1;
 					changeSkillPoint(-1);
@@ -68,6 +101,17 @@ void YaSe::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoi
 				if (getSkillPoint() == 0) { return true; }
 				if (skill_3Level + 1 <= 2)
 				{
+					if (_socketClient != NULL) {
+						if (_socketClient->is_sent == false) {
+							return true;
+						}
+						else {
+							_socketClient->_mutex.lock();
+							_socketClient->wcommand.SkillUpNumber = 3;
+							_socketClient->is_sent = false;
+							_socketClient->_mutex.unlock();
+						}
+					}
 					CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("music/SkillUpLevel.mp3");
 					skill_3Level += 1;
 					changeSkillPoint(-1);

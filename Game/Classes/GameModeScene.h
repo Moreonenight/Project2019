@@ -2,6 +2,7 @@
 #define __GAMEMODE_SCENE_H__
 
 #include "cocos2d.h"
+#include "SocketClient.h"
 
 class GameMode : public cocos2d::Scene
 {

@@ -14,6 +14,7 @@
 #include <stdlib.h>   
 #include <string.h>
 #include<time.h>
+#include "SocketClient.h"
 
 USING_NS_CC;
 
@@ -42,8 +43,8 @@ class Game : public cocos2d::Layer
 	Vector<Tower*> MyTower;
 	Vector<Tower*> EnemeyTower;
 public:
-	static cocos2d::Scene* createScene(string HeroName);
-	void initwithRole(string HeroName);
+	static cocos2d::Scene* createScene(string HeroName, INT32 playerNumber, SocketClient* socket_client, INT32 mode);
+	void initwithRole(string HeroName, INT32 playerNumber, SocketClient* socket_client, INT32 mode);
 
 	virtual bool init();
 	void setViewpointCenter(cocos2d::Vec2 position);
@@ -52,6 +53,9 @@ public:
 	void TimeRecorder(float dt);
 	void LevelUpdate(float dt);
 	void InitSkillButton(string HeroName);
+	INT32 _playerNumber;
+	SocketClient* _socket_client;
+	INT32 _mode;
 
 	void addToMap(unit* unit, int zorder, int Tag,string id);
 	Vector<Node*> *selectFromMap(Vec2 pos);
@@ -75,6 +79,7 @@ public:
 	void sell4CallBack(cocos2d::Ref* pSender);
 	void sell5CallBack(cocos2d::Ref* pSender);
 	void sell6CallBack(cocos2d::Ref* pSender);
+	void RivalUpdate(SocketClient* _socket_client);
 
 	// implement the "static create()" method manually
 

@@ -75,8 +75,9 @@ void GameOverScene::menuItem1Callback(cocos2d::Ref* pSender)
 }
 
 void GameOverScene::menuStartCallback(cocos2d::Ref* pSender) {
-	auto ChooseHeroScene = ChooseHeroScene::createScene();
-	Director::getInstance()->pushScene(ChooseHeroScene);
+	//	auto ChooseHeroScene = ChooseHeroScene::create();
+	//	Director::getInstance()->pushScene(ChooseHeroScene);
+	Director::getInstance()->popToRootScene();
 }
 
 void GameOverScene::Start1v1Callback(cocos2d::Ref* pSender) {

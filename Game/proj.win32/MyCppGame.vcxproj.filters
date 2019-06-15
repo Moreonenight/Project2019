@@ -28,6 +28,9 @@
     <Filter Include="src\UI">
       <UniqueIdentifier>{75f2a96d-3369-414c-b370-e13fd828932b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\NetWork">
+      <UniqueIdentifier>{aa63dd45-ac79-422b-81e9-5a7447076fe6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -46,9 +49,6 @@
       <Filter>src\Hero</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\ChooseHeroScene.cpp">
-      <Filter>src\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\Game1v1Scene.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\GameModeScene.cpp">
@@ -96,6 +96,9 @@
     <ClCompile Include="..\Classes\Mana.cpp">
       <Filter>src\UI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\SocketClient.cpp">
+      <Filter>src\NetWork</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -114,9 +117,6 @@
       <Filter>src\Hero</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\ChooseHeroScene.h">
-      <Filter>src\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\Game1v1Scene.h">
       <Filter>src\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\GameModeScene.h">
@@ -163,6 +163,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Mana.h">
       <Filter>src\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\BaseConnect.h">
+      <Filter>src\NetWork</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Command.h">
+      <Filter>src\NetWork</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SocketClient.h">
+      <Filter>src\NetWork</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

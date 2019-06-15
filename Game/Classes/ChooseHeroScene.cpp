@@ -5,12 +5,19 @@
 #define CENTERY origin.y+visibleSize.height/2
 USING_NS_CC;
 
-Scene* ChooseHeroScene::createScene()
+ChooseHeroScene* ChooseHeroScene::create(INT32 playerNumber, SocketClient* socket_client, INT32 mode)
 {
-	return ChooseHeroScene::create();
+	auto chooseHeroScene = new(std::nothrow)ChooseHeroScene;
+	if (chooseHeroScene && chooseHeroScene->init(playerNumber, socket_client, mode))
+	{
+		chooseHeroScene->autorelease();
+		return chooseHeroScene;
+	}
+	CC_SAFE_DELETE(chooseHeroScene);
+	return nullptr;
 }
 
-bool ChooseHeroScene::init()
+bool ChooseHeroScene::init(INT32 playerNumber, SocketClient* socket_client, INT32 mode)
 {
 	if (!Scene::init())
 	{
@@ -18,6 +25,18 @@ bool ChooseHeroScene::init()
 	}
 	Size visibleSize = Director::getInstance()->getVisibleSize();
 	Vec2 origin = Director::getInstance()->getVisibleOrigin();
+	if (mode == CONNECT_TO_INTERNET)
+	{
+		_socket_client = socket_client;
+		_mode = mode;
+		_playerNumber = playerNumber;
+	}
+	if (mode == DISCONNECTED)
+	{
+		_socket_client = NULL;
+		_mode = mode;
+		_playerNumber = playerNumber;
+	}
 	//background
 	auto bg = Sprite::create("/bg/ChooseHeroScene.jpg");
 	bg->setPosition(Vec2(
@@ -26,36 +45,36 @@ bool ChooseHeroScene::init()
 	));
 	this->addChild(bg, 0);
 	////建立选择标签////
-	auto label = Label::create(ChooseHeroScene::FontToUTF8("请选择你要出战的英雄"),"fonts/Hanzi.ttf", 50);
+	auto label = Label::create(ChooseHeroScene::FontToUTF8("请选择你要出战的英雄"), "fonts/Hanzi.ttf", 50);
 	label->setPosition(480, 500);
 	label->enableGlow(Color4B::YELLOW);
-    this->addChild(label);
+	this->addChild(label);
 
 
 	auto HouYi = MenuItemImage::create("HrHouYi/Choose.png", "HrHouYi/Choose.png");
 	HouYi->setScale(0.5f);
-	HouYi->setPosition(Vec2(210,290));
+	HouYi->setPosition(Vec2(210, 290));
 	this->addChild(HouYi);
 	auto HouYiLabel = Label::create(ChooseHeroScene::FontToUTF8("后羿"), "fonts/XingKai.TTF", 40);
-	HouYiLabel->setPosition(190,440);
+	HouYiLabel->setPosition(190, 440);
 	HouYiLabel->enableGlow(Color4B::GRAY);
 	this->addChild(HouYiLabel);
 	auto HouYiEnterLabel = Label::create(ChooseHeroScene::FontToUTF8("确认选择"), "fonts/XingKai.TTF", 40);
-	auto HouYiEnterMenu = MenuItemLabel::create(HouYiEnterLabel,CC_CALLBACK_1(ChooseHeroScene::HouYiEnterCallback, this));
+	auto HouYiEnterMenu = MenuItemLabel::create(HouYiEnterLabel, CC_CALLBACK_1(ChooseHeroScene::HouYiEnterCallback, this));
 	HouYiEnterMenu->setPosition(Vec2(200, 160));
 	auto HouYiSkillLabel = Label::create(ChooseHeroScene::FontToUTF8("技能说明"), "fonts/XingKai.TTF", 40);
 	auto HouYiSkillMenu = MenuItemLabel::create(HouYiSkillLabel, CC_CALLBACK_1(ChooseHeroScene::menuItem1Callback, this));
 	HouYiSkillMenu->setPosition(Vec2(200, 110));
-	auto HouYiMenu = Menu::create(HouYiEnterMenu,HouYiSkillMenu,NULL);
+	auto HouYiMenu = Menu::create(HouYiEnterMenu, HouYiSkillMenu, NULL);
 	HouYiMenu->setPosition(Vec2::ZERO);
 	this->addChild(HouYiMenu, 2);
 
-	auto Yase = MenuItemImage::create("HrYase/Choose.png","HrYase/Choose.png");
+	auto Yase = MenuItemImage::create("HrYase/Choose.png", "HrYase/Choose.png");
 	Yase->setScale(0.5f);
-	Yase->setPosition(Vec2(450,300));
+	Yase->setPosition(Vec2(450, 300));
 	this->addChild(Yase);
 	auto YaseLabel = Label::create(ChooseHeroScene::FontToUTF8("亚瑟"), "fonts/XingKai.TTF", 40);
-	YaseLabel->setPosition(450,440);
+	YaseLabel->setPosition(450, 440);
 	YaseLabel->enableGlow(Color4B::BLUE);
 	this->addChild(YaseLabel);
 	auto YaseEnterLabel = Label::create(ChooseHeroScene::FontToUTF8("确认选择"), "fonts/XingKai.TTF", 40);
@@ -110,20 +129,49 @@ bool ChooseHeroScene::init()
 
 void ChooseHeroScene::YaseEnterCallback(cocos2d::Ref* pSender)
 {
-	auto GameScene = Game::createScene("HbYaSe");
-	Director::getInstance()->pushScene(GameScene);
+	if (_mode == CONNECT_TO_INTERNET) {
+		_socket_client->my_hero = YASE;
+		char WelData[24];
+		recv(_socket_client->_socektClient, WelData, 24, 0);
+		_socket_client->HeroMessage();
+		auto GameScene = Game::createScene("HbYaSe", _socket_client->playerNumber, _socket_client, _mode);
+		Director::getInstance()->pushScene(GameScene);
+	}
+	else {
+		auto GameScene = Game::createScene("HbYaSe", 0, NULL, _mode);
+		Director::getInstance()->pushScene(GameScene);
+	}
 }
 void ChooseHeroScene::DajiEnterCallback(cocos2d::Ref* pSender)
 {
-	auto GameScene = Game::createScene("HbDaJi");
-	Director::getInstance()->pushScene(GameScene);
+	if (_mode == CONNECT_TO_INTERNET) {
+		_socket_client->my_hero = DAJI;
+		char WelData[24];
+		recv(_socket_client->_socektClient, WelData, 24, 0);
+		_socket_client->HeroMessage();
+		auto GameScene = Game::createScene("HbDaJi", _socket_client->playerNumber, _socket_client, _mode);
+		Director::getInstance()->pushScene(GameScene);
+	}
+	else {
+		auto GameScene = Game::createScene("HbDaJi", 0, NULL, _mode);
+		Director::getInstance()->pushScene(GameScene);
+	}
 }
 void ChooseHeroScene::HouYiEnterCallback(cocos2d::Ref* pSender)
 {
-	auto GameScene = Game::createScene("HbHouYi");
-	Director::getInstance()->pushScene(GameScene);
+	if (_mode == CONNECT_TO_INTERNET) {
+		_socket_client->my_hero = HOUYI;
+		char WelData[24];
+		recv(_socket_client->_socektClient, WelData, 24, 0);
+		_socket_client->HeroMessage();
+		auto GameScene = Game::createScene("HbHouYi", _socket_client->playerNumber, _socket_client, _mode);
+		Director::getInstance()->pushScene(GameScene);
+	}
+	else {
+		auto GameScene = Game::createScene("HbHouYi", 0, NULL, _mode);
+		Director::getInstance()->pushScene(GameScene);
+	}
 }
-
 
 void ChooseHeroScene::menuItem1Callback(cocos2d::Ref* pSender)
 {

@@ -1,6 +1,7 @@
 #pragma once
 #include "unit.h"
 #include "SimpleAudioEngine.h"
+#include "SocketClient.h"
 class YaSe:public unit
 {
 private:
@@ -8,9 +9,6 @@ private:
 	cocos2d::TMXTiledMap* map;
 	Vector<unit*>* unitsOnMap;
 	int level;
-	int skill_1Level;
-	int skill_2Level;
-	int skill_3Level;
 	int sk1Damage[6] = { 2000,240,280,320,360,400 };
 	int sk1Cd[6] = { 8,7,6,6,5,5 };
 	int sk2Damage[6] = { 300,350,400,450,500,550 };
@@ -23,9 +21,6 @@ private:
 	int ChangeDefence[7] = { 1,1,1,1,1,1,1 };
 	int ChangeMaxHp[7] = { 1500,1500,2500,3000,3500,4000,4500 };
 	//表示技能是否开启
-	bool sk1 = false;
-	bool sk2 = false;
-	bool sk3 = false;
 	int sk1Cd_left = 0;
 	int sk2Cd_left = 0;
 	int	sk3Cd_left = 0;
@@ -34,7 +29,13 @@ private:
 	//表示当前能否释放其他技能
 	bool canReleaseSkill = true;
 public:
-	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer);
+	int skill_1Level;
+	int skill_2Level;
+	int skill_3Level;
+	bool sk1 = false;
+	bool sk2 = false;
+	bool sk3 = false;
+	void initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint, Vector<unit*>* mapUnits, Layer* ammoLayer, SocketClient* _socketClient);
 	unit* getUnit() { return this; }
 	void useSkill_1(Vec2 startPoint, unit* target);
 	void useSkill_2(Vec2 pos);
