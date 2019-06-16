@@ -28,6 +28,7 @@ public:
 	void CommonMessage();
 	void HeroMessage();
 	bool is_sent;
+	bool is_client_dead;
 	Command wcommand;
 	Command rcommand;
 	SOCKET _socektClient;

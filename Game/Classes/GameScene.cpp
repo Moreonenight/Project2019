@@ -179,20 +179,20 @@ void Game::initwithRole(string HeroName, INT32 playerNumber, SocketClient* socke
 	}
 	//初始化对手英雄
 	else if (_playerNumber == RED_PLAYER) {
-		if (_socket_client->rival_hero = HOUYI)
+		if (_socket_client->rival_hero == HOUYI)
 		{
 			hero1 = HouYi::create();
 			static_cast<HouYi*>(hero1)->initwithRole("HbHouYi", _tileMap, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer, _socket_client);
 			hero1->setAnchorPoint(Vec2(0.5, 0.5));
 			addToMap(hero1, 0, 100, "HbHouYi");
 		}
-		else if (_socket_client->rival_hero = HOUYI)
+		else if (_socket_client->rival_hero == DAJI)
 		{
 			hero1 = DaJi::create();
 			static_cast<DaJi*>(hero1)->initwithRole("HbDaJi", _tileMap, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer, _socket_client);
 			addToMap(hero1, 0, 200, "HbDaJi");
 		}
-		else if (_socket_client->rival_hero = HOUYI)
+		else if (_socket_client->rival_hero == YASE)
 		{
 			hero1 = YaSe::create();
 			static_cast<YaSe*>(hero1)->initwithRole("HbYaSe", _tileMap, Vec2(bluex, bluey), (&unitsOnMap), _ammoLayer, _socket_client);
@@ -200,21 +200,21 @@ void Game::initwithRole(string HeroName, INT32 playerNumber, SocketClient* socke
 		}
 	}
 	else if (_playerNumber == BLUE_PLAYER) {
-		if (_socket_client->rival_hero = HOUYI)
+		if (_socket_client->rival_hero == HOUYI)
 		{
 			hero2 = HouYi::create();
 			static_cast<HouYi*>(hero2)->initwithRole(string("HrHouYi"), _tileMap, Vec2(redx, redy), (&unitsOnMap), _ammoLayer, _socket_client);
 			hero2->setPosition(Vec2(redx, redy));
 			addToMap(hero2, 0, 200, "HrHouYi");
 		}
-		else if (_socket_client->rival_hero = DAJI)
+		else if (_socket_client->rival_hero == DAJI)
 		{
 			hero2 = DaJi::create();
 			static_cast<DaJi*>(hero2)->initwithRole(string("HrDaJi"), _tileMap, Vec2(redx, redy), (&unitsOnMap), _ammoLayer, _socket_client);
 			hero2->setPosition(Vec2(redx, redy));
 			addToMap(hero2, 0, 200, "HrDaJi");
 		}
-		else if (_socket_client->rival_hero = YASE)
+		else if (_socket_client->rival_hero == YASE)
 		{
 			hero2 = YaSe::create();
 			static_cast<YaSe*>(hero2)->initwithRole(string("HrYaSe"), _tileMap, Vec2(redx, redy), (&unitsOnMap), _ammoLayer, _socket_client);
@@ -257,7 +257,7 @@ void Game::initwithRole(string HeroName, INT32 playerNumber, SocketClient* socke
 		if (hero2->getid()[2] == 'Y') {
 			listener->initListener(static_cast<YaSe*>(hero2), getUnits(), _socket_client);
 		}
-		static_cast<HouYi*>(hero1)->AIClose();
+		hero1->AIClose();
 	}
 	else if(_socket_client != NULL){
 		if (hero1->getid()[2] == 'H') {
@@ -269,7 +269,7 @@ void Game::initwithRole(string HeroName, INT32 playerNumber, SocketClient* socke
 		if (hero1->getid()[2] == 'Y') {
 			listener->initListener(static_cast<YaSe*>(hero1), getUnits(), _socket_client);
 		}
-		static_cast<HouYi*>(hero2)->AIClose();
+		hero2->AIClose();
 	}
 	else {
 		if (hero1->getid()[2] == 'H') {
@@ -777,6 +777,14 @@ void Game::mapupdate(float dt)
 		_socket_client->CommonMessage();
 		RivalUpdate(_socket_client);
 		_socket_client->_mutex.unlock();
+		if (_playerNumber == RED_PLAYER && _socket_client->is_client_dead == true && hero1->isAI() == false)
+		{
+			hero1->AIStart();
+		}
+		if (_playerNumber == BLUE_PLAYER && _socket_client->is_client_dead == true && hero2->isAI() == false)
+		{
+			hero2->AIStart();
+		}
 	}
 }
 void Game::TimeRecorder(float dt)
@@ -1262,6 +1270,11 @@ void Game::menuItem1Callback(cocos2d::Ref* pSender)
 {
 	SpriteFrameCache::getInstance()->removeSpriteFrames();
 	unscheduleAllSelectors();
+	if (_socket_client != NULL) {
+		closesocket(_socket_client->_socektClient);
+		delete _socket_client;
+		_socket_client = NULL;
+	}
 	Director::getInstance()->popToRootScene();
 }
 void Game::undoSkillCallBack(cocos2d::Ref * pSender)

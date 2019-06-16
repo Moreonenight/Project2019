@@ -3,6 +3,7 @@
 
 SocketClient::SocketClient(void) :
 	_socektClient(0),
+	is_client_dead(false),
 	is_sent(true)
 {
 
@@ -62,12 +63,14 @@ void SocketClient::CommonMessage()
 	if (send(_socektClient, reinterpret_cast <char*>(&wcommand), COMMON_SIZE, 0) <= 0)
 	{
 		closeConnect(_socektClient);
+		is_client_dead = true;
 	}
 	is_sent = true;
 	memset(rclient,0,40);
 	if (recv(_socektClient, rclient, COMMON_SIZE, 0) <= 0)
 	{
 		closeConnect(_socektClient);
+		is_client_dead = true;
 	}
 	memcpy(&rcommand,rclient,sizeof(Command));
 }

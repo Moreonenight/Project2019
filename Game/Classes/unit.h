@@ -141,6 +141,7 @@ public:
 	inline void setDamage(int num) { if (num > 0)damage = num; }
 	inline void changeCurHp(int delta) { hp->changeCur(delta); }
 	void AIClose() { AI = 0; return; }
+	void AIStart() { AI = 1; return; }
 	void addCurExp(int delta) { exp->changeCurExp(delta); changeLevel(exp->getLevel() - level); }
 	inline void changeKillHero(int delta) { KillHero += delta; }
 	inline void changeKillSoldiers(int delta) { KillSoldiers += delta; }
