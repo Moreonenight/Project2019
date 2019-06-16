@@ -1,15 +1,15 @@
 # 王者荣耀(2D)项目说明文档
 
-> 同济大学软件学院2019年面向对象程序设计课程期末项目
+> TJSSE2019年面向对象程序设计课程期末项目
 
 ## 项目基本信息
 - 项目名称：**王者荣耀（2D）**
 
 - 项目开发成员：
-    - 同济大学软件学院 1852036 熊章词
-    - 同济大学软件学院 1852452 张明哲
-    - 同济大学软件学院 1851594 王思桐
-    - 同济大学软件学院 1754025 徐菡志
+    - TJSSE zhizhizhii
+    - TJSSE drinkmooon
+    - TJSSE Amonkey00
+    - TJSSE Moreonenight
 
 
 - 项目选用游戏引擎：**cocos2d-x v3.15**
@@ -70,7 +70,7 @@
 |   QWE键：   |    用于使用英雄对应的技能  |
 |123键：|用于升级英雄对应的技能|
 
-###游戏主界面：
+### 游戏主界面：
 ![](http://m.qpic.cn/psb?/V14E49Rz24gYqq/dc2ZITe51H.1Gi*jEu1GUvYt7kCiHBdv*nmh1ZUtkhg!/b/dFQBAAAAAAAA&bo=0ANDAgAAAAADB7A!&rf=viewer_4)
 - 在您的游戏界面左方显示当前您所拥有的金币值，
 - 在其上方的金币按钮可以让您进入商城进行购买与卖出物品；
