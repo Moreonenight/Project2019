@@ -2,7 +2,7 @@
 
 > 同济大学软件学院2019年面向对象程序设计课程期末项目
 
-##项目基本信息
+## 项目基本信息
 - 项目名称：**王者荣耀（2D）**
 
 - 项目开发成员：
@@ -46,7 +46,7 @@
 
 
 # 如何开始您的游戏
----
+
 ### 运行release.win32文件夹下的MyCppGame.exe即可启动程序，您会看到如下界面
 ![](http://m.qpic.cn/psb?/V14E49Rz24gYqq/nCid.ig7NBEIagCfpYZ*PTjOfKT5LlQE73uTEJTuyn0!/b/dL8AAAAAAAAA&bo=0ANDAgAAAAADB7A!&rf=viewer_4)
 
