@@ -517,26 +517,25 @@ void Game::mapupdate(float dt)
 	else { listener->setPause(0); }
 
 	//check crash
-	Vec2 tileCoord = this->tileCoordFromPosition(pos);
-	int tileGid = _collidable->getTileGIDAt(tileCoord);
-	if (_socket_client != NULL && _playerNumber == RED_PLAYER)
-	{
-		if (tileGid) {
-			hero2->stopAllActions();
-			hero2->setPosition(hero2->getBeforePos());
-		}
-		else {
-			hero2->setBeforePos(pos);
-		}
+	Vec2 bluePos = hero1->getPosition();
+	Vec2 redPos = hero2->getPosition();
+	Vec2 blueTileCoord = this->tileCoordFromPosition(bluePos);
+	Vec2 redTileCoord = this->tileCoordFromPosition(redPos);
+	int blueTileGid = _collidable->getTileGIDAt(blueTileCoord);
+	int redTileGid = _collidable->getTileGIDAt(redTileCoord);
+	if (blueTileGid) {
+		hero1->stopAllActions();
+		hero1->setPosition(hero1->getBeforePos());
 	}
 	else {
-		if (tileGid) {
-			hero1->stopAllActions();
-			hero1->setPosition(hero1->getBeforePos());
-		}
-		else {
-			hero1->setBeforePos(pos);
-		}
+		hero1->setBeforePos(bluePos);
+	}
+	if (redTileGid) {
+		hero2->stopAllActions();
+		hero2->setPosition(hero2->getBeforePos());
+	}
+	else {
+		hero2->setBeforePos(redPos);
 	}
 	if (!EnemeySoldier.empty())
 	{
