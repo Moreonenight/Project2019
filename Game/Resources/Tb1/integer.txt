@@ -1,7 +1,7 @@
 maxHp
-20000
+70000
 damage
-180
+2500
 maxMana
 440
 ASPD
@@ -13,7 +13,7 @@ initGold
 attackRange
 200
 ammoSpeed
-10
+15
 moveSpeed
 50
 recoverOfHp

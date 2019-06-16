@@ -152,6 +152,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClCompile Include="..\Classes\ChooseHeroScene.cpp" />
     <ClCompile Include="..\Classes\DaJi.cpp" />
     <ClCompile Include="..\Classes\DajiSkillScene.cpp" />
+    <ClCompile Include="..\Classes\DescriptionScene.cpp" />
     <ClCompile Include="..\Classes\Equipment.cpp" />
     <ClCompile Include="..\Classes\Exp.cpp" />
     <ClCompile Include="..\Classes\GameModeScene.cpp" />
@@ -181,6 +182,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Command.h" />
     <ClInclude Include="..\Classes\DaJi.h" />
     <ClInclude Include="..\Classes\DajiSkillScene.h" />
+    <ClInclude Include="..\Classes\DescriptionScene.h" />
     <ClInclude Include="..\Classes\Equipment.h" />
     <ClInclude Include="..\Classes\Exp.h" />
     <ClInclude Include="..\Classes\GameModeScene.h" />

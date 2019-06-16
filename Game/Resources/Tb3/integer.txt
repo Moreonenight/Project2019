@@ -1,7 +1,7 @@
 maxHp
-150000
+90000
 damage
-180
+2500
 maxMana
 440
 ASPD

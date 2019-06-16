@@ -1,10 +1,4 @@
 #include "unit.h"
-
-void unit::stop()
-{
-	;
-}
-
 /*Action标签作如下规定:
 跑动动画：
 runAction(RepeatForever::create(Animate::create(AnimationCache::getInstance()->getAnimation
@@ -22,8 +16,6 @@ runAction(Animate::create(AnimationCache::getInstance()->getAnimation
 攻击动画：
 	13: 向上攻击	14：向下攻击	15：向左攻击	16：向右攻击
 */
-
-
 void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits,Layer* ammoLayer)
 
 {
@@ -76,12 +68,6 @@ void unit::initial(unitdata *unitdata, cocos2d::TMXTiledMap* Map, Vector<unit*>*
 		mana->initial(Mana::ManainitialData(data->getMaxMana(), getPosition(), Map));
 		_map->addChild(mana, 5);
 	}
-	//scheduleUpdate();
-	
-	//dpm = data->getDpm();
-	//setPosition(data->getPosition());
-	//((Layer *)(this->getParent()->getParent()))->schedule(schedule_selector(unit::fresh));
-	///scheldue函数不能在initial未完成之前加入（尚未addchild）
 }
 
 void unit::moveDirectionByKey(unit::Direction direction, Vec2 e)
@@ -364,6 +350,10 @@ Vec2 unit::getSpawnPoint() {
 	else {
 		return Vec2(bluex, bluey);
 	}
+}
+void unit::stop()
+{
+	;
 }
 unit::~unit()
 {

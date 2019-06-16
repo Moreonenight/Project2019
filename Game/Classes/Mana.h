@@ -7,7 +7,8 @@ private:
 	int cur_Mana;
 	int Max_Mana;
 	int velocity;
-	double Timer;
+	int Timer;
+	int RecoverMana;
 	Sprite* ManaRect;
 	Sprite* ManaLine;
 	cocos2d::TMXTiledMap* _map;

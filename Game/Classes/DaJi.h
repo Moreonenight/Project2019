@@ -16,11 +16,11 @@ private:
 	int sk2Cd[6] = { 8,7,6,6,5,5 };
 	int sk3Damage[3] = { 2000,875,1050 };
 	int sk3Cd[3] = { 7,40,35 };
-	int ChangeDamage[7] = { 100,100,100,100,100,100,100};
-	int ChangeMana[7] = { 100,110, 120, 130, 140, 150, 160 };
+	int ChangeDamage[7] = { 90,90,90,90,90,90,90};
+	int ChangeMana[7] = { 83,83, 83, 83, 83, 83, 83 };
 	int ChangeAmmoSpeed[7] = { 1,1,1,1,1,1,1 };
 	int ChangeDefence[7] = { 1,1,1,1,1,1,1 };
-	int ChangeMaxHp[7] = { 1000,1500,2000,2000,2000,2000,2000 };
+	int ChangeMaxHp[7] = { 1000,1000,1000,1000,1000,1000,1000 };
 	//表示技能是否开启
 	int sk1Cd_left = 0;
 	int sk2Cd_left = 0;

@@ -187,23 +187,23 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">HrDajiammo.png</key>
+            <key type="filename">HrDaJiammo.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>61,13,123,25</rect>
+                <rect>364,446,728,891</rect>
                 <key>scale9Paddings</key>
-                <rect>61,13,123,25</rect>
+                <rect>364,446,728,891</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>HrDajiammo.png</filename>
+            <filename>HrDaJiammo.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

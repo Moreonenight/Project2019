@@ -1175,7 +1175,7 @@ void Game::createShopCallBack(cocos2d::Ref* pSender) {
 	);
 	//shoe
 	auto ShoeLabel1 = Label::createWithSystemFont("FastShoe:$200", "Arial", 20);
-	auto ShoeLabel2 = Label::createWithSystemFont("Speed+100", "Arial", 20);
+	auto ShoeLabel2 = Label::createWithSystemFont("Speed+20", "Arial", 20);
 	ShoeLabel1->setPosition(Vec2(37, -15));
 	ShoeLabel2->setPosition(Vec2(37, -38));
 	itemShoe->addChild(ShoeLabel1);
@@ -1188,7 +1188,7 @@ void Game::createShopCallBack(cocos2d::Ref* pSender) {
 		CC_CALLBACK_1(Game::buyHatCallBack, this)
 	);
 	auto HatLabel1 = Label::createWithSystemFont("TankHat:$200", "Arial", 20);
-	auto HatLabel2 = Label::createWithSystemFont("MaxHp+10000", "Arial", 20);
+	auto HatLabel2 = Label::createWithSystemFont("MaxHp+1000", "Arial", 20);
 	HatLabel1->setPosition(Vec2(37, -15));
 	HatLabel2->setPosition(Vec2(37, -38));
 	itemHat->addChild(HatLabel1);
@@ -1201,7 +1201,7 @@ void Game::createShopCallBack(cocos2d::Ref* pSender) {
 		CC_CALLBACK_1(Game::buySwordCallBack, this)
 	);
 	auto SwordLabel1 = Label::createWithSystemFont("UglySword:$200", "Arial", 20);
-	auto SwordLabel2 = Label::createWithSystemFont("Damage+400", "Arial", 20);
+	auto SwordLabel2 = Label::createWithSystemFont("Damage+100", "Arial", 20);
 	SwordLabel1->setPosition(Vec2(37, -15));
 	SwordLabel2->setPosition(Vec2(37, -38));
 	itemSword->addChild(SwordLabel1);

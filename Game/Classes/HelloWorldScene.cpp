@@ -2,6 +2,7 @@
 #include "SimpleAudioEngine.h"
 #include "SettingScene.h"
 #include "GameModeScene.h"
+#include "DescriptionScene.h"
 USING_NS_CC;
 
 Scene* HelloWorld::createScene()
@@ -52,7 +53,12 @@ bool HelloWorld::init()
 		origin.y+visibleSize.height/2
 	));
 
-
+	auto DescriptionLabel = MenuItemFont::create("Click me to check how to play", CC_CALLBACK_1(HelloWorld::menuDescriptionCallback, this));
+	DescriptionLabel->setColor(Color3B::ORANGE);
+	DescriptionLabel->setPosition(Vec2(
+		origin.x + visibleSize.width / 2,
+		origin.y + visibleSize.height/1.5
+	));
 	//Setting 按钮
 	auto SettingButton = MenuItemFont::create(
 		"Setting",
@@ -66,6 +72,7 @@ bool HelloWorld::init()
 	auto mn = Menu::create(
 		StartButton,
 		SettingButton,
+		DescriptionLabel,
 		NULL
 	);
 	mn->setPosition(Vec2::ZERO);
@@ -93,4 +100,10 @@ void HelloWorld::menuSettingCallback(Ref *pSender)
 void HelloWorld::menuStartCallback(cocos2d::Ref* pSender) {
 	auto GameModeScene = GameMode::createScene();
 	Director::getInstance()->pushScene(GameModeScene);
+}
+void HelloWorld::menuDescriptionCallback(Ref *pSender)
+{
+	auto DescriptionScene = DescriptionScene::createScene();
+	auto _DescriptionScene = TransitionFadeTR::create(1.0f, DescriptionScene);//设置页面转换效果
+	Director::getInstance()->pushScene(_DescriptionScene);
 }

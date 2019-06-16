@@ -1,7 +1,7 @@
 maxHp
-20000
+18076
 damage
-500
+1015
 maxMana
 440
 ASPD
@@ -15,7 +15,7 @@ attackRange
 ammoSpeed
 10
 moveSpeed
-200
+118
 recoverOfHp
 2
 defenceOfPhysical

@@ -1,8 +1,8 @@
 #pragma once
 #include "cocos2d.h"
-#define HAT_PLUSMAXHP 10000
-#define SHOE_PLUSMOVESPEED 100
-#define SWORD_PLUSDAMAGE 400
+#define HAT_PLUSMAXHP 1000
+#define SHOE_PLUSMOVESPEED 20
+#define SWORD_PLUSDAMAGE 100
 
 class Equipment {
 public:
