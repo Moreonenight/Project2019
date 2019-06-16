@@ -9,7 +9,15 @@ void ammo::initial(std::string fileName,std::string fromid,Vec2 currentPosition,
 	Frame = SpriteFrameCache::getInstance()->getSpriteFrameByName(fileName);
 	setSpriteFrame(Frame);
 	scheduleUpdate();
-	setScale(0.5);
+	if (fromid[2] == 'D')
+	{
+		setScale(0.03);
+	}
+	else
+	{
+		setScale(0.5);
+	}
+	
 	return ;
 }
 
@@ -29,12 +37,5 @@ void ammo::update(float dt) //ammoµÄ¡°update¡±º¯Êý£¬Ò»¸öLayerµÄupdateÓ¦¸Ãµ÷ÓÃËùÓ
 	this->setRotation(180-CC_RADIANS_TO_DEGREES(velocity.getAngle()));
 	velocity.normalize(); velocity *= ammoSpeed;
 	this->setPosition( velocity + getPosition());
-		/*
-		*ÐèÒªÍ³Ò»µÄÊ±¼ä±íÊ¾·½Ê½
-		*²»Ã÷È·µÄ¸¡µãÊýµÄÒâÒå
-		*ÓëÓ¢ÐÛ¹ØÁª£¿
-		*unitdata³õÊ¼»¯£¿
-		*»òÕßÊÇÈ«¾ÖÍ³Ò»µ¯µÀËÙ¶È£¿
-		*/
 	}
 

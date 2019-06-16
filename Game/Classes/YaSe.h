@@ -15,11 +15,11 @@ private:
 	int sk2Cd[6] = { 8,7,6,6,5,5 };
 	int sk3Damage[3] = { 2000,875,1050 };
 	int sk3Cd[3] = { 5,40,35 };
-	int ChangeDamage[7] = { 100,100, 100, 100, 100, 100, 100 };
+	int ChangeDamage[7] = { 96,96,96, 96, 96, 96,96 };
 	int ChangeMana[7] = { 100,110, 120, 130, 140, 150, 160 };
 	int ChangeAmmoSpeed[7] = { 1,1,1,1,1,1,1 };
 	int ChangeDefence[7] = { 1,1,1,1,1,1,1 };
-	int ChangeMaxHp[7] = { 1500,1500,2500,3000,3500,4000,4500 };
+	int ChangeMaxHp[7] = { 1350,1350,1350,1350,1350,1350,1350 };
 	//表示技能是否开启
 	int sk1Cd_left = 0;
 	int sk2Cd_left = 0;
@@ -232,7 +232,6 @@ public:
 			changeAmmoSpeed(ChangeAmmoSpeed[level - 2]);
 			changeMaxHp(ChangeMaxHp[level - 2]); fullHp();
 			changeDefencePhysical(ChangeDefence[level - 2]);
-			mana->changeMaxMana(ChangeMana[level - 2]); fullMana();
 		}
 		auto it = ammosOnWay.begin();
 		for (; it < ammosOnWay.end(); it++) {

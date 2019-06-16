@@ -9,13 +9,13 @@
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
-                <string>{1,0}</string>
+                <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{243,48}</string>
+                <string>{1456,1782}</string>
                 <key>spriteSourceSize</key>
-                <string>{245,50}</string>
+                <string>{1456,1782}</string>
                 <key>textureRect</key>
-                <string>{{1,1},{243,48}}</string>
+                <string>{{1,1},{1456,1782}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
@@ -31,9 +31,9 @@
             <key>realTextureFileName</key>
             <string>ammo.png</string>
             <key>size</key>
-            <string>{245,50}</string>
+            <string>{1458,1784}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:45652781b3f20c153627a5c9139172f2:0e34d51dfbaae63c1b895dd2d0851479:34654e768e66b5ac2ec2f311e830279b$</string>
+            <string>$TexturePacker:SmartUpdate:62709f832373aac8e010eb7af40c8838:fa9d324e94a1fea1aa19ab877d43a654:34654e768e66b5ac2ec2f311e830279b$</string>
             <key>textureFileName</key>
             <string>ammo.png</string>
         </dict>

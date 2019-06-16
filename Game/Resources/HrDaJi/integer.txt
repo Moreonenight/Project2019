@@ -1,7 +1,7 @@
 maxHp
-3182
+16082
 damage
-180
+870
 maxMana
 440
 ASPD
@@ -11,13 +11,13 @@ initLvl
 initGold
 300
 attackRange
-550
+250
 ammoSpeed
-15
+8
 moveSpeed
-200
+165
 recoverOfHp
-5
+1
 defenceOfPhysical
 15
 defenceOfMagic

@@ -165,21 +165,18 @@ void YaSe::useSkill_1(Vec2 startPoint, unit* target)
 		MoveTo::create(0.2f, startPoint))
 	);
 	target->getDamage(sk1Damage[skill_1Level - 1]+getCurDamage()/10,getid());
-	mana->changeCurMana(-100);
 	sk1End();
 }
 void YaSe::useSkill_2(Vec2 pos)
 {
 	setPosition(pos);
 	sk2Cd_left = sk2Cd[skill_2Level - 1];
-	mana->changeCurMana(-100);
 	sk2End();
 }
 void YaSe::useSkill_3()
 {
 	sk3Cd_left = sk3Cd[skill_3Level - 1];
 	runAction(RotateBy::create(0.2f, 360));
-	mana->changeCurMana(-100);
 	sk3 = false;
 }
 void YaSe::useBack()
