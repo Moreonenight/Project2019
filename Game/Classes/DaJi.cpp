@@ -319,7 +319,7 @@ void DaJi::useSkill_1(unit* target)
 void DaJi::useSkill_2(Vec2 pos)
 {
 	sk2Cd_left = sk2Cd[skill_2Level - 1];
-	daji->setPosition(pos);
+	setPosition(pos);
 	sk2End();
 }
 void DaJi::useSkill_3()

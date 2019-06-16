@@ -5,7 +5,6 @@
 class DaJi:public unit
 {
 private:
-	unit* daji;
 	unitdata* dajiData;
 	cocos2d::TMXTiledMap* map;
 	Vector<unit*>* unitsOnMap;

@@ -7,7 +7,7 @@ class HouYi :public unit
 private:
 	unitdata* houyiData;
 	cocos2d::TMXTiledMap* map;
-	int level = 1;
+	int level;
 	int sk1Damage[6] = { 200,240,280,320,360,400 };
 	int sk1Cd[6] = { 8,7,6,5,5,4 };
 	int sk2Damage[6] = { 300,350,400,450,500,550 };
