@@ -69,7 +69,7 @@ public:
 
 	void AIFunc(float dt) {
 		if (isAI() == false) return;
-		if (deathCd_left > 0)return;
+		if (deathCd_left > 0) { stopAllActions(); return; }
 		float blood = (getHp()->getCur()) / (float)(getHp()->getMax());
 		auto aow = &ammosOnWay;
 		if (getSkillPoint() != 0) {
@@ -102,12 +102,7 @@ public:
 			vector<ammo*>::iterator ait = (*aow).begin();
 			for (; ait < aow->end(); ait++) {//先看有没有敌方英雄攻击自己
 				if ((*ait)->getid()[0] == 'T') {//看有没被塔砸
-					if (getid()[1] == 'b') {
-						moveDirectionByKey(getDir(getPosition(), Vec2(0.0, 0.0)), Vec2(0.0, 0.0));
-					}
-					else {
-						moveDirectionByKey(getDir(getPosition(), Vec2(2200, 1600)), Vec2(2200, 1600));
-					}
+					moveDirectionByKey(getDir(getPosition(), getSpawnPoint()), getSpawnPoint());
 				}
 				else if ((*ait)->getid()[0] == 'H') {
 					targetid = (*ait)->getid();
