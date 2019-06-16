@@ -15,6 +15,11 @@
 #include <string.h>
 #include<time.h>
 #include "SocketClient.h"
+#include "Equipment.h"
+#define NON_EQUIP 0
+#define SHOE_EQUIP 1
+#define HAT_EQUIP 2
+#define SWORD_EQUIP 3
 
 USING_NS_CC;
 
@@ -56,6 +61,7 @@ public:
 	INT32 _playerNumber;
 	SocketClient* _socket_client;
 	INT32 _mode;
+	INT32 rival_equip[6];
 
 	void addToMap(unit* unit, int zorder, int Tag,string id);
 	Vector<Node*> *selectFromMap(Vec2 pos);

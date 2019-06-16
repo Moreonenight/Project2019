@@ -2,6 +2,7 @@
 
 void HouYi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map,Vec2 bornpoint,Vector<unit*>* mapUnits,Layer* ammoLayer, SocketClient* _socketClient)
 {
+	_socketClient_=_socketClient;
 	auto hero1data = new(unitdata);
 	hero1data->initial(HeroName);
 	initial(hero1data, Map, mapUnits, ammoLayer);

@@ -1,18 +1,19 @@
 #include "Equipment.h"
 
+
 Equipment::Equipment(std::string name) {
 	if (name == "Shoe") {
 		plusDamage = 0;
 		plusMaxHp = 0;
-		plusMoveSpeed = 100;
+		plusMoveSpeed = SHOE_PLUSMOVESPEED;
 	}
 	else if (name == "Hat") {
 		plusDamage = 0;
-		plusMaxHp = 10000;
+		plusMaxHp = HAT_PLUSMAXHP;
 		plusMoveSpeed = 0;
 	}
 	else if (name == "Sword") {
-		plusDamage = 400;
+		plusDamage = SWORD_PLUSDAMAGE;
 		plusMaxHp = 0;
 		plusMoveSpeed = 0;
 	}

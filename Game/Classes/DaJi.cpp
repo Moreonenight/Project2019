@@ -3,6 +3,7 @@
 
 void DaJi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoint,Vector<unit*>* mapUnits,Layer* ammoLayer, SocketClient* _socketClient)
 {
+	_socketClient_ = _socketClient;
 	map = Map;
 	unitsOnMap = mapUnits;
 	auto hero1data = new(unitdata);

@@ -99,13 +99,13 @@
     <ClCompile Include="..\Classes\SocketClient.cpp">
       <Filter>src\NetWork</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\DajiSkillScene.cpp">
+      <Filter>src\Scene</Filter>
+    </ClCompile>
     <ClCompile Include="..\Classes\HouyiSkillScene.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\YaseSkillScene.cpp">
-      <Filter>src\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\DajiSkillScene.cpp">
       <Filter>src\Scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -182,13 +182,13 @@
     <ClInclude Include="..\Classes\SocketClient.h">
       <Filter>src\NetWork</Filter>
     </ClInclude>
+    <ClInclude Include="..\Classes\DajiSkillScene.h">
+      <Filter>src\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="..\Classes\HouyiSkillScene.h">
       <Filter>src\Scene</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\YaseSkillScene.h">
-      <Filter>src\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\DajiSkillScene.h">
       <Filter>src\Scene</Filter>
     </ClInclude>
   </ItemGroup>

@@ -17,10 +17,10 @@ public:
 	void YaseEnterCallback(cocos2d::Ref* pSender);
 	void HouYiEnterCallback(cocos2d::Ref* pSender);
 	void DajiEnterCallback(cocos2d::Ref* pSender);
+	virtual bool init(INT32 playerNumber, SocketClient* socket_client, INT32 mode);
 	void HouyiSkillCallback(cocos2d::Ref* pSender);
 	void YaseSkillCallback(cocos2d::Ref* pSender);
 	void DajiSkillCallback(cocos2d::Ref* pSender);
-	virtual bool init(INT32 playerNumber, SocketClient* socket_client, INT32 mode);
 	char*FontToUTF8(const char* font);
 	INT32 _playerNumber;
 	SocketClient* _socket_client;

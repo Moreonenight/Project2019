@@ -1,7 +1,8 @@
 #include "Tower.h"
 USING_NS_CC;
-bool Tower::InitWithRole(string Towername, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits,Layer* ammoLayer)
+bool Tower::InitWithRole(string Towername, cocos2d::TMXTiledMap* Map, Vector<unit*>* mapUnits,Layer* ammoLayer,SocketClient* _socket_client)
 {
+	_socket_client_ = _socket_client;
 	auto data = new(unitdata);
 	ChangeAlreadydead(false);
 	data->initial(Towername);

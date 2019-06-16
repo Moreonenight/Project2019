@@ -22,7 +22,8 @@ private:
 public:
 	MouseController();
 	~MouseController();
-	unit* selectFromSprites(Vec2 pos);
+	unit* selectFromSprites(Vec2 pos, SocketClient* _socket_client);
+	unit * selectSimulatingFromSprites(Vec2 pos, SocketClient* _socket_client);
 	void initListener(unit* Hero, Vector<unit*>* children, SocketClient* _socket_client);
 	void initListener(HouYi* houyi, Vector<unit*>* children, SocketClient* _socket_client);
 	void initListener(YaSe* yase, Vector<unit*>* children, SocketClient* _socket_client);
