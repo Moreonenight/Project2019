@@ -14,7 +14,20 @@ void YaSe::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoi
 	setPosition(bornpoint);
 	setScale(0.6);
 	runAction(Act);
-	if (getid()[1] == 'b') {
+	bool key_number=false;
+	if (_socketClient != NULL) {
+		if (_socketClient_->playerNumber== RED_PLAYER ){
+			if (getid()[1] == 'r')(key_number = true);
+		}
+		else
+		{
+				if (getid()[1] == 'b')(key_number = true);
+		}
+	}
+	else {
+		if (getid()[1] == 'b')(key_number = true);
+	}
+	if (key_number == true) {
 		//³õÊ¼»¯¼üÅÌ¼àÌýÆ÷
 		auto skillListener = EventListenerKeyboard::create();
 		skillListener->onKeyPressed = [this,_socketClient](EventKeyboard::KeyCode keyCode, Event * event)
