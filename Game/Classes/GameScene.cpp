@@ -1628,6 +1628,21 @@ void Game::RivalUpdate(SocketClient* _socket_client) {
 		}
 		break;
 	}
+	if (_socket_client->rcommand.now_back == true)
+	{
+		if (_socket_client->rival_hero == DAJI)
+		{
+			static_cast<DaJi*>(rival_hero)->useBack();
+		}
+		if (_socket_client->rival_hero == HOUYI)
+		{
+			static_cast<HouYi*>(rival_hero)->useBack();
+		}
+		if (_socket_client->rival_hero == YASE)
+		{
+			static_cast<YaSe*>(rival_hero)->useBack();
+		}
+	}
 	if (_socket_client != NULL)
 	{
 		_socket_client->wcommand.CurrentLocation = Vec2(0, 0);
@@ -1636,6 +1651,7 @@ void Game::RivalUpdate(SocketClient* _socket_client) {
 		_socket_client->wcommand.SkillUpNumber = 0;
 		_socket_client->wcommand.now_attack = false;
 		_socket_client->wcommand.now_move = false;
+		_socket_client->wcommand.now_back = false;
 		_socket_client->wcommand.buyNumber = 0;
 		_socket_client->wcommand.sellNumber = 0;
 	}

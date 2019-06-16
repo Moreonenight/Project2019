@@ -15,6 +15,7 @@ struct Command
 	bool now_move;
 	INT32 buyNumber;
 	INT32 sellNumber;
+	bool now_back;
 };
 
 #endif 

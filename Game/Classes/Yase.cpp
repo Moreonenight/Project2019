@@ -56,7 +56,20 @@ void YaSe::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoi
 			}
 			else if (keyCode == EventKeyboard::KeyCode::KEY_B) {
 				if (backCd_left > 0) { return true; }
-				else { useBack(); }
+				else { 
+					if (_socketClient != NULL) {
+						if (_socketClient->is_sent == false) {
+							return true;
+						}
+						else {
+							_socketClient->_mutex.lock();
+							_socketClient->wcommand.now_back = true;
+							_socketClient->is_sent = false;
+							_socketClient->_mutex.unlock();
+						}
+					}
+					useBack(); 
+				}
 			}
 			else if (keyCode == EventKeyboard::KeyCode::KEY_1) {
 				if (getSkillPoint() == 0) { return true; }
