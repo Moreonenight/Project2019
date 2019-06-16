@@ -53,7 +53,9 @@ void DaJi::initwithRole(string HeroName, cocos2d::TMXTiledMap* Map, Vec2 bornpoi
 			}
 			else if (keyCode == EventKeyboard::KeyCode::KEY_B) {
 				if (backCd_left > 0) { return true; }
-				else { backCd_left = 3; }
+				else { 
+					useBack(); 
+				}
 			}
 			else if (keyCode == EventKeyboard::KeyCode::KEY_1) {
 			if (getSkillPoint() == 0) { return true; }
@@ -314,6 +316,38 @@ void DaJi::useSkill_3()
 	sk3End();
 }
 
+void DaJi::useBack()
+{
+	backCd_left = 3;
+	stopAllActions();
+	auto Singleton = AnimationCache::getInstance();
+	runAction(Animate::create(Singleton->getAnimation(getid() + "down_stand")))->setTag(10);
+	auto backImage = Sprite::create("Skills/back1.png");
+	Vector<SpriteFrame*> animFrames;
+	animFrames.reserve(14);
+	animFrames.pushBack(SpriteFrame::create("Skills/back1.png", Rect(0, 0, 380, 380)));
+	animFrames.pushBack(SpriteFrame::create("Skills/back2.png", Rect(0, 0, 380, 380)));
+	animFrames.pushBack(SpriteFrame::create("Skills/back3.png", Rect(0, 0, 380, 380)));
+	animFrames.pushBack(SpriteFrame::create("Skills/back4.png", Rect(0, 0, 380, 380)));
+	animFrames.pushBack(SpriteFrame::create("Skills/back5.png", Rect(0, 0, 380, 380)));
+	animFrames.pushBack(SpriteFrame::create("Skills/back6.png", Rect(0, 0, 380, 380)));
+	animFrames.pushBack(SpriteFrame::create("Skills/back7.png", Rect(0, 0, 380, 380)));
+	animFrames.pushBack(SpriteFrame::create("Skills/back8.png", Rect(0, 0, 380, 380)));
+	animFrames.pushBack(SpriteFrame::create("Skills/back9.png", Rect(0, 0, 380, 380)));
+	animFrames.pushBack(SpriteFrame::create("Skills/back10.png", Rect(0, 0, 380, 380)));
+	animFrames.pushBack(SpriteFrame::create("Skills/back11.png", Rect(0, 0, 380, 380)));
+	animFrames.pushBack(SpriteFrame::create("Skills/back12.png", Rect(0, 0, 380, 380)));
+	animFrames.pushBack(SpriteFrame::create("Skills/back13.png", Rect(0, 0, 380, 380)));
+	animFrames.pushBack(SpriteFrame::create("Skills/back14.png", Rect(0, 0, 380, 380)));
+	Animation* animation = Animation::createWithSpriteFrames(animFrames, 0.1f);
+	Animate* animate = Animate::create(animation);
+	backImage->setPosition(getPosition()+Vec2(0,90)); 
+	backImage->setOpacity(200);
+	backImage->setAnchorPoint(Vec2(0.5, 0.5));
+	backImage->runAction(RepeatForever::create(animate));
+	map->addChild(backImage,0,8885);
+}
+
 void DaJi::sk1End() {
 	sk1 = false;
 	return;
@@ -327,7 +361,13 @@ void DaJi::sk3End() {
 	sk3 = false;
 	return;
 }
-
+void DaJi::backEnd() {
+	backCd_left = 0;
+	if (map->getChildByTag(8885)) {
+		map->removeChildByTag(8885);
+	}
+	return;
+}
 void DaJi::useAlti()
 {
 }
@@ -371,7 +411,7 @@ void DaJi::cdUpdate(float dt)
 		deathCd_left -= 1;
 	}
 	if (backCd_left > 0) {
-		if (backCd_left == 1) { setPosition(getSpawnPoint()); }
+		if (backCd_left == 1) { setPosition(getSpawnPoint()); backEnd(); }
 		backCd_left -= 1;
 	}
 }

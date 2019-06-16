@@ -59,7 +59,9 @@ public:
 	inline int getSk3Level() { return skill_3Level; }
 	inline bool canRelease() { return canReleaseSkill; }
 	inline void changeCanRelease(bool now) { canReleaseSkill = now; }
-	inline void backEnd() { backCd_left = 0; }
+	//回城
+	void useBack();
+	inline void backEnd();
 
 	//游戏刷新
 	void cdUpdate(float dt);
@@ -260,6 +262,7 @@ public:
 	}
 
 	virtual int getDamage(int delta, std::string fromId) {
+		if (backCd_left > 0) { backEnd(); }
 		if (hp->getCur() < delta) {
 			die();
 			//得到击杀者unit*添加奖励

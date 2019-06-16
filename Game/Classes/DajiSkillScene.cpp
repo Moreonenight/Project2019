@@ -31,7 +31,7 @@ bool DajiSkillScene::init()
 	auto heroTitle = Label::create(DajiSkillScene::FontToUTF8("æ§¼º¼¼ÄÜ½éÉÜ"), "fonts/Hanzi.ttf", 50);
 	heroTitle->setPosition(Vec2(
 		origin.x + visibleSize.width / 2,
-		origin.y + visibleSize.height - heroTitle->getContentSize().height / 2
+		origin.y + visibleSize.height - heroTitle->getContentSize().height / 2 - 15
 	));
 	heroTitle->enableGlow(Color4B::BLACK);
 	addChild(heroTitle, 1);

@@ -31,7 +31,7 @@ bool YaseSkillScene::init()
 	auto heroTitle = Label::create(YaseSkillScene::FontToUTF8("亚瑟技能介绍"), "fonts/Hanzi.ttf", 50);
 	heroTitle->setPosition(Vec2(
 		origin.x + visibleSize.width / 2,
-		origin.y + visibleSize.height - heroTitle->getContentSize().height / 2
+		origin.y + visibleSize.height - heroTitle->getContentSize().height / 2- 15
 	));
 	addChild(heroTitle, 1);
 	//Q技能
