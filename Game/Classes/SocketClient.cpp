@@ -43,6 +43,8 @@ bool SocketClient::connectServer(const char* serverIP, unsigned short port)
 	{
 		return false;
 	}
+	int timeout = 6000;
+	setsockopt(_socektClient, SOL_SOCKET, SO_SNDTIMEO, (char *)&timeout, sizeof(timeout));
 	const char* WelcomeData = "Standing by to command offensive operations. Weapons free. Repeat, weapons free.\n";
 	if (send(_socektClient, WelcomeData, strlen(WelcomeData)+1, 0) <= 0)
 	{
@@ -60,6 +62,7 @@ bool SocketClient::connectServer(const char* serverIP, unsigned short port)
 
 void SocketClient::CommonMessage()
 {
+	_mutex.lock();
 	if (send(_socektClient, reinterpret_cast <char*>(&wcommand), COMMON_SIZE, 0) <= 0)
 	{
 		closeConnect(_socektClient);
@@ -73,6 +76,7 @@ void SocketClient::CommonMessage()
 		is_client_dead = true;
 	}
 	memcpy(&rcommand,rclient,sizeof(Command));
+	_mutex.unlock();
 }
 
 void SocketClient::HeroMessage()
@@ -81,10 +85,12 @@ void SocketClient::HeroMessage()
 	if (send(_socektClient, wheroBuf, HERO_SIZE, 0) <= 0)
 	{
 		closeConnect(_socektClient);
+		is_client_dead = true;
 	}
 	if (recv(_socektClient, rheroBuf, HERO_SIZE, 0) <= 0)
 	{
 		closeConnect(_socektClient);
+		is_client_dead = true;
 	}
 	if (rheroBuf[0] > 10)
 	{

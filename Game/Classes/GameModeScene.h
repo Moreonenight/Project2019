@@ -3,6 +3,7 @@
 
 #include "cocos2d.h"
 #include "SocketClient.h"
+#include <fstream>
 
 class GameMode : public cocos2d::Scene
 {

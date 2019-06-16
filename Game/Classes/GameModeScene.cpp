@@ -84,8 +84,24 @@ void GameMode::menuStartCallback(cocos2d::Ref* pSender) {
 
 void GameMode::Start1v1Callback(cocos2d::Ref* pSender) {
 	SocketClient* _fff = new SocketClient;
-	//_fff->connectServer("106.52.125.87", 26543);
-	_fff->connectServer("127.0.0.1", 26543);
+	//	_fff->connectServer("106.52.125.87", 26543);
+	fstream _file;
+	_file.open("./Local_server/ip_config.txt", ios::in);
+	if (!_file) {
+		_file.close();
+		_file.open("./Local_server/ip_config.txt", ios::out);
+		_file << "127.0.0.1" << " " << "26543" << endl;
+	}
+	std::string ip;
+	int port;
+	if (_file.is_open() == true) {
+	_file >> ip >> port;
+	}
+	else {
+		ip = "127.0.0.1";
+		port = 26543;
+	}
+    _fff->connectServer(ip.c_str(), port);
 	auto ChooseHeroScene = ChooseHeroScene::create(0, _fff, CONNECT_TO_INTERNET);
 	Director::getInstance()->pushScene(ChooseHeroScene);
 }

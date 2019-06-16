@@ -772,17 +772,17 @@ void Game::mapupdate(float dt)
 	}
 	if (_socket_client != NULL)
 	{
-		_socket_client->_mutex.lock();
 		_socket_client->CommonMessage();
-		RivalUpdate(_socket_client);
-		_socket_client->_mutex.unlock();
-		if (_playerNumber == RED_PLAYER && _socket_client->is_client_dead == true && hero1->isAI() == false)
-		{
-			hero1->AIStart();
-		}
-		if (_playerNumber == BLUE_PLAYER && _socket_client->is_client_dead == true && hero2->isAI() == false)
-		{
-			hero2->AIStart();
+		if (_socket_client != NULL) {
+			RivalUpdate(_socket_client);
+			if (_playerNumber == RED_PLAYER && _socket_client->is_client_dead == true && hero1->isAI() == false)
+			{
+				hero1->AIStart();
+			}
+			if (_playerNumber == BLUE_PLAYER && _socket_client->is_client_dead == true && hero2->isAI() == false)
+			{
+				hero2->AIStart();
+			}
 		}
 	}
 }
@@ -929,7 +929,16 @@ void Game::TimeRecorder(float dt)
 void Game::GoldRecorder(float dt)
 {
 	if (goldLabel != nullptr) {
-		goldLabel->removeFromParentAndCleanup(true);
+		if (_socket_client != NULL)
+		{
+			_socket_client->_mutex.lock();
+			goldLabel->removeFromParentAndCleanup(true);
+			_socket_client->_mutex.unlock();
+		}
+		else
+		{
+			goldLabel->removeFromParentAndCleanup(true);
+		}
 	}
 	std::string gold_str;
 	if (_socket_client != NULL && _playerNumber == RED_PLAYER) {
@@ -1267,12 +1276,13 @@ void Game::createSkillLayerCallBack(cocos2d::Ref * pSender)
 //返回主页面
 void Game::menuItem1Callback(cocos2d::Ref* pSender)
 {
-	SpriteFrameCache::getInstance()->removeSpriteFrames();
 	unscheduleAllSelectors();
-	if (_socket_client != NULL) {
+	SpriteFrameCache::getInstance()->removeSpriteFrames();
+	if (_socket_client!=NULL&&_socket_client->is_client_dead==false) {
+		_socket_client->_mutex.lock();
+		_socket_client->is_client_dead = true;
 		closesocket(_socket_client->_socektClient);
-		delete _socket_client;
-		_socket_client = NULL;
+		_socket_client->_mutex.unlock();
 	}
 	Director::getInstance()->popToRootScene();
 }
@@ -1295,7 +1305,12 @@ void Game::buyShoeCallBack(cocos2d::Ref* pSender)
 			_socket_client->_mutex.unlock();
 		}
 	}
-	hero1->addEquipment("Shoe", _equipmentlLayer,_shopLayer);
+	if (_socket_client != NULL && _playerNumber == RED_PLAYER) {
+		hero2->addEquipment("Shoe", _equipmentlLayer, _shopLayer);
+	}
+	else {
+		hero1->addEquipment("Shoe", _equipmentlLayer, _shopLayer);
+	}
 }
 void Game::buyHatCallBack(cocos2d::Ref* pSender)
 {
@@ -1311,7 +1326,12 @@ void Game::buyHatCallBack(cocos2d::Ref* pSender)
 			_socket_client->_mutex.unlock();
 		}
 	}
-	hero1->addEquipment("Hat", _equipmentlLayer, _shopLayer);
+	if (_socket_client != NULL && _playerNumber == RED_PLAYER) {
+		hero2->addEquipment("Hat", _equipmentlLayer, _shopLayer);
+	}
+	else {
+		hero1->addEquipment("Hat", _equipmentlLayer, _shopLayer);
+	}
 }
 void Game::buySwordCallBack(cocos2d::Ref* pSender)
 {
@@ -1327,7 +1347,12 @@ void Game::buySwordCallBack(cocos2d::Ref* pSender)
 			_socket_client->_mutex.unlock();
 		}
 	}
-	hero1->addEquipment("Sword",_equipmentlLayer, _shopLayer);
+	if (_socket_client != NULL && _playerNumber == RED_PLAYER) {
+		hero2->addEquipment("Sword", _equipmentlLayer, _shopLayer);
+	}
+	else {
+		hero1->addEquipment("Sword", _equipmentlLayer, _shopLayer);
+	}
 }
 void Game::sell1CallBack(cocos2d::Ref* pSender)
 {
@@ -1343,7 +1368,12 @@ void Game::sell1CallBack(cocos2d::Ref* pSender)
 			_socket_client->_mutex.unlock();
 		}
 	}
-	hero1->sellEquipment(0, _equipmentlLayer, _shopLayer);
+	if (_socket_client != NULL && _playerNumber == RED_PLAYER) {
+		hero2->sellEquipment(0, _equipmentlLayer, _shopLayer);
+	}
+	else {
+		hero1->sellEquipment(0, _equipmentlLayer, _shopLayer);
+	}
 }
 void Game::sell2CallBack(cocos2d::Ref* pSender)
 {
@@ -1359,7 +1389,12 @@ void Game::sell2CallBack(cocos2d::Ref* pSender)
 			_socket_client->_mutex.unlock();
 		}
 	}
-	hero1->sellEquipment(1, _equipmentlLayer, _shopLayer);
+	if (_socket_client != NULL && _playerNumber == RED_PLAYER) {
+		hero2->sellEquipment(1, _equipmentlLayer, _shopLayer);
+	}
+	else {
+		hero1->sellEquipment(1, _equipmentlLayer, _shopLayer);
+	}
 }
 void Game::sell3CallBack(cocos2d::Ref* pSender)
 {
@@ -1375,7 +1410,12 @@ void Game::sell3CallBack(cocos2d::Ref* pSender)
 			_socket_client->_mutex.unlock();
 		}
 	}
-	hero1->sellEquipment(2, _equipmentlLayer, _shopLayer);
+	if (_socket_client != NULL && _playerNumber == RED_PLAYER) {
+		hero2->sellEquipment(2, _equipmentlLayer, _shopLayer);
+	}
+	else {
+		hero1->sellEquipment(2, _equipmentlLayer, _shopLayer);
+	}
 }
 void Game::sell4CallBack(cocos2d::Ref* pSender)
 {
@@ -1391,7 +1431,12 @@ void Game::sell4CallBack(cocos2d::Ref* pSender)
 			_socket_client->_mutex.unlock();
 		}
 	}
-	hero1->sellEquipment(3, _equipmentlLayer, _shopLayer);
+	if (_socket_client != NULL && _playerNumber == RED_PLAYER) {
+		hero2->sellEquipment(3, _equipmentlLayer, _shopLayer);
+	}
+	else {
+		hero1->sellEquipment(3, _equipmentlLayer, _shopLayer);
+	}
 }
 void Game::sell5CallBack(cocos2d::Ref* pSender)
 {
@@ -1407,7 +1452,12 @@ void Game::sell5CallBack(cocos2d::Ref* pSender)
 			_socket_client->_mutex.unlock();
 		}
 	}
-	hero1->sellEquipment(4, _equipmentlLayer, _shopLayer);
+	if (_socket_client != NULL && _playerNumber == RED_PLAYER) {
+		hero2->sellEquipment(4, _equipmentlLayer, _shopLayer);
+	}
+	else {
+		hero1->sellEquipment(4, _equipmentlLayer, _shopLayer);
+	}
 }
 void Game::sell6CallBack(cocos2d::Ref* pSender)
 {
@@ -1423,10 +1473,16 @@ void Game::sell6CallBack(cocos2d::Ref* pSender)
 			_socket_client->_mutex.unlock();
 		}
 	}
-	hero1->sellEquipment(5, _equipmentlLayer, _shopLayer);
+	if (_socket_client != NULL && _playerNumber == RED_PLAYER) {
+		hero2->sellEquipment(5, _equipmentlLayer, _shopLayer);
+	}
+	else {
+		hero1->sellEquipment(5, _equipmentlLayer, _shopLayer);
+	}
 }
 
 void Game::RivalUpdate(SocketClient* _socket_client) {
+	_socket_client->_mutex.lock();
 	unit* rival_hero;
 	if (_socket_client == NULL) {
 		return;
@@ -1654,5 +1710,6 @@ void Game::RivalUpdate(SocketClient* _socket_client) {
 		_socket_client->wcommand.buyNumber = 0;
 		_socket_client->wcommand.sellNumber = 0;
 	}
+	_socket_client->_mutex.unlock();
 	return;
 }
