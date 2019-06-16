@@ -1,5 +1,5 @@
 maxHp
-200000
+15182
 damage
 1080
 maxMana
