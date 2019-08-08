@@ -154,6 +154,7 @@ void Game::initwithRole(string HeroName, INT32 playerNumber, SocketClient* socke
 	//随机产生一名敌方AI英雄并初始化
 	if (_socket_client == NULL)
 	{
+		srand(time(0));
 		int RandNumber = rand() % 100;
 		if (RandNumber >= 0 && RandNumber <= 33)
 		{

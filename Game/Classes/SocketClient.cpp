@@ -92,7 +92,7 @@ void SocketClient::HeroMessage()
 		closeConnect(_socektClient);
 		is_client_dead = true;
 	}
-	if (rheroBuf[0] > 10)
+	if (rheroBuf[0] >= 10)
 	{
 		playerNumber = RED_PLAYER;
 		rival_hero = rheroBuf[0] - 10;
